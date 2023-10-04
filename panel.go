@@ -15,3 +15,7 @@ func (p *Panel) SetLayout(layout *Layout) {
 func (p *Panel) Layout() *Layout {
 	return p.layout
 }
+
+// PerformLayout is called by the parent container to perform the layout of the panel.
+func (p *Panel) PerformLayout() {
+}

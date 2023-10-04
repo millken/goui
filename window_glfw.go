@@ -12,8 +12,9 @@ import (
 )
 
 type window struct {
-	win *glfw.Window
+	wnd   *glfw.Window
 	panel *Panel
+	valid bool
 }
 
 func NewWindow() (Window, error) {
@@ -22,24 +23,25 @@ func NewWindow() (Window, error) {
 		return nil, err
 	}
 	return &window{
-		win: win,
+		wnd:   win,
+		valid: true,
 	}, nil
 }
 
 func (w *window) SetSize(width, height int) {
-	w.win.SetSize(width, height)
+	w.wnd.SetSize(width, height)
 }
 
 func (w *window) Size() (width, height int) {
-	return w.win.GetSize()
+	return w.wnd.GetSize()
 }
 
 func (w *window) Show() {
-	w.win.Show()
+	w.wnd.Show()
 }
 
 func (w *window) Hide() {
-	w.win.Hide()
+	w.wnd.Hide()
 }
 
 func (w *window) SetPanel(panel *Panel) {
@@ -47,20 +49,42 @@ func (w *window) SetPanel(panel *Panel) {
 }
 
 func (w *window) OnClose(callback func(ctx context.Context)) {
-	w.win.SetCloseCallback(func(win *glfw.Window) {
+	w.wnd.SetCloseCallback(func(win *glfw.Window) {
 		ctx := WithGLFWWindow(context.Background(), win)
 		callback(ctx)
 	})
 }
 
 func (w *window) Draw(c *Canvas) {
-	if w.win != nil {
+	if w.wnd != nil {
 		toolbox.Call(func() {
-			w.
+			//w.
 		})
 	}
 }
+func (w *window) IsValid() bool {
+	return w != nil && w.valid
+}
+
+// performs any layout that needs to be run by this window or its children.
+func (w *window) PerformLayout() {
+	rect := w.ContentRect()
+	rect.X = 0
+	rect.Y = 0
+}
+
+func (w *window) ContentRect() Rect {
+	if w.IsValid() {
+		x, y := w.wnd.GetPos()
+		width, height := w.wnd.GetSize()
+		return Rect{
+			Point: Point{X: float32(x), Y: float32(y)},
+			Size:  Size{Width: float32(width), Height: float32(height)},
+		}
+	}
+	return Rect{Size: Size{Width: 1, Height: 1}}
+}
 
 func (w *window) Destroy() {
-	w.win.Destroy()
+	w.wnd.Destroy()
 }

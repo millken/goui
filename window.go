@@ -19,4 +19,5 @@ type Window interface {
 	Destroy()
 
 	Draw(*Canvas)
+	PerformLayout()
 }
