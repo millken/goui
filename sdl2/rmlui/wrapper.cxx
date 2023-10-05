@@ -14,7 +14,9 @@ typedef unsigned long long uintgo;
 typedef struct { char *p; intgo n; } _gostring_;
 typedef struct { void* array; intgo len; intgo cap; } _goslice_;
 
-
+static void _swig_gopanic(const char *p) {
+  cgo_panic__rmlui(p);
+}
 
 static _gostring_ Swig_AllocateString(const char *p, size_t l) {
   _gostring_ ret;
@@ -305,6 +307,172 @@ intgo _wrap_FocusFlag_Auto_rmlui() {
   
   _swig_go_result = (intgo)result; 
   return _swig_go_result;
+}
+
+
+
+void _wrap_delete_SystemInterface_rmlui(Rml::SystemInterface *_swig_go_0) {
+  Rml::SystemInterface *arg1 = (Rml::SystemInterface *) 0 ;
+  
+  arg1 = *(Rml::SystemInterface **)&_swig_go_0; 
+  
+  delete arg1;
+  
+}
+
+
+double _wrap_SystemInterface_GetElapsedTime_rmlui(Rml::SystemInterface *_swig_go_0) {
+  Rml::SystemInterface *arg1 = (Rml::SystemInterface *) 0 ;
+  double result;
+  double _swig_go_result;
+  
+  arg1 = *(Rml::SystemInterface **)&_swig_go_0; 
+  
+  result = (double)(arg1)->GetElapsedTime();
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+intgo _wrap_SystemInterface_TranslateString_rmlui(Rml::SystemInterface *_swig_go_0, _gostring_* _swig_go_1, _gostring_ _swig_go_2) {
+  Rml::SystemInterface *arg1 = (Rml::SystemInterface *) 0 ;
+  Rml::String *arg2 = 0 ;
+  Rml::String *arg3 = 0 ;
+  int result;
+  intgo _swig_go_result;
+  
+  arg1 = *(Rml::SystemInterface **)&_swig_go_0; 
+  arg2 = *(Rml::String **)&_swig_go_1; 
+  
+  Rml::String arg3_str(_swig_go_2.p, _swig_go_2.n);
+  arg3 = &arg3_str;
+  
+  
+  result = (int)(arg1)->TranslateString(*arg2,(Rml::String const &)*arg3);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+void _wrap_SystemInterface_JoinPath_rmlui(Rml::SystemInterface *_swig_go_0, _gostring_* _swig_go_1, _gostring_ _swig_go_2, _gostring_ _swig_go_3) {
+  Rml::SystemInterface *arg1 = (Rml::SystemInterface *) 0 ;
+  Rml::String *arg2 = 0 ;
+  Rml::String *arg3 = 0 ;
+  Rml::String *arg4 = 0 ;
+  
+  arg1 = *(Rml::SystemInterface **)&_swig_go_0; 
+  arg2 = *(Rml::String **)&_swig_go_1; 
+  
+  Rml::String arg3_str(_swig_go_2.p, _swig_go_2.n);
+  arg3 = &arg3_str;
+  
+  
+  Rml::String arg4_str(_swig_go_3.p, _swig_go_3.n);
+  arg4 = &arg4_str;
+  
+  
+  (arg1)->JoinPath(*arg2,(Rml::String const &)*arg3,(Rml::String const &)*arg4);
+  
+}
+
+
+bool _wrap_SystemInterface_LogMessage_rmlui(Rml::SystemInterface *_swig_go_0, Rml::Log::Type *_swig_go_1, _gostring_ _swig_go_2) {
+  Rml::SystemInterface *arg1 = (Rml::SystemInterface *) 0 ;
+  Rml::Log::Type arg2 ;
+  Rml::String *arg3 = 0 ;
+  Rml::Log::Type *argp2 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::SystemInterface **)&_swig_go_0; 
+  
+  argp2 = (Rml::Log::Type *)_swig_go_1;
+  if (argp2 == NULL) {
+    _swig_gopanic("Attempt to dereference null Log::Type");
+  }
+  arg2 = (Rml::Log::Type)*argp2;
+  
+  
+  Rml::String arg3_str(_swig_go_2.p, _swig_go_2.n);
+  arg3 = &arg3_str;
+  
+  
+  result = (bool)(arg1)->LogMessage(arg2,(Rml::String const &)*arg3);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+void _wrap_SystemInterface_SetMouseCursor_rmlui(Rml::SystemInterface *_swig_go_0, _gostring_ _swig_go_1) {
+  Rml::SystemInterface *arg1 = (Rml::SystemInterface *) 0 ;
+  Rml::String *arg2 = 0 ;
+  
+  arg1 = *(Rml::SystemInterface **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  
+  (arg1)->SetMouseCursor((Rml::String const &)*arg2);
+  
+}
+
+
+void _wrap_SystemInterface_SetClipboardText_rmlui(Rml::SystemInterface *_swig_go_0, _gostring_ _swig_go_1) {
+  Rml::SystemInterface *arg1 = (Rml::SystemInterface *) 0 ;
+  Rml::String *arg2 = 0 ;
+  
+  arg1 = *(Rml::SystemInterface **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  
+  (arg1)->SetClipboardText((Rml::String const &)*arg2);
+  
+}
+
+
+void _wrap_SystemInterface_GetClipboardText_rmlui(Rml::SystemInterface *_swig_go_0, _gostring_* _swig_go_1) {
+  Rml::SystemInterface *arg1 = (Rml::SystemInterface *) 0 ;
+  Rml::String *arg2 = 0 ;
+  
+  arg1 = *(Rml::SystemInterface **)&_swig_go_0; 
+  arg2 = *(Rml::String **)&_swig_go_1; 
+  
+  (arg1)->GetClipboardText(*arg2);
+  
+}
+
+
+void _wrap_SystemInterface_ActivateKeyboard_rmlui(Rml::SystemInterface *_swig_go_0, Rml::Vector2<float> *_swig_go_1, float _swig_go_2) {
+  Rml::SystemInterface *arg1 = (Rml::SystemInterface *) 0 ;
+  SwigValueWrapper<Rml::Vector2<float>> arg2 ;
+  float arg3 ;
+  Rml::Vector2f *argp2 ;
+  
+  arg1 = *(Rml::SystemInterface **)&_swig_go_0; 
+  
+  argp2 = (Rml::Vector2f *)_swig_go_1;
+  if (argp2 == NULL) {
+    _swig_gopanic("Attempt to dereference null Rml::Vector2f");
+  }
+  arg2 = (Rml::Vector2f)*argp2;
+  
+  arg3 = (float)_swig_go_2; 
+  
+  (arg1)->ActivateKeyboard(arg2,arg3);
+  
+}
+
+
+void _wrap_SystemInterface_DeactivateKeyboard_rmlui(Rml::SystemInterface *_swig_go_0) {
+  Rml::SystemInterface *arg1 = (Rml::SystemInterface *) 0 ;
+  
+  arg1 = *(Rml::SystemInterface **)&_swig_go_0; 
+  
+  (arg1)->DeactivateKeyboard();
+  
 }
 
 #ifdef __cplusplus

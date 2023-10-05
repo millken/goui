@@ -13,8 +13,6 @@ func NewRenterInterface(renderer *sdl.Renderer) SwigcptrRml_RenderInterface {
 	return SwigcptrRml_RenderInterface(a)
 }
 
-type SystemInterface uintptr
-
-func NewSystemInterface(window *sdl.Window) SwigcptrRml_SystemInterface {
-	return SwigcptrRml_SystemInterface(unsafe.Pointer(window))
+func NewSystemInterface(window *sdl.Window) SwigcptrSystemInterface {
+	return SwigcptrSystemInterface(unsafe.Pointer(window))
 }
