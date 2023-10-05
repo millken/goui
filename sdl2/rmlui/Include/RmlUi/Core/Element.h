@@ -74,15 +74,12 @@ struct StackingContextChild;
 
 class RMLUICORE_API Element : public ScriptInterface, public EnableObserverPtr<Element> {
 public:
-	RMLUI_RTTI_DefineWithParent(Element, ScriptInterface)
 
 	/// Constructs a new RmlUi element. This should not be called directly; use the Factory instead.
 	/// @param[in] tag The tag the element was declared as in RML.
-	Element(const String& tag);
-	virtual ~Element();
 
-	/// Clones this element, returning a new, unparented element.
-	ElementPtr Clone() const;
+
+
 
 	/** @name Classes
 	 */
@@ -258,13 +255,10 @@ public:
 	/// If an animation of the same property name exists, it will be replaced.
 	/// If start_value is null, the current property value on this element is used.
 	/// @return True if a new animation was added.
-	bool Animate(const String& property_name, const Property& target_value, float duration, Tween tween = Tween{}, int num_iterations = 1,
-		bool alternate_direction = true, float delay = 0.0f, const Property* start_value = nullptr);
 
 	/// Add a key to an animation, extending its duration.
 	/// If no animation exists for the given property name, the call will be ignored.
 	/// @return True if a new animation key was added.
-	bool AddAnimationKey(const String& property_name, const Property& target_value, float duration, Tween tween = Tween{});
 
 	/// Iterator for the local (non-inherited) properties defined on this element.
 	/// @warning Modifying the element's properties or classes invalidates the iterator.

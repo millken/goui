@@ -13,9 +13,9 @@ extern
 #ifdef __cplusplus
   "C"
 #endif
-  void cgo_panic__rmlui_f4184bb58ea63e28(const char*);
+  void cgo_panic__rmlui_a39a0a49a8e50a2c(const char*);
 static void _swig_gopanic(const char *p) {
-  cgo_panic__rmlui_f4184bb58ea63e28(p);
+  cgo_panic__rmlui_a39a0a49a8e50a2c(p);
 }
 
 
@@ -335,13 +335,8 @@ static void* Swig_malloc(int c) {
 }
 
 
-#include "RmlUi/Core/Header.h"
-
-#include "RmlUi/Config/Config.h"
-#include "RmlUi/Core/ID.h"
-#include "RmlUi/Core/StyleTypes.h"
-#include "RmlUi/Core/Math.h"
 #include "RmlUi/Core.h"
+
 
 
 #include <typeinfo>
@@ -362,7 +357,7 @@ static void* Swig_malloc(int c) {
 extern "C" {
 #endif
 
-void _wrap_Swig_free_rmlui_f4184bb58ea63e28(void *_swig_go_0) {
+void _wrap_Swig_free_rmlui_a39a0a49a8e50a2c(void *_swig_go_0) {
   void *arg1 = (void *) 0 ;
   
   arg1 = *(void **)&_swig_go_0; 
@@ -372,7 +367,7 @@ void _wrap_Swig_free_rmlui_f4184bb58ea63e28(void *_swig_go_0) {
 }
 
 
-void *_wrap_Swig_malloc_rmlui_f4184bb58ea63e28(intgo _swig_go_0) {
+void *_wrap_Swig_malloc_rmlui_a39a0a49a8e50a2c(intgo _swig_go_0) {
   int arg1 ;
   void *result = 0 ;
   void *_swig_go_result;
@@ -385,7 +380,7 @@ void *_wrap_Swig_malloc_rmlui_f4184bb58ea63e28(intgo _swig_go_0) {
 }
 
 
-intgo _wrap_ShorthandId_Invalid_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_Invalid_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -397,7 +392,7 @@ intgo _wrap_ShorthandId_Invalid_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_Margin_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_Margin_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -409,7 +404,7 @@ intgo _wrap_ShorthandId_Margin_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_Padding_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_Padding_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -421,7 +416,7 @@ intgo _wrap_ShorthandId_Padding_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_BorderWidth_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_BorderWidth_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -433,7 +428,7 @@ intgo _wrap_ShorthandId_BorderWidth_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_BorderColor_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_BorderColor_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -445,7 +440,7 @@ intgo _wrap_ShorthandId_BorderColor_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_BorderTop_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_BorderTop_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -457,7 +452,7 @@ intgo _wrap_ShorthandId_BorderTop_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_BorderRight_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_BorderRight_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -469,7 +464,7 @@ intgo _wrap_ShorthandId_BorderRight_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_BorderBottom_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_BorderBottom_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -481,7 +476,7 @@ intgo _wrap_ShorthandId_BorderBottom_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_BorderLeft_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_BorderLeft_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -493,7 +488,7 @@ intgo _wrap_ShorthandId_BorderLeft_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_Border_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_Border_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -505,7 +500,7 @@ intgo _wrap_ShorthandId_Border_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_BorderRadius_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_BorderRadius_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -517,7 +512,7 @@ intgo _wrap_ShorthandId_BorderRadius_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_Overflow_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_Overflow_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -529,7 +524,7 @@ intgo _wrap_ShorthandId_Overflow_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_Background_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_Background_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -541,7 +536,7 @@ intgo _wrap_ShorthandId_Background_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_Font_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_Font_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -553,7 +548,7 @@ intgo _wrap_ShorthandId_Font_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_Gap_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_Gap_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -565,7 +560,7 @@ intgo _wrap_ShorthandId_Gap_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_PerspectiveOrigin_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_PerspectiveOrigin_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -577,7 +572,7 @@ intgo _wrap_ShorthandId_PerspectiveOrigin_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_TransformOrigin_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_TransformOrigin_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -589,7 +584,7 @@ intgo _wrap_ShorthandId_TransformOrigin_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_Flex_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_Flex_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -601,7 +596,7 @@ intgo _wrap_ShorthandId_Flex_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_FlexFlow_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_FlexFlow_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -613,7 +608,7 @@ intgo _wrap_ShorthandId_FlexFlow_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_NumDefinedIds_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_NumDefinedIds_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -625,7 +620,7 @@ intgo _wrap_ShorthandId_NumDefinedIds_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_FirstCustomId_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_FirstCustomId_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -637,7 +632,7 @@ intgo _wrap_ShorthandId_FirstCustomId_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_ShorthandId_MaxNumIds_rmlui_f4184bb58ea63e28() {
+intgo _wrap_ShorthandId_MaxNumIds_rmlui_a39a0a49a8e50a2c() {
   Rml::ShorthandId result;
   intgo _swig_go_result;
   
@@ -649,7 +644,7 @@ intgo _wrap_ShorthandId_MaxNumIds_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Invalid_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Invalid_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -661,7 +656,7 @@ intgo _wrap_PropertyId_Invalid_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_MarginTop_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_MarginTop_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -673,7 +668,7 @@ intgo _wrap_PropertyId_MarginTop_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_MarginRight_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_MarginRight_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -685,7 +680,7 @@ intgo _wrap_PropertyId_MarginRight_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_MarginBottom_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_MarginBottom_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -697,7 +692,7 @@ intgo _wrap_PropertyId_MarginBottom_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_MarginLeft_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_MarginLeft_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -709,7 +704,7 @@ intgo _wrap_PropertyId_MarginLeft_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_PaddingTop_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_PaddingTop_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -721,7 +716,7 @@ intgo _wrap_PropertyId_PaddingTop_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_PaddingRight_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_PaddingRight_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -733,7 +728,7 @@ intgo _wrap_PropertyId_PaddingRight_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_PaddingBottom_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_PaddingBottom_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -745,7 +740,7 @@ intgo _wrap_PropertyId_PaddingBottom_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_PaddingLeft_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_PaddingLeft_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -757,7 +752,7 @@ intgo _wrap_PropertyId_PaddingLeft_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_BorderTopWidth_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_BorderTopWidth_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -769,7 +764,7 @@ intgo _wrap_PropertyId_BorderTopWidth_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_BorderRightWidth_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_BorderRightWidth_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -781,7 +776,7 @@ intgo _wrap_PropertyId_BorderRightWidth_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_BorderBottomWidth_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_BorderBottomWidth_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -793,7 +788,7 @@ intgo _wrap_PropertyId_BorderBottomWidth_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_BorderLeftWidth_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_BorderLeftWidth_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -805,7 +800,7 @@ intgo _wrap_PropertyId_BorderLeftWidth_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_BorderTopColor_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_BorderTopColor_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -817,7 +812,7 @@ intgo _wrap_PropertyId_BorderTopColor_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_BorderRightColor_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_BorderRightColor_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -829,7 +824,7 @@ intgo _wrap_PropertyId_BorderRightColor_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_BorderBottomColor_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_BorderBottomColor_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -841,7 +836,7 @@ intgo _wrap_PropertyId_BorderBottomColor_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_BorderLeftColor_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_BorderLeftColor_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -853,7 +848,7 @@ intgo _wrap_PropertyId_BorderLeftColor_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_BorderTopLeftRadius_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_BorderTopLeftRadius_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -865,7 +860,7 @@ intgo _wrap_PropertyId_BorderTopLeftRadius_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_BorderTopRightRadius_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_BorderTopRightRadius_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -877,7 +872,7 @@ intgo _wrap_PropertyId_BorderTopRightRadius_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_BorderBottomRightRadius_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_BorderBottomRightRadius_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -889,7 +884,7 @@ intgo _wrap_PropertyId_BorderBottomRightRadius_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_BorderBottomLeftRadius_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_BorderBottomLeftRadius_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -901,7 +896,7 @@ intgo _wrap_PropertyId_BorderBottomLeftRadius_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Display_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Display_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -913,7 +908,7 @@ intgo _wrap_PropertyId_Display_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Position_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Position_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -925,7 +920,7 @@ intgo _wrap_PropertyId_Position_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Top_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Top_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -937,7 +932,7 @@ intgo _wrap_PropertyId_Top_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Right_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Right_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -949,7 +944,7 @@ intgo _wrap_PropertyId_Right_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Bottom_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Bottom_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -961,7 +956,7 @@ intgo _wrap_PropertyId_Bottom_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Left_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Left_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -973,7 +968,7 @@ intgo _wrap_PropertyId_Left_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Float_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Float_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -985,7 +980,7 @@ intgo _wrap_PropertyId_Float_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Clear_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Clear_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -997,7 +992,7 @@ intgo _wrap_PropertyId_Clear_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_BoxSizing_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_BoxSizing_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1009,7 +1004,7 @@ intgo _wrap_PropertyId_BoxSizing_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_ZIndex_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_ZIndex_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1021,7 +1016,7 @@ intgo _wrap_PropertyId_ZIndex_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Width_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Width_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1033,7 +1028,7 @@ intgo _wrap_PropertyId_Width_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_MinWidth_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_MinWidth_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1045,7 +1040,7 @@ intgo _wrap_PropertyId_MinWidth_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_MaxWidth_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_MaxWidth_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1057,7 +1052,7 @@ intgo _wrap_PropertyId_MaxWidth_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Height_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Height_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1069,7 +1064,7 @@ intgo _wrap_PropertyId_Height_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_MinHeight_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_MinHeight_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1081,7 +1076,7 @@ intgo _wrap_PropertyId_MinHeight_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_MaxHeight_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_MaxHeight_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1093,7 +1088,7 @@ intgo _wrap_PropertyId_MaxHeight_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_LineHeight_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_LineHeight_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1105,7 +1100,7 @@ intgo _wrap_PropertyId_LineHeight_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_VerticalAlign_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_VerticalAlign_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1117,7 +1112,7 @@ intgo _wrap_PropertyId_VerticalAlign_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_OverflowX_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_OverflowX_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1129,7 +1124,7 @@ intgo _wrap_PropertyId_OverflowX_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_OverflowY_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_OverflowY_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1141,7 +1136,7 @@ intgo _wrap_PropertyId_OverflowY_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Clip_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Clip_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1153,7 +1148,7 @@ intgo _wrap_PropertyId_Clip_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Visibility_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Visibility_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1165,7 +1160,7 @@ intgo _wrap_PropertyId_Visibility_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_BackgroundColor_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_BackgroundColor_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1177,7 +1172,7 @@ intgo _wrap_PropertyId_BackgroundColor_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Color_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Color_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1189,7 +1184,7 @@ intgo _wrap_PropertyId_Color_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_CaretColor_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_CaretColor_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1201,7 +1196,7 @@ intgo _wrap_PropertyId_CaretColor_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_ImageColor_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_ImageColor_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1213,7 +1208,7 @@ intgo _wrap_PropertyId_ImageColor_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_FontFamily_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_FontFamily_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1225,7 +1220,7 @@ intgo _wrap_PropertyId_FontFamily_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_FontStyle_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_FontStyle_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1237,7 +1232,7 @@ intgo _wrap_PropertyId_FontStyle_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_FontWeight_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_FontWeight_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1249,7 +1244,7 @@ intgo _wrap_PropertyId_FontWeight_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_FontSize_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_FontSize_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1261,7 +1256,7 @@ intgo _wrap_PropertyId_FontSize_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_LetterSpacing_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_LetterSpacing_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1273,7 +1268,7 @@ intgo _wrap_PropertyId_LetterSpacing_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_TextAlign_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_TextAlign_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1285,7 +1280,7 @@ intgo _wrap_PropertyId_TextAlign_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_TextDecoration_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_TextDecoration_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1297,7 +1292,7 @@ intgo _wrap_PropertyId_TextDecoration_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_TextTransform_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_TextTransform_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1309,7 +1304,7 @@ intgo _wrap_PropertyId_TextTransform_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_WhiteSpace_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_WhiteSpace_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1321,7 +1316,7 @@ intgo _wrap_PropertyId_WhiteSpace_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_WordBreak_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_WordBreak_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1333,7 +1328,7 @@ intgo _wrap_PropertyId_WordBreak_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_RowGap_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_RowGap_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1345,7 +1340,7 @@ intgo _wrap_PropertyId_RowGap_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_ColumnGap_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_ColumnGap_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1357,7 +1352,7 @@ intgo _wrap_PropertyId_ColumnGap_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Cursor_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Cursor_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1369,7 +1364,7 @@ intgo _wrap_PropertyId_Cursor_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Drag_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Drag_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1381,7 +1376,7 @@ intgo _wrap_PropertyId_Drag_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_TabIndex_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_TabIndex_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1393,7 +1388,7 @@ intgo _wrap_PropertyId_TabIndex_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_ScrollbarMargin_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_ScrollbarMargin_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1405,7 +1400,7 @@ intgo _wrap_PropertyId_ScrollbarMargin_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_OverscrollBehavior_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_OverscrollBehavior_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1417,7 +1412,7 @@ intgo _wrap_PropertyId_OverscrollBehavior_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Perspective_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Perspective_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1429,7 +1424,7 @@ intgo _wrap_PropertyId_Perspective_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_PerspectiveOriginX_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_PerspectiveOriginX_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1441,7 +1436,7 @@ intgo _wrap_PropertyId_PerspectiveOriginX_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_PerspectiveOriginY_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_PerspectiveOriginY_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1453,7 +1448,7 @@ intgo _wrap_PropertyId_PerspectiveOriginY_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Transform_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Transform_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1465,7 +1460,7 @@ intgo _wrap_PropertyId_Transform_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_TransformOriginX_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_TransformOriginX_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1477,7 +1472,7 @@ intgo _wrap_PropertyId_TransformOriginX_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_TransformOriginY_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_TransformOriginY_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1489,7 +1484,7 @@ intgo _wrap_PropertyId_TransformOriginY_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_TransformOriginZ_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_TransformOriginZ_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1501,7 +1496,7 @@ intgo _wrap_PropertyId_TransformOriginZ_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Transition_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Transition_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1513,7 +1508,7 @@ intgo _wrap_PropertyId_Transition_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Animation_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Animation_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1525,7 +1520,7 @@ intgo _wrap_PropertyId_Animation_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Opacity_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Opacity_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1537,7 +1532,7 @@ intgo _wrap_PropertyId_Opacity_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_PointerEvents_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_PointerEvents_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1549,7 +1544,7 @@ intgo _wrap_PropertyId_PointerEvents_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Focus_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Focus_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1561,7 +1556,7 @@ intgo _wrap_PropertyId_Focus_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_Decorator_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_Decorator_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1573,7 +1568,7 @@ intgo _wrap_PropertyId_Decorator_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_FontEffect_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_FontEffect_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1585,7 +1580,7 @@ intgo _wrap_PropertyId_FontEffect_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_FillImage_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_FillImage_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1597,7 +1592,7 @@ intgo _wrap_PropertyId_FillImage_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_AlignContent_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_AlignContent_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1609,7 +1604,7 @@ intgo _wrap_PropertyId_AlignContent_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_AlignItems_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_AlignItems_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1621,7 +1616,7 @@ intgo _wrap_PropertyId_AlignItems_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_AlignSelf_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_AlignSelf_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1633,7 +1628,7 @@ intgo _wrap_PropertyId_AlignSelf_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_FlexBasis_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_FlexBasis_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1645,7 +1640,7 @@ intgo _wrap_PropertyId_FlexBasis_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_FlexDirection_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_FlexDirection_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1657,7 +1652,7 @@ intgo _wrap_PropertyId_FlexDirection_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_FlexGrow_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_FlexGrow_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1669,7 +1664,7 @@ intgo _wrap_PropertyId_FlexGrow_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_FlexShrink_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_FlexShrink_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1681,7 +1676,7 @@ intgo _wrap_PropertyId_FlexShrink_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_FlexWrap_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_FlexWrap_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1693,7 +1688,7 @@ intgo _wrap_PropertyId_FlexWrap_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_JustifyContent_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_JustifyContent_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1705,7 +1700,7 @@ intgo _wrap_PropertyId_JustifyContent_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_NumDefinedIds_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_NumDefinedIds_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1717,7 +1712,7 @@ intgo _wrap_PropertyId_NumDefinedIds_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_FirstCustomId_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_FirstCustomId_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1729,7 +1724,7 @@ intgo _wrap_PropertyId_FirstCustomId_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PropertyId_MaxNumIds_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PropertyId_MaxNumIds_rmlui_a39a0a49a8e50a2c() {
   Rml::PropertyId result;
   intgo _swig_go_result;
   
@@ -1741,7 +1736,7 @@ intgo _wrap_PropertyId_MaxNumIds_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_MediaQueryId_Invalid_rmlui_f4184bb58ea63e28() {
+intgo _wrap_MediaQueryId_Invalid_rmlui_a39a0a49a8e50a2c() {
   Rml::MediaQueryId result;
   intgo _swig_go_result;
   
@@ -1753,7 +1748,7 @@ intgo _wrap_MediaQueryId_Invalid_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_MediaQueryId_Width_rmlui_f4184bb58ea63e28() {
+intgo _wrap_MediaQueryId_Width_rmlui_a39a0a49a8e50a2c() {
   Rml::MediaQueryId result;
   intgo _swig_go_result;
   
@@ -1765,7 +1760,7 @@ intgo _wrap_MediaQueryId_Width_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_MediaQueryId_MinWidth_rmlui_f4184bb58ea63e28() {
+intgo _wrap_MediaQueryId_MinWidth_rmlui_a39a0a49a8e50a2c() {
   Rml::MediaQueryId result;
   intgo _swig_go_result;
   
@@ -1777,7 +1772,7 @@ intgo _wrap_MediaQueryId_MinWidth_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_MediaQueryId_MaxWidth_rmlui_f4184bb58ea63e28() {
+intgo _wrap_MediaQueryId_MaxWidth_rmlui_a39a0a49a8e50a2c() {
   Rml::MediaQueryId result;
   intgo _swig_go_result;
   
@@ -1789,7 +1784,7 @@ intgo _wrap_MediaQueryId_MaxWidth_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_MediaQueryId_Height_rmlui_f4184bb58ea63e28() {
+intgo _wrap_MediaQueryId_Height_rmlui_a39a0a49a8e50a2c() {
   Rml::MediaQueryId result;
   intgo _swig_go_result;
   
@@ -1801,7 +1796,7 @@ intgo _wrap_MediaQueryId_Height_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_MediaQueryId_MinHeight_rmlui_f4184bb58ea63e28() {
+intgo _wrap_MediaQueryId_MinHeight_rmlui_a39a0a49a8e50a2c() {
   Rml::MediaQueryId result;
   intgo _swig_go_result;
   
@@ -1813,7 +1808,7 @@ intgo _wrap_MediaQueryId_MinHeight_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_MediaQueryId_MaxHeight_rmlui_f4184bb58ea63e28() {
+intgo _wrap_MediaQueryId_MaxHeight_rmlui_a39a0a49a8e50a2c() {
   Rml::MediaQueryId result;
   intgo _swig_go_result;
   
@@ -1825,7 +1820,7 @@ intgo _wrap_MediaQueryId_MaxHeight_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_MediaQueryId_AspectRatio_rmlui_f4184bb58ea63e28() {
+intgo _wrap_MediaQueryId_AspectRatio_rmlui_a39a0a49a8e50a2c() {
   Rml::MediaQueryId result;
   intgo _swig_go_result;
   
@@ -1837,7 +1832,7 @@ intgo _wrap_MediaQueryId_AspectRatio_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_MediaQueryId_MinAspectRatio_rmlui_f4184bb58ea63e28() {
+intgo _wrap_MediaQueryId_MinAspectRatio_rmlui_a39a0a49a8e50a2c() {
   Rml::MediaQueryId result;
   intgo _swig_go_result;
   
@@ -1849,7 +1844,7 @@ intgo _wrap_MediaQueryId_MinAspectRatio_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_MediaQueryId_MaxAspectRatio_rmlui_f4184bb58ea63e28() {
+intgo _wrap_MediaQueryId_MaxAspectRatio_rmlui_a39a0a49a8e50a2c() {
   Rml::MediaQueryId result;
   intgo _swig_go_result;
   
@@ -1861,7 +1856,7 @@ intgo _wrap_MediaQueryId_MaxAspectRatio_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_MediaQueryId_Resolution_rmlui_f4184bb58ea63e28() {
+intgo _wrap_MediaQueryId_Resolution_rmlui_a39a0a49a8e50a2c() {
   Rml::MediaQueryId result;
   intgo _swig_go_result;
   
@@ -1873,7 +1868,7 @@ intgo _wrap_MediaQueryId_Resolution_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_MediaQueryId_MinResolution_rmlui_f4184bb58ea63e28() {
+intgo _wrap_MediaQueryId_MinResolution_rmlui_a39a0a49a8e50a2c() {
   Rml::MediaQueryId result;
   intgo _swig_go_result;
   
@@ -1885,7 +1880,7 @@ intgo _wrap_MediaQueryId_MinResolution_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_MediaQueryId_MaxResolution_rmlui_f4184bb58ea63e28() {
+intgo _wrap_MediaQueryId_MaxResolution_rmlui_a39a0a49a8e50a2c() {
   Rml::MediaQueryId result;
   intgo _swig_go_result;
   
@@ -1897,7 +1892,7 @@ intgo _wrap_MediaQueryId_MaxResolution_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_MediaQueryId_Orientation_rmlui_f4184bb58ea63e28() {
+intgo _wrap_MediaQueryId_Orientation_rmlui_a39a0a49a8e50a2c() {
   Rml::MediaQueryId result;
   intgo _swig_go_result;
   
@@ -1909,7 +1904,7 @@ intgo _wrap_MediaQueryId_Orientation_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_MediaQueryId_Theme_rmlui_f4184bb58ea63e28() {
+intgo _wrap_MediaQueryId_Theme_rmlui_a39a0a49a8e50a2c() {
   Rml::MediaQueryId result;
   intgo _swig_go_result;
   
@@ -1921,7 +1916,7 @@ intgo _wrap_MediaQueryId_Theme_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_MediaQueryId_NumDefinedIds_rmlui_f4184bb58ea63e28() {
+intgo _wrap_MediaQueryId_NumDefinedIds_rmlui_a39a0a49a8e50a2c() {
   Rml::MediaQueryId result;
   intgo _swig_go_result;
   
@@ -1933,7 +1928,7 @@ intgo _wrap_MediaQueryId_NumDefinedIds_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Invalid_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Invalid_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -1945,7 +1940,7 @@ intgo _wrap_EventId_Invalid_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Mousedown_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Mousedown_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -1957,7 +1952,7 @@ intgo _wrap_EventId_Mousedown_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Mousescroll_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Mousescroll_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -1969,7 +1964,7 @@ intgo _wrap_EventId_Mousescroll_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Mouseover_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Mouseover_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -1981,7 +1976,7 @@ intgo _wrap_EventId_Mouseover_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Mouseout_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Mouseout_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -1993,7 +1988,7 @@ intgo _wrap_EventId_Mouseout_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Focus_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Focus_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2005,7 +2000,7 @@ intgo _wrap_EventId_Focus_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Blur_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Blur_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2017,7 +2012,7 @@ intgo _wrap_EventId_Blur_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Keydown_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Keydown_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2029,7 +2024,7 @@ intgo _wrap_EventId_Keydown_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Keyup_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Keyup_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2041,7 +2036,7 @@ intgo _wrap_EventId_Keyup_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Textinput_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Textinput_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2053,7 +2048,7 @@ intgo _wrap_EventId_Textinput_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Mouseup_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Mouseup_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2065,7 +2060,7 @@ intgo _wrap_EventId_Mouseup_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Click_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Click_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2077,7 +2072,7 @@ intgo _wrap_EventId_Click_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Dblclick_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Dblclick_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2089,7 +2084,7 @@ intgo _wrap_EventId_Dblclick_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Load_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Load_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2101,7 +2096,7 @@ intgo _wrap_EventId_Load_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Unload_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Unload_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2113,7 +2108,7 @@ intgo _wrap_EventId_Unload_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Show_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Show_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2125,7 +2120,7 @@ intgo _wrap_EventId_Show_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Hide_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Hide_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2137,7 +2132,7 @@ intgo _wrap_EventId_Hide_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Mousemove_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Mousemove_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2149,7 +2144,7 @@ intgo _wrap_EventId_Mousemove_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Dragmove_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Dragmove_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2161,7 +2156,7 @@ intgo _wrap_EventId_Dragmove_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Drag_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Drag_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2173,7 +2168,7 @@ intgo _wrap_EventId_Drag_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Dragstart_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Dragstart_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2185,7 +2180,7 @@ intgo _wrap_EventId_Dragstart_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Dragover_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Dragover_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2197,7 +2192,7 @@ intgo _wrap_EventId_Dragover_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Dragdrop_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Dragdrop_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2209,7 +2204,7 @@ intgo _wrap_EventId_Dragdrop_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Dragout_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Dragout_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2221,7 +2216,7 @@ intgo _wrap_EventId_Dragout_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Dragend_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Dragend_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2233,7 +2228,7 @@ intgo _wrap_EventId_Dragend_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Handledrag_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Handledrag_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2245,7 +2240,7 @@ intgo _wrap_EventId_Handledrag_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Resize_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Resize_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2257,7 +2252,7 @@ intgo _wrap_EventId_Resize_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Scroll_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Scroll_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2269,7 +2264,7 @@ intgo _wrap_EventId_Scroll_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Animationend_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Animationend_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2281,7 +2276,7 @@ intgo _wrap_EventId_Animationend_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Transitionend_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Transitionend_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2293,7 +2288,7 @@ intgo _wrap_EventId_Transitionend_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Change_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Change_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2305,7 +2300,7 @@ intgo _wrap_EventId_Change_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Submit_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Submit_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2317,7 +2312,7 @@ intgo _wrap_EventId_Submit_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Tabchange_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Tabchange_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2329,7 +2324,7 @@ intgo _wrap_EventId_Tabchange_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Columnadd_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Columnadd_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2341,7 +2336,7 @@ intgo _wrap_EventId_Columnadd_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Rowadd_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Rowadd_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2353,7 +2348,7 @@ intgo _wrap_EventId_Rowadd_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Rowchange_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Rowchange_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2365,7 +2360,7 @@ intgo _wrap_EventId_Rowchange_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Rowremove_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Rowremove_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2377,7 +2372,7 @@ intgo _wrap_EventId_Rowremove_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_Rowupdate_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_Rowupdate_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2389,7 +2384,7 @@ intgo _wrap_EventId_Rowupdate_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_NumDefinedIds_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_NumDefinedIds_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2401,7 +2396,7 @@ intgo _wrap_EventId_NumDefinedIds_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_FirstCustomId_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_FirstCustomId_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2413,7 +2408,7 @@ intgo _wrap_EventId_FirstCustomId_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_EventId_MaxNumIds_rmlui_f4184bb58ea63e28() {
+intgo _wrap_EventId_MaxNumIds_rmlui_a39a0a49a8e50a2c() {
   Rml::EventId result;
   intgo _swig_go_result;
   
@@ -2425,7 +2420,7 @@ intgo _wrap_EventId_MaxNumIds_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Auto_LengthPercentageAuto_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Auto_LengthPercentageAuto_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::LengthPercentageAuto::Type result;
   intgo _swig_go_result;
   
@@ -2437,7 +2432,7 @@ intgo _wrap_Auto_LengthPercentageAuto_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Length_LengthPercentageAuto_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Length_LengthPercentageAuto_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::LengthPercentageAuto::Type result;
   intgo _swig_go_result;
   
@@ -2449,7 +2444,7 @@ intgo _wrap_Length_LengthPercentageAuto_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Percentage_LengthPercentageAuto_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Percentage_LengthPercentageAuto_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::LengthPercentageAuto::Type result;
   intgo _swig_go_result;
   
@@ -2461,7 +2456,7 @@ intgo _wrap_Percentage_LengthPercentageAuto_rmlui_f4184bb58ea63e28() {
 }
 
 
-void _wrap_LengthPercentageAuto_xtype_set_rmlui_f4184bb58ea63e28(Rml::Style::LengthPercentageAuto *_swig_go_0, intgo _swig_go_1) {
+void _wrap_LengthPercentageAuto_xtype_set_rmlui_a39a0a49a8e50a2c(Rml::Style::LengthPercentageAuto *_swig_go_0, intgo _swig_go_1) {
   Rml::Style::LengthPercentageAuto *arg1 = (Rml::Style::LengthPercentageAuto *) 0 ;
   enum Rml::Style::LengthPercentageAuto::Type arg2 ;
   
@@ -2473,7 +2468,7 @@ void _wrap_LengthPercentageAuto_xtype_set_rmlui_f4184bb58ea63e28(Rml::Style::Len
 }
 
 
-intgo _wrap_LengthPercentageAuto_xtype_get_rmlui_f4184bb58ea63e28(Rml::Style::LengthPercentageAuto *_swig_go_0) {
+intgo _wrap_LengthPercentageAuto_xtype_get_rmlui_a39a0a49a8e50a2c(Rml::Style::LengthPercentageAuto *_swig_go_0) {
   Rml::Style::LengthPercentageAuto *arg1 = (Rml::Style::LengthPercentageAuto *) 0 ;
   enum Rml::Style::LengthPercentageAuto::Type result;
   intgo _swig_go_result;
@@ -2486,7 +2481,7 @@ intgo _wrap_LengthPercentageAuto_xtype_get_rmlui_f4184bb58ea63e28(Rml::Style::Le
 }
 
 
-void _wrap_LengthPercentageAuto_value_set_rmlui_f4184bb58ea63e28(Rml::Style::LengthPercentageAuto *_swig_go_0, float _swig_go_1) {
+void _wrap_LengthPercentageAuto_value_set_rmlui_a39a0a49a8e50a2c(Rml::Style::LengthPercentageAuto *_swig_go_0, float _swig_go_1) {
   Rml::Style::LengthPercentageAuto *arg1 = (Rml::Style::LengthPercentageAuto *) 0 ;
   float arg2 ;
   
@@ -2498,7 +2493,7 @@ void _wrap_LengthPercentageAuto_value_set_rmlui_f4184bb58ea63e28(Rml::Style::Len
 }
 
 
-float _wrap_LengthPercentageAuto_value_get_rmlui_f4184bb58ea63e28(Rml::Style::LengthPercentageAuto *_swig_go_0) {
+float _wrap_LengthPercentageAuto_value_get_rmlui_a39a0a49a8e50a2c(Rml::Style::LengthPercentageAuto *_swig_go_0) {
   Rml::Style::LengthPercentageAuto *arg1 = (Rml::Style::LengthPercentageAuto *) 0 ;
   float result;
   float _swig_go_result;
@@ -2511,7 +2506,7 @@ float _wrap_LengthPercentageAuto_value_get_rmlui_f4184bb58ea63e28(Rml::Style::Le
 }
 
 
-Rml::Style::LengthPercentageAuto *_wrap_new_LengthPercentageAuto__SWIG_0_rmlui_f4184bb58ea63e28() {
+Rml::Style::LengthPercentageAuto *_wrap_new_LengthPercentageAuto__SWIG_0_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::LengthPercentageAuto *result = 0 ;
   Rml::Style::LengthPercentageAuto *_swig_go_result;
   
@@ -2522,7 +2517,7 @@ Rml::Style::LengthPercentageAuto *_wrap_new_LengthPercentageAuto__SWIG_0_rmlui_f
 }
 
 
-Rml::Style::LengthPercentageAuto *_wrap_new_LengthPercentageAuto__SWIG_1_rmlui_f4184bb58ea63e28(intgo _swig_go_0, float _swig_go_1) {
+Rml::Style::LengthPercentageAuto *_wrap_new_LengthPercentageAuto__SWIG_1_rmlui_a39a0a49a8e50a2c(intgo _swig_go_0, float _swig_go_1) {
   Rml::Style::LengthPercentageAuto::Type arg1 ;
   float arg2 ;
   Rml::Style::LengthPercentageAuto *result = 0 ;
@@ -2537,7 +2532,7 @@ Rml::Style::LengthPercentageAuto *_wrap_new_LengthPercentageAuto__SWIG_1_rmlui_f
 }
 
 
-Rml::Style::LengthPercentageAuto *_wrap_new_LengthPercentageAuto__SWIG_2_rmlui_f4184bb58ea63e28(intgo _swig_go_0) {
+Rml::Style::LengthPercentageAuto *_wrap_new_LengthPercentageAuto__SWIG_2_rmlui_a39a0a49a8e50a2c(intgo _swig_go_0) {
   Rml::Style::LengthPercentageAuto::Type arg1 ;
   Rml::Style::LengthPercentageAuto *result = 0 ;
   Rml::Style::LengthPercentageAuto *_swig_go_result;
@@ -2550,7 +2545,7 @@ Rml::Style::LengthPercentageAuto *_wrap_new_LengthPercentageAuto__SWIG_2_rmlui_f
 }
 
 
-void _wrap_delete_LengthPercentageAuto_rmlui_f4184bb58ea63e28(Rml::Style::LengthPercentageAuto *_swig_go_0) {
+void _wrap_delete_LengthPercentageAuto_rmlui_a39a0a49a8e50a2c(Rml::Style::LengthPercentageAuto *_swig_go_0) {
   Rml::Style::LengthPercentageAuto *arg1 = (Rml::Style::LengthPercentageAuto *) 0 ;
   
   arg1 = *(Rml::Style::LengthPercentageAuto **)&_swig_go_0; 
@@ -2560,7 +2555,7 @@ void _wrap_delete_LengthPercentageAuto_rmlui_f4184bb58ea63e28(Rml::Style::Length
 }
 
 
-intgo _wrap_Length_LengthPercentage_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Length_LengthPercentage_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::LengthPercentage::Type result;
   intgo _swig_go_result;
   
@@ -2572,7 +2567,7 @@ intgo _wrap_Length_LengthPercentage_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Percentage_LengthPercentage_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Percentage_LengthPercentage_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::LengthPercentage::Type result;
   intgo _swig_go_result;
   
@@ -2584,7 +2579,7 @@ intgo _wrap_Percentage_LengthPercentage_rmlui_f4184bb58ea63e28() {
 }
 
 
-void _wrap_LengthPercentage_xtype_set_rmlui_f4184bb58ea63e28(Rml::Style::LengthPercentage *_swig_go_0, intgo _swig_go_1) {
+void _wrap_LengthPercentage_xtype_set_rmlui_a39a0a49a8e50a2c(Rml::Style::LengthPercentage *_swig_go_0, intgo _swig_go_1) {
   Rml::Style::LengthPercentage *arg1 = (Rml::Style::LengthPercentage *) 0 ;
   enum Rml::Style::LengthPercentage::Type arg2 ;
   
@@ -2596,7 +2591,7 @@ void _wrap_LengthPercentage_xtype_set_rmlui_f4184bb58ea63e28(Rml::Style::LengthP
 }
 
 
-intgo _wrap_LengthPercentage_xtype_get_rmlui_f4184bb58ea63e28(Rml::Style::LengthPercentage *_swig_go_0) {
+intgo _wrap_LengthPercentage_xtype_get_rmlui_a39a0a49a8e50a2c(Rml::Style::LengthPercentage *_swig_go_0) {
   Rml::Style::LengthPercentage *arg1 = (Rml::Style::LengthPercentage *) 0 ;
   enum Rml::Style::LengthPercentage::Type result;
   intgo _swig_go_result;
@@ -2609,7 +2604,7 @@ intgo _wrap_LengthPercentage_xtype_get_rmlui_f4184bb58ea63e28(Rml::Style::Length
 }
 
 
-void _wrap_LengthPercentage_value_set_rmlui_f4184bb58ea63e28(Rml::Style::LengthPercentage *_swig_go_0, float _swig_go_1) {
+void _wrap_LengthPercentage_value_set_rmlui_a39a0a49a8e50a2c(Rml::Style::LengthPercentage *_swig_go_0, float _swig_go_1) {
   Rml::Style::LengthPercentage *arg1 = (Rml::Style::LengthPercentage *) 0 ;
   float arg2 ;
   
@@ -2621,7 +2616,7 @@ void _wrap_LengthPercentage_value_set_rmlui_f4184bb58ea63e28(Rml::Style::LengthP
 }
 
 
-float _wrap_LengthPercentage_value_get_rmlui_f4184bb58ea63e28(Rml::Style::LengthPercentage *_swig_go_0) {
+float _wrap_LengthPercentage_value_get_rmlui_a39a0a49a8e50a2c(Rml::Style::LengthPercentage *_swig_go_0) {
   Rml::Style::LengthPercentage *arg1 = (Rml::Style::LengthPercentage *) 0 ;
   float result;
   float _swig_go_result;
@@ -2634,7 +2629,7 @@ float _wrap_LengthPercentage_value_get_rmlui_f4184bb58ea63e28(Rml::Style::Length
 }
 
 
-Rml::Style::LengthPercentage *_wrap_new_LengthPercentage__SWIG_0_rmlui_f4184bb58ea63e28() {
+Rml::Style::LengthPercentage *_wrap_new_LengthPercentage__SWIG_0_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::LengthPercentage *result = 0 ;
   Rml::Style::LengthPercentage *_swig_go_result;
   
@@ -2645,7 +2640,7 @@ Rml::Style::LengthPercentage *_wrap_new_LengthPercentage__SWIG_0_rmlui_f4184bb58
 }
 
 
-Rml::Style::LengthPercentage *_wrap_new_LengthPercentage__SWIG_1_rmlui_f4184bb58ea63e28(intgo _swig_go_0, float _swig_go_1) {
+Rml::Style::LengthPercentage *_wrap_new_LengthPercentage__SWIG_1_rmlui_a39a0a49a8e50a2c(intgo _swig_go_0, float _swig_go_1) {
   Rml::Style::LengthPercentage::Type arg1 ;
   float arg2 ;
   Rml::Style::LengthPercentage *result = 0 ;
@@ -2660,7 +2655,7 @@ Rml::Style::LengthPercentage *_wrap_new_LengthPercentage__SWIG_1_rmlui_f4184bb58
 }
 
 
-Rml::Style::LengthPercentage *_wrap_new_LengthPercentage__SWIG_2_rmlui_f4184bb58ea63e28(intgo _swig_go_0) {
+Rml::Style::LengthPercentage *_wrap_new_LengthPercentage__SWIG_2_rmlui_a39a0a49a8e50a2c(intgo _swig_go_0) {
   Rml::Style::LengthPercentage::Type arg1 ;
   Rml::Style::LengthPercentage *result = 0 ;
   Rml::Style::LengthPercentage *_swig_go_result;
@@ -2673,7 +2668,7 @@ Rml::Style::LengthPercentage *_wrap_new_LengthPercentage__SWIG_2_rmlui_f4184bb58
 }
 
 
-void _wrap_delete_LengthPercentage_rmlui_f4184bb58ea63e28(Rml::Style::LengthPercentage *_swig_go_0) {
+void _wrap_delete_LengthPercentage_rmlui_a39a0a49a8e50a2c(Rml::Style::LengthPercentage *_swig_go_0) {
   Rml::Style::LengthPercentage *arg1 = (Rml::Style::LengthPercentage *) 0 ;
   
   arg1 = *(Rml::Style::LengthPercentage **)&_swig_go_0; 
@@ -2683,7 +2678,7 @@ void _wrap_delete_LengthPercentage_rmlui_f4184bb58ea63e28(Rml::Style::LengthPerc
 }
 
 
-intgo _wrap_Auto_NumberAuto_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Auto_NumberAuto_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::NumberAuto::Type result;
   intgo _swig_go_result;
   
@@ -2695,7 +2690,7 @@ intgo _wrap_Auto_NumberAuto_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Number_NumberAuto_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Number_NumberAuto_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::NumberAuto::Type result;
   intgo _swig_go_result;
   
@@ -2707,7 +2702,7 @@ intgo _wrap_Number_NumberAuto_rmlui_f4184bb58ea63e28() {
 }
 
 
-void _wrap_NumberAuto_xtype_set_rmlui_f4184bb58ea63e28(Rml::Style::NumberAuto *_swig_go_0, intgo _swig_go_1) {
+void _wrap_NumberAuto_xtype_set_rmlui_a39a0a49a8e50a2c(Rml::Style::NumberAuto *_swig_go_0, intgo _swig_go_1) {
   Rml::Style::NumberAuto *arg1 = (Rml::Style::NumberAuto *) 0 ;
   enum Rml::Style::NumberAuto::Type arg2 ;
   
@@ -2719,7 +2714,7 @@ void _wrap_NumberAuto_xtype_set_rmlui_f4184bb58ea63e28(Rml::Style::NumberAuto *_
 }
 
 
-intgo _wrap_NumberAuto_xtype_get_rmlui_f4184bb58ea63e28(Rml::Style::NumberAuto *_swig_go_0) {
+intgo _wrap_NumberAuto_xtype_get_rmlui_a39a0a49a8e50a2c(Rml::Style::NumberAuto *_swig_go_0) {
   Rml::Style::NumberAuto *arg1 = (Rml::Style::NumberAuto *) 0 ;
   enum Rml::Style::NumberAuto::Type result;
   intgo _swig_go_result;
@@ -2732,7 +2727,7 @@ intgo _wrap_NumberAuto_xtype_get_rmlui_f4184bb58ea63e28(Rml::Style::NumberAuto *
 }
 
 
-void _wrap_NumberAuto_value_set_rmlui_f4184bb58ea63e28(Rml::Style::NumberAuto *_swig_go_0, float _swig_go_1) {
+void _wrap_NumberAuto_value_set_rmlui_a39a0a49a8e50a2c(Rml::Style::NumberAuto *_swig_go_0, float _swig_go_1) {
   Rml::Style::NumberAuto *arg1 = (Rml::Style::NumberAuto *) 0 ;
   float arg2 ;
   
@@ -2744,7 +2739,7 @@ void _wrap_NumberAuto_value_set_rmlui_f4184bb58ea63e28(Rml::Style::NumberAuto *_
 }
 
 
-float _wrap_NumberAuto_value_get_rmlui_f4184bb58ea63e28(Rml::Style::NumberAuto *_swig_go_0) {
+float _wrap_NumberAuto_value_get_rmlui_a39a0a49a8e50a2c(Rml::Style::NumberAuto *_swig_go_0) {
   Rml::Style::NumberAuto *arg1 = (Rml::Style::NumberAuto *) 0 ;
   float result;
   float _swig_go_result;
@@ -2757,7 +2752,7 @@ float _wrap_NumberAuto_value_get_rmlui_f4184bb58ea63e28(Rml::Style::NumberAuto *
 }
 
 
-Rml::Style::NumberAuto *_wrap_new_NumberAuto__SWIG_0_rmlui_f4184bb58ea63e28() {
+Rml::Style::NumberAuto *_wrap_new_NumberAuto__SWIG_0_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::NumberAuto *result = 0 ;
   Rml::Style::NumberAuto *_swig_go_result;
   
@@ -2768,7 +2763,7 @@ Rml::Style::NumberAuto *_wrap_new_NumberAuto__SWIG_0_rmlui_f4184bb58ea63e28() {
 }
 
 
-Rml::Style::NumberAuto *_wrap_new_NumberAuto__SWIG_1_rmlui_f4184bb58ea63e28(intgo _swig_go_0, float _swig_go_1) {
+Rml::Style::NumberAuto *_wrap_new_NumberAuto__SWIG_1_rmlui_a39a0a49a8e50a2c(intgo _swig_go_0, float _swig_go_1) {
   Rml::Style::NumberAuto::Type arg1 ;
   float arg2 ;
   Rml::Style::NumberAuto *result = 0 ;
@@ -2783,7 +2778,7 @@ Rml::Style::NumberAuto *_wrap_new_NumberAuto__SWIG_1_rmlui_f4184bb58ea63e28(intg
 }
 
 
-Rml::Style::NumberAuto *_wrap_new_NumberAuto__SWIG_2_rmlui_f4184bb58ea63e28(intgo _swig_go_0) {
+Rml::Style::NumberAuto *_wrap_new_NumberAuto__SWIG_2_rmlui_a39a0a49a8e50a2c(intgo _swig_go_0) {
   Rml::Style::NumberAuto::Type arg1 ;
   Rml::Style::NumberAuto *result = 0 ;
   Rml::Style::NumberAuto *_swig_go_result;
@@ -2796,7 +2791,7 @@ Rml::Style::NumberAuto *_wrap_new_NumberAuto__SWIG_2_rmlui_f4184bb58ea63e28(intg
 }
 
 
-void _wrap_delete_NumberAuto_rmlui_f4184bb58ea63e28(Rml::Style::NumberAuto *_swig_go_0) {
+void _wrap_delete_NumberAuto_rmlui_a39a0a49a8e50a2c(Rml::Style::NumberAuto *_swig_go_0) {
   Rml::Style::NumberAuto *arg1 = (Rml::Style::NumberAuto *) 0 ;
   
   arg1 = *(Rml::Style::NumberAuto **)&_swig_go_0; 
@@ -2806,7 +2801,7 @@ void _wrap_delete_NumberAuto_rmlui_f4184bb58ea63e28(Rml::Style::NumberAuto *_swi
 }
 
 
-intgo _wrap_Display_None_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Display_None_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Display result;
   intgo _swig_go_result;
   
@@ -2818,7 +2813,7 @@ intgo _wrap_Display_None_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Display_Block_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Display_Block_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Display result;
   intgo _swig_go_result;
   
@@ -2830,7 +2825,7 @@ intgo _wrap_Display_Block_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Display_Inline_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Display_Inline_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Display result;
   intgo _swig_go_result;
   
@@ -2842,7 +2837,7 @@ intgo _wrap_Display_Inline_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Display_InlineBlock_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Display_InlineBlock_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Display result;
   intgo _swig_go_result;
   
@@ -2854,7 +2849,7 @@ intgo _wrap_Display_InlineBlock_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Display_FlowRoot_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Display_FlowRoot_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Display result;
   intgo _swig_go_result;
   
@@ -2866,7 +2861,7 @@ intgo _wrap_Display_FlowRoot_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Display_Flex_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Display_Flex_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Display result;
   intgo _swig_go_result;
   
@@ -2878,7 +2873,7 @@ intgo _wrap_Display_Flex_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Display_InlineFlex_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Display_InlineFlex_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Display result;
   intgo _swig_go_result;
   
@@ -2890,7 +2885,7 @@ intgo _wrap_Display_InlineFlex_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Display_Table_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Display_Table_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Display result;
   intgo _swig_go_result;
   
@@ -2902,7 +2897,7 @@ intgo _wrap_Display_Table_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Display_InlineTable_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Display_InlineTable_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Display result;
   intgo _swig_go_result;
   
@@ -2914,7 +2909,7 @@ intgo _wrap_Display_InlineTable_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Display_TableRow_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Display_TableRow_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Display result;
   intgo _swig_go_result;
   
@@ -2926,7 +2921,7 @@ intgo _wrap_Display_TableRow_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Display_TableRowGroup_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Display_TableRowGroup_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Display result;
   intgo _swig_go_result;
   
@@ -2938,7 +2933,7 @@ intgo _wrap_Display_TableRowGroup_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Display_TableColumn_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Display_TableColumn_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Display result;
   intgo _swig_go_result;
   
@@ -2950,7 +2945,7 @@ intgo _wrap_Display_TableColumn_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Display_TableColumnGroup_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Display_TableColumnGroup_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Display result;
   intgo _swig_go_result;
   
@@ -2962,7 +2957,7 @@ intgo _wrap_Display_TableColumnGroup_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Display_TableCell_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Display_TableCell_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Display result;
   intgo _swig_go_result;
   
@@ -2974,7 +2969,7 @@ intgo _wrap_Display_TableCell_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Position_Static_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Position_Static_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Position result;
   intgo _swig_go_result;
   
@@ -2986,7 +2981,7 @@ intgo _wrap_Position_Static_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Position_Relative_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Position_Relative_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Position result;
   intgo _swig_go_result;
   
@@ -2998,7 +2993,7 @@ intgo _wrap_Position_Relative_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Position_Absolute_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Position_Absolute_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Position result;
   intgo _swig_go_result;
   
@@ -3010,7 +3005,7 @@ intgo _wrap_Position_Absolute_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Position_Fixed_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Position_Fixed_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Position result;
   intgo _swig_go_result;
   
@@ -3022,7 +3017,7 @@ intgo _wrap_Position_Fixed_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Float_None_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Float_None_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Float result;
   intgo _swig_go_result;
   
@@ -3034,7 +3029,7 @@ intgo _wrap_Float_None_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Float_Left_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Float_Left_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Float result;
   intgo _swig_go_result;
   
@@ -3046,7 +3041,7 @@ intgo _wrap_Float_Left_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Float_Right_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Float_Right_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Float result;
   intgo _swig_go_result;
   
@@ -3058,7 +3053,7 @@ intgo _wrap_Float_Right_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Clear_None_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Clear_None_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Clear result;
   intgo _swig_go_result;
   
@@ -3070,7 +3065,7 @@ intgo _wrap_Clear_None_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Clear_Left_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Clear_Left_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Clear result;
   intgo _swig_go_result;
   
@@ -3082,7 +3077,7 @@ intgo _wrap_Clear_Left_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Clear_Right_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Clear_Right_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Clear result;
   intgo _swig_go_result;
   
@@ -3094,7 +3089,7 @@ intgo _wrap_Clear_Right_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Clear_Both_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Clear_Both_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Clear result;
   intgo _swig_go_result;
   
@@ -3106,7 +3101,7 @@ intgo _wrap_Clear_Both_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_BoxSizing_ContentBox_rmlui_f4184bb58ea63e28() {
+intgo _wrap_BoxSizing_ContentBox_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::BoxSizing result;
   intgo _swig_go_result;
   
@@ -3118,7 +3113,7 @@ intgo _wrap_BoxSizing_ContentBox_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_BoxSizing_BorderBox_rmlui_f4184bb58ea63e28() {
+intgo _wrap_BoxSizing_BorderBox_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::BoxSizing result;
   intgo _swig_go_result;
   
@@ -3130,7 +3125,7 @@ intgo _wrap_BoxSizing_BorderBox_rmlui_f4184bb58ea63e28() {
 }
 
 
-void _wrap_LineHeight_value_set_rmlui_f4184bb58ea63e28(Rml::Style::LineHeight *_swig_go_0, float _swig_go_1) {
+void _wrap_LineHeight_value_set_rmlui_a39a0a49a8e50a2c(Rml::Style::LineHeight *_swig_go_0, float _swig_go_1) {
   Rml::Style::LineHeight *arg1 = (Rml::Style::LineHeight *) 0 ;
   float arg2 ;
   
@@ -3142,7 +3137,7 @@ void _wrap_LineHeight_value_set_rmlui_f4184bb58ea63e28(Rml::Style::LineHeight *_
 }
 
 
-float _wrap_LineHeight_value_get_rmlui_f4184bb58ea63e28(Rml::Style::LineHeight *_swig_go_0) {
+float _wrap_LineHeight_value_get_rmlui_a39a0a49a8e50a2c(Rml::Style::LineHeight *_swig_go_0) {
   Rml::Style::LineHeight *arg1 = (Rml::Style::LineHeight *) 0 ;
   float result;
   float _swig_go_result;
@@ -3155,7 +3150,7 @@ float _wrap_LineHeight_value_get_rmlui_f4184bb58ea63e28(Rml::Style::LineHeight *
 }
 
 
-intgo _wrap_Number_LineHeight_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Number_LineHeight_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::LineHeight::InheritType result;
   intgo _swig_go_result;
   
@@ -3167,7 +3162,7 @@ intgo _wrap_Number_LineHeight_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Length_LineHeight_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Length_LineHeight_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::LineHeight::InheritType result;
   intgo _swig_go_result;
   
@@ -3179,7 +3174,7 @@ intgo _wrap_Length_LineHeight_rmlui_f4184bb58ea63e28() {
 }
 
 
-void _wrap_LineHeight_inherit_type_set_rmlui_f4184bb58ea63e28(Rml::Style::LineHeight *_swig_go_0, intgo _swig_go_1) {
+void _wrap_LineHeight_inherit_type_set_rmlui_a39a0a49a8e50a2c(Rml::Style::LineHeight *_swig_go_0, intgo _swig_go_1) {
   Rml::Style::LineHeight *arg1 = (Rml::Style::LineHeight *) 0 ;
   enum Rml::Style::LineHeight::InheritType arg2 ;
   
@@ -3191,7 +3186,7 @@ void _wrap_LineHeight_inherit_type_set_rmlui_f4184bb58ea63e28(Rml::Style::LineHe
 }
 
 
-intgo _wrap_LineHeight_inherit_type_get_rmlui_f4184bb58ea63e28(Rml::Style::LineHeight *_swig_go_0) {
+intgo _wrap_LineHeight_inherit_type_get_rmlui_a39a0a49a8e50a2c(Rml::Style::LineHeight *_swig_go_0) {
   Rml::Style::LineHeight *arg1 = (Rml::Style::LineHeight *) 0 ;
   enum Rml::Style::LineHeight::InheritType result;
   intgo _swig_go_result;
@@ -3204,7 +3199,7 @@ intgo _wrap_LineHeight_inherit_type_get_rmlui_f4184bb58ea63e28(Rml::Style::LineH
 }
 
 
-void _wrap_LineHeight_inherit_value_set_rmlui_f4184bb58ea63e28(Rml::Style::LineHeight *_swig_go_0, float _swig_go_1) {
+void _wrap_LineHeight_inherit_value_set_rmlui_a39a0a49a8e50a2c(Rml::Style::LineHeight *_swig_go_0, float _swig_go_1) {
   Rml::Style::LineHeight *arg1 = (Rml::Style::LineHeight *) 0 ;
   float arg2 ;
   
@@ -3216,7 +3211,7 @@ void _wrap_LineHeight_inherit_value_set_rmlui_f4184bb58ea63e28(Rml::Style::LineH
 }
 
 
-float _wrap_LineHeight_inherit_value_get_rmlui_f4184bb58ea63e28(Rml::Style::LineHeight *_swig_go_0) {
+float _wrap_LineHeight_inherit_value_get_rmlui_a39a0a49a8e50a2c(Rml::Style::LineHeight *_swig_go_0) {
   Rml::Style::LineHeight *arg1 = (Rml::Style::LineHeight *) 0 ;
   float result;
   float _swig_go_result;
@@ -3229,7 +3224,7 @@ float _wrap_LineHeight_inherit_value_get_rmlui_f4184bb58ea63e28(Rml::Style::Line
 }
 
 
-Rml::Style::LineHeight *_wrap_new_LineHeight__SWIG_0_rmlui_f4184bb58ea63e28() {
+Rml::Style::LineHeight *_wrap_new_LineHeight__SWIG_0_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::LineHeight *result = 0 ;
   Rml::Style::LineHeight *_swig_go_result;
   
@@ -3240,7 +3235,7 @@ Rml::Style::LineHeight *_wrap_new_LineHeight__SWIG_0_rmlui_f4184bb58ea63e28() {
 }
 
 
-Rml::Style::LineHeight *_wrap_new_LineHeight__SWIG_1_rmlui_f4184bb58ea63e28(float _swig_go_0, intgo _swig_go_1, float _swig_go_2) {
+Rml::Style::LineHeight *_wrap_new_LineHeight__SWIG_1_rmlui_a39a0a49a8e50a2c(float _swig_go_0, intgo _swig_go_1, float _swig_go_2) {
   float arg1 ;
   Rml::Style::LineHeight::InheritType arg2 ;
   float arg3 ;
@@ -3257,7 +3252,7 @@ Rml::Style::LineHeight *_wrap_new_LineHeight__SWIG_1_rmlui_f4184bb58ea63e28(floa
 }
 
 
-void _wrap_delete_LineHeight_rmlui_f4184bb58ea63e28(Rml::Style::LineHeight *_swig_go_0) {
+void _wrap_delete_LineHeight_rmlui_a39a0a49a8e50a2c(Rml::Style::LineHeight *_swig_go_0) {
   Rml::Style::LineHeight *arg1 = (Rml::Style::LineHeight *) 0 ;
   
   arg1 = *(Rml::Style::LineHeight **)&_swig_go_0; 
@@ -3267,7 +3262,7 @@ void _wrap_delete_LineHeight_rmlui_f4184bb58ea63e28(Rml::Style::LineHeight *_swi
 }
 
 
-intgo _wrap_Baseline_VerticalAlign_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Baseline_VerticalAlign_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::VerticalAlign::Type result;
   intgo _swig_go_result;
   
@@ -3279,7 +3274,7 @@ intgo _wrap_Baseline_VerticalAlign_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Middle_VerticalAlign_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Middle_VerticalAlign_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::VerticalAlign::Type result;
   intgo _swig_go_result;
   
@@ -3291,7 +3286,7 @@ intgo _wrap_Middle_VerticalAlign_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Sub_VerticalAlign_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Sub_VerticalAlign_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::VerticalAlign::Type result;
   intgo _swig_go_result;
   
@@ -3303,7 +3298,7 @@ intgo _wrap_Sub_VerticalAlign_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Super_VerticalAlign_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Super_VerticalAlign_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::VerticalAlign::Type result;
   intgo _swig_go_result;
   
@@ -3315,7 +3310,7 @@ intgo _wrap_Super_VerticalAlign_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_TextTop_VerticalAlign_rmlui_f4184bb58ea63e28() {
+intgo _wrap_TextTop_VerticalAlign_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::VerticalAlign::Type result;
   intgo _swig_go_result;
   
@@ -3327,7 +3322,7 @@ intgo _wrap_TextTop_VerticalAlign_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_TextBottom_VerticalAlign_rmlui_f4184bb58ea63e28() {
+intgo _wrap_TextBottom_VerticalAlign_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::VerticalAlign::Type result;
   intgo _swig_go_result;
   
@@ -3339,7 +3334,7 @@ intgo _wrap_TextBottom_VerticalAlign_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Top_VerticalAlign_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Top_VerticalAlign_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::VerticalAlign::Type result;
   intgo _swig_go_result;
   
@@ -3351,7 +3346,7 @@ intgo _wrap_Top_VerticalAlign_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Center_VerticalAlign_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Center_VerticalAlign_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::VerticalAlign::Type result;
   intgo _swig_go_result;
   
@@ -3363,7 +3358,7 @@ intgo _wrap_Center_VerticalAlign_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Bottom_VerticalAlign_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Bottom_VerticalAlign_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::VerticalAlign::Type result;
   intgo _swig_go_result;
   
@@ -3375,7 +3370,7 @@ intgo _wrap_Bottom_VerticalAlign_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Length_VerticalAlign_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Length_VerticalAlign_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::VerticalAlign::Type result;
   intgo _swig_go_result;
   
@@ -3387,7 +3382,7 @@ intgo _wrap_Length_VerticalAlign_rmlui_f4184bb58ea63e28() {
 }
 
 
-void _wrap_VerticalAlign_xtype_set_rmlui_f4184bb58ea63e28(Rml::Style::VerticalAlign *_swig_go_0, intgo _swig_go_1) {
+void _wrap_VerticalAlign_xtype_set_rmlui_a39a0a49a8e50a2c(Rml::Style::VerticalAlign *_swig_go_0, intgo _swig_go_1) {
   Rml::Style::VerticalAlign *arg1 = (Rml::Style::VerticalAlign *) 0 ;
   enum Rml::Style::VerticalAlign::Type arg2 ;
   
@@ -3399,7 +3394,7 @@ void _wrap_VerticalAlign_xtype_set_rmlui_f4184bb58ea63e28(Rml::Style::VerticalAl
 }
 
 
-intgo _wrap_VerticalAlign_xtype_get_rmlui_f4184bb58ea63e28(Rml::Style::VerticalAlign *_swig_go_0) {
+intgo _wrap_VerticalAlign_xtype_get_rmlui_a39a0a49a8e50a2c(Rml::Style::VerticalAlign *_swig_go_0) {
   Rml::Style::VerticalAlign *arg1 = (Rml::Style::VerticalAlign *) 0 ;
   enum Rml::Style::VerticalAlign::Type result;
   intgo _swig_go_result;
@@ -3412,7 +3407,7 @@ intgo _wrap_VerticalAlign_xtype_get_rmlui_f4184bb58ea63e28(Rml::Style::VerticalA
 }
 
 
-void _wrap_VerticalAlign_value_set_rmlui_f4184bb58ea63e28(Rml::Style::VerticalAlign *_swig_go_0, float _swig_go_1) {
+void _wrap_VerticalAlign_value_set_rmlui_a39a0a49a8e50a2c(Rml::Style::VerticalAlign *_swig_go_0, float _swig_go_1) {
   Rml::Style::VerticalAlign *arg1 = (Rml::Style::VerticalAlign *) 0 ;
   float arg2 ;
   
@@ -3424,7 +3419,7 @@ void _wrap_VerticalAlign_value_set_rmlui_f4184bb58ea63e28(Rml::Style::VerticalAl
 }
 
 
-float _wrap_VerticalAlign_value_get_rmlui_f4184bb58ea63e28(Rml::Style::VerticalAlign *_swig_go_0) {
+float _wrap_VerticalAlign_value_get_rmlui_a39a0a49a8e50a2c(Rml::Style::VerticalAlign *_swig_go_0) {
   Rml::Style::VerticalAlign *arg1 = (Rml::Style::VerticalAlign *) 0 ;
   float result;
   float _swig_go_result;
@@ -3437,7 +3432,7 @@ float _wrap_VerticalAlign_value_get_rmlui_f4184bb58ea63e28(Rml::Style::VerticalA
 }
 
 
-Rml::Style::VerticalAlign *_wrap_new_VerticalAlign__SWIG_0_rmlui_f4184bb58ea63e28(intgo _swig_go_0) {
+Rml::Style::VerticalAlign *_wrap_new_VerticalAlign__SWIG_0_rmlui_a39a0a49a8e50a2c(intgo _swig_go_0) {
   Rml::Style::VerticalAlign::Type arg1 ;
   Rml::Style::VerticalAlign *result = 0 ;
   Rml::Style::VerticalAlign *_swig_go_result;
@@ -3450,7 +3445,7 @@ Rml::Style::VerticalAlign *_wrap_new_VerticalAlign__SWIG_0_rmlui_f4184bb58ea63e2
 }
 
 
-Rml::Style::VerticalAlign *_wrap_new_VerticalAlign__SWIG_1_rmlui_f4184bb58ea63e28() {
+Rml::Style::VerticalAlign *_wrap_new_VerticalAlign__SWIG_1_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::VerticalAlign *result = 0 ;
   Rml::Style::VerticalAlign *_swig_go_result;
   
@@ -3461,7 +3456,7 @@ Rml::Style::VerticalAlign *_wrap_new_VerticalAlign__SWIG_1_rmlui_f4184bb58ea63e2
 }
 
 
-Rml::Style::VerticalAlign *_wrap_new_VerticalAlign__SWIG_2_rmlui_f4184bb58ea63e28(float _swig_go_0) {
+Rml::Style::VerticalAlign *_wrap_new_VerticalAlign__SWIG_2_rmlui_a39a0a49a8e50a2c(float _swig_go_0) {
   float arg1 ;
   Rml::Style::VerticalAlign *result = 0 ;
   Rml::Style::VerticalAlign *_swig_go_result;
@@ -3474,7 +3469,7 @@ Rml::Style::VerticalAlign *_wrap_new_VerticalAlign__SWIG_2_rmlui_f4184bb58ea63e2
 }
 
 
-Rml::Style::VerticalAlign *_wrap_new_VerticalAlign__SWIG_3_rmlui_f4184bb58ea63e28(intgo _swig_go_0, float _swig_go_1) {
+Rml::Style::VerticalAlign *_wrap_new_VerticalAlign__SWIG_3_rmlui_a39a0a49a8e50a2c(intgo _swig_go_0, float _swig_go_1) {
   Rml::Style::VerticalAlign::Type arg1 ;
   float arg2 ;
   Rml::Style::VerticalAlign *result = 0 ;
@@ -3489,7 +3484,7 @@ Rml::Style::VerticalAlign *_wrap_new_VerticalAlign__SWIG_3_rmlui_f4184bb58ea63e2
 }
 
 
-void _wrap_delete_VerticalAlign_rmlui_f4184bb58ea63e28(Rml::Style::VerticalAlign *_swig_go_0) {
+void _wrap_delete_VerticalAlign_rmlui_a39a0a49a8e50a2c(Rml::Style::VerticalAlign *_swig_go_0) {
   Rml::Style::VerticalAlign *arg1 = (Rml::Style::VerticalAlign *) 0 ;
   
   arg1 = *(Rml::Style::VerticalAlign **)&_swig_go_0; 
@@ -3499,7 +3494,7 @@ void _wrap_delete_VerticalAlign_rmlui_f4184bb58ea63e28(Rml::Style::VerticalAlign
 }
 
 
-intgo _wrap_Overflow_Visible_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Overflow_Visible_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Overflow result;
   intgo _swig_go_result;
   
@@ -3511,7 +3506,7 @@ intgo _wrap_Overflow_Visible_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Overflow_Hidden_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Overflow_Hidden_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Overflow result;
   intgo _swig_go_result;
   
@@ -3523,7 +3518,7 @@ intgo _wrap_Overflow_Hidden_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Overflow_Auto_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Overflow_Auto_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Overflow result;
   intgo _swig_go_result;
   
@@ -3535,7 +3530,7 @@ intgo _wrap_Overflow_Auto_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Overflow_Scroll_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Overflow_Scroll_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Overflow result;
   intgo _swig_go_result;
   
@@ -3547,7 +3542,7 @@ intgo _wrap_Overflow_Scroll_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Type_Auto_Clip_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Type_Auto_Clip_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Clip::Type result;
   intgo _swig_go_result;
   
@@ -3559,7 +3554,7 @@ intgo _wrap_Type_Auto_Clip_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Type_None_Clip_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Type_None_Clip_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Clip::Type result;
   intgo _swig_go_result;
   
@@ -3571,7 +3566,7 @@ intgo _wrap_Type_None_Clip_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Type_Always_Clip_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Type_Always_Clip_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Clip::Type result;
   intgo _swig_go_result;
   
@@ -3583,7 +3578,7 @@ intgo _wrap_Type_Always_Clip_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Type_Number_Clip_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Type_Number_Clip_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Clip::Type result;
   intgo _swig_go_result;
   
@@ -3595,7 +3590,7 @@ intgo _wrap_Type_Number_Clip_rmlui_f4184bb58ea63e28() {
 }
 
 
-Rml::Style::Clip *_wrap_new_Clip__SWIG_0_rmlui_f4184bb58ea63e28() {
+Rml::Style::Clip *_wrap_new_Clip__SWIG_0_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Clip *result = 0 ;
   Rml::Style::Clip *_swig_go_result;
   
@@ -3606,7 +3601,7 @@ Rml::Style::Clip *_wrap_new_Clip__SWIG_0_rmlui_f4184bb58ea63e28() {
 }
 
 
-Rml::Style::Clip *_wrap_new_Clip__SWIG_1_rmlui_f4184bb58ea63e28(intgo _swig_go_0, int8_t *_swig_go_1) {
+Rml::Style::Clip *_wrap_new_Clip__SWIG_1_rmlui_a39a0a49a8e50a2c(intgo _swig_go_0, int8_t *_swig_go_1) {
   Rml::Style::Clip::Type arg1 ;
   int8_t arg2 ;
   int8_t *argp2 ;
@@ -3628,7 +3623,7 @@ Rml::Style::Clip *_wrap_new_Clip__SWIG_1_rmlui_f4184bb58ea63e28(intgo _swig_go_0
 }
 
 
-Rml::Style::Clip *_wrap_new_Clip__SWIG_2_rmlui_f4184bb58ea63e28(intgo _swig_go_0) {
+Rml::Style::Clip *_wrap_new_Clip__SWIG_2_rmlui_a39a0a49a8e50a2c(intgo _swig_go_0) {
   Rml::Style::Clip::Type arg1 ;
   Rml::Style::Clip *result = 0 ;
   Rml::Style::Clip *_swig_go_result;
@@ -3641,7 +3636,7 @@ Rml::Style::Clip *_wrap_new_Clip__SWIG_2_rmlui_f4184bb58ea63e28(intgo _swig_go_0
 }
 
 
-intgo _wrap_Clip_GetNumber_rmlui_f4184bb58ea63e28(Rml::Style::Clip *_swig_go_0) {
+intgo _wrap_Clip_GetNumber_rmlui_a39a0a49a8e50a2c(Rml::Style::Clip *_swig_go_0) {
   Rml::Style::Clip *arg1 = (Rml::Style::Clip *) 0 ;
   int result;
   intgo _swig_go_result;
@@ -3654,7 +3649,7 @@ intgo _wrap_Clip_GetNumber_rmlui_f4184bb58ea63e28(Rml::Style::Clip *_swig_go_0) 
 }
 
 
-intgo _wrap_Clip_GetType_rmlui_f4184bb58ea63e28(Rml::Style::Clip *_swig_go_0) {
+intgo _wrap_Clip_GetType_rmlui_a39a0a49a8e50a2c(Rml::Style::Clip *_swig_go_0) {
   Rml::Style::Clip *arg1 = (Rml::Style::Clip *) 0 ;
   Rml::Style::Clip::Type result;
   intgo _swig_go_result;
@@ -3667,7 +3662,7 @@ intgo _wrap_Clip_GetType_rmlui_f4184bb58ea63e28(Rml::Style::Clip *_swig_go_0) {
 }
 
 
-bool _wrap_Clip_equals_rmlui_f4184bb58ea63e28(Rml::Style::Clip *_swig_go_0, intgo _swig_go_1) {
+bool _wrap_Clip_equals_rmlui_a39a0a49a8e50a2c(Rml::Style::Clip *_swig_go_0, intgo _swig_go_1) {
   Rml::Style::Clip *arg1 = (Rml::Style::Clip *) 0 ;
   Rml::Style::Clip::Type arg2 ;
   bool result;
@@ -3682,7 +3677,7 @@ bool _wrap_Clip_equals_rmlui_f4184bb58ea63e28(Rml::Style::Clip *_swig_go_0, intg
 }
 
 
-void _wrap_delete_Clip_rmlui_f4184bb58ea63e28(Rml::Style::Clip *_swig_go_0) {
+void _wrap_delete_Clip_rmlui_a39a0a49a8e50a2c(Rml::Style::Clip *_swig_go_0) {
   Rml::Style::Clip *arg1 = (Rml::Style::Clip *) 0 ;
   
   arg1 = *(Rml::Style::Clip **)&_swig_go_0; 
@@ -3692,7 +3687,7 @@ void _wrap_delete_Clip_rmlui_f4184bb58ea63e28(Rml::Style::Clip *_swig_go_0) {
 }
 
 
-intgo _wrap_Visibility_Visible_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Visibility_Visible_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Visibility result;
   intgo _swig_go_result;
   
@@ -3704,7 +3699,7 @@ intgo _wrap_Visibility_Visible_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Visibility_Hidden_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Visibility_Hidden_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Visibility result;
   intgo _swig_go_result;
   
@@ -3716,7 +3711,7 @@ intgo _wrap_Visibility_Hidden_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_FontStyle_Normal_rmlui_f4184bb58ea63e28() {
+intgo _wrap_FontStyle_Normal_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::FontStyle result;
   intgo _swig_go_result;
   
@@ -3728,7 +3723,7 @@ intgo _wrap_FontStyle_Normal_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_FontStyle_Italic_rmlui_f4184bb58ea63e28() {
+intgo _wrap_FontStyle_Italic_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::FontStyle result;
   intgo _swig_go_result;
   
@@ -3740,7 +3735,7 @@ intgo _wrap_FontStyle_Italic_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_FontWeight_Auto_rmlui_f4184bb58ea63e28() {
+intgo _wrap_FontWeight_Auto_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::FontWeight result;
   intgo _swig_go_result;
   
@@ -3752,7 +3747,7 @@ intgo _wrap_FontWeight_Auto_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_FontWeight_Normal_rmlui_f4184bb58ea63e28() {
+intgo _wrap_FontWeight_Normal_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::FontWeight result;
   intgo _swig_go_result;
   
@@ -3764,7 +3759,7 @@ intgo _wrap_FontWeight_Normal_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_FontWeight_Bold_rmlui_f4184bb58ea63e28() {
+intgo _wrap_FontWeight_Bold_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::FontWeight result;
   intgo _swig_go_result;
   
@@ -3776,7 +3771,7 @@ intgo _wrap_FontWeight_Bold_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_TextAlign_Left_rmlui_f4184bb58ea63e28() {
+intgo _wrap_TextAlign_Left_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::TextAlign result;
   intgo _swig_go_result;
   
@@ -3788,7 +3783,7 @@ intgo _wrap_TextAlign_Left_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_TextAlign_Right_rmlui_f4184bb58ea63e28() {
+intgo _wrap_TextAlign_Right_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::TextAlign result;
   intgo _swig_go_result;
   
@@ -3800,7 +3795,7 @@ intgo _wrap_TextAlign_Right_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_TextAlign_Center_rmlui_f4184bb58ea63e28() {
+intgo _wrap_TextAlign_Center_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::TextAlign result;
   intgo _swig_go_result;
   
@@ -3812,7 +3807,7 @@ intgo _wrap_TextAlign_Center_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_TextAlign_Justify_rmlui_f4184bb58ea63e28() {
+intgo _wrap_TextAlign_Justify_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::TextAlign result;
   intgo _swig_go_result;
   
@@ -3824,7 +3819,7 @@ intgo _wrap_TextAlign_Justify_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_TextDecoration_None_rmlui_f4184bb58ea63e28() {
+intgo _wrap_TextDecoration_None_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::TextDecoration result;
   intgo _swig_go_result;
   
@@ -3836,7 +3831,7 @@ intgo _wrap_TextDecoration_None_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_TextDecoration_Underline_rmlui_f4184bb58ea63e28() {
+intgo _wrap_TextDecoration_Underline_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::TextDecoration result;
   intgo _swig_go_result;
   
@@ -3848,7 +3843,7 @@ intgo _wrap_TextDecoration_Underline_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_TextDecoration_Overline_rmlui_f4184bb58ea63e28() {
+intgo _wrap_TextDecoration_Overline_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::TextDecoration result;
   intgo _swig_go_result;
   
@@ -3860,7 +3855,7 @@ intgo _wrap_TextDecoration_Overline_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_TextDecoration_LineThrough_rmlui_f4184bb58ea63e28() {
+intgo _wrap_TextDecoration_LineThrough_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::TextDecoration result;
   intgo _swig_go_result;
   
@@ -3872,7 +3867,7 @@ intgo _wrap_TextDecoration_LineThrough_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_TextTransform_None_rmlui_f4184bb58ea63e28() {
+intgo _wrap_TextTransform_None_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::TextTransform result;
   intgo _swig_go_result;
   
@@ -3884,7 +3879,7 @@ intgo _wrap_TextTransform_None_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_TextTransform_Capitalize_rmlui_f4184bb58ea63e28() {
+intgo _wrap_TextTransform_Capitalize_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::TextTransform result;
   intgo _swig_go_result;
   
@@ -3896,7 +3891,7 @@ intgo _wrap_TextTransform_Capitalize_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_TextTransform_Uppercase_rmlui_f4184bb58ea63e28() {
+intgo _wrap_TextTransform_Uppercase_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::TextTransform result;
   intgo _swig_go_result;
   
@@ -3908,7 +3903,7 @@ intgo _wrap_TextTransform_Uppercase_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_TextTransform_Lowercase_rmlui_f4184bb58ea63e28() {
+intgo _wrap_TextTransform_Lowercase_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::TextTransform result;
   intgo _swig_go_result;
   
@@ -3920,7 +3915,7 @@ intgo _wrap_TextTransform_Lowercase_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_WhiteSpace_Normal_rmlui_f4184bb58ea63e28() {
+intgo _wrap_WhiteSpace_Normal_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::WhiteSpace result;
   intgo _swig_go_result;
   
@@ -3932,7 +3927,7 @@ intgo _wrap_WhiteSpace_Normal_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_WhiteSpace_Pre_rmlui_f4184bb58ea63e28() {
+intgo _wrap_WhiteSpace_Pre_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::WhiteSpace result;
   intgo _swig_go_result;
   
@@ -3944,7 +3939,7 @@ intgo _wrap_WhiteSpace_Pre_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_WhiteSpace_Nowrap_rmlui_f4184bb58ea63e28() {
+intgo _wrap_WhiteSpace_Nowrap_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::WhiteSpace result;
   intgo _swig_go_result;
   
@@ -3956,7 +3951,7 @@ intgo _wrap_WhiteSpace_Nowrap_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_WhiteSpace_Prewrap_rmlui_f4184bb58ea63e28() {
+intgo _wrap_WhiteSpace_Prewrap_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::WhiteSpace result;
   intgo _swig_go_result;
   
@@ -3968,7 +3963,7 @@ intgo _wrap_WhiteSpace_Prewrap_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_WhiteSpace_Preline_rmlui_f4184bb58ea63e28() {
+intgo _wrap_WhiteSpace_Preline_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::WhiteSpace result;
   intgo _swig_go_result;
   
@@ -3980,7 +3975,7 @@ intgo _wrap_WhiteSpace_Preline_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_WordBreak_Normal_rmlui_f4184bb58ea63e28() {
+intgo _wrap_WordBreak_Normal_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::WordBreak result;
   intgo _swig_go_result;
   
@@ -3992,7 +3987,7 @@ intgo _wrap_WordBreak_Normal_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_WordBreak_BreakAll_rmlui_f4184bb58ea63e28() {
+intgo _wrap_WordBreak_BreakAll_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::WordBreak result;
   intgo _swig_go_result;
   
@@ -4004,7 +3999,7 @@ intgo _wrap_WordBreak_BreakAll_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_WordBreak_BreakWord_rmlui_f4184bb58ea63e28() {
+intgo _wrap_WordBreak_BreakWord_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::WordBreak result;
   intgo _swig_go_result;
   
@@ -4016,7 +4011,7 @@ intgo _wrap_WordBreak_BreakWord_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Drag_None_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Drag_None_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Drag result;
   intgo _swig_go_result;
   
@@ -4028,7 +4023,7 @@ intgo _wrap_Drag_None_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Drag_Drag_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Drag_Drag_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Drag result;
   intgo _swig_go_result;
   
@@ -4040,7 +4035,7 @@ intgo _wrap_Drag_Drag_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Drag_DragDrop_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Drag_DragDrop_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Drag result;
   intgo _swig_go_result;
   
@@ -4052,7 +4047,7 @@ intgo _wrap_Drag_DragDrop_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Drag_Block_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Drag_Block_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Drag result;
   intgo _swig_go_result;
   
@@ -4064,7 +4059,7 @@ intgo _wrap_Drag_Block_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Drag_Clone_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Drag_Clone_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Drag result;
   intgo _swig_go_result;
   
@@ -4076,7 +4071,7 @@ intgo _wrap_Drag_Clone_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_TabIndex_None_rmlui_f4184bb58ea63e28() {
+intgo _wrap_TabIndex_None_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::TabIndex result;
   intgo _swig_go_result;
   
@@ -4088,7 +4083,7 @@ intgo _wrap_TabIndex_None_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_TabIndex_Auto_rmlui_f4184bb58ea63e28() {
+intgo _wrap_TabIndex_Auto_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::TabIndex result;
   intgo _swig_go_result;
   
@@ -4100,7 +4095,7 @@ intgo _wrap_TabIndex_Auto_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Focus_None_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Focus_None_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Focus result;
   intgo _swig_go_result;
   
@@ -4112,7 +4107,7 @@ intgo _wrap_Focus_None_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_Focus_Auto_rmlui_f4184bb58ea63e28() {
+intgo _wrap_Focus_Auto_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::Focus result;
   intgo _swig_go_result;
   
@@ -4124,7 +4119,7 @@ intgo _wrap_Focus_Auto_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_OverscrollBehavior_Auto_rmlui_f4184bb58ea63e28() {
+intgo _wrap_OverscrollBehavior_Auto_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::OverscrollBehavior result;
   intgo _swig_go_result;
   
@@ -4136,7 +4131,7 @@ intgo _wrap_OverscrollBehavior_Auto_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_OverscrollBehavior_Contain_rmlui_f4184bb58ea63e28() {
+intgo _wrap_OverscrollBehavior_Contain_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::OverscrollBehavior result;
   intgo _swig_go_result;
   
@@ -4148,7 +4143,7 @@ intgo _wrap_OverscrollBehavior_Contain_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PointerEvents_None_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PointerEvents_None_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::PointerEvents result;
   intgo _swig_go_result;
   
@@ -4160,7 +4155,7 @@ intgo _wrap_PointerEvents_None_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_PointerEvents_Auto_rmlui_f4184bb58ea63e28() {
+intgo _wrap_PointerEvents_Auto_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::PointerEvents result;
   intgo _swig_go_result;
   
@@ -4172,7 +4167,7 @@ intgo _wrap_PointerEvents_Auto_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_OriginX_Left_rmlui_f4184bb58ea63e28() {
+intgo _wrap_OriginX_Left_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::OriginX result;
   intgo _swig_go_result;
   
@@ -4184,7 +4179,7 @@ intgo _wrap_OriginX_Left_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_OriginX_Center_rmlui_f4184bb58ea63e28() {
+intgo _wrap_OriginX_Center_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::OriginX result;
   intgo _swig_go_result;
   
@@ -4196,7 +4191,7 @@ intgo _wrap_OriginX_Center_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_OriginX_Right_rmlui_f4184bb58ea63e28() {
+intgo _wrap_OriginX_Right_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::OriginX result;
   intgo _swig_go_result;
   
@@ -4208,7 +4203,7 @@ intgo _wrap_OriginX_Right_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_OriginY_Top_rmlui_f4184bb58ea63e28() {
+intgo _wrap_OriginY_Top_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::OriginY result;
   intgo _swig_go_result;
   
@@ -4220,7 +4215,7 @@ intgo _wrap_OriginY_Top_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_OriginY_Center_rmlui_f4184bb58ea63e28() {
+intgo _wrap_OriginY_Center_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::OriginY result;
   intgo _swig_go_result;
   
@@ -4232,7 +4227,7 @@ intgo _wrap_OriginY_Center_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_OriginY_Bottom_rmlui_f4184bb58ea63e28() {
+intgo _wrap_OriginY_Bottom_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::OriginY result;
   intgo _swig_go_result;
   
@@ -4244,7 +4239,7 @@ intgo _wrap_OriginY_Bottom_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignContent_FlexStart_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignContent_FlexStart_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignContent result;
   intgo _swig_go_result;
   
@@ -4256,7 +4251,7 @@ intgo _wrap_AlignContent_FlexStart_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignContent_FlexEnd_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignContent_FlexEnd_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignContent result;
   intgo _swig_go_result;
   
@@ -4268,7 +4263,7 @@ intgo _wrap_AlignContent_FlexEnd_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignContent_Center_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignContent_Center_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignContent result;
   intgo _swig_go_result;
   
@@ -4280,7 +4275,7 @@ intgo _wrap_AlignContent_Center_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignContent_SpaceBetween_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignContent_SpaceBetween_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignContent result;
   intgo _swig_go_result;
   
@@ -4292,7 +4287,7 @@ intgo _wrap_AlignContent_SpaceBetween_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignContent_SpaceAround_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignContent_SpaceAround_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignContent result;
   intgo _swig_go_result;
   
@@ -4304,7 +4299,7 @@ intgo _wrap_AlignContent_SpaceAround_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignContent_Stretch_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignContent_Stretch_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignContent result;
   intgo _swig_go_result;
   
@@ -4316,7 +4311,7 @@ intgo _wrap_AlignContent_Stretch_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignItems_FlexStart_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignItems_FlexStart_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignItems result;
   intgo _swig_go_result;
   
@@ -4328,7 +4323,7 @@ intgo _wrap_AlignItems_FlexStart_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignItems_FlexEnd_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignItems_FlexEnd_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignItems result;
   intgo _swig_go_result;
   
@@ -4340,7 +4335,7 @@ intgo _wrap_AlignItems_FlexEnd_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignItems_Center_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignItems_Center_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignItems result;
   intgo _swig_go_result;
   
@@ -4352,7 +4347,7 @@ intgo _wrap_AlignItems_Center_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignItems_Baseline_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignItems_Baseline_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignItems result;
   intgo _swig_go_result;
   
@@ -4364,7 +4359,7 @@ intgo _wrap_AlignItems_Baseline_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignItems_Stretch_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignItems_Stretch_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignItems result;
   intgo _swig_go_result;
   
@@ -4376,7 +4371,7 @@ intgo _wrap_AlignItems_Stretch_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignSelf_Auto_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignSelf_Auto_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignSelf result;
   intgo _swig_go_result;
   
@@ -4388,7 +4383,7 @@ intgo _wrap_AlignSelf_Auto_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignSelf_FlexStart_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignSelf_FlexStart_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignSelf result;
   intgo _swig_go_result;
   
@@ -4400,7 +4395,7 @@ intgo _wrap_AlignSelf_FlexStart_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignSelf_FlexEnd_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignSelf_FlexEnd_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignSelf result;
   intgo _swig_go_result;
   
@@ -4412,7 +4407,7 @@ intgo _wrap_AlignSelf_FlexEnd_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignSelf_Center_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignSelf_Center_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignSelf result;
   intgo _swig_go_result;
   
@@ -4424,7 +4419,7 @@ intgo _wrap_AlignSelf_Center_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignSelf_Baseline_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignSelf_Baseline_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignSelf result;
   intgo _swig_go_result;
   
@@ -4436,7 +4431,7 @@ intgo _wrap_AlignSelf_Baseline_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_AlignSelf_Stretch_rmlui_f4184bb58ea63e28() {
+intgo _wrap_AlignSelf_Stretch_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::AlignSelf result;
   intgo _swig_go_result;
   
@@ -4448,7 +4443,7 @@ intgo _wrap_AlignSelf_Stretch_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_FlexDirection_Row_rmlui_f4184bb58ea63e28() {
+intgo _wrap_FlexDirection_Row_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::FlexDirection result;
   intgo _swig_go_result;
   
@@ -4460,7 +4455,7 @@ intgo _wrap_FlexDirection_Row_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_FlexDirection_RowReverse_rmlui_f4184bb58ea63e28() {
+intgo _wrap_FlexDirection_RowReverse_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::FlexDirection result;
   intgo _swig_go_result;
   
@@ -4472,7 +4467,7 @@ intgo _wrap_FlexDirection_RowReverse_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_FlexDirection_Column_rmlui_f4184bb58ea63e28() {
+intgo _wrap_FlexDirection_Column_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::FlexDirection result;
   intgo _swig_go_result;
   
@@ -4484,7 +4479,7 @@ intgo _wrap_FlexDirection_Column_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_FlexDirection_ColumnReverse_rmlui_f4184bb58ea63e28() {
+intgo _wrap_FlexDirection_ColumnReverse_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::FlexDirection result;
   intgo _swig_go_result;
   
@@ -4496,7 +4491,7 @@ intgo _wrap_FlexDirection_ColumnReverse_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_FlexWrap_Nowrap_rmlui_f4184bb58ea63e28() {
+intgo _wrap_FlexWrap_Nowrap_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::FlexWrap result;
   intgo _swig_go_result;
   
@@ -4508,7 +4503,7 @@ intgo _wrap_FlexWrap_Nowrap_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_FlexWrap_Wrap_rmlui_f4184bb58ea63e28() {
+intgo _wrap_FlexWrap_Wrap_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::FlexWrap result;
   intgo _swig_go_result;
   
@@ -4520,7 +4515,7 @@ intgo _wrap_FlexWrap_Wrap_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_FlexWrap_WrapReverse_rmlui_f4184bb58ea63e28() {
+intgo _wrap_FlexWrap_WrapReverse_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::FlexWrap result;
   intgo _swig_go_result;
   
@@ -4532,7 +4527,7 @@ intgo _wrap_FlexWrap_WrapReverse_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_JustifyContent_FlexStart_rmlui_f4184bb58ea63e28() {
+intgo _wrap_JustifyContent_FlexStart_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::JustifyContent result;
   intgo _swig_go_result;
   
@@ -4544,7 +4539,7 @@ intgo _wrap_JustifyContent_FlexStart_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_JustifyContent_FlexEnd_rmlui_f4184bb58ea63e28() {
+intgo _wrap_JustifyContent_FlexEnd_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::JustifyContent result;
   intgo _swig_go_result;
   
@@ -4556,7 +4551,7 @@ intgo _wrap_JustifyContent_FlexEnd_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_JustifyContent_Center_rmlui_f4184bb58ea63e28() {
+intgo _wrap_JustifyContent_Center_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::JustifyContent result;
   intgo _swig_go_result;
   
@@ -4568,7 +4563,7 @@ intgo _wrap_JustifyContent_Center_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_JustifyContent_SpaceBetween_rmlui_f4184bb58ea63e28() {
+intgo _wrap_JustifyContent_SpaceBetween_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::JustifyContent result;
   intgo _swig_go_result;
   
@@ -4580,7 +4575,7 @@ intgo _wrap_JustifyContent_SpaceBetween_rmlui_f4184bb58ea63e28() {
 }
 
 
-intgo _wrap_JustifyContent_SpaceAround_rmlui_f4184bb58ea63e28() {
+intgo _wrap_JustifyContent_SpaceAround_rmlui_a39a0a49a8e50a2c() {
   Rml::Style::JustifyContent result;
   intgo _swig_go_result;
   
@@ -4592,7 +4587,885 @@ intgo _wrap_JustifyContent_SpaceAround_rmlui_f4184bb58ea63e28() {
 }
 
 
-bool _wrap_Initialise_rmlui_f4184bb58ea63e28() {
+Rml::Context *_wrap_new_Context_rmlui_a39a0a49a8e50a2c(_gostring_ _swig_go_0) {
+  Rml::String *arg1 = 0 ;
+  Rml::Context *result = 0 ;
+  Rml::Context *_swig_go_result;
+  
+  
+  Rml::String arg1_str(_swig_go_0.p, _swig_go_0.n);
+  arg1 = &arg1_str;
+  
+  
+  result = (Rml::Context *)new Rml::Context((Rml::String const &)*arg1);
+  *(Rml::Context **)&_swig_go_result = (Rml::Context *)result; 
+  return _swig_go_result;
+}
+
+
+void _wrap_delete_Context_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  delete arg1;
+  
+}
+
+
+_gostring_ _wrap_Context_GetName_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *result = 0 ;
+  _gostring_ _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  result = (Rml::String *) &((Rml::Context const *)arg1)->GetName();
+  _swig_go_result = Swig_AllocateString((*result).data(), (*result).length()); 
+  return _swig_go_result;
+}
+
+
+void _wrap_Context_SetDimensions_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, Rml::Vector2< int > *_swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  SwigValueWrapper< Rml::Vector2< int > > arg2 ;
+  Rml::Vector2i *argp2 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  argp2 = (Rml::Vector2i *)_swig_go_1;
+  if (argp2 == NULL) {
+    _swig_gopanic("Attempt to dereference null Rml::Vector2i");
+  }
+  arg2 = (Rml::Vector2i)*argp2;
+  
+  
+  (arg1)->SetDimensions(arg2);
+  
+}
+
+
+Rml::Vector2< int > *_wrap_Context_GetDimensions_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  SwigValueWrapper< Rml::Vector2< int > > result;
+  Rml::Vector2< int > *_swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  result = ((Rml::Context const *)arg1)->GetDimensions();
+  *(Rml::Vector2i **)&_swig_go_result = new Rml::Vector2i(result); 
+  return _swig_go_result;
+}
+
+
+void _wrap_Context_SetDensityIndependentPixelRatio_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, float _swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  float arg2 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  arg2 = (float)_swig_go_1; 
+  
+  (arg1)->SetDensityIndependentPixelRatio(arg2);
+  
+}
+
+
+float _wrap_Context_GetDensityIndependentPixelRatio_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  float result;
+  float _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  result = (float)((Rml::Context const *)arg1)->GetDensityIndependentPixelRatio();
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+bool _wrap_Context_Update_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  result = (bool)(arg1)->Update();
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+bool _wrap_Context_Render_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  result = (bool)(arg1)->Render();
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+Rml::ElementDocument *_wrap_Context_CreateDocument__SWIG_0_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  Rml::ElementDocument *result = 0 ;
+  Rml::ElementDocument *_swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  
+  result = (Rml::ElementDocument *)(arg1)->CreateDocument((Rml::String const &)*arg2);
+  *(Rml::ElementDocument **)&_swig_go_result = (Rml::ElementDocument *)result; 
+  return _swig_go_result;
+}
+
+
+Rml::ElementDocument *_wrap_Context_CreateDocument__SWIG_1_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::ElementDocument *result = 0 ;
+  Rml::ElementDocument *_swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  result = (Rml::ElementDocument *)(arg1)->CreateDocument();
+  *(Rml::ElementDocument **)&_swig_go_result = (Rml::ElementDocument *)result; 
+  return _swig_go_result;
+}
+
+
+Rml::ElementDocument *_wrap_Context_LoadDocument__SWIG_0_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  Rml::ElementDocument *result = 0 ;
+  Rml::ElementDocument *_swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  
+  result = (Rml::ElementDocument *)(arg1)->LoadDocument((Rml::String const &)*arg2);
+  *(Rml::ElementDocument **)&_swig_go_result = (Rml::ElementDocument *)result; 
+  return _swig_go_result;
+}
+
+
+Rml::ElementDocument *_wrap_Context_LoadDocument__SWIG_1_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, Rml::Stream *_swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::Stream *arg2 = (Rml::Stream *) 0 ;
+  Rml::ElementDocument *result = 0 ;
+  Rml::ElementDocument *_swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  arg2 = *(Rml::Stream **)&_swig_go_1; 
+  
+  result = (Rml::ElementDocument *)(arg1)->LoadDocument(arg2);
+  *(Rml::ElementDocument **)&_swig_go_result = (Rml::ElementDocument *)result; 
+  return _swig_go_result;
+}
+
+
+Rml::ElementDocument *_wrap_Context_LoadDocumentFromMemory__SWIG_0_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1, _gostring_ _swig_go_2) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  Rml::String *arg3 = 0 ;
+  Rml::ElementDocument *result = 0 ;
+  Rml::ElementDocument *_swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  
+  Rml::String arg3_str(_swig_go_2.p, _swig_go_2.n);
+  arg3 = &arg3_str;
+  
+  
+  result = (Rml::ElementDocument *)(arg1)->LoadDocumentFromMemory((Rml::String const &)*arg2,(Rml::String const &)*arg3);
+  *(Rml::ElementDocument **)&_swig_go_result = (Rml::ElementDocument *)result; 
+  return _swig_go_result;
+}
+
+
+Rml::ElementDocument *_wrap_Context_LoadDocumentFromMemory__SWIG_1_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  Rml::ElementDocument *result = 0 ;
+  Rml::ElementDocument *_swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  
+  result = (Rml::ElementDocument *)(arg1)->LoadDocumentFromMemory((Rml::String const &)*arg2);
+  *(Rml::ElementDocument **)&_swig_go_result = (Rml::ElementDocument *)result; 
+  return _swig_go_result;
+}
+
+
+void _wrap_Context_UnloadDocument_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, Rml::ElementDocument *_swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::ElementDocument *arg2 = (Rml::ElementDocument *) 0 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  arg2 = *(Rml::ElementDocument **)&_swig_go_1; 
+  
+  (arg1)->UnloadDocument(arg2);
+  
+}
+
+
+void _wrap_Context_UnloadAllDocuments_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  (arg1)->UnloadAllDocuments();
+  
+}
+
+
+void _wrap_Context_EnableMouseCursor_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, bool _swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  bool arg2 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  arg2 = (bool)_swig_go_1; 
+  
+  (arg1)->EnableMouseCursor(arg2);
+  
+}
+
+
+void _wrap_Context_ActivateTheme_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1, bool _swig_go_2) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  bool arg3 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  arg3 = (bool)_swig_go_2; 
+  
+  (arg1)->ActivateTheme((Rml::String const &)*arg2,arg3);
+  
+}
+
+
+bool _wrap_Context_IsThemeActive_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  
+  result = (bool)((Rml::Context const *)arg1)->IsThemeActive((Rml::String const &)*arg2);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+Rml::ElementDocument *_wrap_Context_GetDocument__SWIG_0_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  Rml::ElementDocument *result = 0 ;
+  Rml::ElementDocument *_swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  
+  result = (Rml::ElementDocument *)(arg1)->GetDocument((Rml::String const &)*arg2);
+  *(Rml::ElementDocument **)&_swig_go_result = (Rml::ElementDocument *)result; 
+  return _swig_go_result;
+}
+
+
+Rml::ElementDocument *_wrap_Context_GetDocument__SWIG_1_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, intgo _swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  int arg2 ;
+  Rml::ElementDocument *result = 0 ;
+  Rml::ElementDocument *_swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  arg2 = (int)_swig_go_1; 
+  
+  result = (Rml::ElementDocument *)(arg1)->GetDocument(arg2);
+  *(Rml::ElementDocument **)&_swig_go_result = (Rml::ElementDocument *)result; 
+  return _swig_go_result;
+}
+
+
+intgo _wrap_Context_GetNumDocuments_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  int result;
+  intgo _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  result = (int)((Rml::Context const *)arg1)->GetNumDocuments();
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+void _wrap_Context_PullDocumentToFront_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, Rml::ElementDocument *_swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::ElementDocument *arg2 = (Rml::ElementDocument *) 0 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  arg2 = *(Rml::ElementDocument **)&_swig_go_1; 
+  
+  (arg1)->PullDocumentToFront(arg2);
+  
+}
+
+
+void _wrap_Context_PushDocumentToBack_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, Rml::ElementDocument *_swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::ElementDocument *arg2 = (Rml::ElementDocument *) 0 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  arg2 = *(Rml::ElementDocument **)&_swig_go_1; 
+  
+  (arg1)->PushDocumentToBack(arg2);
+  
+}
+
+
+void _wrap_Context_UnfocusDocument_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, Rml::ElementDocument *_swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::ElementDocument *arg2 = (Rml::ElementDocument *) 0 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  arg2 = *(Rml::ElementDocument **)&_swig_go_1; 
+  
+  (arg1)->UnfocusDocument(arg2);
+  
+}
+
+
+void _wrap_Context_AddEventListener__SWIG_0_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1, Rml::EventListener *_swig_go_2, bool _swig_go_3) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  Rml::EventListener *arg3 = (Rml::EventListener *) 0 ;
+  bool arg4 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  arg3 = *(Rml::EventListener **)&_swig_go_2; 
+  arg4 = (bool)_swig_go_3; 
+  
+  (arg1)->AddEventListener((Rml::String const &)*arg2,arg3,arg4);
+  
+}
+
+
+void _wrap_Context_AddEventListener__SWIG_1_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1, Rml::EventListener *_swig_go_2) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  Rml::EventListener *arg3 = (Rml::EventListener *) 0 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  arg3 = *(Rml::EventListener **)&_swig_go_2; 
+  
+  (arg1)->AddEventListener((Rml::String const &)*arg2,arg3);
+  
+}
+
+
+void _wrap_Context_RemoveEventListener__SWIG_0_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1, Rml::EventListener *_swig_go_2, bool _swig_go_3) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  Rml::EventListener *arg3 = (Rml::EventListener *) 0 ;
+  bool arg4 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  arg3 = *(Rml::EventListener **)&_swig_go_2; 
+  arg4 = (bool)_swig_go_3; 
+  
+  (arg1)->RemoveEventListener((Rml::String const &)*arg2,arg3,arg4);
+  
+}
+
+
+void _wrap_Context_RemoveEventListener__SWIG_1_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1, Rml::EventListener *_swig_go_2) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  Rml::EventListener *arg3 = (Rml::EventListener *) 0 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  arg3 = *(Rml::EventListener **)&_swig_go_2; 
+  
+  (arg1)->RemoveEventListener((Rml::String const &)*arg2,arg3);
+  
+}
+
+
+bool _wrap_Context_ProcessKeyDown_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, Rml::Input::KeyIdentifier *_swig_go_1, intgo _swig_go_2) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::Input::KeyIdentifier arg2 ;
+  int arg3 ;
+  Rml::Input::KeyIdentifier *argp2 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  argp2 = (Rml::Input::KeyIdentifier *)_swig_go_1;
+  if (argp2 == NULL) {
+    _swig_gopanic("Attempt to dereference null Rml::Input::KeyIdentifier");
+  }
+  arg2 = (Rml::Input::KeyIdentifier)*argp2;
+  
+  arg3 = (int)_swig_go_2; 
+  
+  result = (bool)(arg1)->ProcessKeyDown(arg2,arg3);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+bool _wrap_Context_ProcessKeyUp_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, Rml::Input::KeyIdentifier *_swig_go_1, intgo _swig_go_2) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::Input::KeyIdentifier arg2 ;
+  int arg3 ;
+  Rml::Input::KeyIdentifier *argp2 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  argp2 = (Rml::Input::KeyIdentifier *)_swig_go_1;
+  if (argp2 == NULL) {
+    _swig_gopanic("Attempt to dereference null Rml::Input::KeyIdentifier");
+  }
+  arg2 = (Rml::Input::KeyIdentifier)*argp2;
+  
+  arg3 = (int)_swig_go_2; 
+  
+  result = (bool)(arg1)->ProcessKeyUp(arg2,arg3);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+bool _wrap_Context_ProcessTextInput__SWIG_0_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, Rml::Character *_swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::Character arg2 ;
+  Rml::Character *argp2 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  argp2 = (Rml::Character *)_swig_go_1;
+  if (argp2 == NULL) {
+    _swig_gopanic("Attempt to dereference null Rml::Character");
+  }
+  arg2 = (Rml::Character)*argp2;
+  
+  
+  result = (bool)(arg1)->ProcessTextInput(arg2);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+bool _wrap_Context_ProcessTextInput__SWIG_1_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, char _swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  char arg2 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  arg2 = (char)_swig_go_1; 
+  
+  result = (bool)(arg1)->ProcessTextInput(arg2);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+bool _wrap_Context_ProcessTextInput__SWIG_2_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  
+  result = (bool)(arg1)->ProcessTextInput((Rml::String const &)*arg2);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+bool _wrap_Context_ProcessMouseMove_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, intgo _swig_go_1, intgo _swig_go_2, intgo _swig_go_3) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  int arg4 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  arg2 = (int)_swig_go_1; 
+  arg3 = (int)_swig_go_2; 
+  arg4 = (int)_swig_go_3; 
+  
+  result = (bool)(arg1)->ProcessMouseMove(arg2,arg3,arg4);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+bool _wrap_Context_ProcessMouseButtonDown_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, intgo _swig_go_1, intgo _swig_go_2) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  arg2 = (int)_swig_go_1; 
+  arg3 = (int)_swig_go_2; 
+  
+  result = (bool)(arg1)->ProcessMouseButtonDown(arg2,arg3);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+bool _wrap_Context_ProcessMouseButtonUp_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, intgo _swig_go_1, intgo _swig_go_2) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  arg2 = (int)_swig_go_1; 
+  arg3 = (int)_swig_go_2; 
+  
+  result = (bool)(arg1)->ProcessMouseButtonUp(arg2,arg3);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+bool _wrap_Context_ProcessMouseWheel__SWIG_0_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, float _swig_go_1, intgo _swig_go_2) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  float arg2 ;
+  int arg3 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  arg2 = (float)_swig_go_1; 
+  arg3 = (int)_swig_go_2; 
+  
+  result = (bool)(arg1)->ProcessMouseWheel(arg2,arg3);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+bool _wrap_Context_ProcessMouseWheel__SWIG_1_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, Rml::Vector2< float > *_swig_go_1, intgo _swig_go_2) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  SwigValueWrapper< Rml::Vector2< float > > arg2 ;
+  int arg3 ;
+  Rml::Vector2f *argp2 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  argp2 = (Rml::Vector2f *)_swig_go_1;
+  if (argp2 == NULL) {
+    _swig_gopanic("Attempt to dereference null Rml::Vector2f");
+  }
+  arg2 = (Rml::Vector2f)*argp2;
+  
+  arg3 = (int)_swig_go_2; 
+  
+  result = (bool)(arg1)->ProcessMouseWheel(arg2,arg3);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+bool _wrap_Context_ProcessMouseLeave_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  result = (bool)(arg1)->ProcessMouseLeave();
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+bool _wrap_Context_IsMouseInteracting_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  result = (bool)((Rml::Context const *)arg1)->IsMouseInteracting();
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+void _wrap_Context_SetDefaultScrollBehavior_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, Rml::ScrollBehavior *_swig_go_1, float _swig_go_2) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::ScrollBehavior arg2 ;
+  float arg3 ;
+  Rml::ScrollBehavior *argp2 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  argp2 = (Rml::ScrollBehavior *)_swig_go_1;
+  if (argp2 == NULL) {
+    _swig_gopanic("Attempt to dereference null Rml::ScrollBehavior");
+  }
+  arg2 = (Rml::ScrollBehavior)*argp2;
+  
+  arg3 = (float)_swig_go_2; 
+  
+  (arg1)->SetDefaultScrollBehavior(arg2,arg3);
+  
+}
+
+
+bool _wrap_Context_GetActiveClipRegion_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, Rml::Vector2< int > *_swig_go_1, Rml::Vector2< int > *_swig_go_2) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::Vector2i *arg2 = 0 ;
+  Rml::Vector2i *arg3 = 0 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  arg2 = *(Rml::Vector2i **)&_swig_go_1; 
+  arg3 = *(Rml::Vector2i **)&_swig_go_2; 
+  
+  result = (bool)((Rml::Context const *)arg1)->GetActiveClipRegion(*arg2,*arg3);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+void _wrap_Context_SetActiveClipRegion_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, Rml::Vector2< int > *_swig_go_1, Rml::Vector2< int > *_swig_go_2) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  SwigValueWrapper< Rml::Vector2< int > > arg2 ;
+  SwigValueWrapper< Rml::Vector2< int > > arg3 ;
+  Rml::Vector2i *argp2 ;
+  Rml::Vector2i *argp3 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  argp2 = (Rml::Vector2i *)_swig_go_1;
+  if (argp2 == NULL) {
+    _swig_gopanic("Attempt to dereference null Rml::Vector2i");
+  }
+  arg2 = (Rml::Vector2i)*argp2;
+  
+  
+  argp3 = (Rml::Vector2i *)_swig_go_2;
+  if (argp3 == NULL) {
+    _swig_gopanic("Attempt to dereference null Rml::Vector2i");
+  }
+  arg3 = (Rml::Vector2i)*argp3;
+  
+  
+  (arg1)->SetActiveClipRegion(arg2,arg3);
+  
+}
+
+
+void _wrap_Context_SetInstancer_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, Rml::ContextInstancer *_swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::ContextInstancer *arg2 = (Rml::ContextInstancer *) 0 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  arg2 = *(Rml::ContextInstancer **)&_swig_go_1; 
+  
+  (arg1)->SetInstancer(arg2);
+  
+}
+
+
+Rml::DataModelConstructor *_wrap_Context_CreateDataModel__SWIG_0_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1, Rml::DataTypeRegister *_swig_go_2) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  Rml::DataTypeRegister *arg3 = (Rml::DataTypeRegister *) 0 ;
+  Rml::DataModelConstructor result;
+  Rml::DataModelConstructor *_swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  arg3 = *(Rml::DataTypeRegister **)&_swig_go_2; 
+  
+  result = (arg1)->CreateDataModel((Rml::String const &)*arg2,arg3);
+  *(Rml::DataModelConstructor **)&_swig_go_result = new Rml::DataModelConstructor(result); 
+  return _swig_go_result;
+}
+
+
+Rml::DataModelConstructor *_wrap_Context_CreateDataModel__SWIG_1_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  Rml::DataModelConstructor result;
+  Rml::DataModelConstructor *_swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  
+  result = (arg1)->CreateDataModel((Rml::String const &)*arg2);
+  *(Rml::DataModelConstructor **)&_swig_go_result = new Rml::DataModelConstructor(result); 
+  return _swig_go_result;
+}
+
+
+Rml::DataModelConstructor *_wrap_Context_GetDataModel_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  Rml::DataModelConstructor result;
+  Rml::DataModelConstructor *_swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  
+  result = (arg1)->GetDataModel((Rml::String const &)*arg2);
+  *(Rml::DataModelConstructor **)&_swig_go_result = new Rml::DataModelConstructor(result); 
+  return _swig_go_result;
+}
+
+
+bool _wrap_Context_RemoveDataModel_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  
+  result = (bool)(arg1)->RemoveDataModel((Rml::String const &)*arg2);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+void _wrap_Context_SetDocumentsBaseTag_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, _gostring_ _swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *arg2 = 0 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  Rml::String arg2_str(_swig_go_1.p, _swig_go_1.n);
+  arg2 = &arg2_str;
+  
+  
+  (arg1)->SetDocumentsBaseTag((Rml::String const &)*arg2);
+  
+}
+
+
+_gostring_ _wrap_Context_GetDocumentsBaseTag_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  Rml::String *result = 0 ;
+  _gostring_ _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  result = (Rml::String *) &(arg1)->GetDocumentsBaseTag();
+  _swig_go_result = Swig_AllocateString((*result).data(), (*result).length()); 
+  return _swig_go_result;
+}
+
+
+void _wrap_Context_RequestNextUpdate_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0, double _swig_go_1) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  double arg2 ;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  arg2 = (double)_swig_go_1; 
+  
+  (arg1)->RequestNextUpdate(arg2);
+  
+}
+
+
+double _wrap_Context_GetNextUpdateDelay_rmlui_a39a0a49a8e50a2c(Rml::Context *_swig_go_0) {
+  Rml::Context *arg1 = (Rml::Context *) 0 ;
+  double result;
+  double _swig_go_result;
+  
+  arg1 = *(Rml::Context **)&_swig_go_0; 
+  
+  result = (double)((Rml::Context const *)arg1)->GetNextUpdateDelay();
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+bool _wrap_Initialise_rmlui_a39a0a49a8e50a2c() {
   bool result;
   bool _swig_go_result;
   
@@ -4603,13 +5476,13 @@ bool _wrap_Initialise_rmlui_f4184bb58ea63e28() {
 }
 
 
-void _wrap_Shutdown_rmlui_f4184bb58ea63e28() {
+void _wrap_Shutdown_rmlui_a39a0a49a8e50a2c() {
   Rml::Shutdown();
   
 }
 
 
-_gostring_ _wrap_GetVersion_rmlui_f4184bb58ea63e28() {
+_gostring_ _wrap_GetVersion_rmlui_a39a0a49a8e50a2c() {
   Rml::String result;
   _gostring_ _swig_go_result;
   
@@ -4620,7 +5493,7 @@ _gostring_ _wrap_GetVersion_rmlui_f4184bb58ea63e28() {
 }
 
 
-void _wrap_SetSystemInterface_rmlui_f4184bb58ea63e28(Rml::SystemInterface *_swig_go_0) {
+void _wrap_SetSystemInterface_rmlui_a39a0a49a8e50a2c(Rml::SystemInterface *_swig_go_0) {
   Rml::SystemInterface *arg1 = (Rml::SystemInterface *) 0 ;
   
   arg1 = *(Rml::SystemInterface **)&_swig_go_0; 
@@ -4630,7 +5503,7 @@ void _wrap_SetSystemInterface_rmlui_f4184bb58ea63e28(Rml::SystemInterface *_swig
 }
 
 
-Rml::SystemInterface *_wrap_GetSystemInterface_rmlui_f4184bb58ea63e28() {
+Rml::SystemInterface *_wrap_GetSystemInterface_rmlui_a39a0a49a8e50a2c() {
   Rml::SystemInterface *result = 0 ;
   Rml::SystemInterface *_swig_go_result;
   
@@ -4641,7 +5514,7 @@ Rml::SystemInterface *_wrap_GetSystemInterface_rmlui_f4184bb58ea63e28() {
 }
 
 
-void _wrap_SetRenderInterface_rmlui_f4184bb58ea63e28(Rml::RenderInterface *_swig_go_0) {
+void _wrap_SetRenderInterface_rmlui_a39a0a49a8e50a2c(Rml::RenderInterface *_swig_go_0) {
   Rml::RenderInterface *arg1 = (Rml::RenderInterface *) 0 ;
   
   arg1 = *(Rml::RenderInterface **)&_swig_go_0; 
@@ -4651,7 +5524,7 @@ void _wrap_SetRenderInterface_rmlui_f4184bb58ea63e28(Rml::RenderInterface *_swig
 }
 
 
-Rml::RenderInterface *_wrap_GetRenderInterface_rmlui_f4184bb58ea63e28() {
+Rml::RenderInterface *_wrap_GetRenderInterface_rmlui_a39a0a49a8e50a2c() {
   Rml::RenderInterface *result = 0 ;
   Rml::RenderInterface *_swig_go_result;
   
@@ -4662,7 +5535,7 @@ Rml::RenderInterface *_wrap_GetRenderInterface_rmlui_f4184bb58ea63e28() {
 }
 
 
-void _wrap_SetFileInterface_rmlui_f4184bb58ea63e28(Rml::FileInterface *_swig_go_0) {
+void _wrap_SetFileInterface_rmlui_a39a0a49a8e50a2c(Rml::FileInterface *_swig_go_0) {
   Rml::FileInterface *arg1 = (Rml::FileInterface *) 0 ;
   
   arg1 = *(Rml::FileInterface **)&_swig_go_0; 
@@ -4672,7 +5545,7 @@ void _wrap_SetFileInterface_rmlui_f4184bb58ea63e28(Rml::FileInterface *_swig_go_
 }
 
 
-Rml::FileInterface *_wrap_GetFileInterface_rmlui_f4184bb58ea63e28() {
+Rml::FileInterface *_wrap_GetFileInterface_rmlui_a39a0a49a8e50a2c() {
   Rml::FileInterface *result = 0 ;
   Rml::FileInterface *_swig_go_result;
   
@@ -4683,7 +5556,7 @@ Rml::FileInterface *_wrap_GetFileInterface_rmlui_f4184bb58ea63e28() {
 }
 
 
-void _wrap_SetFontEngineInterface_rmlui_f4184bb58ea63e28(Rml::FontEngineInterface *_swig_go_0) {
+void _wrap_SetFontEngineInterface_rmlui_a39a0a49a8e50a2c(Rml::FontEngineInterface *_swig_go_0) {
   Rml::FontEngineInterface *arg1 = (Rml::FontEngineInterface *) 0 ;
   
   arg1 = *(Rml::FontEngineInterface **)&_swig_go_0; 
@@ -4693,7 +5566,7 @@ void _wrap_SetFontEngineInterface_rmlui_f4184bb58ea63e28(Rml::FontEngineInterfac
 }
 
 
-Rml::FontEngineInterface *_wrap_GetFontEngineInterface_rmlui_f4184bb58ea63e28() {
+Rml::FontEngineInterface *_wrap_GetFontEngineInterface_rmlui_a39a0a49a8e50a2c() {
   Rml::FontEngineInterface *result = 0 ;
   Rml::FontEngineInterface *_swig_go_result;
   
@@ -4704,7 +5577,7 @@ Rml::FontEngineInterface *_wrap_GetFontEngineInterface_rmlui_f4184bb58ea63e28() 
 }
 
 
-Rml::Context *_wrap_CreateContext_rmlui_f4184bb58ea63e28(_gostring_ _swig_go_0, Rml::Vector2< int > *_swig_go_1) {
+Rml::Context *_wrap_CreateContext_rmlui_a39a0a49a8e50a2c(_gostring_ _swig_go_0, Rml::Vector2< int > *_swig_go_1) {
   Rml::String *arg1 = 0 ;
   SwigValueWrapper< Rml::Vector2< int > > arg2 ;
   Rml::Vector2i *argp2 ;
@@ -4729,7 +5602,7 @@ Rml::Context *_wrap_CreateContext_rmlui_f4184bb58ea63e28(_gostring_ _swig_go_0, 
 }
 
 
-bool _wrap_RemoveContext_rmlui_f4184bb58ea63e28(_gostring_ _swig_go_0) {
+bool _wrap_RemoveContext_rmlui_a39a0a49a8e50a2c(_gostring_ _swig_go_0) {
   Rml::String *arg1 = 0 ;
   bool result;
   bool _swig_go_result;
@@ -4745,7 +5618,7 @@ bool _wrap_RemoveContext_rmlui_f4184bb58ea63e28(_gostring_ _swig_go_0) {
 }
 
 
-Rml::Context *_wrap_GetContext__SWIG_0_rmlui_f4184bb58ea63e28(_gostring_ _swig_go_0) {
+Rml::Context *_wrap_GetContext__SWIG_0_rmlui_a39a0a49a8e50a2c(_gostring_ _swig_go_0) {
   Rml::String *arg1 = 0 ;
   Rml::Context *result = 0 ;
   Rml::Context *_swig_go_result;
@@ -4761,7 +5634,7 @@ Rml::Context *_wrap_GetContext__SWIG_0_rmlui_f4184bb58ea63e28(_gostring_ _swig_g
 }
 
 
-Rml::Context *_wrap_GetContext__SWIG_1_rmlui_f4184bb58ea63e28(intgo _swig_go_0) {
+Rml::Context *_wrap_GetContext__SWIG_1_rmlui_a39a0a49a8e50a2c(intgo _swig_go_0) {
   int arg1 ;
   Rml::Context *result = 0 ;
   Rml::Context *_swig_go_result;
@@ -4774,7 +5647,7 @@ Rml::Context *_wrap_GetContext__SWIG_1_rmlui_f4184bb58ea63e28(intgo _swig_go_0) 
 }
 
 
-intgo _wrap_GetNumContexts_rmlui_f4184bb58ea63e28() {
+intgo _wrap_GetNumContexts_rmlui_a39a0a49a8e50a2c() {
   int result;
   intgo _swig_go_result;
   
@@ -4785,7 +5658,7 @@ intgo _wrap_GetNumContexts_rmlui_f4184bb58ea63e28() {
 }
 
 
-bool _wrap_LoadFontFace__SWIG_0_rmlui_f4184bb58ea63e28(_gostring_ _swig_go_0, bool _swig_go_1, intgo _swig_go_2) {
+bool _wrap_LoadFontFace__SWIG_0_rmlui_a39a0a49a8e50a2c(_gostring_ _swig_go_0, bool _swig_go_1, intgo _swig_go_2) {
   Rml::String *arg1 = 0 ;
   bool arg2 ;
   Rml::Style::FontWeight arg3 ;
@@ -4805,7 +5678,7 @@ bool _wrap_LoadFontFace__SWIG_0_rmlui_f4184bb58ea63e28(_gostring_ _swig_go_0, bo
 }
 
 
-bool _wrap_LoadFontFace__SWIG_1_rmlui_f4184bb58ea63e28(_gostring_ _swig_go_0, bool _swig_go_1) {
+bool _wrap_LoadFontFace__SWIG_1_rmlui_a39a0a49a8e50a2c(_gostring_ _swig_go_0, bool _swig_go_1) {
   Rml::String *arg1 = 0 ;
   bool arg2 ;
   bool result;
@@ -4823,7 +5696,7 @@ bool _wrap_LoadFontFace__SWIG_1_rmlui_f4184bb58ea63e28(_gostring_ _swig_go_0, bo
 }
 
 
-bool _wrap_LoadFontFace__SWIG_2_rmlui_f4184bb58ea63e28(_gostring_ _swig_go_0) {
+bool _wrap_LoadFontFace__SWIG_2_rmlui_a39a0a49a8e50a2c(_gostring_ _swig_go_0) {
   Rml::String *arg1 = 0 ;
   bool result;
   bool _swig_go_result;
@@ -4839,7 +5712,7 @@ bool _wrap_LoadFontFace__SWIG_2_rmlui_f4184bb58ea63e28(_gostring_ _swig_go_0) {
 }
 
 
-bool _wrap_LoadFontFace__SWIG_3_rmlui_f4184bb58ea63e28(char *_swig_go_0, intgo _swig_go_1, _gostring_ _swig_go_2, intgo _swig_go_3, intgo _swig_go_4, bool _swig_go_5) {
+bool _wrap_LoadFontFace__SWIG_3_rmlui_a39a0a49a8e50a2c(char *_swig_go_0, intgo _swig_go_1, _gostring_ _swig_go_2, intgo _swig_go_3, intgo _swig_go_4, bool _swig_go_5) {
   Rml::byte *arg1 = (Rml::byte *) 0 ;
   int arg2 ;
   Rml::String *arg3 = 0 ;
@@ -4865,7 +5738,7 @@ bool _wrap_LoadFontFace__SWIG_3_rmlui_f4184bb58ea63e28(char *_swig_go_0, intgo _
 }
 
 
-bool _wrap_LoadFontFace__SWIG_4_rmlui_f4184bb58ea63e28(char *_swig_go_0, intgo _swig_go_1, _gostring_ _swig_go_2, intgo _swig_go_3, intgo _swig_go_4) {
+bool _wrap_LoadFontFace__SWIG_4_rmlui_a39a0a49a8e50a2c(char *_swig_go_0, intgo _swig_go_1, _gostring_ _swig_go_2, intgo _swig_go_3, intgo _swig_go_4) {
   Rml::byte *arg1 = (Rml::byte *) 0 ;
   int arg2 ;
   Rml::String *arg3 = 0 ;
@@ -4889,7 +5762,7 @@ bool _wrap_LoadFontFace__SWIG_4_rmlui_f4184bb58ea63e28(char *_swig_go_0, intgo _
 }
 
 
-bool _wrap_LoadFontFace__SWIG_5_rmlui_f4184bb58ea63e28(char *_swig_go_0, intgo _swig_go_1, _gostring_ _swig_go_2, intgo _swig_go_3) {
+bool _wrap_LoadFontFace__SWIG_5_rmlui_a39a0a49a8e50a2c(char *_swig_go_0, intgo _swig_go_1, _gostring_ _swig_go_2, intgo _swig_go_3) {
   Rml::byte *arg1 = (Rml::byte *) 0 ;
   int arg2 ;
   Rml::String *arg3 = 0 ;
@@ -4911,7 +5784,7 @@ bool _wrap_LoadFontFace__SWIG_5_rmlui_f4184bb58ea63e28(char *_swig_go_0, intgo _
 }
 
 
-void _wrap_RegisterPlugin_rmlui_f4184bb58ea63e28(Rml::Plugin *_swig_go_0) {
+void _wrap_RegisterPlugin_rmlui_a39a0a49a8e50a2c(Rml::Plugin *_swig_go_0) {
   Rml::Plugin *arg1 = (Rml::Plugin *) 0 ;
   
   arg1 = *(Rml::Plugin **)&_swig_go_0; 
@@ -4921,7 +5794,7 @@ void _wrap_RegisterPlugin_rmlui_f4184bb58ea63e28(Rml::Plugin *_swig_go_0) {
 }
 
 
-void _wrap_UnregisterPlugin_rmlui_f4184bb58ea63e28(Rml::Plugin *_swig_go_0) {
+void _wrap_UnregisterPlugin_rmlui_a39a0a49a8e50a2c(Rml::Plugin *_swig_go_0) {
   Rml::Plugin *arg1 = (Rml::Plugin *) 0 ;
   
   arg1 = *(Rml::Plugin **)&_swig_go_0; 
@@ -4931,7 +5804,7 @@ void _wrap_UnregisterPlugin_rmlui_f4184bb58ea63e28(Rml::Plugin *_swig_go_0) {
 }
 
 
-intgo _wrap_RegisterEventType__SWIG_0_rmlui_f4184bb58ea63e28(_gostring_ _swig_go_0, bool _swig_go_1, bool _swig_go_2, intgo _swig_go_3) {
+intgo _wrap_RegisterEventType__SWIG_0_rmlui_a39a0a49a8e50a2c(_gostring_ _swig_go_0, bool _swig_go_1, bool _swig_go_2, intgo _swig_go_3) {
   Rml::String *arg1 = 0 ;
   bool arg2 ;
   bool arg3 ;
@@ -4953,7 +5826,7 @@ intgo _wrap_RegisterEventType__SWIG_0_rmlui_f4184bb58ea63e28(_gostring_ _swig_go
 }
 
 
-intgo _wrap_RegisterEventType__SWIG_1_rmlui_f4184bb58ea63e28(_gostring_ _swig_go_0, bool _swig_go_1, bool _swig_go_2) {
+intgo _wrap_RegisterEventType__SWIG_1_rmlui_a39a0a49a8e50a2c(_gostring_ _swig_go_0, bool _swig_go_1, bool _swig_go_2) {
   Rml::String *arg1 = 0 ;
   bool arg2 ;
   bool arg3 ;
@@ -4973,7 +5846,7 @@ intgo _wrap_RegisterEventType__SWIG_1_rmlui_f4184bb58ea63e28(_gostring_ _swig_go
 }
 
 
-Rml::Vector< std::string > *_wrap_GetTextureSourceList_rmlui_f4184bb58ea63e28() {
+Rml::Vector< std::string > *_wrap_GetTextureSourceList_rmlui_a39a0a49a8e50a2c() {
   SwigValueWrapper< Rml::Vector< std::string > > result;
   Rml::Vector< std::string > *_swig_go_result;
   
@@ -4984,25 +5857,25 @@ Rml::Vector< std::string > *_wrap_GetTextureSourceList_rmlui_f4184bb58ea63e28() 
 }
 
 
-void _wrap_ReleaseTextures_rmlui_f4184bb58ea63e28() {
+void _wrap_ReleaseTextures_rmlui_a39a0a49a8e50a2c() {
   Rml::ReleaseTextures();
   
 }
 
 
-void _wrap_ReleaseCompiledGeometry_rmlui_f4184bb58ea63e28() {
+void _wrap_ReleaseCompiledGeometry_rmlui_a39a0a49a8e50a2c() {
   Rml::ReleaseCompiledGeometry();
   
 }
 
 
-void _wrap_ReleaseFontResources_rmlui_f4184bb58ea63e28() {
+void _wrap_ReleaseFontResources_rmlui_a39a0a49a8e50a2c() {
   Rml::ReleaseFontResources();
   
 }
 
 
-void _wrap_ReleaseMemoryPools_rmlui_f4184bb58ea63e28() {
+void _wrap_ReleaseMemoryPools_rmlui_a39a0a49a8e50a2c() {
   Rml::ReleaseMemoryPools();
   
 }

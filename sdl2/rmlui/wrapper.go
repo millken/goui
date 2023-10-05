@@ -8,9 +8,20 @@ package rmlui
 
 typedef long long intgo;
 typedef unsigned long long uintgo;
+typedef struct { char *p; intgo n; } _gostring_;
+typedef struct { void* array; intgo len; intgo cap; } _goslice_;
+
+typedef _gostring_ swig_type_1;
+typedef _gostring_ swig_type_2;
+typedef _gostring_ swig_type_3;
+typedef _gostring_ swig_type_4;
 
 extern uintptr_t _wrap_new_Vector2Int__SWIG_1_rmlui(swig_intgo arg1);
 extern uintptr_t _wrap_new_Vector2Int__SWIG_2_rmlui(swig_intgo arg1, swig_intgo arg2);
+extern uintptr_t _wrap_Context_LoadDocument__SWIG_0_rmlui(uintptr_t arg1, swig_type_4 arg2);
+extern uintptr_t _wrap_new_Context_rmlui(swig_type_1 arg1);
+
+
 #undef intgo
 */
 import "C"

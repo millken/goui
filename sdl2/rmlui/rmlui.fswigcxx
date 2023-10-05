@@ -1,13 +1,9 @@
 %module(directors="1") rmlui
 
-%{
-#include "RmlUi/Core/Header.h"
 
-#include "RmlUi/Config/Config.h"
-#include "RmlUi/Core/ID.h"
-#include "RmlUi/Core/StyleTypes.h"
-#include "RmlUi/Core/Math.h"
+%{
 #include "RmlUi/Core.h"
+
 %}
 
 %ignore Rml::Math;
@@ -23,4 +19,12 @@
 %include "RmlUi/Core/StyleTypes.h"
 %include "RmlUi/Core/Math.h"
 %include "RmlUi/Config/Config.h"
+%feature("director") Rml::ScriptInterface;
+%ignore Rml::Context::GetHoverElement;
+%ignore Rml::Context::GetFocusElement;
+%ignore Rml::Context::GetRootElement;
+%ignore Rml::Context::GetElementAtPoint;
+%ignore Rml::Context::GetRootElement;
+%include "RmlUi/Core/Context.h"
+
 %include "RmlUi/Core/Core.h"
