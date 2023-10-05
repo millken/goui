@@ -499,30 +499,26 @@ extern void _wrap_ReleaseMemoryPools_rmlui_a39a0a49a8e50a2c(void);
 */
 import "C"
 
-import "unsafe"
-import _ "runtime/cgo"
-import "sync"
-
+import (
+	_ "runtime/cgo"
+	"sync"
+	"unsafe"
+)
 
 type _ unsafe.Pointer
-
-
 
 var Swig_escape_always_false bool
 var Swig_escape_val interface{}
 
-
 type _swig_fnptr *byte
 type _swig_memberptr *byte
 
-
-func getSwigcptr(v interface { Swigcptr() uintptr }) uintptr {
+func getSwigcptr(v interface{ Swigcptr() uintptr }) uintptr {
 	if v == nil {
 		return 0
 	}
 	return v.Swigcptr()
 }
-
 
 type _ sync.Mutex
 
@@ -537,13 +533,16 @@ func cgo_panic__rmlui_a39a0a49a8e50a2c(p *byte) {
 	panic(string(s))
 }
 
+type swig_gostring struct {
+	p uintptr
+	n int
+}
 
-type swig_gostring struct { p uintptr; n int }
 func swigCopyString(s string) string {
-  p := *(*swig_gostring)(unsafe.Pointer(&s))
-  r := string((*[0x7fffffff]byte)(unsafe.Pointer(p.p))[:p.n])
-  Swig_free(p.p)
-  return r
+	p := *(*swig_gostring)(unsafe.Pointer(&s))
+	r := string((*[0x7fffffff]byte)(unsafe.Pointer(p.p))[:p.n])
+	Swig_free(p.p)
+	return r
 }
 
 func Swig_free(arg1 uintptr) {
@@ -559,7 +558,9 @@ func Swig_malloc(arg1 int) (_swig_ret uintptr) {
 }
 
 const RMLUI_STATIC_LIB bool = false
+
 type RmlShorthandId int
+
 func _swig_getShorthandId_Invalid() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_Invalid_rmlui_a39a0a49a8e50a2c())
@@ -567,6 +568,7 @@ func _swig_getShorthandId_Invalid() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_Invalid RmlShorthandId = _swig_getShorthandId_Invalid()
+
 func _swig_getShorthandId_Margin() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_Margin_rmlui_a39a0a49a8e50a2c())
@@ -574,6 +576,7 @@ func _swig_getShorthandId_Margin() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_Margin RmlShorthandId = _swig_getShorthandId_Margin()
+
 func _swig_getShorthandId_Padding() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_Padding_rmlui_a39a0a49a8e50a2c())
@@ -581,6 +584,7 @@ func _swig_getShorthandId_Padding() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_Padding RmlShorthandId = _swig_getShorthandId_Padding()
+
 func _swig_getShorthandId_BorderWidth() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_BorderWidth_rmlui_a39a0a49a8e50a2c())
@@ -588,6 +592,7 @@ func _swig_getShorthandId_BorderWidth() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_BorderWidth RmlShorthandId = _swig_getShorthandId_BorderWidth()
+
 func _swig_getShorthandId_BorderColor() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_BorderColor_rmlui_a39a0a49a8e50a2c())
@@ -595,6 +600,7 @@ func _swig_getShorthandId_BorderColor() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_BorderColor RmlShorthandId = _swig_getShorthandId_BorderColor()
+
 func _swig_getShorthandId_BorderTop() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_BorderTop_rmlui_a39a0a49a8e50a2c())
@@ -602,6 +608,7 @@ func _swig_getShorthandId_BorderTop() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_BorderTop RmlShorthandId = _swig_getShorthandId_BorderTop()
+
 func _swig_getShorthandId_BorderRight() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_BorderRight_rmlui_a39a0a49a8e50a2c())
@@ -609,6 +616,7 @@ func _swig_getShorthandId_BorderRight() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_BorderRight RmlShorthandId = _swig_getShorthandId_BorderRight()
+
 func _swig_getShorthandId_BorderBottom() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_BorderBottom_rmlui_a39a0a49a8e50a2c())
@@ -616,6 +624,7 @@ func _swig_getShorthandId_BorderBottom() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_BorderBottom RmlShorthandId = _swig_getShorthandId_BorderBottom()
+
 func _swig_getShorthandId_BorderLeft() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_BorderLeft_rmlui_a39a0a49a8e50a2c())
@@ -623,6 +632,7 @@ func _swig_getShorthandId_BorderLeft() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_BorderLeft RmlShorthandId = _swig_getShorthandId_BorderLeft()
+
 func _swig_getShorthandId_Border() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_Border_rmlui_a39a0a49a8e50a2c())
@@ -630,6 +640,7 @@ func _swig_getShorthandId_Border() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_Border RmlShorthandId = _swig_getShorthandId_Border()
+
 func _swig_getShorthandId_BorderRadius() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_BorderRadius_rmlui_a39a0a49a8e50a2c())
@@ -637,6 +648,7 @@ func _swig_getShorthandId_BorderRadius() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_BorderRadius RmlShorthandId = _swig_getShorthandId_BorderRadius()
+
 func _swig_getShorthandId_Overflow() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_Overflow_rmlui_a39a0a49a8e50a2c())
@@ -644,6 +656,7 @@ func _swig_getShorthandId_Overflow() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_Overflow RmlShorthandId = _swig_getShorthandId_Overflow()
+
 func _swig_getShorthandId_Background() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_Background_rmlui_a39a0a49a8e50a2c())
@@ -651,6 +664,7 @@ func _swig_getShorthandId_Background() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_Background RmlShorthandId = _swig_getShorthandId_Background()
+
 func _swig_getShorthandId_Font() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_Font_rmlui_a39a0a49a8e50a2c())
@@ -658,6 +672,7 @@ func _swig_getShorthandId_Font() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_Font RmlShorthandId = _swig_getShorthandId_Font()
+
 func _swig_getShorthandId_Gap() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_Gap_rmlui_a39a0a49a8e50a2c())
@@ -665,6 +680,7 @@ func _swig_getShorthandId_Gap() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_Gap RmlShorthandId = _swig_getShorthandId_Gap()
+
 func _swig_getShorthandId_PerspectiveOrigin() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_PerspectiveOrigin_rmlui_a39a0a49a8e50a2c())
@@ -672,6 +688,7 @@ func _swig_getShorthandId_PerspectiveOrigin() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_PerspectiveOrigin RmlShorthandId = _swig_getShorthandId_PerspectiveOrigin()
+
 func _swig_getShorthandId_TransformOrigin() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_TransformOrigin_rmlui_a39a0a49a8e50a2c())
@@ -679,6 +696,7 @@ func _swig_getShorthandId_TransformOrigin() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_TransformOrigin RmlShorthandId = _swig_getShorthandId_TransformOrigin()
+
 func _swig_getShorthandId_Flex() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_Flex_rmlui_a39a0a49a8e50a2c())
@@ -686,6 +704,7 @@ func _swig_getShorthandId_Flex() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_Flex RmlShorthandId = _swig_getShorthandId_Flex()
+
 func _swig_getShorthandId_FlexFlow() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_FlexFlow_rmlui_a39a0a49a8e50a2c())
@@ -693,6 +712,7 @@ func _swig_getShorthandId_FlexFlow() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_FlexFlow RmlShorthandId = _swig_getShorthandId_FlexFlow()
+
 func _swig_getShorthandId_NumDefinedIds() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_NumDefinedIds_rmlui_a39a0a49a8e50a2c())
@@ -700,6 +720,7 @@ func _swig_getShorthandId_NumDefinedIds() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_NumDefinedIds RmlShorthandId = _swig_getShorthandId_NumDefinedIds()
+
 func _swig_getShorthandId_FirstCustomId() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_FirstCustomId_rmlui_a39a0a49a8e50a2c())
@@ -707,6 +728,7 @@ func _swig_getShorthandId_FirstCustomId() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_FirstCustomId RmlShorthandId = _swig_getShorthandId_FirstCustomId()
+
 func _swig_getShorthandId_MaxNumIds() (_swig_ret RmlShorthandId) {
 	var swig_r RmlShorthandId
 	swig_r = (RmlShorthandId)(C._wrap_ShorthandId_MaxNumIds_rmlui_a39a0a49a8e50a2c())
@@ -714,7 +736,9 @@ func _swig_getShorthandId_MaxNumIds() (_swig_ret RmlShorthandId) {
 }
 
 var ShorthandId_MaxNumIds RmlShorthandId = _swig_getShorthandId_MaxNumIds()
+
 type RmlPropertyId int
+
 func _swig_getPropertyId_Invalid() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Invalid_rmlui_a39a0a49a8e50a2c())
@@ -722,6 +746,7 @@ func _swig_getPropertyId_Invalid() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Invalid RmlPropertyId = _swig_getPropertyId_Invalid()
+
 func _swig_getPropertyId_MarginTop() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_MarginTop_rmlui_a39a0a49a8e50a2c())
@@ -729,6 +754,7 @@ func _swig_getPropertyId_MarginTop() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_MarginTop RmlPropertyId = _swig_getPropertyId_MarginTop()
+
 func _swig_getPropertyId_MarginRight() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_MarginRight_rmlui_a39a0a49a8e50a2c())
@@ -736,6 +762,7 @@ func _swig_getPropertyId_MarginRight() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_MarginRight RmlPropertyId = _swig_getPropertyId_MarginRight()
+
 func _swig_getPropertyId_MarginBottom() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_MarginBottom_rmlui_a39a0a49a8e50a2c())
@@ -743,6 +770,7 @@ func _swig_getPropertyId_MarginBottom() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_MarginBottom RmlPropertyId = _swig_getPropertyId_MarginBottom()
+
 func _swig_getPropertyId_MarginLeft() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_MarginLeft_rmlui_a39a0a49a8e50a2c())
@@ -750,6 +778,7 @@ func _swig_getPropertyId_MarginLeft() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_MarginLeft RmlPropertyId = _swig_getPropertyId_MarginLeft()
+
 func _swig_getPropertyId_PaddingTop() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_PaddingTop_rmlui_a39a0a49a8e50a2c())
@@ -757,6 +786,7 @@ func _swig_getPropertyId_PaddingTop() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_PaddingTop RmlPropertyId = _swig_getPropertyId_PaddingTop()
+
 func _swig_getPropertyId_PaddingRight() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_PaddingRight_rmlui_a39a0a49a8e50a2c())
@@ -764,6 +794,7 @@ func _swig_getPropertyId_PaddingRight() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_PaddingRight RmlPropertyId = _swig_getPropertyId_PaddingRight()
+
 func _swig_getPropertyId_PaddingBottom() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_PaddingBottom_rmlui_a39a0a49a8e50a2c())
@@ -771,6 +802,7 @@ func _swig_getPropertyId_PaddingBottom() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_PaddingBottom RmlPropertyId = _swig_getPropertyId_PaddingBottom()
+
 func _swig_getPropertyId_PaddingLeft() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_PaddingLeft_rmlui_a39a0a49a8e50a2c())
@@ -778,6 +810,7 @@ func _swig_getPropertyId_PaddingLeft() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_PaddingLeft RmlPropertyId = _swig_getPropertyId_PaddingLeft()
+
 func _swig_getPropertyId_BorderTopWidth() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_BorderTopWidth_rmlui_a39a0a49a8e50a2c())
@@ -785,6 +818,7 @@ func _swig_getPropertyId_BorderTopWidth() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_BorderTopWidth RmlPropertyId = _swig_getPropertyId_BorderTopWidth()
+
 func _swig_getPropertyId_BorderRightWidth() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_BorderRightWidth_rmlui_a39a0a49a8e50a2c())
@@ -792,6 +826,7 @@ func _swig_getPropertyId_BorderRightWidth() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_BorderRightWidth RmlPropertyId = _swig_getPropertyId_BorderRightWidth()
+
 func _swig_getPropertyId_BorderBottomWidth() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_BorderBottomWidth_rmlui_a39a0a49a8e50a2c())
@@ -799,6 +834,7 @@ func _swig_getPropertyId_BorderBottomWidth() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_BorderBottomWidth RmlPropertyId = _swig_getPropertyId_BorderBottomWidth()
+
 func _swig_getPropertyId_BorderLeftWidth() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_BorderLeftWidth_rmlui_a39a0a49a8e50a2c())
@@ -806,6 +842,7 @@ func _swig_getPropertyId_BorderLeftWidth() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_BorderLeftWidth RmlPropertyId = _swig_getPropertyId_BorderLeftWidth()
+
 func _swig_getPropertyId_BorderTopColor() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_BorderTopColor_rmlui_a39a0a49a8e50a2c())
@@ -813,6 +850,7 @@ func _swig_getPropertyId_BorderTopColor() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_BorderTopColor RmlPropertyId = _swig_getPropertyId_BorderTopColor()
+
 func _swig_getPropertyId_BorderRightColor() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_BorderRightColor_rmlui_a39a0a49a8e50a2c())
@@ -820,6 +858,7 @@ func _swig_getPropertyId_BorderRightColor() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_BorderRightColor RmlPropertyId = _swig_getPropertyId_BorderRightColor()
+
 func _swig_getPropertyId_BorderBottomColor() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_BorderBottomColor_rmlui_a39a0a49a8e50a2c())
@@ -827,6 +866,7 @@ func _swig_getPropertyId_BorderBottomColor() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_BorderBottomColor RmlPropertyId = _swig_getPropertyId_BorderBottomColor()
+
 func _swig_getPropertyId_BorderLeftColor() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_BorderLeftColor_rmlui_a39a0a49a8e50a2c())
@@ -834,6 +874,7 @@ func _swig_getPropertyId_BorderLeftColor() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_BorderLeftColor RmlPropertyId = _swig_getPropertyId_BorderLeftColor()
+
 func _swig_getPropertyId_BorderTopLeftRadius() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_BorderTopLeftRadius_rmlui_a39a0a49a8e50a2c())
@@ -841,6 +882,7 @@ func _swig_getPropertyId_BorderTopLeftRadius() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_BorderTopLeftRadius RmlPropertyId = _swig_getPropertyId_BorderTopLeftRadius()
+
 func _swig_getPropertyId_BorderTopRightRadius() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_BorderTopRightRadius_rmlui_a39a0a49a8e50a2c())
@@ -848,6 +890,7 @@ func _swig_getPropertyId_BorderTopRightRadius() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_BorderTopRightRadius RmlPropertyId = _swig_getPropertyId_BorderTopRightRadius()
+
 func _swig_getPropertyId_BorderBottomRightRadius() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_BorderBottomRightRadius_rmlui_a39a0a49a8e50a2c())
@@ -855,6 +898,7 @@ func _swig_getPropertyId_BorderBottomRightRadius() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_BorderBottomRightRadius RmlPropertyId = _swig_getPropertyId_BorderBottomRightRadius()
+
 func _swig_getPropertyId_BorderBottomLeftRadius() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_BorderBottomLeftRadius_rmlui_a39a0a49a8e50a2c())
@@ -862,6 +906,7 @@ func _swig_getPropertyId_BorderBottomLeftRadius() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_BorderBottomLeftRadius RmlPropertyId = _swig_getPropertyId_BorderBottomLeftRadius()
+
 func _swig_getPropertyId_Display() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Display_rmlui_a39a0a49a8e50a2c())
@@ -869,6 +914,7 @@ func _swig_getPropertyId_Display() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Display RmlPropertyId = _swig_getPropertyId_Display()
+
 func _swig_getPropertyId_Position() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Position_rmlui_a39a0a49a8e50a2c())
@@ -876,6 +922,7 @@ func _swig_getPropertyId_Position() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Position RmlPropertyId = _swig_getPropertyId_Position()
+
 func _swig_getPropertyId_Top() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Top_rmlui_a39a0a49a8e50a2c())
@@ -883,6 +930,7 @@ func _swig_getPropertyId_Top() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Top RmlPropertyId = _swig_getPropertyId_Top()
+
 func _swig_getPropertyId_Right() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Right_rmlui_a39a0a49a8e50a2c())
@@ -890,6 +938,7 @@ func _swig_getPropertyId_Right() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Right RmlPropertyId = _swig_getPropertyId_Right()
+
 func _swig_getPropertyId_Bottom() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Bottom_rmlui_a39a0a49a8e50a2c())
@@ -897,6 +946,7 @@ func _swig_getPropertyId_Bottom() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Bottom RmlPropertyId = _swig_getPropertyId_Bottom()
+
 func _swig_getPropertyId_Left() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Left_rmlui_a39a0a49a8e50a2c())
@@ -904,6 +954,7 @@ func _swig_getPropertyId_Left() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Left RmlPropertyId = _swig_getPropertyId_Left()
+
 func _swig_getPropertyId_Float() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Float_rmlui_a39a0a49a8e50a2c())
@@ -911,6 +962,7 @@ func _swig_getPropertyId_Float() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Float RmlPropertyId = _swig_getPropertyId_Float()
+
 func _swig_getPropertyId_Clear() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Clear_rmlui_a39a0a49a8e50a2c())
@@ -918,6 +970,7 @@ func _swig_getPropertyId_Clear() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Clear RmlPropertyId = _swig_getPropertyId_Clear()
+
 func _swig_getPropertyId_BoxSizing() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_BoxSizing_rmlui_a39a0a49a8e50a2c())
@@ -925,6 +978,7 @@ func _swig_getPropertyId_BoxSizing() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_BoxSizing RmlPropertyId = _swig_getPropertyId_BoxSizing()
+
 func _swig_getPropertyId_ZIndex() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_ZIndex_rmlui_a39a0a49a8e50a2c())
@@ -932,6 +986,7 @@ func _swig_getPropertyId_ZIndex() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_ZIndex RmlPropertyId = _swig_getPropertyId_ZIndex()
+
 func _swig_getPropertyId_Width() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Width_rmlui_a39a0a49a8e50a2c())
@@ -939,6 +994,7 @@ func _swig_getPropertyId_Width() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Width RmlPropertyId = _swig_getPropertyId_Width()
+
 func _swig_getPropertyId_MinWidth() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_MinWidth_rmlui_a39a0a49a8e50a2c())
@@ -946,6 +1002,7 @@ func _swig_getPropertyId_MinWidth() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_MinWidth RmlPropertyId = _swig_getPropertyId_MinWidth()
+
 func _swig_getPropertyId_MaxWidth() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_MaxWidth_rmlui_a39a0a49a8e50a2c())
@@ -953,6 +1010,7 @@ func _swig_getPropertyId_MaxWidth() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_MaxWidth RmlPropertyId = _swig_getPropertyId_MaxWidth()
+
 func _swig_getPropertyId_Height() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Height_rmlui_a39a0a49a8e50a2c())
@@ -960,6 +1018,7 @@ func _swig_getPropertyId_Height() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Height RmlPropertyId = _swig_getPropertyId_Height()
+
 func _swig_getPropertyId_MinHeight() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_MinHeight_rmlui_a39a0a49a8e50a2c())
@@ -967,6 +1026,7 @@ func _swig_getPropertyId_MinHeight() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_MinHeight RmlPropertyId = _swig_getPropertyId_MinHeight()
+
 func _swig_getPropertyId_MaxHeight() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_MaxHeight_rmlui_a39a0a49a8e50a2c())
@@ -974,6 +1034,7 @@ func _swig_getPropertyId_MaxHeight() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_MaxHeight RmlPropertyId = _swig_getPropertyId_MaxHeight()
+
 func _swig_getPropertyId_LineHeight() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_LineHeight_rmlui_a39a0a49a8e50a2c())
@@ -981,6 +1042,7 @@ func _swig_getPropertyId_LineHeight() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_LineHeight RmlPropertyId = _swig_getPropertyId_LineHeight()
+
 func _swig_getPropertyId_VerticalAlign() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_VerticalAlign_rmlui_a39a0a49a8e50a2c())
@@ -988,6 +1050,7 @@ func _swig_getPropertyId_VerticalAlign() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_VerticalAlign RmlPropertyId = _swig_getPropertyId_VerticalAlign()
+
 func _swig_getPropertyId_OverflowX() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_OverflowX_rmlui_a39a0a49a8e50a2c())
@@ -995,6 +1058,7 @@ func _swig_getPropertyId_OverflowX() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_OverflowX RmlPropertyId = _swig_getPropertyId_OverflowX()
+
 func _swig_getPropertyId_OverflowY() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_OverflowY_rmlui_a39a0a49a8e50a2c())
@@ -1002,6 +1066,7 @@ func _swig_getPropertyId_OverflowY() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_OverflowY RmlPropertyId = _swig_getPropertyId_OverflowY()
+
 func _swig_getPropertyId_Clip() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Clip_rmlui_a39a0a49a8e50a2c())
@@ -1009,6 +1074,7 @@ func _swig_getPropertyId_Clip() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Clip RmlPropertyId = _swig_getPropertyId_Clip()
+
 func _swig_getPropertyId_Visibility() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Visibility_rmlui_a39a0a49a8e50a2c())
@@ -1016,6 +1082,7 @@ func _swig_getPropertyId_Visibility() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Visibility RmlPropertyId = _swig_getPropertyId_Visibility()
+
 func _swig_getPropertyId_BackgroundColor() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_BackgroundColor_rmlui_a39a0a49a8e50a2c())
@@ -1023,6 +1090,7 @@ func _swig_getPropertyId_BackgroundColor() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_BackgroundColor RmlPropertyId = _swig_getPropertyId_BackgroundColor()
+
 func _swig_getPropertyId_Color() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Color_rmlui_a39a0a49a8e50a2c())
@@ -1030,6 +1098,7 @@ func _swig_getPropertyId_Color() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Color RmlPropertyId = _swig_getPropertyId_Color()
+
 func _swig_getPropertyId_CaretColor() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_CaretColor_rmlui_a39a0a49a8e50a2c())
@@ -1037,6 +1106,7 @@ func _swig_getPropertyId_CaretColor() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_CaretColor RmlPropertyId = _swig_getPropertyId_CaretColor()
+
 func _swig_getPropertyId_ImageColor() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_ImageColor_rmlui_a39a0a49a8e50a2c())
@@ -1044,6 +1114,7 @@ func _swig_getPropertyId_ImageColor() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_ImageColor RmlPropertyId = _swig_getPropertyId_ImageColor()
+
 func _swig_getPropertyId_FontFamily() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_FontFamily_rmlui_a39a0a49a8e50a2c())
@@ -1051,6 +1122,7 @@ func _swig_getPropertyId_FontFamily() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_FontFamily RmlPropertyId = _swig_getPropertyId_FontFamily()
+
 func _swig_getPropertyId_FontStyle() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_FontStyle_rmlui_a39a0a49a8e50a2c())
@@ -1058,6 +1130,7 @@ func _swig_getPropertyId_FontStyle() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_FontStyle RmlPropertyId = _swig_getPropertyId_FontStyle()
+
 func _swig_getPropertyId_FontWeight() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_FontWeight_rmlui_a39a0a49a8e50a2c())
@@ -1065,6 +1138,7 @@ func _swig_getPropertyId_FontWeight() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_FontWeight RmlPropertyId = _swig_getPropertyId_FontWeight()
+
 func _swig_getPropertyId_FontSize() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_FontSize_rmlui_a39a0a49a8e50a2c())
@@ -1072,6 +1146,7 @@ func _swig_getPropertyId_FontSize() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_FontSize RmlPropertyId = _swig_getPropertyId_FontSize()
+
 func _swig_getPropertyId_LetterSpacing() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_LetterSpacing_rmlui_a39a0a49a8e50a2c())
@@ -1079,6 +1154,7 @@ func _swig_getPropertyId_LetterSpacing() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_LetterSpacing RmlPropertyId = _swig_getPropertyId_LetterSpacing()
+
 func _swig_getPropertyId_TextAlign() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_TextAlign_rmlui_a39a0a49a8e50a2c())
@@ -1086,6 +1162,7 @@ func _swig_getPropertyId_TextAlign() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_TextAlign RmlPropertyId = _swig_getPropertyId_TextAlign()
+
 func _swig_getPropertyId_TextDecoration() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_TextDecoration_rmlui_a39a0a49a8e50a2c())
@@ -1093,6 +1170,7 @@ func _swig_getPropertyId_TextDecoration() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_TextDecoration RmlPropertyId = _swig_getPropertyId_TextDecoration()
+
 func _swig_getPropertyId_TextTransform() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_TextTransform_rmlui_a39a0a49a8e50a2c())
@@ -1100,6 +1178,7 @@ func _swig_getPropertyId_TextTransform() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_TextTransform RmlPropertyId = _swig_getPropertyId_TextTransform()
+
 func _swig_getPropertyId_WhiteSpace() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_WhiteSpace_rmlui_a39a0a49a8e50a2c())
@@ -1107,6 +1186,7 @@ func _swig_getPropertyId_WhiteSpace() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_WhiteSpace RmlPropertyId = _swig_getPropertyId_WhiteSpace()
+
 func _swig_getPropertyId_WordBreak() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_WordBreak_rmlui_a39a0a49a8e50a2c())
@@ -1114,6 +1194,7 @@ func _swig_getPropertyId_WordBreak() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_WordBreak RmlPropertyId = _swig_getPropertyId_WordBreak()
+
 func _swig_getPropertyId_RowGap() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_RowGap_rmlui_a39a0a49a8e50a2c())
@@ -1121,6 +1202,7 @@ func _swig_getPropertyId_RowGap() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_RowGap RmlPropertyId = _swig_getPropertyId_RowGap()
+
 func _swig_getPropertyId_ColumnGap() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_ColumnGap_rmlui_a39a0a49a8e50a2c())
@@ -1128,6 +1210,7 @@ func _swig_getPropertyId_ColumnGap() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_ColumnGap RmlPropertyId = _swig_getPropertyId_ColumnGap()
+
 func _swig_getPropertyId_Cursor() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Cursor_rmlui_a39a0a49a8e50a2c())
@@ -1135,6 +1218,7 @@ func _swig_getPropertyId_Cursor() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Cursor RmlPropertyId = _swig_getPropertyId_Cursor()
+
 func _swig_getPropertyId_Drag() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Drag_rmlui_a39a0a49a8e50a2c())
@@ -1142,6 +1226,7 @@ func _swig_getPropertyId_Drag() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Drag RmlPropertyId = _swig_getPropertyId_Drag()
+
 func _swig_getPropertyId_TabIndex() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_TabIndex_rmlui_a39a0a49a8e50a2c())
@@ -1149,6 +1234,7 @@ func _swig_getPropertyId_TabIndex() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_TabIndex RmlPropertyId = _swig_getPropertyId_TabIndex()
+
 func _swig_getPropertyId_ScrollbarMargin() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_ScrollbarMargin_rmlui_a39a0a49a8e50a2c())
@@ -1156,6 +1242,7 @@ func _swig_getPropertyId_ScrollbarMargin() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_ScrollbarMargin RmlPropertyId = _swig_getPropertyId_ScrollbarMargin()
+
 func _swig_getPropertyId_OverscrollBehavior() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_OverscrollBehavior_rmlui_a39a0a49a8e50a2c())
@@ -1163,6 +1250,7 @@ func _swig_getPropertyId_OverscrollBehavior() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_OverscrollBehavior RmlPropertyId = _swig_getPropertyId_OverscrollBehavior()
+
 func _swig_getPropertyId_Perspective() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Perspective_rmlui_a39a0a49a8e50a2c())
@@ -1170,6 +1258,7 @@ func _swig_getPropertyId_Perspective() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Perspective RmlPropertyId = _swig_getPropertyId_Perspective()
+
 func _swig_getPropertyId_PerspectiveOriginX() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_PerspectiveOriginX_rmlui_a39a0a49a8e50a2c())
@@ -1177,6 +1266,7 @@ func _swig_getPropertyId_PerspectiveOriginX() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_PerspectiveOriginX RmlPropertyId = _swig_getPropertyId_PerspectiveOriginX()
+
 func _swig_getPropertyId_PerspectiveOriginY() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_PerspectiveOriginY_rmlui_a39a0a49a8e50a2c())
@@ -1184,6 +1274,7 @@ func _swig_getPropertyId_PerspectiveOriginY() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_PerspectiveOriginY RmlPropertyId = _swig_getPropertyId_PerspectiveOriginY()
+
 func _swig_getPropertyId_Transform() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Transform_rmlui_a39a0a49a8e50a2c())
@@ -1191,6 +1282,7 @@ func _swig_getPropertyId_Transform() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Transform RmlPropertyId = _swig_getPropertyId_Transform()
+
 func _swig_getPropertyId_TransformOriginX() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_TransformOriginX_rmlui_a39a0a49a8e50a2c())
@@ -1198,6 +1290,7 @@ func _swig_getPropertyId_TransformOriginX() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_TransformOriginX RmlPropertyId = _swig_getPropertyId_TransformOriginX()
+
 func _swig_getPropertyId_TransformOriginY() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_TransformOriginY_rmlui_a39a0a49a8e50a2c())
@@ -1205,6 +1298,7 @@ func _swig_getPropertyId_TransformOriginY() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_TransformOriginY RmlPropertyId = _swig_getPropertyId_TransformOriginY()
+
 func _swig_getPropertyId_TransformOriginZ() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_TransformOriginZ_rmlui_a39a0a49a8e50a2c())
@@ -1212,6 +1306,7 @@ func _swig_getPropertyId_TransformOriginZ() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_TransformOriginZ RmlPropertyId = _swig_getPropertyId_TransformOriginZ()
+
 func _swig_getPropertyId_Transition() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Transition_rmlui_a39a0a49a8e50a2c())
@@ -1219,6 +1314,7 @@ func _swig_getPropertyId_Transition() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Transition RmlPropertyId = _swig_getPropertyId_Transition()
+
 func _swig_getPropertyId_Animation() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Animation_rmlui_a39a0a49a8e50a2c())
@@ -1226,6 +1322,7 @@ func _swig_getPropertyId_Animation() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Animation RmlPropertyId = _swig_getPropertyId_Animation()
+
 func _swig_getPropertyId_Opacity() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Opacity_rmlui_a39a0a49a8e50a2c())
@@ -1233,6 +1330,7 @@ func _swig_getPropertyId_Opacity() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Opacity RmlPropertyId = _swig_getPropertyId_Opacity()
+
 func _swig_getPropertyId_PointerEvents() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_PointerEvents_rmlui_a39a0a49a8e50a2c())
@@ -1240,6 +1338,7 @@ func _swig_getPropertyId_PointerEvents() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_PointerEvents RmlPropertyId = _swig_getPropertyId_PointerEvents()
+
 func _swig_getPropertyId_Focus() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Focus_rmlui_a39a0a49a8e50a2c())
@@ -1247,6 +1346,7 @@ func _swig_getPropertyId_Focus() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Focus RmlPropertyId = _swig_getPropertyId_Focus()
+
 func _swig_getPropertyId_Decorator() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_Decorator_rmlui_a39a0a49a8e50a2c())
@@ -1254,6 +1354,7 @@ func _swig_getPropertyId_Decorator() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_Decorator RmlPropertyId = _swig_getPropertyId_Decorator()
+
 func _swig_getPropertyId_FontEffect() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_FontEffect_rmlui_a39a0a49a8e50a2c())
@@ -1261,6 +1362,7 @@ func _swig_getPropertyId_FontEffect() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_FontEffect RmlPropertyId = _swig_getPropertyId_FontEffect()
+
 func _swig_getPropertyId_FillImage() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_FillImage_rmlui_a39a0a49a8e50a2c())
@@ -1268,6 +1370,7 @@ func _swig_getPropertyId_FillImage() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_FillImage RmlPropertyId = _swig_getPropertyId_FillImage()
+
 func _swig_getPropertyId_AlignContent() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_AlignContent_rmlui_a39a0a49a8e50a2c())
@@ -1275,6 +1378,7 @@ func _swig_getPropertyId_AlignContent() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_AlignContent RmlPropertyId = _swig_getPropertyId_AlignContent()
+
 func _swig_getPropertyId_AlignItems() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_AlignItems_rmlui_a39a0a49a8e50a2c())
@@ -1282,6 +1386,7 @@ func _swig_getPropertyId_AlignItems() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_AlignItems RmlPropertyId = _swig_getPropertyId_AlignItems()
+
 func _swig_getPropertyId_AlignSelf() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_AlignSelf_rmlui_a39a0a49a8e50a2c())
@@ -1289,6 +1394,7 @@ func _swig_getPropertyId_AlignSelf() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_AlignSelf RmlPropertyId = _swig_getPropertyId_AlignSelf()
+
 func _swig_getPropertyId_FlexBasis() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_FlexBasis_rmlui_a39a0a49a8e50a2c())
@@ -1296,6 +1402,7 @@ func _swig_getPropertyId_FlexBasis() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_FlexBasis RmlPropertyId = _swig_getPropertyId_FlexBasis()
+
 func _swig_getPropertyId_FlexDirection() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_FlexDirection_rmlui_a39a0a49a8e50a2c())
@@ -1303,6 +1410,7 @@ func _swig_getPropertyId_FlexDirection() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_FlexDirection RmlPropertyId = _swig_getPropertyId_FlexDirection()
+
 func _swig_getPropertyId_FlexGrow() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_FlexGrow_rmlui_a39a0a49a8e50a2c())
@@ -1310,6 +1418,7 @@ func _swig_getPropertyId_FlexGrow() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_FlexGrow RmlPropertyId = _swig_getPropertyId_FlexGrow()
+
 func _swig_getPropertyId_FlexShrink() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_FlexShrink_rmlui_a39a0a49a8e50a2c())
@@ -1317,6 +1426,7 @@ func _swig_getPropertyId_FlexShrink() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_FlexShrink RmlPropertyId = _swig_getPropertyId_FlexShrink()
+
 func _swig_getPropertyId_FlexWrap() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_FlexWrap_rmlui_a39a0a49a8e50a2c())
@@ -1324,6 +1434,7 @@ func _swig_getPropertyId_FlexWrap() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_FlexWrap RmlPropertyId = _swig_getPropertyId_FlexWrap()
+
 func _swig_getPropertyId_JustifyContent() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_JustifyContent_rmlui_a39a0a49a8e50a2c())
@@ -1331,6 +1442,7 @@ func _swig_getPropertyId_JustifyContent() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_JustifyContent RmlPropertyId = _swig_getPropertyId_JustifyContent()
+
 func _swig_getPropertyId_NumDefinedIds() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_NumDefinedIds_rmlui_a39a0a49a8e50a2c())
@@ -1338,6 +1450,7 @@ func _swig_getPropertyId_NumDefinedIds() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_NumDefinedIds RmlPropertyId = _swig_getPropertyId_NumDefinedIds()
+
 func _swig_getPropertyId_FirstCustomId() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_FirstCustomId_rmlui_a39a0a49a8e50a2c())
@@ -1345,6 +1458,7 @@ func _swig_getPropertyId_FirstCustomId() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_FirstCustomId RmlPropertyId = _swig_getPropertyId_FirstCustomId()
+
 func _swig_getPropertyId_MaxNumIds() (_swig_ret RmlPropertyId) {
 	var swig_r RmlPropertyId
 	swig_r = (RmlPropertyId)(C._wrap_PropertyId_MaxNumIds_rmlui_a39a0a49a8e50a2c())
@@ -1352,7 +1466,9 @@ func _swig_getPropertyId_MaxNumIds() (_swig_ret RmlPropertyId) {
 }
 
 var PropertyId_MaxNumIds RmlPropertyId = _swig_getPropertyId_MaxNumIds()
+
 type RmlMediaQueryId int
+
 func _swig_getMediaQueryId_Invalid() (_swig_ret RmlMediaQueryId) {
 	var swig_r RmlMediaQueryId
 	swig_r = (RmlMediaQueryId)(C._wrap_MediaQueryId_Invalid_rmlui_a39a0a49a8e50a2c())
@@ -1360,6 +1476,7 @@ func _swig_getMediaQueryId_Invalid() (_swig_ret RmlMediaQueryId) {
 }
 
 var MediaQueryId_Invalid RmlMediaQueryId = _swig_getMediaQueryId_Invalid()
+
 func _swig_getMediaQueryId_Width() (_swig_ret RmlMediaQueryId) {
 	var swig_r RmlMediaQueryId
 	swig_r = (RmlMediaQueryId)(C._wrap_MediaQueryId_Width_rmlui_a39a0a49a8e50a2c())
@@ -1367,6 +1484,7 @@ func _swig_getMediaQueryId_Width() (_swig_ret RmlMediaQueryId) {
 }
 
 var MediaQueryId_Width RmlMediaQueryId = _swig_getMediaQueryId_Width()
+
 func _swig_getMediaQueryId_MinWidth() (_swig_ret RmlMediaQueryId) {
 	var swig_r RmlMediaQueryId
 	swig_r = (RmlMediaQueryId)(C._wrap_MediaQueryId_MinWidth_rmlui_a39a0a49a8e50a2c())
@@ -1374,6 +1492,7 @@ func _swig_getMediaQueryId_MinWidth() (_swig_ret RmlMediaQueryId) {
 }
 
 var MediaQueryId_MinWidth RmlMediaQueryId = _swig_getMediaQueryId_MinWidth()
+
 func _swig_getMediaQueryId_MaxWidth() (_swig_ret RmlMediaQueryId) {
 	var swig_r RmlMediaQueryId
 	swig_r = (RmlMediaQueryId)(C._wrap_MediaQueryId_MaxWidth_rmlui_a39a0a49a8e50a2c())
@@ -1381,6 +1500,7 @@ func _swig_getMediaQueryId_MaxWidth() (_swig_ret RmlMediaQueryId) {
 }
 
 var MediaQueryId_MaxWidth RmlMediaQueryId = _swig_getMediaQueryId_MaxWidth()
+
 func _swig_getMediaQueryId_Height() (_swig_ret RmlMediaQueryId) {
 	var swig_r RmlMediaQueryId
 	swig_r = (RmlMediaQueryId)(C._wrap_MediaQueryId_Height_rmlui_a39a0a49a8e50a2c())
@@ -1388,6 +1508,7 @@ func _swig_getMediaQueryId_Height() (_swig_ret RmlMediaQueryId) {
 }
 
 var MediaQueryId_Height RmlMediaQueryId = _swig_getMediaQueryId_Height()
+
 func _swig_getMediaQueryId_MinHeight() (_swig_ret RmlMediaQueryId) {
 	var swig_r RmlMediaQueryId
 	swig_r = (RmlMediaQueryId)(C._wrap_MediaQueryId_MinHeight_rmlui_a39a0a49a8e50a2c())
@@ -1395,6 +1516,7 @@ func _swig_getMediaQueryId_MinHeight() (_swig_ret RmlMediaQueryId) {
 }
 
 var MediaQueryId_MinHeight RmlMediaQueryId = _swig_getMediaQueryId_MinHeight()
+
 func _swig_getMediaQueryId_MaxHeight() (_swig_ret RmlMediaQueryId) {
 	var swig_r RmlMediaQueryId
 	swig_r = (RmlMediaQueryId)(C._wrap_MediaQueryId_MaxHeight_rmlui_a39a0a49a8e50a2c())
@@ -1402,6 +1524,7 @@ func _swig_getMediaQueryId_MaxHeight() (_swig_ret RmlMediaQueryId) {
 }
 
 var MediaQueryId_MaxHeight RmlMediaQueryId = _swig_getMediaQueryId_MaxHeight()
+
 func _swig_getMediaQueryId_AspectRatio() (_swig_ret RmlMediaQueryId) {
 	var swig_r RmlMediaQueryId
 	swig_r = (RmlMediaQueryId)(C._wrap_MediaQueryId_AspectRatio_rmlui_a39a0a49a8e50a2c())
@@ -1409,6 +1532,7 @@ func _swig_getMediaQueryId_AspectRatio() (_swig_ret RmlMediaQueryId) {
 }
 
 var MediaQueryId_AspectRatio RmlMediaQueryId = _swig_getMediaQueryId_AspectRatio()
+
 func _swig_getMediaQueryId_MinAspectRatio() (_swig_ret RmlMediaQueryId) {
 	var swig_r RmlMediaQueryId
 	swig_r = (RmlMediaQueryId)(C._wrap_MediaQueryId_MinAspectRatio_rmlui_a39a0a49a8e50a2c())
@@ -1416,6 +1540,7 @@ func _swig_getMediaQueryId_MinAspectRatio() (_swig_ret RmlMediaQueryId) {
 }
 
 var MediaQueryId_MinAspectRatio RmlMediaQueryId = _swig_getMediaQueryId_MinAspectRatio()
+
 func _swig_getMediaQueryId_MaxAspectRatio() (_swig_ret RmlMediaQueryId) {
 	var swig_r RmlMediaQueryId
 	swig_r = (RmlMediaQueryId)(C._wrap_MediaQueryId_MaxAspectRatio_rmlui_a39a0a49a8e50a2c())
@@ -1423,6 +1548,7 @@ func _swig_getMediaQueryId_MaxAspectRatio() (_swig_ret RmlMediaQueryId) {
 }
 
 var MediaQueryId_MaxAspectRatio RmlMediaQueryId = _swig_getMediaQueryId_MaxAspectRatio()
+
 func _swig_getMediaQueryId_Resolution() (_swig_ret RmlMediaQueryId) {
 	var swig_r RmlMediaQueryId
 	swig_r = (RmlMediaQueryId)(C._wrap_MediaQueryId_Resolution_rmlui_a39a0a49a8e50a2c())
@@ -1430,6 +1556,7 @@ func _swig_getMediaQueryId_Resolution() (_swig_ret RmlMediaQueryId) {
 }
 
 var MediaQueryId_Resolution RmlMediaQueryId = _swig_getMediaQueryId_Resolution()
+
 func _swig_getMediaQueryId_MinResolution() (_swig_ret RmlMediaQueryId) {
 	var swig_r RmlMediaQueryId
 	swig_r = (RmlMediaQueryId)(C._wrap_MediaQueryId_MinResolution_rmlui_a39a0a49a8e50a2c())
@@ -1437,6 +1564,7 @@ func _swig_getMediaQueryId_MinResolution() (_swig_ret RmlMediaQueryId) {
 }
 
 var MediaQueryId_MinResolution RmlMediaQueryId = _swig_getMediaQueryId_MinResolution()
+
 func _swig_getMediaQueryId_MaxResolution() (_swig_ret RmlMediaQueryId) {
 	var swig_r RmlMediaQueryId
 	swig_r = (RmlMediaQueryId)(C._wrap_MediaQueryId_MaxResolution_rmlui_a39a0a49a8e50a2c())
@@ -1444,6 +1572,7 @@ func _swig_getMediaQueryId_MaxResolution() (_swig_ret RmlMediaQueryId) {
 }
 
 var MediaQueryId_MaxResolution RmlMediaQueryId = _swig_getMediaQueryId_MaxResolution()
+
 func _swig_getMediaQueryId_Orientation() (_swig_ret RmlMediaQueryId) {
 	var swig_r RmlMediaQueryId
 	swig_r = (RmlMediaQueryId)(C._wrap_MediaQueryId_Orientation_rmlui_a39a0a49a8e50a2c())
@@ -1451,6 +1580,7 @@ func _swig_getMediaQueryId_Orientation() (_swig_ret RmlMediaQueryId) {
 }
 
 var MediaQueryId_Orientation RmlMediaQueryId = _swig_getMediaQueryId_Orientation()
+
 func _swig_getMediaQueryId_Theme() (_swig_ret RmlMediaQueryId) {
 	var swig_r RmlMediaQueryId
 	swig_r = (RmlMediaQueryId)(C._wrap_MediaQueryId_Theme_rmlui_a39a0a49a8e50a2c())
@@ -1458,6 +1588,7 @@ func _swig_getMediaQueryId_Theme() (_swig_ret RmlMediaQueryId) {
 }
 
 var MediaQueryId_Theme RmlMediaQueryId = _swig_getMediaQueryId_Theme()
+
 func _swig_getMediaQueryId_NumDefinedIds() (_swig_ret RmlMediaQueryId) {
 	var swig_r RmlMediaQueryId
 	swig_r = (RmlMediaQueryId)(C._wrap_MediaQueryId_NumDefinedIds_rmlui_a39a0a49a8e50a2c())
@@ -1465,7 +1596,9 @@ func _swig_getMediaQueryId_NumDefinedIds() (_swig_ret RmlMediaQueryId) {
 }
 
 var MediaQueryId_NumDefinedIds RmlMediaQueryId = _swig_getMediaQueryId_NumDefinedIds()
+
 type RmlEventId int
+
 func _swig_getEventId_Invalid() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Invalid_rmlui_a39a0a49a8e50a2c())
@@ -1473,6 +1606,7 @@ func _swig_getEventId_Invalid() (_swig_ret RmlEventId) {
 }
 
 var EventId_Invalid RmlEventId = _swig_getEventId_Invalid()
+
 func _swig_getEventId_Mousedown() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Mousedown_rmlui_a39a0a49a8e50a2c())
@@ -1480,6 +1614,7 @@ func _swig_getEventId_Mousedown() (_swig_ret RmlEventId) {
 }
 
 var EventId_Mousedown RmlEventId = _swig_getEventId_Mousedown()
+
 func _swig_getEventId_Mousescroll() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Mousescroll_rmlui_a39a0a49a8e50a2c())
@@ -1487,6 +1622,7 @@ func _swig_getEventId_Mousescroll() (_swig_ret RmlEventId) {
 }
 
 var EventId_Mousescroll RmlEventId = _swig_getEventId_Mousescroll()
+
 func _swig_getEventId_Mouseover() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Mouseover_rmlui_a39a0a49a8e50a2c())
@@ -1494,6 +1630,7 @@ func _swig_getEventId_Mouseover() (_swig_ret RmlEventId) {
 }
 
 var EventId_Mouseover RmlEventId = _swig_getEventId_Mouseover()
+
 func _swig_getEventId_Mouseout() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Mouseout_rmlui_a39a0a49a8e50a2c())
@@ -1501,6 +1638,7 @@ func _swig_getEventId_Mouseout() (_swig_ret RmlEventId) {
 }
 
 var EventId_Mouseout RmlEventId = _swig_getEventId_Mouseout()
+
 func _swig_getEventId_Focus() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Focus_rmlui_a39a0a49a8e50a2c())
@@ -1508,6 +1646,7 @@ func _swig_getEventId_Focus() (_swig_ret RmlEventId) {
 }
 
 var EventId_Focus RmlEventId = _swig_getEventId_Focus()
+
 func _swig_getEventId_Blur() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Blur_rmlui_a39a0a49a8e50a2c())
@@ -1515,6 +1654,7 @@ func _swig_getEventId_Blur() (_swig_ret RmlEventId) {
 }
 
 var EventId_Blur RmlEventId = _swig_getEventId_Blur()
+
 func _swig_getEventId_Keydown() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Keydown_rmlui_a39a0a49a8e50a2c())
@@ -1522,6 +1662,7 @@ func _swig_getEventId_Keydown() (_swig_ret RmlEventId) {
 }
 
 var EventId_Keydown RmlEventId = _swig_getEventId_Keydown()
+
 func _swig_getEventId_Keyup() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Keyup_rmlui_a39a0a49a8e50a2c())
@@ -1529,6 +1670,7 @@ func _swig_getEventId_Keyup() (_swig_ret RmlEventId) {
 }
 
 var EventId_Keyup RmlEventId = _swig_getEventId_Keyup()
+
 func _swig_getEventId_Textinput() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Textinput_rmlui_a39a0a49a8e50a2c())
@@ -1536,6 +1678,7 @@ func _swig_getEventId_Textinput() (_swig_ret RmlEventId) {
 }
 
 var EventId_Textinput RmlEventId = _swig_getEventId_Textinput()
+
 func _swig_getEventId_Mouseup() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Mouseup_rmlui_a39a0a49a8e50a2c())
@@ -1543,6 +1686,7 @@ func _swig_getEventId_Mouseup() (_swig_ret RmlEventId) {
 }
 
 var EventId_Mouseup RmlEventId = _swig_getEventId_Mouseup()
+
 func _swig_getEventId_Click() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Click_rmlui_a39a0a49a8e50a2c())
@@ -1550,6 +1694,7 @@ func _swig_getEventId_Click() (_swig_ret RmlEventId) {
 }
 
 var EventId_Click RmlEventId = _swig_getEventId_Click()
+
 func _swig_getEventId_Dblclick() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Dblclick_rmlui_a39a0a49a8e50a2c())
@@ -1557,6 +1702,7 @@ func _swig_getEventId_Dblclick() (_swig_ret RmlEventId) {
 }
 
 var EventId_Dblclick RmlEventId = _swig_getEventId_Dblclick()
+
 func _swig_getEventId_Load() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Load_rmlui_a39a0a49a8e50a2c())
@@ -1564,6 +1710,7 @@ func _swig_getEventId_Load() (_swig_ret RmlEventId) {
 }
 
 var EventId_Load RmlEventId = _swig_getEventId_Load()
+
 func _swig_getEventId_Unload() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Unload_rmlui_a39a0a49a8e50a2c())
@@ -1571,6 +1718,7 @@ func _swig_getEventId_Unload() (_swig_ret RmlEventId) {
 }
 
 var EventId_Unload RmlEventId = _swig_getEventId_Unload()
+
 func _swig_getEventId_Show() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Show_rmlui_a39a0a49a8e50a2c())
@@ -1578,6 +1726,7 @@ func _swig_getEventId_Show() (_swig_ret RmlEventId) {
 }
 
 var EventId_Show RmlEventId = _swig_getEventId_Show()
+
 func _swig_getEventId_Hide() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Hide_rmlui_a39a0a49a8e50a2c())
@@ -1585,6 +1734,7 @@ func _swig_getEventId_Hide() (_swig_ret RmlEventId) {
 }
 
 var EventId_Hide RmlEventId = _swig_getEventId_Hide()
+
 func _swig_getEventId_Mousemove() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Mousemove_rmlui_a39a0a49a8e50a2c())
@@ -1592,6 +1742,7 @@ func _swig_getEventId_Mousemove() (_swig_ret RmlEventId) {
 }
 
 var EventId_Mousemove RmlEventId = _swig_getEventId_Mousemove()
+
 func _swig_getEventId_Dragmove() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Dragmove_rmlui_a39a0a49a8e50a2c())
@@ -1599,6 +1750,7 @@ func _swig_getEventId_Dragmove() (_swig_ret RmlEventId) {
 }
 
 var EventId_Dragmove RmlEventId = _swig_getEventId_Dragmove()
+
 func _swig_getEventId_Drag() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Drag_rmlui_a39a0a49a8e50a2c())
@@ -1606,6 +1758,7 @@ func _swig_getEventId_Drag() (_swig_ret RmlEventId) {
 }
 
 var EventId_Drag RmlEventId = _swig_getEventId_Drag()
+
 func _swig_getEventId_Dragstart() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Dragstart_rmlui_a39a0a49a8e50a2c())
@@ -1613,6 +1766,7 @@ func _swig_getEventId_Dragstart() (_swig_ret RmlEventId) {
 }
 
 var EventId_Dragstart RmlEventId = _swig_getEventId_Dragstart()
+
 func _swig_getEventId_Dragover() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Dragover_rmlui_a39a0a49a8e50a2c())
@@ -1620,6 +1774,7 @@ func _swig_getEventId_Dragover() (_swig_ret RmlEventId) {
 }
 
 var EventId_Dragover RmlEventId = _swig_getEventId_Dragover()
+
 func _swig_getEventId_Dragdrop() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Dragdrop_rmlui_a39a0a49a8e50a2c())
@@ -1627,6 +1782,7 @@ func _swig_getEventId_Dragdrop() (_swig_ret RmlEventId) {
 }
 
 var EventId_Dragdrop RmlEventId = _swig_getEventId_Dragdrop()
+
 func _swig_getEventId_Dragout() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Dragout_rmlui_a39a0a49a8e50a2c())
@@ -1634,6 +1790,7 @@ func _swig_getEventId_Dragout() (_swig_ret RmlEventId) {
 }
 
 var EventId_Dragout RmlEventId = _swig_getEventId_Dragout()
+
 func _swig_getEventId_Dragend() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Dragend_rmlui_a39a0a49a8e50a2c())
@@ -1641,6 +1798,7 @@ func _swig_getEventId_Dragend() (_swig_ret RmlEventId) {
 }
 
 var EventId_Dragend RmlEventId = _swig_getEventId_Dragend()
+
 func _swig_getEventId_Handledrag() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Handledrag_rmlui_a39a0a49a8e50a2c())
@@ -1648,6 +1806,7 @@ func _swig_getEventId_Handledrag() (_swig_ret RmlEventId) {
 }
 
 var EventId_Handledrag RmlEventId = _swig_getEventId_Handledrag()
+
 func _swig_getEventId_Resize() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Resize_rmlui_a39a0a49a8e50a2c())
@@ -1655,6 +1814,7 @@ func _swig_getEventId_Resize() (_swig_ret RmlEventId) {
 }
 
 var EventId_Resize RmlEventId = _swig_getEventId_Resize()
+
 func _swig_getEventId_Scroll() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Scroll_rmlui_a39a0a49a8e50a2c())
@@ -1662,6 +1822,7 @@ func _swig_getEventId_Scroll() (_swig_ret RmlEventId) {
 }
 
 var EventId_Scroll RmlEventId = _swig_getEventId_Scroll()
+
 func _swig_getEventId_Animationend() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Animationend_rmlui_a39a0a49a8e50a2c())
@@ -1669,6 +1830,7 @@ func _swig_getEventId_Animationend() (_swig_ret RmlEventId) {
 }
 
 var EventId_Animationend RmlEventId = _swig_getEventId_Animationend()
+
 func _swig_getEventId_Transitionend() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Transitionend_rmlui_a39a0a49a8e50a2c())
@@ -1676,6 +1838,7 @@ func _swig_getEventId_Transitionend() (_swig_ret RmlEventId) {
 }
 
 var EventId_Transitionend RmlEventId = _swig_getEventId_Transitionend()
+
 func _swig_getEventId_Change() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Change_rmlui_a39a0a49a8e50a2c())
@@ -1683,6 +1846,7 @@ func _swig_getEventId_Change() (_swig_ret RmlEventId) {
 }
 
 var EventId_Change RmlEventId = _swig_getEventId_Change()
+
 func _swig_getEventId_Submit() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Submit_rmlui_a39a0a49a8e50a2c())
@@ -1690,6 +1854,7 @@ func _swig_getEventId_Submit() (_swig_ret RmlEventId) {
 }
 
 var EventId_Submit RmlEventId = _swig_getEventId_Submit()
+
 func _swig_getEventId_Tabchange() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Tabchange_rmlui_a39a0a49a8e50a2c())
@@ -1697,6 +1862,7 @@ func _swig_getEventId_Tabchange() (_swig_ret RmlEventId) {
 }
 
 var EventId_Tabchange RmlEventId = _swig_getEventId_Tabchange()
+
 func _swig_getEventId_Columnadd() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Columnadd_rmlui_a39a0a49a8e50a2c())
@@ -1704,6 +1870,7 @@ func _swig_getEventId_Columnadd() (_swig_ret RmlEventId) {
 }
 
 var EventId_Columnadd RmlEventId = _swig_getEventId_Columnadd()
+
 func _swig_getEventId_Rowadd() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Rowadd_rmlui_a39a0a49a8e50a2c())
@@ -1711,6 +1878,7 @@ func _swig_getEventId_Rowadd() (_swig_ret RmlEventId) {
 }
 
 var EventId_Rowadd RmlEventId = _swig_getEventId_Rowadd()
+
 func _swig_getEventId_Rowchange() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Rowchange_rmlui_a39a0a49a8e50a2c())
@@ -1718,6 +1886,7 @@ func _swig_getEventId_Rowchange() (_swig_ret RmlEventId) {
 }
 
 var EventId_Rowchange RmlEventId = _swig_getEventId_Rowchange()
+
 func _swig_getEventId_Rowremove() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Rowremove_rmlui_a39a0a49a8e50a2c())
@@ -1725,6 +1894,7 @@ func _swig_getEventId_Rowremove() (_swig_ret RmlEventId) {
 }
 
 var EventId_Rowremove RmlEventId = _swig_getEventId_Rowremove()
+
 func _swig_getEventId_Rowupdate() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_Rowupdate_rmlui_a39a0a49a8e50a2c())
@@ -1732,6 +1902,7 @@ func _swig_getEventId_Rowupdate() (_swig_ret RmlEventId) {
 }
 
 var EventId_Rowupdate RmlEventId = _swig_getEventId_Rowupdate()
+
 func _swig_getEventId_NumDefinedIds() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_NumDefinedIds_rmlui_a39a0a49a8e50a2c())
@@ -1739,6 +1910,7 @@ func _swig_getEventId_NumDefinedIds() (_swig_ret RmlEventId) {
 }
 
 var EventId_NumDefinedIds RmlEventId = _swig_getEventId_NumDefinedIds()
+
 func _swig_getEventId_FirstCustomId() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_FirstCustomId_rmlui_a39a0a49a8e50a2c())
@@ -1746,6 +1918,7 @@ func _swig_getEventId_FirstCustomId() (_swig_ret RmlEventId) {
 }
 
 var EventId_FirstCustomId RmlEventId = _swig_getEventId_FirstCustomId()
+
 func _swig_getEventId_MaxNumIds() (_swig_ret RmlEventId) {
 	var swig_r RmlEventId
 	swig_r = (RmlEventId)(C._wrap_EventId_MaxNumIds_rmlui_a39a0a49a8e50a2c())
@@ -1753,6 +1926,7 @@ func _swig_getEventId_MaxNumIds() (_swig_ret RmlEventId) {
 }
 
 var EventId_MaxNumIds RmlEventId = _swig_getEventId_MaxNumIds()
+
 type SwigcptrLengthPercentageAuto uintptr
 
 func (p SwigcptrLengthPercentageAuto) Swigcptr() uintptr {
@@ -1763,6 +1937,7 @@ func (p SwigcptrLengthPercentageAuto) SwigIsLengthPercentageAuto() {
 }
 
 type RmlStyleLengthPercentageAutoType int
+
 func _swig_getLengthPercentageAuto_Auto_LengthPercentageAuto() (_swig_ret RmlStyleLengthPercentageAutoType) {
 	var swig_r RmlStyleLengthPercentageAutoType
 	swig_r = (RmlStyleLengthPercentageAutoType)(C._wrap_Auto_LengthPercentageAuto_rmlui_a39a0a49a8e50a2c())
@@ -1770,6 +1945,7 @@ func _swig_getLengthPercentageAuto_Auto_LengthPercentageAuto() (_swig_ret RmlSty
 }
 
 var LengthPercentageAutoAuto RmlStyleLengthPercentageAutoType = _swig_getLengthPercentageAuto_Auto_LengthPercentageAuto()
+
 func _swig_getLengthPercentageAuto_Length_LengthPercentageAuto() (_swig_ret RmlStyleLengthPercentageAutoType) {
 	var swig_r RmlStyleLengthPercentageAutoType
 	swig_r = (RmlStyleLengthPercentageAutoType)(C._wrap_Length_LengthPercentageAuto_rmlui_a39a0a49a8e50a2c())
@@ -1777,6 +1953,7 @@ func _swig_getLengthPercentageAuto_Length_LengthPercentageAuto() (_swig_ret RmlS
 }
 
 var LengthPercentageAutoLength RmlStyleLengthPercentageAutoType = _swig_getLengthPercentageAuto_Length_LengthPercentageAuto()
+
 func _swig_getLengthPercentageAuto_Percentage_LengthPercentageAuto() (_swig_ret RmlStyleLengthPercentageAutoType) {
 	var swig_r RmlStyleLengthPercentageAutoType
 	swig_r = (RmlStyleLengthPercentageAutoType)(C._wrap_Percentage_LengthPercentageAuto_rmlui_a39a0a49a8e50a2c())
@@ -1784,6 +1961,7 @@ func _swig_getLengthPercentageAuto_Percentage_LengthPercentageAuto() (_swig_ret 
 }
 
 var LengthPercentageAutoPercentage RmlStyleLengthPercentageAutoType = _swig_getLengthPercentageAuto_Percentage_LengthPercentageAuto()
+
 func (arg1 SwigcptrLengthPercentageAuto) SetXtype(arg2 RmlStyleLengthPercentageAutoType) {
 	_swig_i_0 := arg1
 	_swig_i_1 := arg2
@@ -1869,6 +2047,7 @@ func (p SwigcptrLengthPercentage) SwigIsLengthPercentage() {
 }
 
 type RmlStyleLengthPercentageType int
+
 func _swig_getLengthPercentage_Length_LengthPercentage() (_swig_ret RmlStyleLengthPercentageType) {
 	var swig_r RmlStyleLengthPercentageType
 	swig_r = (RmlStyleLengthPercentageType)(C._wrap_Length_LengthPercentage_rmlui_a39a0a49a8e50a2c())
@@ -1876,6 +2055,7 @@ func _swig_getLengthPercentage_Length_LengthPercentage() (_swig_ret RmlStyleLeng
 }
 
 var LengthPercentageLength RmlStyleLengthPercentageType = _swig_getLengthPercentage_Length_LengthPercentage()
+
 func _swig_getLengthPercentage_Percentage_LengthPercentage() (_swig_ret RmlStyleLengthPercentageType) {
 	var swig_r RmlStyleLengthPercentageType
 	swig_r = (RmlStyleLengthPercentageType)(C._wrap_Percentage_LengthPercentage_rmlui_a39a0a49a8e50a2c())
@@ -1883,6 +2063,7 @@ func _swig_getLengthPercentage_Percentage_LengthPercentage() (_swig_ret RmlStyle
 }
 
 var LengthPercentagePercentage RmlStyleLengthPercentageType = _swig_getLengthPercentage_Percentage_LengthPercentage()
+
 func (arg1 SwigcptrLengthPercentage) SetXtype(arg2 RmlStyleLengthPercentageType) {
 	_swig_i_0 := arg1
 	_swig_i_1 := arg2
@@ -1968,6 +2149,7 @@ func (p SwigcptrNumberAuto) SwigIsNumberAuto() {
 }
 
 type RmlStyleNumberAutoType int
+
 func _swig_getNumberAuto_Auto_NumberAuto() (_swig_ret RmlStyleNumberAutoType) {
 	var swig_r RmlStyleNumberAutoType
 	swig_r = (RmlStyleNumberAutoType)(C._wrap_Auto_NumberAuto_rmlui_a39a0a49a8e50a2c())
@@ -1975,6 +2157,7 @@ func _swig_getNumberAuto_Auto_NumberAuto() (_swig_ret RmlStyleNumberAutoType) {
 }
 
 var NumberAutoAuto RmlStyleNumberAutoType = _swig_getNumberAuto_Auto_NumberAuto()
+
 func _swig_getNumberAuto_Number_NumberAuto() (_swig_ret RmlStyleNumberAutoType) {
 	var swig_r RmlStyleNumberAutoType
 	swig_r = (RmlStyleNumberAutoType)(C._wrap_Number_NumberAuto_rmlui_a39a0a49a8e50a2c())
@@ -1982,6 +2165,7 @@ func _swig_getNumberAuto_Number_NumberAuto() (_swig_ret RmlStyleNumberAutoType) 
 }
 
 var NumberAutoNumber RmlStyleNumberAutoType = _swig_getNumberAuto_Number_NumberAuto()
+
 func (arg1 SwigcptrNumberAuto) SetXtype(arg2 RmlStyleNumberAutoType) {
 	_swig_i_0 := arg1
 	_swig_i_1 := arg2
@@ -2058,6 +2242,7 @@ type NumberAuto interface {
 }
 
 type RmlStyleDisplay int
+
 func _swig_getDisplay_None() (_swig_ret RmlStyleDisplay) {
 	var swig_r RmlStyleDisplay
 	swig_r = (RmlStyleDisplay)(C._wrap_Display_None_rmlui_a39a0a49a8e50a2c())
@@ -2065,6 +2250,7 @@ func _swig_getDisplay_None() (_swig_ret RmlStyleDisplay) {
 }
 
 var Display_None RmlStyleDisplay = _swig_getDisplay_None()
+
 func _swig_getDisplay_Block() (_swig_ret RmlStyleDisplay) {
 	var swig_r RmlStyleDisplay
 	swig_r = (RmlStyleDisplay)(C._wrap_Display_Block_rmlui_a39a0a49a8e50a2c())
@@ -2072,6 +2258,7 @@ func _swig_getDisplay_Block() (_swig_ret RmlStyleDisplay) {
 }
 
 var Display_Block RmlStyleDisplay = _swig_getDisplay_Block()
+
 func _swig_getDisplay_Inline() (_swig_ret RmlStyleDisplay) {
 	var swig_r RmlStyleDisplay
 	swig_r = (RmlStyleDisplay)(C._wrap_Display_Inline_rmlui_a39a0a49a8e50a2c())
@@ -2079,6 +2266,7 @@ func _swig_getDisplay_Inline() (_swig_ret RmlStyleDisplay) {
 }
 
 var Display_Inline RmlStyleDisplay = _swig_getDisplay_Inline()
+
 func _swig_getDisplay_InlineBlock() (_swig_ret RmlStyleDisplay) {
 	var swig_r RmlStyleDisplay
 	swig_r = (RmlStyleDisplay)(C._wrap_Display_InlineBlock_rmlui_a39a0a49a8e50a2c())
@@ -2086,6 +2274,7 @@ func _swig_getDisplay_InlineBlock() (_swig_ret RmlStyleDisplay) {
 }
 
 var Display_InlineBlock RmlStyleDisplay = _swig_getDisplay_InlineBlock()
+
 func _swig_getDisplay_FlowRoot() (_swig_ret RmlStyleDisplay) {
 	var swig_r RmlStyleDisplay
 	swig_r = (RmlStyleDisplay)(C._wrap_Display_FlowRoot_rmlui_a39a0a49a8e50a2c())
@@ -2093,6 +2282,7 @@ func _swig_getDisplay_FlowRoot() (_swig_ret RmlStyleDisplay) {
 }
 
 var Display_FlowRoot RmlStyleDisplay = _swig_getDisplay_FlowRoot()
+
 func _swig_getDisplay_Flex() (_swig_ret RmlStyleDisplay) {
 	var swig_r RmlStyleDisplay
 	swig_r = (RmlStyleDisplay)(C._wrap_Display_Flex_rmlui_a39a0a49a8e50a2c())
@@ -2100,6 +2290,7 @@ func _swig_getDisplay_Flex() (_swig_ret RmlStyleDisplay) {
 }
 
 var Display_Flex RmlStyleDisplay = _swig_getDisplay_Flex()
+
 func _swig_getDisplay_InlineFlex() (_swig_ret RmlStyleDisplay) {
 	var swig_r RmlStyleDisplay
 	swig_r = (RmlStyleDisplay)(C._wrap_Display_InlineFlex_rmlui_a39a0a49a8e50a2c())
@@ -2107,6 +2298,7 @@ func _swig_getDisplay_InlineFlex() (_swig_ret RmlStyleDisplay) {
 }
 
 var Display_InlineFlex RmlStyleDisplay = _swig_getDisplay_InlineFlex()
+
 func _swig_getDisplay_Table() (_swig_ret RmlStyleDisplay) {
 	var swig_r RmlStyleDisplay
 	swig_r = (RmlStyleDisplay)(C._wrap_Display_Table_rmlui_a39a0a49a8e50a2c())
@@ -2114,6 +2306,7 @@ func _swig_getDisplay_Table() (_swig_ret RmlStyleDisplay) {
 }
 
 var Display_Table RmlStyleDisplay = _swig_getDisplay_Table()
+
 func _swig_getDisplay_InlineTable() (_swig_ret RmlStyleDisplay) {
 	var swig_r RmlStyleDisplay
 	swig_r = (RmlStyleDisplay)(C._wrap_Display_InlineTable_rmlui_a39a0a49a8e50a2c())
@@ -2121,6 +2314,7 @@ func _swig_getDisplay_InlineTable() (_swig_ret RmlStyleDisplay) {
 }
 
 var Display_InlineTable RmlStyleDisplay = _swig_getDisplay_InlineTable()
+
 func _swig_getDisplay_TableRow() (_swig_ret RmlStyleDisplay) {
 	var swig_r RmlStyleDisplay
 	swig_r = (RmlStyleDisplay)(C._wrap_Display_TableRow_rmlui_a39a0a49a8e50a2c())
@@ -2128,6 +2322,7 @@ func _swig_getDisplay_TableRow() (_swig_ret RmlStyleDisplay) {
 }
 
 var Display_TableRow RmlStyleDisplay = _swig_getDisplay_TableRow()
+
 func _swig_getDisplay_TableRowGroup() (_swig_ret RmlStyleDisplay) {
 	var swig_r RmlStyleDisplay
 	swig_r = (RmlStyleDisplay)(C._wrap_Display_TableRowGroup_rmlui_a39a0a49a8e50a2c())
@@ -2135,6 +2330,7 @@ func _swig_getDisplay_TableRowGroup() (_swig_ret RmlStyleDisplay) {
 }
 
 var Display_TableRowGroup RmlStyleDisplay = _swig_getDisplay_TableRowGroup()
+
 func _swig_getDisplay_TableColumn() (_swig_ret RmlStyleDisplay) {
 	var swig_r RmlStyleDisplay
 	swig_r = (RmlStyleDisplay)(C._wrap_Display_TableColumn_rmlui_a39a0a49a8e50a2c())
@@ -2142,6 +2338,7 @@ func _swig_getDisplay_TableColumn() (_swig_ret RmlStyleDisplay) {
 }
 
 var Display_TableColumn RmlStyleDisplay = _swig_getDisplay_TableColumn()
+
 func _swig_getDisplay_TableColumnGroup() (_swig_ret RmlStyleDisplay) {
 	var swig_r RmlStyleDisplay
 	swig_r = (RmlStyleDisplay)(C._wrap_Display_TableColumnGroup_rmlui_a39a0a49a8e50a2c())
@@ -2149,6 +2346,7 @@ func _swig_getDisplay_TableColumnGroup() (_swig_ret RmlStyleDisplay) {
 }
 
 var Display_TableColumnGroup RmlStyleDisplay = _swig_getDisplay_TableColumnGroup()
+
 func _swig_getDisplay_TableCell() (_swig_ret RmlStyleDisplay) {
 	var swig_r RmlStyleDisplay
 	swig_r = (RmlStyleDisplay)(C._wrap_Display_TableCell_rmlui_a39a0a49a8e50a2c())
@@ -2156,7 +2354,9 @@ func _swig_getDisplay_TableCell() (_swig_ret RmlStyleDisplay) {
 }
 
 var Display_TableCell RmlStyleDisplay = _swig_getDisplay_TableCell()
+
 type RmlStylePosition int
+
 func _swig_getPosition_Static() (_swig_ret RmlStylePosition) {
 	var swig_r RmlStylePosition
 	swig_r = (RmlStylePosition)(C._wrap_Position_Static_rmlui_a39a0a49a8e50a2c())
@@ -2164,6 +2364,7 @@ func _swig_getPosition_Static() (_swig_ret RmlStylePosition) {
 }
 
 var Position_Static RmlStylePosition = _swig_getPosition_Static()
+
 func _swig_getPosition_Relative() (_swig_ret RmlStylePosition) {
 	var swig_r RmlStylePosition
 	swig_r = (RmlStylePosition)(C._wrap_Position_Relative_rmlui_a39a0a49a8e50a2c())
@@ -2171,6 +2372,7 @@ func _swig_getPosition_Relative() (_swig_ret RmlStylePosition) {
 }
 
 var Position_Relative RmlStylePosition = _swig_getPosition_Relative()
+
 func _swig_getPosition_Absolute() (_swig_ret RmlStylePosition) {
 	var swig_r RmlStylePosition
 	swig_r = (RmlStylePosition)(C._wrap_Position_Absolute_rmlui_a39a0a49a8e50a2c())
@@ -2178,6 +2380,7 @@ func _swig_getPosition_Absolute() (_swig_ret RmlStylePosition) {
 }
 
 var Position_Absolute RmlStylePosition = _swig_getPosition_Absolute()
+
 func _swig_getPosition_Fixed() (_swig_ret RmlStylePosition) {
 	var swig_r RmlStylePosition
 	swig_r = (RmlStylePosition)(C._wrap_Position_Fixed_rmlui_a39a0a49a8e50a2c())
@@ -2185,7 +2388,9 @@ func _swig_getPosition_Fixed() (_swig_ret RmlStylePosition) {
 }
 
 var Position_Fixed RmlStylePosition = _swig_getPosition_Fixed()
+
 type RmlStyleFloat int
+
 func _swig_getFloat_None() (_swig_ret RmlStyleFloat) {
 	var swig_r RmlStyleFloat
 	swig_r = (RmlStyleFloat)(C._wrap_Float_None_rmlui_a39a0a49a8e50a2c())
@@ -2193,6 +2398,7 @@ func _swig_getFloat_None() (_swig_ret RmlStyleFloat) {
 }
 
 var Float_None RmlStyleFloat = _swig_getFloat_None()
+
 func _swig_getFloat_Left() (_swig_ret RmlStyleFloat) {
 	var swig_r RmlStyleFloat
 	swig_r = (RmlStyleFloat)(C._wrap_Float_Left_rmlui_a39a0a49a8e50a2c())
@@ -2200,6 +2406,7 @@ func _swig_getFloat_Left() (_swig_ret RmlStyleFloat) {
 }
 
 var Float_Left RmlStyleFloat = _swig_getFloat_Left()
+
 func _swig_getFloat_Right() (_swig_ret RmlStyleFloat) {
 	var swig_r RmlStyleFloat
 	swig_r = (RmlStyleFloat)(C._wrap_Float_Right_rmlui_a39a0a49a8e50a2c())
@@ -2207,7 +2414,9 @@ func _swig_getFloat_Right() (_swig_ret RmlStyleFloat) {
 }
 
 var Float_Right RmlStyleFloat = _swig_getFloat_Right()
+
 type RmlStyleClear int
+
 func _swig_getClear_None() (_swig_ret RmlStyleClear) {
 	var swig_r RmlStyleClear
 	swig_r = (RmlStyleClear)(C._wrap_Clear_None_rmlui_a39a0a49a8e50a2c())
@@ -2215,6 +2424,7 @@ func _swig_getClear_None() (_swig_ret RmlStyleClear) {
 }
 
 var Clear_None RmlStyleClear = _swig_getClear_None()
+
 func _swig_getClear_Left() (_swig_ret RmlStyleClear) {
 	var swig_r RmlStyleClear
 	swig_r = (RmlStyleClear)(C._wrap_Clear_Left_rmlui_a39a0a49a8e50a2c())
@@ -2222,6 +2432,7 @@ func _swig_getClear_Left() (_swig_ret RmlStyleClear) {
 }
 
 var Clear_Left RmlStyleClear = _swig_getClear_Left()
+
 func _swig_getClear_Right() (_swig_ret RmlStyleClear) {
 	var swig_r RmlStyleClear
 	swig_r = (RmlStyleClear)(C._wrap_Clear_Right_rmlui_a39a0a49a8e50a2c())
@@ -2229,6 +2440,7 @@ func _swig_getClear_Right() (_swig_ret RmlStyleClear) {
 }
 
 var Clear_Right RmlStyleClear = _swig_getClear_Right()
+
 func _swig_getClear_Both() (_swig_ret RmlStyleClear) {
 	var swig_r RmlStyleClear
 	swig_r = (RmlStyleClear)(C._wrap_Clear_Both_rmlui_a39a0a49a8e50a2c())
@@ -2236,7 +2448,9 @@ func _swig_getClear_Both() (_swig_ret RmlStyleClear) {
 }
 
 var Clear_Both RmlStyleClear = _swig_getClear_Both()
+
 type RmlStyleBoxSizing int
+
 func _swig_getBoxSizing_ContentBox() (_swig_ret RmlStyleBoxSizing) {
 	var swig_r RmlStyleBoxSizing
 	swig_r = (RmlStyleBoxSizing)(C._wrap_BoxSizing_ContentBox_rmlui_a39a0a49a8e50a2c())
@@ -2244,6 +2458,7 @@ func _swig_getBoxSizing_ContentBox() (_swig_ret RmlStyleBoxSizing) {
 }
 
 var BoxSizing_ContentBox RmlStyleBoxSizing = _swig_getBoxSizing_ContentBox()
+
 func _swig_getBoxSizing_BorderBox() (_swig_ret RmlStyleBoxSizing) {
 	var swig_r RmlStyleBoxSizing
 	swig_r = (RmlStyleBoxSizing)(C._wrap_BoxSizing_BorderBox_rmlui_a39a0a49a8e50a2c())
@@ -2251,6 +2466,7 @@ func _swig_getBoxSizing_BorderBox() (_swig_ret RmlStyleBoxSizing) {
 }
 
 var BoxSizing_BorderBox RmlStyleBoxSizing = _swig_getBoxSizing_BorderBox()
+
 type SwigcptrLineHeight uintptr
 
 func (p SwigcptrLineHeight) Swigcptr() uintptr {
@@ -2274,6 +2490,7 @@ func (arg1 SwigcptrLineHeight) GetValue() (_swig_ret float32) {
 }
 
 type RmlStyleLineHeightInheritType int
+
 func _swig_getLineHeight_Number_LineHeight() (_swig_ret RmlStyleLineHeightInheritType) {
 	var swig_r RmlStyleLineHeightInheritType
 	swig_r = (RmlStyleLineHeightInheritType)(C._wrap_Number_LineHeight_rmlui_a39a0a49a8e50a2c())
@@ -2281,6 +2498,7 @@ func _swig_getLineHeight_Number_LineHeight() (_swig_ret RmlStyleLineHeightInheri
 }
 
 var LineHeightNumber RmlStyleLineHeightInheritType = _swig_getLineHeight_Number_LineHeight()
+
 func _swig_getLineHeight_Length_LineHeight() (_swig_ret RmlStyleLineHeightInheritType) {
 	var swig_r RmlStyleLineHeightInheritType
 	swig_r = (RmlStyleLineHeightInheritType)(C._wrap_Length_LineHeight_rmlui_a39a0a49a8e50a2c())
@@ -2288,6 +2506,7 @@ func _swig_getLineHeight_Length_LineHeight() (_swig_ret RmlStyleLineHeightInheri
 }
 
 var LineHeightLength RmlStyleLineHeightInheritType = _swig_getLineHeight_Length_LineHeight()
+
 func (arg1 SwigcptrLineHeight) SetInherit_type(arg2 RmlStyleLineHeightInheritType) {
 	_swig_i_0 := arg1
 	_swig_i_1 := arg2
@@ -2366,6 +2585,7 @@ func (p SwigcptrVerticalAlign) SwigIsVerticalAlign() {
 }
 
 type RmlStyleVerticalAlignType int
+
 func _swig_getVerticalAlign_Baseline_VerticalAlign() (_swig_ret RmlStyleVerticalAlignType) {
 	var swig_r RmlStyleVerticalAlignType
 	swig_r = (RmlStyleVerticalAlignType)(C._wrap_Baseline_VerticalAlign_rmlui_a39a0a49a8e50a2c())
@@ -2373,6 +2593,7 @@ func _swig_getVerticalAlign_Baseline_VerticalAlign() (_swig_ret RmlStyleVertical
 }
 
 var VerticalAlignBaseline RmlStyleVerticalAlignType = _swig_getVerticalAlign_Baseline_VerticalAlign()
+
 func _swig_getVerticalAlign_Middle_VerticalAlign() (_swig_ret RmlStyleVerticalAlignType) {
 	var swig_r RmlStyleVerticalAlignType
 	swig_r = (RmlStyleVerticalAlignType)(C._wrap_Middle_VerticalAlign_rmlui_a39a0a49a8e50a2c())
@@ -2380,6 +2601,7 @@ func _swig_getVerticalAlign_Middle_VerticalAlign() (_swig_ret RmlStyleVerticalAl
 }
 
 var VerticalAlignMiddle RmlStyleVerticalAlignType = _swig_getVerticalAlign_Middle_VerticalAlign()
+
 func _swig_getVerticalAlign_Sub_VerticalAlign() (_swig_ret RmlStyleVerticalAlignType) {
 	var swig_r RmlStyleVerticalAlignType
 	swig_r = (RmlStyleVerticalAlignType)(C._wrap_Sub_VerticalAlign_rmlui_a39a0a49a8e50a2c())
@@ -2387,6 +2609,7 @@ func _swig_getVerticalAlign_Sub_VerticalAlign() (_swig_ret RmlStyleVerticalAlign
 }
 
 var VerticalAlignSub RmlStyleVerticalAlignType = _swig_getVerticalAlign_Sub_VerticalAlign()
+
 func _swig_getVerticalAlign_Super_VerticalAlign() (_swig_ret RmlStyleVerticalAlignType) {
 	var swig_r RmlStyleVerticalAlignType
 	swig_r = (RmlStyleVerticalAlignType)(C._wrap_Super_VerticalAlign_rmlui_a39a0a49a8e50a2c())
@@ -2394,6 +2617,7 @@ func _swig_getVerticalAlign_Super_VerticalAlign() (_swig_ret RmlStyleVerticalAli
 }
 
 var VerticalAlignSuper RmlStyleVerticalAlignType = _swig_getVerticalAlign_Super_VerticalAlign()
+
 func _swig_getVerticalAlign_TextTop_VerticalAlign() (_swig_ret RmlStyleVerticalAlignType) {
 	var swig_r RmlStyleVerticalAlignType
 	swig_r = (RmlStyleVerticalAlignType)(C._wrap_TextTop_VerticalAlign_rmlui_a39a0a49a8e50a2c())
@@ -2401,6 +2625,7 @@ func _swig_getVerticalAlign_TextTop_VerticalAlign() (_swig_ret RmlStyleVerticalA
 }
 
 var VerticalAlignTextTop RmlStyleVerticalAlignType = _swig_getVerticalAlign_TextTop_VerticalAlign()
+
 func _swig_getVerticalAlign_TextBottom_VerticalAlign() (_swig_ret RmlStyleVerticalAlignType) {
 	var swig_r RmlStyleVerticalAlignType
 	swig_r = (RmlStyleVerticalAlignType)(C._wrap_TextBottom_VerticalAlign_rmlui_a39a0a49a8e50a2c())
@@ -2408,6 +2633,7 @@ func _swig_getVerticalAlign_TextBottom_VerticalAlign() (_swig_ret RmlStyleVertic
 }
 
 var VerticalAlignTextBottom RmlStyleVerticalAlignType = _swig_getVerticalAlign_TextBottom_VerticalAlign()
+
 func _swig_getVerticalAlign_Top_VerticalAlign() (_swig_ret RmlStyleVerticalAlignType) {
 	var swig_r RmlStyleVerticalAlignType
 	swig_r = (RmlStyleVerticalAlignType)(C._wrap_Top_VerticalAlign_rmlui_a39a0a49a8e50a2c())
@@ -2415,6 +2641,7 @@ func _swig_getVerticalAlign_Top_VerticalAlign() (_swig_ret RmlStyleVerticalAlign
 }
 
 var VerticalAlignTop RmlStyleVerticalAlignType = _swig_getVerticalAlign_Top_VerticalAlign()
+
 func _swig_getVerticalAlign_Center_VerticalAlign() (_swig_ret RmlStyleVerticalAlignType) {
 	var swig_r RmlStyleVerticalAlignType
 	swig_r = (RmlStyleVerticalAlignType)(C._wrap_Center_VerticalAlign_rmlui_a39a0a49a8e50a2c())
@@ -2422,6 +2649,7 @@ func _swig_getVerticalAlign_Center_VerticalAlign() (_swig_ret RmlStyleVerticalAl
 }
 
 var VerticalAlignCenter RmlStyleVerticalAlignType = _swig_getVerticalAlign_Center_VerticalAlign()
+
 func _swig_getVerticalAlign_Bottom_VerticalAlign() (_swig_ret RmlStyleVerticalAlignType) {
 	var swig_r RmlStyleVerticalAlignType
 	swig_r = (RmlStyleVerticalAlignType)(C._wrap_Bottom_VerticalAlign_rmlui_a39a0a49a8e50a2c())
@@ -2429,6 +2657,7 @@ func _swig_getVerticalAlign_Bottom_VerticalAlign() (_swig_ret RmlStyleVerticalAl
 }
 
 var VerticalAlignBottom RmlStyleVerticalAlignType = _swig_getVerticalAlign_Bottom_VerticalAlign()
+
 func _swig_getVerticalAlign_Length_VerticalAlign() (_swig_ret RmlStyleVerticalAlignType) {
 	var swig_r RmlStyleVerticalAlignType
 	swig_r = (RmlStyleVerticalAlignType)(C._wrap_Length_VerticalAlign_rmlui_a39a0a49a8e50a2c())
@@ -2436,6 +2665,7 @@ func _swig_getVerticalAlign_Length_VerticalAlign() (_swig_ret RmlStyleVerticalAl
 }
 
 var VerticalAlignLength RmlStyleVerticalAlignType = _swig_getVerticalAlign_Length_VerticalAlign()
+
 func (arg1 SwigcptrVerticalAlign) SetXtype(arg2 RmlStyleVerticalAlignType) {
 	_swig_i_0 := arg1
 	_swig_i_1 := arg2
@@ -2526,6 +2756,7 @@ type VerticalAlign interface {
 }
 
 type RmlStyleOverflow int
+
 func _swig_getOverflow_Visible() (_swig_ret RmlStyleOverflow) {
 	var swig_r RmlStyleOverflow
 	swig_r = (RmlStyleOverflow)(C._wrap_Overflow_Visible_rmlui_a39a0a49a8e50a2c())
@@ -2533,6 +2764,7 @@ func _swig_getOverflow_Visible() (_swig_ret RmlStyleOverflow) {
 }
 
 var Overflow_Visible RmlStyleOverflow = _swig_getOverflow_Visible()
+
 func _swig_getOverflow_Hidden() (_swig_ret RmlStyleOverflow) {
 	var swig_r RmlStyleOverflow
 	swig_r = (RmlStyleOverflow)(C._wrap_Overflow_Hidden_rmlui_a39a0a49a8e50a2c())
@@ -2540,6 +2772,7 @@ func _swig_getOverflow_Hidden() (_swig_ret RmlStyleOverflow) {
 }
 
 var Overflow_Hidden RmlStyleOverflow = _swig_getOverflow_Hidden()
+
 func _swig_getOverflow_Auto() (_swig_ret RmlStyleOverflow) {
 	var swig_r RmlStyleOverflow
 	swig_r = (RmlStyleOverflow)(C._wrap_Overflow_Auto_rmlui_a39a0a49a8e50a2c())
@@ -2547,6 +2780,7 @@ func _swig_getOverflow_Auto() (_swig_ret RmlStyleOverflow) {
 }
 
 var Overflow_Auto RmlStyleOverflow = _swig_getOverflow_Auto()
+
 func _swig_getOverflow_Scroll() (_swig_ret RmlStyleOverflow) {
 	var swig_r RmlStyleOverflow
 	swig_r = (RmlStyleOverflow)(C._wrap_Overflow_Scroll_rmlui_a39a0a49a8e50a2c())
@@ -2554,6 +2788,7 @@ func _swig_getOverflow_Scroll() (_swig_ret RmlStyleOverflow) {
 }
 
 var Overflow_Scroll RmlStyleOverflow = _swig_getOverflow_Scroll()
+
 type SwigcptrClip uintptr
 
 func (p SwigcptrClip) Swigcptr() uintptr {
@@ -2564,6 +2799,7 @@ func (p SwigcptrClip) SwigIsClip() {
 }
 
 type RmlStyleClipType int
+
 func _swig_getClip_Type_Auto_Clip() (_swig_ret RmlStyleClipType) {
 	var swig_r RmlStyleClipType
 	swig_r = (RmlStyleClipType)(C._wrap_Type_Auto_Clip_rmlui_a39a0a49a8e50a2c())
@@ -2571,6 +2807,7 @@ func _swig_getClip_Type_Auto_Clip() (_swig_ret RmlStyleClipType) {
 }
 
 var ClipType_Auto RmlStyleClipType = _swig_getClip_Type_Auto_Clip()
+
 func _swig_getClip_Type_None_Clip() (_swig_ret RmlStyleClipType) {
 	var swig_r RmlStyleClipType
 	swig_r = (RmlStyleClipType)(C._wrap_Type_None_Clip_rmlui_a39a0a49a8e50a2c())
@@ -2578,6 +2815,7 @@ func _swig_getClip_Type_None_Clip() (_swig_ret RmlStyleClipType) {
 }
 
 var ClipType_None RmlStyleClipType = _swig_getClip_Type_None_Clip()
+
 func _swig_getClip_Type_Always_Clip() (_swig_ret RmlStyleClipType) {
 	var swig_r RmlStyleClipType
 	swig_r = (RmlStyleClipType)(C._wrap_Type_Always_Clip_rmlui_a39a0a49a8e50a2c())
@@ -2585,6 +2823,7 @@ func _swig_getClip_Type_Always_Clip() (_swig_ret RmlStyleClipType) {
 }
 
 var ClipType_Always RmlStyleClipType = _swig_getClip_Type_Always_Clip()
+
 func _swig_getClip_Type_Number_Clip() (_swig_ret RmlStyleClipType) {
 	var swig_r RmlStyleClipType
 	swig_r = (RmlStyleClipType)(C._wrap_Type_Number_Clip_rmlui_a39a0a49a8e50a2c())
@@ -2592,6 +2831,7 @@ func _swig_getClip_Type_Number_Clip() (_swig_ret RmlStyleClipType) {
 }
 
 var ClipType_Number RmlStyleClipType = _swig_getClip_Type_Number_Clip()
+
 func NewClip__SWIG_0() (_swig_ret Clip) {
 	var swig_r Clip
 	swig_r = (Clip)(SwigcptrClip(C._wrap_new_Clip__SWIG_0_rmlui_a39a0a49a8e50a2c()))
@@ -2663,6 +2903,7 @@ type Clip interface {
 }
 
 type RmlStyleVisibility int
+
 func _swig_getVisibility_Visible() (_swig_ret RmlStyleVisibility) {
 	var swig_r RmlStyleVisibility
 	swig_r = (RmlStyleVisibility)(C._wrap_Visibility_Visible_rmlui_a39a0a49a8e50a2c())
@@ -2670,6 +2911,7 @@ func _swig_getVisibility_Visible() (_swig_ret RmlStyleVisibility) {
 }
 
 var Visibility_Visible RmlStyleVisibility = _swig_getVisibility_Visible()
+
 func _swig_getVisibility_Hidden() (_swig_ret RmlStyleVisibility) {
 	var swig_r RmlStyleVisibility
 	swig_r = (RmlStyleVisibility)(C._wrap_Visibility_Hidden_rmlui_a39a0a49a8e50a2c())
@@ -2677,7 +2919,9 @@ func _swig_getVisibility_Hidden() (_swig_ret RmlStyleVisibility) {
 }
 
 var Visibility_Hidden RmlStyleVisibility = _swig_getVisibility_Hidden()
+
 type RmlStyleFontStyle int
+
 func _swig_getFontStyle_Normal() (_swig_ret RmlStyleFontStyle) {
 	var swig_r RmlStyleFontStyle
 	swig_r = (RmlStyleFontStyle)(C._wrap_FontStyle_Normal_rmlui_a39a0a49a8e50a2c())
@@ -2685,6 +2929,7 @@ func _swig_getFontStyle_Normal() (_swig_ret RmlStyleFontStyle) {
 }
 
 var FontStyle_Normal RmlStyleFontStyle = _swig_getFontStyle_Normal()
+
 func _swig_getFontStyle_Italic() (_swig_ret RmlStyleFontStyle) {
 	var swig_r RmlStyleFontStyle
 	swig_r = (RmlStyleFontStyle)(C._wrap_FontStyle_Italic_rmlui_a39a0a49a8e50a2c())
@@ -2692,7 +2937,9 @@ func _swig_getFontStyle_Italic() (_swig_ret RmlStyleFontStyle) {
 }
 
 var FontStyle_Italic RmlStyleFontStyle = _swig_getFontStyle_Italic()
+
 type RmlStyleFontWeight int
+
 func _swig_getFontWeight_Auto() (_swig_ret RmlStyleFontWeight) {
 	var swig_r RmlStyleFontWeight
 	swig_r = (RmlStyleFontWeight)(C._wrap_FontWeight_Auto_rmlui_a39a0a49a8e50a2c())
@@ -2700,6 +2947,7 @@ func _swig_getFontWeight_Auto() (_swig_ret RmlStyleFontWeight) {
 }
 
 var FontWeight_Auto RmlStyleFontWeight = _swig_getFontWeight_Auto()
+
 func _swig_getFontWeight_Normal() (_swig_ret RmlStyleFontWeight) {
 	var swig_r RmlStyleFontWeight
 	swig_r = (RmlStyleFontWeight)(C._wrap_FontWeight_Normal_rmlui_a39a0a49a8e50a2c())
@@ -2707,6 +2955,7 @@ func _swig_getFontWeight_Normal() (_swig_ret RmlStyleFontWeight) {
 }
 
 var FontWeight_Normal RmlStyleFontWeight = _swig_getFontWeight_Normal()
+
 func _swig_getFontWeight_Bold() (_swig_ret RmlStyleFontWeight) {
 	var swig_r RmlStyleFontWeight
 	swig_r = (RmlStyleFontWeight)(C._wrap_FontWeight_Bold_rmlui_a39a0a49a8e50a2c())
@@ -2714,7 +2963,9 @@ func _swig_getFontWeight_Bold() (_swig_ret RmlStyleFontWeight) {
 }
 
 var FontWeight_Bold RmlStyleFontWeight = _swig_getFontWeight_Bold()
+
 type RmlStyleTextAlign int
+
 func _swig_getTextAlign_Left() (_swig_ret RmlStyleTextAlign) {
 	var swig_r RmlStyleTextAlign
 	swig_r = (RmlStyleTextAlign)(C._wrap_TextAlign_Left_rmlui_a39a0a49a8e50a2c())
@@ -2722,6 +2973,7 @@ func _swig_getTextAlign_Left() (_swig_ret RmlStyleTextAlign) {
 }
 
 var TextAlign_Left RmlStyleTextAlign = _swig_getTextAlign_Left()
+
 func _swig_getTextAlign_Right() (_swig_ret RmlStyleTextAlign) {
 	var swig_r RmlStyleTextAlign
 	swig_r = (RmlStyleTextAlign)(C._wrap_TextAlign_Right_rmlui_a39a0a49a8e50a2c())
@@ -2729,6 +2981,7 @@ func _swig_getTextAlign_Right() (_swig_ret RmlStyleTextAlign) {
 }
 
 var TextAlign_Right RmlStyleTextAlign = _swig_getTextAlign_Right()
+
 func _swig_getTextAlign_Center() (_swig_ret RmlStyleTextAlign) {
 	var swig_r RmlStyleTextAlign
 	swig_r = (RmlStyleTextAlign)(C._wrap_TextAlign_Center_rmlui_a39a0a49a8e50a2c())
@@ -2736,6 +2989,7 @@ func _swig_getTextAlign_Center() (_swig_ret RmlStyleTextAlign) {
 }
 
 var TextAlign_Center RmlStyleTextAlign = _swig_getTextAlign_Center()
+
 func _swig_getTextAlign_Justify() (_swig_ret RmlStyleTextAlign) {
 	var swig_r RmlStyleTextAlign
 	swig_r = (RmlStyleTextAlign)(C._wrap_TextAlign_Justify_rmlui_a39a0a49a8e50a2c())
@@ -2743,7 +2997,9 @@ func _swig_getTextAlign_Justify() (_swig_ret RmlStyleTextAlign) {
 }
 
 var TextAlign_Justify RmlStyleTextAlign = _swig_getTextAlign_Justify()
+
 type RmlStyleTextDecoration int
+
 func _swig_getTextDecoration_None() (_swig_ret RmlStyleTextDecoration) {
 	var swig_r RmlStyleTextDecoration
 	swig_r = (RmlStyleTextDecoration)(C._wrap_TextDecoration_None_rmlui_a39a0a49a8e50a2c())
@@ -2751,6 +3007,7 @@ func _swig_getTextDecoration_None() (_swig_ret RmlStyleTextDecoration) {
 }
 
 var TextDecoration_None RmlStyleTextDecoration = _swig_getTextDecoration_None()
+
 func _swig_getTextDecoration_Underline() (_swig_ret RmlStyleTextDecoration) {
 	var swig_r RmlStyleTextDecoration
 	swig_r = (RmlStyleTextDecoration)(C._wrap_TextDecoration_Underline_rmlui_a39a0a49a8e50a2c())
@@ -2758,6 +3015,7 @@ func _swig_getTextDecoration_Underline() (_swig_ret RmlStyleTextDecoration) {
 }
 
 var TextDecoration_Underline RmlStyleTextDecoration = _swig_getTextDecoration_Underline()
+
 func _swig_getTextDecoration_Overline() (_swig_ret RmlStyleTextDecoration) {
 	var swig_r RmlStyleTextDecoration
 	swig_r = (RmlStyleTextDecoration)(C._wrap_TextDecoration_Overline_rmlui_a39a0a49a8e50a2c())
@@ -2765,6 +3023,7 @@ func _swig_getTextDecoration_Overline() (_swig_ret RmlStyleTextDecoration) {
 }
 
 var TextDecoration_Overline RmlStyleTextDecoration = _swig_getTextDecoration_Overline()
+
 func _swig_getTextDecoration_LineThrough() (_swig_ret RmlStyleTextDecoration) {
 	var swig_r RmlStyleTextDecoration
 	swig_r = (RmlStyleTextDecoration)(C._wrap_TextDecoration_LineThrough_rmlui_a39a0a49a8e50a2c())
@@ -2772,7 +3031,9 @@ func _swig_getTextDecoration_LineThrough() (_swig_ret RmlStyleTextDecoration) {
 }
 
 var TextDecoration_LineThrough RmlStyleTextDecoration = _swig_getTextDecoration_LineThrough()
+
 type RmlStyleTextTransform int
+
 func _swig_getTextTransform_None() (_swig_ret RmlStyleTextTransform) {
 	var swig_r RmlStyleTextTransform
 	swig_r = (RmlStyleTextTransform)(C._wrap_TextTransform_None_rmlui_a39a0a49a8e50a2c())
@@ -2780,6 +3041,7 @@ func _swig_getTextTransform_None() (_swig_ret RmlStyleTextTransform) {
 }
 
 var TextTransform_None RmlStyleTextTransform = _swig_getTextTransform_None()
+
 func _swig_getTextTransform_Capitalize() (_swig_ret RmlStyleTextTransform) {
 	var swig_r RmlStyleTextTransform
 	swig_r = (RmlStyleTextTransform)(C._wrap_TextTransform_Capitalize_rmlui_a39a0a49a8e50a2c())
@@ -2787,6 +3049,7 @@ func _swig_getTextTransform_Capitalize() (_swig_ret RmlStyleTextTransform) {
 }
 
 var TextTransform_Capitalize RmlStyleTextTransform = _swig_getTextTransform_Capitalize()
+
 func _swig_getTextTransform_Uppercase() (_swig_ret RmlStyleTextTransform) {
 	var swig_r RmlStyleTextTransform
 	swig_r = (RmlStyleTextTransform)(C._wrap_TextTransform_Uppercase_rmlui_a39a0a49a8e50a2c())
@@ -2794,6 +3057,7 @@ func _swig_getTextTransform_Uppercase() (_swig_ret RmlStyleTextTransform) {
 }
 
 var TextTransform_Uppercase RmlStyleTextTransform = _swig_getTextTransform_Uppercase()
+
 func _swig_getTextTransform_Lowercase() (_swig_ret RmlStyleTextTransform) {
 	var swig_r RmlStyleTextTransform
 	swig_r = (RmlStyleTextTransform)(C._wrap_TextTransform_Lowercase_rmlui_a39a0a49a8e50a2c())
@@ -2801,7 +3065,9 @@ func _swig_getTextTransform_Lowercase() (_swig_ret RmlStyleTextTransform) {
 }
 
 var TextTransform_Lowercase RmlStyleTextTransform = _swig_getTextTransform_Lowercase()
+
 type RmlStyleWhiteSpace int
+
 func _swig_getWhiteSpace_Normal() (_swig_ret RmlStyleWhiteSpace) {
 	var swig_r RmlStyleWhiteSpace
 	swig_r = (RmlStyleWhiteSpace)(C._wrap_WhiteSpace_Normal_rmlui_a39a0a49a8e50a2c())
@@ -2809,6 +3075,7 @@ func _swig_getWhiteSpace_Normal() (_swig_ret RmlStyleWhiteSpace) {
 }
 
 var WhiteSpace_Normal RmlStyleWhiteSpace = _swig_getWhiteSpace_Normal()
+
 func _swig_getWhiteSpace_Pre() (_swig_ret RmlStyleWhiteSpace) {
 	var swig_r RmlStyleWhiteSpace
 	swig_r = (RmlStyleWhiteSpace)(C._wrap_WhiteSpace_Pre_rmlui_a39a0a49a8e50a2c())
@@ -2816,6 +3083,7 @@ func _swig_getWhiteSpace_Pre() (_swig_ret RmlStyleWhiteSpace) {
 }
 
 var WhiteSpace_Pre RmlStyleWhiteSpace = _swig_getWhiteSpace_Pre()
+
 func _swig_getWhiteSpace_Nowrap() (_swig_ret RmlStyleWhiteSpace) {
 	var swig_r RmlStyleWhiteSpace
 	swig_r = (RmlStyleWhiteSpace)(C._wrap_WhiteSpace_Nowrap_rmlui_a39a0a49a8e50a2c())
@@ -2823,6 +3091,7 @@ func _swig_getWhiteSpace_Nowrap() (_swig_ret RmlStyleWhiteSpace) {
 }
 
 var WhiteSpace_Nowrap RmlStyleWhiteSpace = _swig_getWhiteSpace_Nowrap()
+
 func _swig_getWhiteSpace_Prewrap() (_swig_ret RmlStyleWhiteSpace) {
 	var swig_r RmlStyleWhiteSpace
 	swig_r = (RmlStyleWhiteSpace)(C._wrap_WhiteSpace_Prewrap_rmlui_a39a0a49a8e50a2c())
@@ -2830,6 +3099,7 @@ func _swig_getWhiteSpace_Prewrap() (_swig_ret RmlStyleWhiteSpace) {
 }
 
 var WhiteSpace_Prewrap RmlStyleWhiteSpace = _swig_getWhiteSpace_Prewrap()
+
 func _swig_getWhiteSpace_Preline() (_swig_ret RmlStyleWhiteSpace) {
 	var swig_r RmlStyleWhiteSpace
 	swig_r = (RmlStyleWhiteSpace)(C._wrap_WhiteSpace_Preline_rmlui_a39a0a49a8e50a2c())
@@ -2837,7 +3107,9 @@ func _swig_getWhiteSpace_Preline() (_swig_ret RmlStyleWhiteSpace) {
 }
 
 var WhiteSpace_Preline RmlStyleWhiteSpace = _swig_getWhiteSpace_Preline()
+
 type RmlStyleWordBreak int
+
 func _swig_getWordBreak_Normal() (_swig_ret RmlStyleWordBreak) {
 	var swig_r RmlStyleWordBreak
 	swig_r = (RmlStyleWordBreak)(C._wrap_WordBreak_Normal_rmlui_a39a0a49a8e50a2c())
@@ -2845,6 +3117,7 @@ func _swig_getWordBreak_Normal() (_swig_ret RmlStyleWordBreak) {
 }
 
 var WordBreak_Normal RmlStyleWordBreak = _swig_getWordBreak_Normal()
+
 func _swig_getWordBreak_BreakAll() (_swig_ret RmlStyleWordBreak) {
 	var swig_r RmlStyleWordBreak
 	swig_r = (RmlStyleWordBreak)(C._wrap_WordBreak_BreakAll_rmlui_a39a0a49a8e50a2c())
@@ -2852,6 +3125,7 @@ func _swig_getWordBreak_BreakAll() (_swig_ret RmlStyleWordBreak) {
 }
 
 var WordBreak_BreakAll RmlStyleWordBreak = _swig_getWordBreak_BreakAll()
+
 func _swig_getWordBreak_BreakWord() (_swig_ret RmlStyleWordBreak) {
 	var swig_r RmlStyleWordBreak
 	swig_r = (RmlStyleWordBreak)(C._wrap_WordBreak_BreakWord_rmlui_a39a0a49a8e50a2c())
@@ -2859,7 +3133,9 @@ func _swig_getWordBreak_BreakWord() (_swig_ret RmlStyleWordBreak) {
 }
 
 var WordBreak_BreakWord RmlStyleWordBreak = _swig_getWordBreak_BreakWord()
+
 type RmlStyleDrag int
+
 func _swig_getDrag_None() (_swig_ret RmlStyleDrag) {
 	var swig_r RmlStyleDrag
 	swig_r = (RmlStyleDrag)(C._wrap_Drag_None_rmlui_a39a0a49a8e50a2c())
@@ -2867,6 +3143,7 @@ func _swig_getDrag_None() (_swig_ret RmlStyleDrag) {
 }
 
 var Drag_None RmlStyleDrag = _swig_getDrag_None()
+
 func _swig_getDrag_Drag() (_swig_ret RmlStyleDrag) {
 	var swig_r RmlStyleDrag
 	swig_r = (RmlStyleDrag)(C._wrap_Drag_Drag_rmlui_a39a0a49a8e50a2c())
@@ -2874,6 +3151,7 @@ func _swig_getDrag_Drag() (_swig_ret RmlStyleDrag) {
 }
 
 var Drag_Drag RmlStyleDrag = _swig_getDrag_Drag()
+
 func _swig_getDrag_DragDrop() (_swig_ret RmlStyleDrag) {
 	var swig_r RmlStyleDrag
 	swig_r = (RmlStyleDrag)(C._wrap_Drag_DragDrop_rmlui_a39a0a49a8e50a2c())
@@ -2881,6 +3159,7 @@ func _swig_getDrag_DragDrop() (_swig_ret RmlStyleDrag) {
 }
 
 var Drag_DragDrop RmlStyleDrag = _swig_getDrag_DragDrop()
+
 func _swig_getDrag_Block() (_swig_ret RmlStyleDrag) {
 	var swig_r RmlStyleDrag
 	swig_r = (RmlStyleDrag)(C._wrap_Drag_Block_rmlui_a39a0a49a8e50a2c())
@@ -2888,6 +3167,7 @@ func _swig_getDrag_Block() (_swig_ret RmlStyleDrag) {
 }
 
 var Drag_Block RmlStyleDrag = _swig_getDrag_Block()
+
 func _swig_getDrag_Clone() (_swig_ret RmlStyleDrag) {
 	var swig_r RmlStyleDrag
 	swig_r = (RmlStyleDrag)(C._wrap_Drag_Clone_rmlui_a39a0a49a8e50a2c())
@@ -2895,7 +3175,9 @@ func _swig_getDrag_Clone() (_swig_ret RmlStyleDrag) {
 }
 
 var Drag_Clone RmlStyleDrag = _swig_getDrag_Clone()
+
 type RmlStyleTabIndex int
+
 func _swig_getTabIndex_None() (_swig_ret RmlStyleTabIndex) {
 	var swig_r RmlStyleTabIndex
 	swig_r = (RmlStyleTabIndex)(C._wrap_TabIndex_None_rmlui_a39a0a49a8e50a2c())
@@ -2903,6 +3185,7 @@ func _swig_getTabIndex_None() (_swig_ret RmlStyleTabIndex) {
 }
 
 var TabIndex_None RmlStyleTabIndex = _swig_getTabIndex_None()
+
 func _swig_getTabIndex_Auto() (_swig_ret RmlStyleTabIndex) {
 	var swig_r RmlStyleTabIndex
 	swig_r = (RmlStyleTabIndex)(C._wrap_TabIndex_Auto_rmlui_a39a0a49a8e50a2c())
@@ -2910,7 +3193,9 @@ func _swig_getTabIndex_Auto() (_swig_ret RmlStyleTabIndex) {
 }
 
 var TabIndex_Auto RmlStyleTabIndex = _swig_getTabIndex_Auto()
+
 type RmlStyleFocus int
+
 func _swig_getFocus_None() (_swig_ret RmlStyleFocus) {
 	var swig_r RmlStyleFocus
 	swig_r = (RmlStyleFocus)(C._wrap_Focus_None_rmlui_a39a0a49a8e50a2c())
@@ -2918,6 +3203,7 @@ func _swig_getFocus_None() (_swig_ret RmlStyleFocus) {
 }
 
 var Focus_None RmlStyleFocus = _swig_getFocus_None()
+
 func _swig_getFocus_Auto() (_swig_ret RmlStyleFocus) {
 	var swig_r RmlStyleFocus
 	swig_r = (RmlStyleFocus)(C._wrap_Focus_Auto_rmlui_a39a0a49a8e50a2c())
@@ -2925,7 +3211,9 @@ func _swig_getFocus_Auto() (_swig_ret RmlStyleFocus) {
 }
 
 var Focus_Auto RmlStyleFocus = _swig_getFocus_Auto()
+
 type RmlStyleOverscrollBehavior int
+
 func _swig_getOverscrollBehavior_Auto() (_swig_ret RmlStyleOverscrollBehavior) {
 	var swig_r RmlStyleOverscrollBehavior
 	swig_r = (RmlStyleOverscrollBehavior)(C._wrap_OverscrollBehavior_Auto_rmlui_a39a0a49a8e50a2c())
@@ -2933,6 +3221,7 @@ func _swig_getOverscrollBehavior_Auto() (_swig_ret RmlStyleOverscrollBehavior) {
 }
 
 var OverscrollBehavior_Auto RmlStyleOverscrollBehavior = _swig_getOverscrollBehavior_Auto()
+
 func _swig_getOverscrollBehavior_Contain() (_swig_ret RmlStyleOverscrollBehavior) {
 	var swig_r RmlStyleOverscrollBehavior
 	swig_r = (RmlStyleOverscrollBehavior)(C._wrap_OverscrollBehavior_Contain_rmlui_a39a0a49a8e50a2c())
@@ -2940,7 +3229,9 @@ func _swig_getOverscrollBehavior_Contain() (_swig_ret RmlStyleOverscrollBehavior
 }
 
 var OverscrollBehavior_Contain RmlStyleOverscrollBehavior = _swig_getOverscrollBehavior_Contain()
+
 type RmlStylePointerEvents int
+
 func _swig_getPointerEvents_None() (_swig_ret RmlStylePointerEvents) {
 	var swig_r RmlStylePointerEvents
 	swig_r = (RmlStylePointerEvents)(C._wrap_PointerEvents_None_rmlui_a39a0a49a8e50a2c())
@@ -2948,6 +3239,7 @@ func _swig_getPointerEvents_None() (_swig_ret RmlStylePointerEvents) {
 }
 
 var PointerEvents_None RmlStylePointerEvents = _swig_getPointerEvents_None()
+
 func _swig_getPointerEvents_Auto() (_swig_ret RmlStylePointerEvents) {
 	var swig_r RmlStylePointerEvents
 	swig_r = (RmlStylePointerEvents)(C._wrap_PointerEvents_Auto_rmlui_a39a0a49a8e50a2c())
@@ -2955,7 +3247,9 @@ func _swig_getPointerEvents_Auto() (_swig_ret RmlStylePointerEvents) {
 }
 
 var PointerEvents_Auto RmlStylePointerEvents = _swig_getPointerEvents_Auto()
+
 type RmlStyleOriginX int
+
 func _swig_getOriginX_Left() (_swig_ret RmlStyleOriginX) {
 	var swig_r RmlStyleOriginX
 	swig_r = (RmlStyleOriginX)(C._wrap_OriginX_Left_rmlui_a39a0a49a8e50a2c())
@@ -2963,6 +3257,7 @@ func _swig_getOriginX_Left() (_swig_ret RmlStyleOriginX) {
 }
 
 var OriginX_Left RmlStyleOriginX = _swig_getOriginX_Left()
+
 func _swig_getOriginX_Center() (_swig_ret RmlStyleOriginX) {
 	var swig_r RmlStyleOriginX
 	swig_r = (RmlStyleOriginX)(C._wrap_OriginX_Center_rmlui_a39a0a49a8e50a2c())
@@ -2970,6 +3265,7 @@ func _swig_getOriginX_Center() (_swig_ret RmlStyleOriginX) {
 }
 
 var OriginX_Center RmlStyleOriginX = _swig_getOriginX_Center()
+
 func _swig_getOriginX_Right() (_swig_ret RmlStyleOriginX) {
 	var swig_r RmlStyleOriginX
 	swig_r = (RmlStyleOriginX)(C._wrap_OriginX_Right_rmlui_a39a0a49a8e50a2c())
@@ -2977,7 +3273,9 @@ func _swig_getOriginX_Right() (_swig_ret RmlStyleOriginX) {
 }
 
 var OriginX_Right RmlStyleOriginX = _swig_getOriginX_Right()
+
 type RmlStyleOriginY int
+
 func _swig_getOriginY_Top() (_swig_ret RmlStyleOriginY) {
 	var swig_r RmlStyleOriginY
 	swig_r = (RmlStyleOriginY)(C._wrap_OriginY_Top_rmlui_a39a0a49a8e50a2c())
@@ -2985,6 +3283,7 @@ func _swig_getOriginY_Top() (_swig_ret RmlStyleOriginY) {
 }
 
 var OriginY_Top RmlStyleOriginY = _swig_getOriginY_Top()
+
 func _swig_getOriginY_Center() (_swig_ret RmlStyleOriginY) {
 	var swig_r RmlStyleOriginY
 	swig_r = (RmlStyleOriginY)(C._wrap_OriginY_Center_rmlui_a39a0a49a8e50a2c())
@@ -2992,6 +3291,7 @@ func _swig_getOriginY_Center() (_swig_ret RmlStyleOriginY) {
 }
 
 var OriginY_Center RmlStyleOriginY = _swig_getOriginY_Center()
+
 func _swig_getOriginY_Bottom() (_swig_ret RmlStyleOriginY) {
 	var swig_r RmlStyleOriginY
 	swig_r = (RmlStyleOriginY)(C._wrap_OriginY_Bottom_rmlui_a39a0a49a8e50a2c())
@@ -2999,7 +3299,9 @@ func _swig_getOriginY_Bottom() (_swig_ret RmlStyleOriginY) {
 }
 
 var OriginY_Bottom RmlStyleOriginY = _swig_getOriginY_Bottom()
+
 type RmlStyleAlignContent int
+
 func _swig_getAlignContent_FlexStart() (_swig_ret RmlStyleAlignContent) {
 	var swig_r RmlStyleAlignContent
 	swig_r = (RmlStyleAlignContent)(C._wrap_AlignContent_FlexStart_rmlui_a39a0a49a8e50a2c())
@@ -3007,6 +3309,7 @@ func _swig_getAlignContent_FlexStart() (_swig_ret RmlStyleAlignContent) {
 }
 
 var AlignContent_FlexStart RmlStyleAlignContent = _swig_getAlignContent_FlexStart()
+
 func _swig_getAlignContent_FlexEnd() (_swig_ret RmlStyleAlignContent) {
 	var swig_r RmlStyleAlignContent
 	swig_r = (RmlStyleAlignContent)(C._wrap_AlignContent_FlexEnd_rmlui_a39a0a49a8e50a2c())
@@ -3014,6 +3317,7 @@ func _swig_getAlignContent_FlexEnd() (_swig_ret RmlStyleAlignContent) {
 }
 
 var AlignContent_FlexEnd RmlStyleAlignContent = _swig_getAlignContent_FlexEnd()
+
 func _swig_getAlignContent_Center() (_swig_ret RmlStyleAlignContent) {
 	var swig_r RmlStyleAlignContent
 	swig_r = (RmlStyleAlignContent)(C._wrap_AlignContent_Center_rmlui_a39a0a49a8e50a2c())
@@ -3021,6 +3325,7 @@ func _swig_getAlignContent_Center() (_swig_ret RmlStyleAlignContent) {
 }
 
 var AlignContent_Center RmlStyleAlignContent = _swig_getAlignContent_Center()
+
 func _swig_getAlignContent_SpaceBetween() (_swig_ret RmlStyleAlignContent) {
 	var swig_r RmlStyleAlignContent
 	swig_r = (RmlStyleAlignContent)(C._wrap_AlignContent_SpaceBetween_rmlui_a39a0a49a8e50a2c())
@@ -3028,6 +3333,7 @@ func _swig_getAlignContent_SpaceBetween() (_swig_ret RmlStyleAlignContent) {
 }
 
 var AlignContent_SpaceBetween RmlStyleAlignContent = _swig_getAlignContent_SpaceBetween()
+
 func _swig_getAlignContent_SpaceAround() (_swig_ret RmlStyleAlignContent) {
 	var swig_r RmlStyleAlignContent
 	swig_r = (RmlStyleAlignContent)(C._wrap_AlignContent_SpaceAround_rmlui_a39a0a49a8e50a2c())
@@ -3035,6 +3341,7 @@ func _swig_getAlignContent_SpaceAround() (_swig_ret RmlStyleAlignContent) {
 }
 
 var AlignContent_SpaceAround RmlStyleAlignContent = _swig_getAlignContent_SpaceAround()
+
 func _swig_getAlignContent_Stretch() (_swig_ret RmlStyleAlignContent) {
 	var swig_r RmlStyleAlignContent
 	swig_r = (RmlStyleAlignContent)(C._wrap_AlignContent_Stretch_rmlui_a39a0a49a8e50a2c())
@@ -3042,7 +3349,9 @@ func _swig_getAlignContent_Stretch() (_swig_ret RmlStyleAlignContent) {
 }
 
 var AlignContent_Stretch RmlStyleAlignContent = _swig_getAlignContent_Stretch()
+
 type RmlStyleAlignItems int
+
 func _swig_getAlignItems_FlexStart() (_swig_ret RmlStyleAlignItems) {
 	var swig_r RmlStyleAlignItems
 	swig_r = (RmlStyleAlignItems)(C._wrap_AlignItems_FlexStart_rmlui_a39a0a49a8e50a2c())
@@ -3050,6 +3359,7 @@ func _swig_getAlignItems_FlexStart() (_swig_ret RmlStyleAlignItems) {
 }
 
 var AlignItems_FlexStart RmlStyleAlignItems = _swig_getAlignItems_FlexStart()
+
 func _swig_getAlignItems_FlexEnd() (_swig_ret RmlStyleAlignItems) {
 	var swig_r RmlStyleAlignItems
 	swig_r = (RmlStyleAlignItems)(C._wrap_AlignItems_FlexEnd_rmlui_a39a0a49a8e50a2c())
@@ -3057,6 +3367,7 @@ func _swig_getAlignItems_FlexEnd() (_swig_ret RmlStyleAlignItems) {
 }
 
 var AlignItems_FlexEnd RmlStyleAlignItems = _swig_getAlignItems_FlexEnd()
+
 func _swig_getAlignItems_Center() (_swig_ret RmlStyleAlignItems) {
 	var swig_r RmlStyleAlignItems
 	swig_r = (RmlStyleAlignItems)(C._wrap_AlignItems_Center_rmlui_a39a0a49a8e50a2c())
@@ -3064,6 +3375,7 @@ func _swig_getAlignItems_Center() (_swig_ret RmlStyleAlignItems) {
 }
 
 var AlignItems_Center RmlStyleAlignItems = _swig_getAlignItems_Center()
+
 func _swig_getAlignItems_Baseline() (_swig_ret RmlStyleAlignItems) {
 	var swig_r RmlStyleAlignItems
 	swig_r = (RmlStyleAlignItems)(C._wrap_AlignItems_Baseline_rmlui_a39a0a49a8e50a2c())
@@ -3071,6 +3383,7 @@ func _swig_getAlignItems_Baseline() (_swig_ret RmlStyleAlignItems) {
 }
 
 var AlignItems_Baseline RmlStyleAlignItems = _swig_getAlignItems_Baseline()
+
 func _swig_getAlignItems_Stretch() (_swig_ret RmlStyleAlignItems) {
 	var swig_r RmlStyleAlignItems
 	swig_r = (RmlStyleAlignItems)(C._wrap_AlignItems_Stretch_rmlui_a39a0a49a8e50a2c())
@@ -3078,7 +3391,9 @@ func _swig_getAlignItems_Stretch() (_swig_ret RmlStyleAlignItems) {
 }
 
 var AlignItems_Stretch RmlStyleAlignItems = _swig_getAlignItems_Stretch()
+
 type RmlStyleAlignSelf int
+
 func _swig_getAlignSelf_Auto() (_swig_ret RmlStyleAlignSelf) {
 	var swig_r RmlStyleAlignSelf
 	swig_r = (RmlStyleAlignSelf)(C._wrap_AlignSelf_Auto_rmlui_a39a0a49a8e50a2c())
@@ -3086,6 +3401,7 @@ func _swig_getAlignSelf_Auto() (_swig_ret RmlStyleAlignSelf) {
 }
 
 var AlignSelf_Auto RmlStyleAlignSelf = _swig_getAlignSelf_Auto()
+
 func _swig_getAlignSelf_FlexStart() (_swig_ret RmlStyleAlignSelf) {
 	var swig_r RmlStyleAlignSelf
 	swig_r = (RmlStyleAlignSelf)(C._wrap_AlignSelf_FlexStart_rmlui_a39a0a49a8e50a2c())
@@ -3093,6 +3409,7 @@ func _swig_getAlignSelf_FlexStart() (_swig_ret RmlStyleAlignSelf) {
 }
 
 var AlignSelf_FlexStart RmlStyleAlignSelf = _swig_getAlignSelf_FlexStart()
+
 func _swig_getAlignSelf_FlexEnd() (_swig_ret RmlStyleAlignSelf) {
 	var swig_r RmlStyleAlignSelf
 	swig_r = (RmlStyleAlignSelf)(C._wrap_AlignSelf_FlexEnd_rmlui_a39a0a49a8e50a2c())
@@ -3100,6 +3417,7 @@ func _swig_getAlignSelf_FlexEnd() (_swig_ret RmlStyleAlignSelf) {
 }
 
 var AlignSelf_FlexEnd RmlStyleAlignSelf = _swig_getAlignSelf_FlexEnd()
+
 func _swig_getAlignSelf_Center() (_swig_ret RmlStyleAlignSelf) {
 	var swig_r RmlStyleAlignSelf
 	swig_r = (RmlStyleAlignSelf)(C._wrap_AlignSelf_Center_rmlui_a39a0a49a8e50a2c())
@@ -3107,6 +3425,7 @@ func _swig_getAlignSelf_Center() (_swig_ret RmlStyleAlignSelf) {
 }
 
 var AlignSelf_Center RmlStyleAlignSelf = _swig_getAlignSelf_Center()
+
 func _swig_getAlignSelf_Baseline() (_swig_ret RmlStyleAlignSelf) {
 	var swig_r RmlStyleAlignSelf
 	swig_r = (RmlStyleAlignSelf)(C._wrap_AlignSelf_Baseline_rmlui_a39a0a49a8e50a2c())
@@ -3114,6 +3433,7 @@ func _swig_getAlignSelf_Baseline() (_swig_ret RmlStyleAlignSelf) {
 }
 
 var AlignSelf_Baseline RmlStyleAlignSelf = _swig_getAlignSelf_Baseline()
+
 func _swig_getAlignSelf_Stretch() (_swig_ret RmlStyleAlignSelf) {
 	var swig_r RmlStyleAlignSelf
 	swig_r = (RmlStyleAlignSelf)(C._wrap_AlignSelf_Stretch_rmlui_a39a0a49a8e50a2c())
@@ -3121,7 +3441,9 @@ func _swig_getAlignSelf_Stretch() (_swig_ret RmlStyleAlignSelf) {
 }
 
 var AlignSelf_Stretch RmlStyleAlignSelf = _swig_getAlignSelf_Stretch()
+
 type RmlStyleFlexDirection int
+
 func _swig_getFlexDirection_Row() (_swig_ret RmlStyleFlexDirection) {
 	var swig_r RmlStyleFlexDirection
 	swig_r = (RmlStyleFlexDirection)(C._wrap_FlexDirection_Row_rmlui_a39a0a49a8e50a2c())
@@ -3129,6 +3451,7 @@ func _swig_getFlexDirection_Row() (_swig_ret RmlStyleFlexDirection) {
 }
 
 var FlexDirection_Row RmlStyleFlexDirection = _swig_getFlexDirection_Row()
+
 func _swig_getFlexDirection_RowReverse() (_swig_ret RmlStyleFlexDirection) {
 	var swig_r RmlStyleFlexDirection
 	swig_r = (RmlStyleFlexDirection)(C._wrap_FlexDirection_RowReverse_rmlui_a39a0a49a8e50a2c())
@@ -3136,6 +3459,7 @@ func _swig_getFlexDirection_RowReverse() (_swig_ret RmlStyleFlexDirection) {
 }
 
 var FlexDirection_RowReverse RmlStyleFlexDirection = _swig_getFlexDirection_RowReverse()
+
 func _swig_getFlexDirection_Column() (_swig_ret RmlStyleFlexDirection) {
 	var swig_r RmlStyleFlexDirection
 	swig_r = (RmlStyleFlexDirection)(C._wrap_FlexDirection_Column_rmlui_a39a0a49a8e50a2c())
@@ -3143,6 +3467,7 @@ func _swig_getFlexDirection_Column() (_swig_ret RmlStyleFlexDirection) {
 }
 
 var FlexDirection_Column RmlStyleFlexDirection = _swig_getFlexDirection_Column()
+
 func _swig_getFlexDirection_ColumnReverse() (_swig_ret RmlStyleFlexDirection) {
 	var swig_r RmlStyleFlexDirection
 	swig_r = (RmlStyleFlexDirection)(C._wrap_FlexDirection_ColumnReverse_rmlui_a39a0a49a8e50a2c())
@@ -3150,7 +3475,9 @@ func _swig_getFlexDirection_ColumnReverse() (_swig_ret RmlStyleFlexDirection) {
 }
 
 var FlexDirection_ColumnReverse RmlStyleFlexDirection = _swig_getFlexDirection_ColumnReverse()
+
 type RmlStyleFlexWrap int
+
 func _swig_getFlexWrap_Nowrap() (_swig_ret RmlStyleFlexWrap) {
 	var swig_r RmlStyleFlexWrap
 	swig_r = (RmlStyleFlexWrap)(C._wrap_FlexWrap_Nowrap_rmlui_a39a0a49a8e50a2c())
@@ -3158,6 +3485,7 @@ func _swig_getFlexWrap_Nowrap() (_swig_ret RmlStyleFlexWrap) {
 }
 
 var FlexWrap_Nowrap RmlStyleFlexWrap = _swig_getFlexWrap_Nowrap()
+
 func _swig_getFlexWrap_Wrap() (_swig_ret RmlStyleFlexWrap) {
 	var swig_r RmlStyleFlexWrap
 	swig_r = (RmlStyleFlexWrap)(C._wrap_FlexWrap_Wrap_rmlui_a39a0a49a8e50a2c())
@@ -3165,6 +3493,7 @@ func _swig_getFlexWrap_Wrap() (_swig_ret RmlStyleFlexWrap) {
 }
 
 var FlexWrap_Wrap RmlStyleFlexWrap = _swig_getFlexWrap_Wrap()
+
 func _swig_getFlexWrap_WrapReverse() (_swig_ret RmlStyleFlexWrap) {
 	var swig_r RmlStyleFlexWrap
 	swig_r = (RmlStyleFlexWrap)(C._wrap_FlexWrap_WrapReverse_rmlui_a39a0a49a8e50a2c())
@@ -3172,7 +3501,9 @@ func _swig_getFlexWrap_WrapReverse() (_swig_ret RmlStyleFlexWrap) {
 }
 
 var FlexWrap_WrapReverse RmlStyleFlexWrap = _swig_getFlexWrap_WrapReverse()
+
 type RmlStyleJustifyContent int
+
 func _swig_getJustifyContent_FlexStart() (_swig_ret RmlStyleJustifyContent) {
 	var swig_r RmlStyleJustifyContent
 	swig_r = (RmlStyleJustifyContent)(C._wrap_JustifyContent_FlexStart_rmlui_a39a0a49a8e50a2c())
@@ -3180,6 +3511,7 @@ func _swig_getJustifyContent_FlexStart() (_swig_ret RmlStyleJustifyContent) {
 }
 
 var JustifyContent_FlexStart RmlStyleJustifyContent = _swig_getJustifyContent_FlexStart()
+
 func _swig_getJustifyContent_FlexEnd() (_swig_ret RmlStyleJustifyContent) {
 	var swig_r RmlStyleJustifyContent
 	swig_r = (RmlStyleJustifyContent)(C._wrap_JustifyContent_FlexEnd_rmlui_a39a0a49a8e50a2c())
@@ -3187,6 +3519,7 @@ func _swig_getJustifyContent_FlexEnd() (_swig_ret RmlStyleJustifyContent) {
 }
 
 var JustifyContent_FlexEnd RmlStyleJustifyContent = _swig_getJustifyContent_FlexEnd()
+
 func _swig_getJustifyContent_Center() (_swig_ret RmlStyleJustifyContent) {
 	var swig_r RmlStyleJustifyContent
 	swig_r = (RmlStyleJustifyContent)(C._wrap_JustifyContent_Center_rmlui_a39a0a49a8e50a2c())
@@ -3194,6 +3527,7 @@ func _swig_getJustifyContent_Center() (_swig_ret RmlStyleJustifyContent) {
 }
 
 var JustifyContent_Center RmlStyleJustifyContent = _swig_getJustifyContent_Center()
+
 func _swig_getJustifyContent_SpaceBetween() (_swig_ret RmlStyleJustifyContent) {
 	var swig_r RmlStyleJustifyContent
 	swig_r = (RmlStyleJustifyContent)(C._wrap_JustifyContent_SpaceBetween_rmlui_a39a0a49a8e50a2c())
@@ -3201,6 +3535,7 @@ func _swig_getJustifyContent_SpaceBetween() (_swig_ret RmlStyleJustifyContent) {
 }
 
 var JustifyContent_SpaceBetween RmlStyleJustifyContent = _swig_getJustifyContent_SpaceBetween()
+
 func _swig_getJustifyContent_SpaceAround() (_swig_ret RmlStyleJustifyContent) {
 	var swig_r RmlStyleJustifyContent
 	swig_r = (RmlStyleJustifyContent)(C._wrap_JustifyContent_SpaceAround_rmlui_a39a0a49a8e50a2c())
@@ -3208,6 +3543,7 @@ func _swig_getJustifyContent_SpaceAround() (_swig_ret RmlStyleJustifyContent) {
 }
 
 var JustifyContent_SpaceAround RmlStyleJustifyContent = _swig_getJustifyContent_SpaceAround()
+
 type SwigcptrContext uintptr
 
 func (p SwigcptrContext) Swigcptr() uintptr {
@@ -3238,7 +3574,7 @@ func (arg1 SwigcptrContext) GetName() (_swig_ret string) {
 	swig_r_p := C._wrap_Context_GetName_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0))
 	swig_r = *(*string)(unsafe.Pointer(&swig_r_p))
 	var swig_r_1 string
- swig_r_1 = swigCopyString(swig_r) 
+	swig_r_1 = swigCopyString(swig_r)
 	return swig_r_1
 }
 
@@ -3286,7 +3622,7 @@ func (arg1 SwigcptrContext) CreateDocument__SWIG_0(arg2 string) (_swig_ret Rml_E
 	var swig_r Rml_ElementDocument
 	_swig_i_0 := arg1
 	_swig_i_1 := arg2
-	swig_r = (Rml_ElementDocument)(SwigcptrRml_ElementDocument(C._wrap_Context_CreateDocument__SWIG_0_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0), *(*C.swig_type_3)(unsafe.Pointer(&_swig_i_1)))))
+	swig_r = (Rml_ElementDocument)(RmlcptrElementDocument(C._wrap_Context_CreateDocument__SWIG_0_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0), *(*C.swig_type_3)(unsafe.Pointer(&_swig_i_1)))))
 	if Swig_escape_always_false {
 		Swig_escape_val = arg2
 	}
@@ -3296,7 +3632,7 @@ func (arg1 SwigcptrContext) CreateDocument__SWIG_0(arg2 string) (_swig_ret Rml_E
 func (arg1 SwigcptrContext) CreateDocument__SWIG_1() (_swig_ret Rml_ElementDocument) {
 	var swig_r Rml_ElementDocument
 	_swig_i_0 := arg1
-	swig_r = (Rml_ElementDocument)(SwigcptrRml_ElementDocument(C._wrap_Context_CreateDocument__SWIG_1_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0))))
+	swig_r = (Rml_ElementDocument)(RmlcptrElementDocument(C._wrap_Context_CreateDocument__SWIG_1_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0))))
 	return swig_r
 }
 
@@ -3315,7 +3651,7 @@ func (arg1 SwigcptrContext) LoadDocument__SWIG_0(arg2 string) (_swig_ret Rml_Ele
 	var swig_r Rml_ElementDocument
 	_swig_i_0 := arg1
 	_swig_i_1 := arg2
-	swig_r = (Rml_ElementDocument)(SwigcptrRml_ElementDocument(C._wrap_Context_LoadDocument__SWIG_0_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0), *(*C.swig_type_4)(unsafe.Pointer(&_swig_i_1)))))
+	swig_r = (Rml_ElementDocument)(RmlcptrElementDocument(C._wrap_Context_LoadDocument__SWIG_0_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0), *(*C.swig_type_4)(unsafe.Pointer(&_swig_i_1)))))
 	if Swig_escape_always_false {
 		Swig_escape_val = arg2
 	}
@@ -3326,7 +3662,7 @@ func (arg1 SwigcptrContext) LoadDocument__SWIG_1(arg2 Rml_Stream) (_swig_ret Rml
 	var swig_r Rml_ElementDocument
 	_swig_i_0 := arg1
 	_swig_i_1 := getSwigcptr(arg2)
-	swig_r = (Rml_ElementDocument)(SwigcptrRml_ElementDocument(C._wrap_Context_LoadDocument__SWIG_1_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0), C.uintptr_t(_swig_i_1))))
+	swig_r = (Rml_ElementDocument)(RmlcptrElementDocument(C._wrap_Context_LoadDocument__SWIG_1_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0), C.uintptr_t(_swig_i_1))))
 	return swig_r
 }
 
@@ -3350,7 +3686,7 @@ func (arg1 SwigcptrContext) LoadDocumentFromMemory__SWIG_0(arg2 string, arg3 str
 	_swig_i_0 := arg1
 	_swig_i_1 := arg2
 	_swig_i_2 := arg3
-	swig_r = (Rml_ElementDocument)(SwigcptrRml_ElementDocument(C._wrap_Context_LoadDocumentFromMemory__SWIG_0_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0), *(*C.swig_type_5)(unsafe.Pointer(&_swig_i_1)), *(*C.swig_type_6)(unsafe.Pointer(&_swig_i_2)))))
+	swig_r = (Rml_ElementDocument)(RmlcptrElementDocument(C._wrap_Context_LoadDocumentFromMemory__SWIG_0_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0), *(*C.swig_type_5)(unsafe.Pointer(&_swig_i_1)), *(*C.swig_type_6)(unsafe.Pointer(&_swig_i_2)))))
 	if Swig_escape_always_false {
 		Swig_escape_val = arg2
 	}
@@ -3364,7 +3700,7 @@ func (arg1 SwigcptrContext) LoadDocumentFromMemory__SWIG_1(arg2 string) (_swig_r
 	var swig_r Rml_ElementDocument
 	_swig_i_0 := arg1
 	_swig_i_1 := arg2
-	swig_r = (Rml_ElementDocument)(SwigcptrRml_ElementDocument(C._wrap_Context_LoadDocumentFromMemory__SWIG_1_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0), *(*C.swig_type_7)(unsafe.Pointer(&_swig_i_1)))))
+	swig_r = (Rml_ElementDocument)(RmlcptrElementDocument(C._wrap_Context_LoadDocumentFromMemory__SWIG_1_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0), *(*C.swig_type_7)(unsafe.Pointer(&_swig_i_1)))))
 	if Swig_escape_always_false {
 		Swig_escape_val = arg2
 	}
@@ -3424,7 +3760,7 @@ func (arg1 SwigcptrContext) GetDocument__SWIG_0(arg2 string) (_swig_ret Rml_Elem
 	var swig_r Rml_ElementDocument
 	_swig_i_0 := arg1
 	_swig_i_1 := arg2
-	swig_r = (Rml_ElementDocument)(SwigcptrRml_ElementDocument(C._wrap_Context_GetDocument__SWIG_0_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0), *(*C.swig_type_10)(unsafe.Pointer(&_swig_i_1)))))
+	swig_r = (Rml_ElementDocument)(RmlcptrElementDocument(C._wrap_Context_GetDocument__SWIG_0_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0), *(*C.swig_type_10)(unsafe.Pointer(&_swig_i_1)))))
 	if Swig_escape_always_false {
 		Swig_escape_val = arg2
 	}
@@ -3435,7 +3771,7 @@ func (arg1 SwigcptrContext) GetDocument__SWIG_1(arg2 int) (_swig_ret Rml_Element
 	var swig_r Rml_ElementDocument
 	_swig_i_0 := arg1
 	_swig_i_1 := arg2
-	swig_r = (Rml_ElementDocument)(SwigcptrRml_ElementDocument(C._wrap_Context_GetDocument__SWIG_1_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0), C.swig_intgo(_swig_i_1))))
+	swig_r = (Rml_ElementDocument)(RmlcptrElementDocument(C._wrap_Context_GetDocument__SWIG_1_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0), C.swig_intgo(_swig_i_1))))
 	return swig_r
 }
 
@@ -3789,7 +4125,7 @@ func (arg1 SwigcptrContext) GetDocumentsBaseTag() (_swig_ret string) {
 	swig_r_p := C._wrap_Context_GetDocumentsBaseTag_rmlui_a39a0a49a8e50a2c(C.uintptr_t(_swig_i_0))
 	swig_r = *(*string)(unsafe.Pointer(&swig_r_p))
 	var swig_r_1 string
- swig_r_1 = swigCopyString(swig_r) 
+	swig_r_1 = swigCopyString(swig_r)
 	return swig_r_1
 }
 
@@ -3854,6 +4190,7 @@ type Context interface {
 }
 
 type RmlDefaultActionPhase int
+
 func Initialise() (_swig_ret bool) {
 	var swig_r bool
 	swig_r = (bool)(C._wrap_Initialise_rmlui_a39a0a49a8e50a2c())
@@ -3869,7 +4206,7 @@ func GetVersion() (_swig_ret string) {
 	swig_r_p := C._wrap_GetVersion_rmlui_a39a0a49a8e50a2c()
 	swig_r = *(*string)(unsafe.Pointer(&swig_r_p))
 	var swig_r_1 string
- swig_r_1 = swigCopyString(swig_r) 
+	swig_r_1 = swigCopyString(swig_r)
 	return swig_r_1
 }
 
@@ -4142,152 +4479,158 @@ func ReleaseMemoryPools() {
 	C._wrap_ReleaseMemoryPools_rmlui_a39a0a49a8e50a2c()
 }
 
-
 type SwigcptrScrollBehavior uintptr
 type ScrollBehavior interface {
-	Swigcptr() uintptr;
+	Swigcptr() uintptr
 }
+
 func (p SwigcptrScrollBehavior) Swigcptr() uintptr {
 	return uintptr(p)
 }
 
 type SwigcptrRml_RenderInterface uintptr
 type Rml_RenderInterface interface {
-	Swigcptr() uintptr;
-}
-func (p SwigcptrRml_RenderInterface) Swigcptr() uintptr {
-	return uintptr(p)
+	Swigcptr() uintptr
 }
 
-type SwigcptrRml_ElementDocument uintptr
-type Rml_ElementDocument interface {
-	Swigcptr() uintptr;
-}
-func (p SwigcptrRml_ElementDocument) Swigcptr() uintptr {
+func (p SwigcptrRml_RenderInterface) Swigcptr() uintptr {
 	return uintptr(p)
 }
 
 type SwigcptrRml_FileInterface uintptr
 type Rml_FileInterface interface {
-	Swigcptr() uintptr;
+	Swigcptr() uintptr
 }
+
 func (p SwigcptrRml_FileInterface) Swigcptr() uintptr {
 	return uintptr(p)
 }
 
 type SwigcptrRml_Stream uintptr
 type Rml_Stream interface {
-	Swigcptr() uintptr;
+	Swigcptr() uintptr
 }
+
 func (p SwigcptrRml_Stream) Swigcptr() uintptr {
 	return uintptr(p)
 }
 
 type SwigcptrRml_EventListener uintptr
 type Rml_EventListener interface {
-	Swigcptr() uintptr;
+	Swigcptr() uintptr
 }
+
 func (p SwigcptrRml_EventListener) Swigcptr() uintptr {
 	return uintptr(p)
 }
 
 type SwigcptrInt8_t uintptr
 type Int8_t interface {
-	Swigcptr() uintptr;
+	Swigcptr() uintptr
 }
+
 func (p SwigcptrInt8_t) Swigcptr() uintptr {
 	return uintptr(p)
 }
 
 type SwigcptrRml_Vector_Sl_std_string_Sg_ uintptr
 type Rml_Vector_Sl_std_string_Sg_ interface {
-	Swigcptr() uintptr;
+	Swigcptr() uintptr
 }
+
 func (p SwigcptrRml_Vector_Sl_std_string_Sg_) Swigcptr() uintptr {
 	return uintptr(p)
 }
 
 type SwigcptrRml_Vector2_Sl_int_Sg_ uintptr
 type Rml_Vector2_Sl_int_Sg_ interface {
-	Swigcptr() uintptr;
+	Swigcptr() uintptr
 }
+
 func (p SwigcptrRml_Vector2_Sl_int_Sg_) Swigcptr() uintptr {
 	return uintptr(p)
 }
 
 type SwigcptrRml_Plugin uintptr
 type Rml_Plugin interface {
-	Swigcptr() uintptr;
+	Swigcptr() uintptr
 }
+
 func (p SwigcptrRml_Plugin) Swigcptr() uintptr {
 	return uintptr(p)
 }
 
 type SwigcptrRml_DataModelConstructor uintptr
 type Rml_DataModelConstructor interface {
-	Swigcptr() uintptr;
+	Swigcptr() uintptr
 }
+
 func (p SwigcptrRml_DataModelConstructor) Swigcptr() uintptr {
 	return uintptr(p)
 }
 
 type SwigcptrRml_SystemInterface uintptr
 type Rml_SystemInterface interface {
-	Swigcptr() uintptr;
+	Swigcptr() uintptr
 }
+
 func (p SwigcptrRml_SystemInterface) Swigcptr() uintptr {
 	return uintptr(p)
 }
 
 type SwigcptrRml_FontEngineInterface uintptr
 type Rml_FontEngineInterface interface {
-	Swigcptr() uintptr;
+	Swigcptr() uintptr
 }
+
 func (p SwigcptrRml_FontEngineInterface) Swigcptr() uintptr {
 	return uintptr(p)
 }
 
 type SwigcptrCharacter uintptr
 type Character interface {
-	Swigcptr() uintptr;
+	Swigcptr() uintptr
 }
+
 func (p SwigcptrCharacter) Swigcptr() uintptr {
 	return uintptr(p)
 }
 
 type SwigcptrRml_ContextInstancer uintptr
 type Rml_ContextInstancer interface {
-	Swigcptr() uintptr;
+	Swigcptr() uintptr
 }
+
 func (p SwigcptrRml_ContextInstancer) Swigcptr() uintptr {
 	return uintptr(p)
 }
 
 type SwigcptrRml_Vector2_Sl_float_Sg_ uintptr
 type Rml_Vector2_Sl_float_Sg_ interface {
-	Swigcptr() uintptr;
+	Swigcptr() uintptr
 }
+
 func (p SwigcptrRml_Vector2_Sl_float_Sg_) Swigcptr() uintptr {
 	return uintptr(p)
 }
 
 type SwigcptrInput_KeyIdentifier uintptr
 type Input_KeyIdentifier interface {
-	Swigcptr() uintptr;
+	Swigcptr() uintptr
 }
+
 func (p SwigcptrInput_KeyIdentifier) Swigcptr() uintptr {
 	return uintptr(p)
 }
 
 type SwigcptrRml_DataTypeRegister uintptr
 type Rml_DataTypeRegister interface {
-	Swigcptr() uintptr;
+	Swigcptr() uintptr
 }
+
 func (p SwigcptrRml_DataTypeRegister) Swigcptr() uintptr {
 	return uintptr(p)
 }
-
-
 
 var swigDirectorTrack struct {
 	sync.Mutex
@@ -4329,5 +4672,3 @@ func swigDirectorDelete(c int) {
 	}
 	delete(swigDirectorTrack.m, c)
 }
-
-
