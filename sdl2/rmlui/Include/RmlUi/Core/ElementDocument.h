@@ -63,7 +63,10 @@ enum class FocusFlag { None, Document, Keep, Auto };
 
 class RMLUICORE_API ElementDocument : public Element {
 public:
+	RMLUI_RTTI_DefineWithParent(ElementDocument, Element)
 
+	ElementDocument(const String& tag);
+	virtual ~ElementDocument();
 
 	/// Process given document header
 	void ProcessHeader(const DocumentHeader* header);
@@ -78,6 +81,19 @@ public:
 
 	/// Returns the source address of this document.
 	const String& GetSourceURL() const;
+
+	/// Returns the document's compiled style sheet.
+	/// @note The style sheet may be regenerated when media query parameters change, invalidating the pointer.
+	const StyleSheet* GetStyleSheet() const override;
+	/// Reload the document's style sheet from source files.
+	/// Styles will be reloaded from <style> tags and external style sheets, but not inline 'style' attributes.
+	/// @note The source url originally used to load the document must still be a valid RML document.
+	void ReloadStyleSheet();
+
+	/// Returns the document's style sheet container.
+	const StyleSheetContainer* GetStyleSheetContainer() const;
+	/// Sets the style sheet this document, and all of its children, uses.
+	void SetStyleSheetContainer(SharedPtr<StyleSheetContainer> style_sheet);
 
 	/// Brings the document to the front of the document stack.
 	void PullToFront();
@@ -94,6 +110,90 @@ public:
 	/// @note The destruction of the document is deferred until the next call to Context::Update().
 	void Close();
 
+	/// Creates the named element.
+	/// @param[in] name The tag name of the element.
+	ElementPtr CreateElement(const String& name);
+	/// Create a text element with the given text content.
+	/// @param[in] text The text content of the text element.
+	ElementPtr CreateTextNode(const String& text);
+
+	/// Does the document have modal display set.
+	/// @return True if the document is hogging focus.
+	bool IsModal() const;
+
+	/// Load a inline script into the document. Note that the base implementation does nothing, scripting language addons hook
+	/// this method.
+	/// @param[in] content The script content.
+	/// @param[in] source_path Path of the script the source comes from, useful for debug information.
+	/// @param[in] source_line Line of the script the source comes from, useful for debug information.
+	virtual void LoadInlineScript(const String& content, const String& source_path, int source_line);
+
+	/// Load a external script into the document. Note that the base implementation does nothing, scripting language addons hook
+	/// this method.
+	/// @param[in] source_path The script file path.
+	virtual void LoadExternalScript(const String& source_path);
+
+	/// Updates the document, including its layout. Users must call this manually before requesting information such as
+	/// size or position of an element if any element in the document was recently changed, unless Context::Update has
+	/// already been called after the change. This has a perfomance penalty, only call when necessary.
+	void UpdateDocument();
+
+protected:
+	/// Repositions the document if necessary.
+	void OnPropertyChange(const PropertyIdSet& changed_properties) override;
+
+	/// Processes the 'onpropertychange' event, checking for a change in position or size.
+	void ProcessDefaultAction(Event& event) override;
+
+	/// Called during update if the element size has been changed.
+	void OnResize() override;
+
+private:
+	/// Find the next element to focus, starting at the current element
+	Element* FindNextTabElement(Element* current_element, bool forward);
+	/// Searches forwards or backwards for a focusable element in the given substree
+	Element* SearchFocusSubtree(Element* element, bool forward);
+
+	/// Sets the dirty flag on the layout so the document will format its children before the next render.
+	void DirtyLayout() override;
+	/// Returns true if the document has been marked as needing a re-layout.
+	bool IsLayoutDirty() override;
+
+	/// Notify the document that media query related properties have changed and that style sheets need to be re-evaluated.
+	void DirtyMediaQueries();
+
+	/// Updates all sizes defined by the 'vw' and the 'vh' units.
+	void DirtyVwAndVhProperties();
+
+	/// Updates the layout if necessary.
+	void UpdateLayout();
+
+	/// Updates the position of the document based on the style properties.
+	void UpdatePosition();
+	/// Sets the dirty flag for document positioning
+	void DirtyPosition();
+
+	// Title of the document
+	String title;
+
+	// The original path this document came from
+	String source_url;
+
+	// The document's style sheet container.
+	SharedPtr<StyleSheetContainer> style_sheet_container;
+
+	Context* context;
+
+	// Is the current display modal
+	bool modal;
+
+	// Is the layout dirty?
+	bool layout_dirty;
+
+	bool position_dirty;
+
+	friend class Rml::Context;
+	friend class Rml::Factory;
 };
 
 } // namespace Rml

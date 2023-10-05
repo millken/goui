@@ -5,7 +5,7 @@ package rmlui
 
 #include <stddef.h>
 #include <stdint.h>
-
+#include <stdlib.h>
 typedef long long intgo;
 typedef unsigned long long uintgo;
 typedef struct { char *p; intgo n; } _gostring_;

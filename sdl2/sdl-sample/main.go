@@ -8,6 +8,7 @@ func main() {
 	}
 	defer sdl.Quit()
 
+	sdl.SetHint(sdl.HINT_RENDER_SCALE_QUALITY, "1")
 	window, err := sdl.CreateWindow("test", sdl.WINDOWPOS_CENTERED, sdl.WINDOWPOS_CENTERED,
 		800, 600, sdl.WINDOW_RESIZABLE)
 	if err != nil {
