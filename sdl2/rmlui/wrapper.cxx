@@ -475,6 +475,218 @@ void _wrap_SystemInterface_DeactivateKeyboard_rmlui(Rml::SystemInterface *_swig_
   
 }
 
+
+
+void _wrap_delete_RenderInterface_rmlui(Rml::RenderInterface *_swig_go_0) {
+  Rml::RenderInterface *arg1 = (Rml::RenderInterface *) 0 ;
+  
+  arg1 = *(Rml::RenderInterface **)&_swig_go_0; 
+  
+  delete arg1;
+  
+}
+
+
+void _wrap_RenderInterface_RenderGeometry_rmlui(Rml::RenderInterface *_swig_go_0, Rml::Vertex *_swig_go_1, intgo _swig_go_2, intgo *_swig_go_3, intgo _swig_go_4, Rml::TextureHandle *_swig_go_5, Rml::Vector2< float > *_swig_go_6) {
+  Rml::RenderInterface *arg1 = (Rml::RenderInterface *) 0 ;
+  Rml::Vertex *arg2 = (Rml::Vertex *) 0 ;
+  int arg3 ;
+  int *arg4 = (int *) 0 ;
+  int arg5 ;
+  Rml::TextureHandle arg6 ;
+  Rml::Vector2f *arg7 = 0 ;
+  Rml::TextureHandle *argp6 ;
+  
+  arg1 = *(Rml::RenderInterface **)&_swig_go_0; 
+  arg2 = *(Rml::Vertex **)&_swig_go_1; 
+  arg3 = (int)_swig_go_2; 
+  arg4 = *(int **)&_swig_go_3; 
+  arg5 = (int)_swig_go_4; 
+  
+  argp6 = (Rml::TextureHandle *)_swig_go_5;
+  if (argp6 == NULL) {
+    _swig_gopanic("Attempt to dereference null TextureHandle");
+  }
+  arg6 = (Rml::TextureHandle)*argp6;
+  
+  arg7 = *(Rml::Vector2f **)&_swig_go_6; 
+  
+  (arg1)->RenderGeometry(arg2,arg3,arg4,arg5,arg6,(Rml::Vector2f const &)*arg7);
+  
+}
+
+
+Rml::CompiledGeometryHandle *_wrap_RenderInterface_CompileGeometry_rmlui(Rml::RenderInterface *_swig_go_0, Rml::Vertex *_swig_go_1, intgo _swig_go_2, intgo *_swig_go_3, intgo _swig_go_4, Rml::TextureHandle *_swig_go_5) {
+  Rml::RenderInterface *arg1 = (Rml::RenderInterface *) 0 ;
+  Rml::Vertex *arg2 = (Rml::Vertex *) 0 ;
+  int arg3 ;
+  int *arg4 = (int *) 0 ;
+  int arg5 ;
+  Rml::TextureHandle arg6 ;
+  Rml::TextureHandle *argp6 ;
+  Rml::CompiledGeometryHandle result;
+  Rml::CompiledGeometryHandle *_swig_go_result;
+  
+  arg1 = *(Rml::RenderInterface **)&_swig_go_0; 
+  arg2 = *(Rml::Vertex **)&_swig_go_1; 
+  arg3 = (int)_swig_go_2; 
+  arg4 = *(int **)&_swig_go_3; 
+  arg5 = (int)_swig_go_4; 
+  
+  argp6 = (Rml::TextureHandle *)_swig_go_5;
+  if (argp6 == NULL) {
+    _swig_gopanic("Attempt to dereference null TextureHandle");
+  }
+  arg6 = (Rml::TextureHandle)*argp6;
+  
+  
+  result = (arg1)->CompileGeometry(arg2,arg3,arg4,arg5,arg6);
+  *(Rml::CompiledGeometryHandle **)&_swig_go_result = new Rml::CompiledGeometryHandle(result); 
+  return _swig_go_result;
+}
+
+
+void _wrap_RenderInterface_RenderCompiledGeometry_rmlui(Rml::RenderInterface *_swig_go_0, Rml::CompiledGeometryHandle *_swig_go_1, Rml::Vector2< float > *_swig_go_2) {
+  Rml::RenderInterface *arg1 = (Rml::RenderInterface *) 0 ;
+  Rml::CompiledGeometryHandle arg2 ;
+  Rml::Vector2f *arg3 = 0 ;
+  Rml::CompiledGeometryHandle *argp2 ;
+  
+  arg1 = *(Rml::RenderInterface **)&_swig_go_0; 
+  
+  argp2 = (Rml::CompiledGeometryHandle *)_swig_go_1;
+  if (argp2 == NULL) {
+    _swig_gopanic("Attempt to dereference null CompiledGeometryHandle");
+  }
+  arg2 = (Rml::CompiledGeometryHandle)*argp2;
+  
+  arg3 = *(Rml::Vector2f **)&_swig_go_2; 
+  
+  (arg1)->RenderCompiledGeometry(arg2,(Rml::Vector2f const &)*arg3);
+  
+}
+
+
+void _wrap_RenderInterface_ReleaseCompiledGeometry_rmlui(Rml::RenderInterface *_swig_go_0, Rml::CompiledGeometryHandle *_swig_go_1) {
+  Rml::RenderInterface *arg1 = (Rml::RenderInterface *) 0 ;
+  Rml::CompiledGeometryHandle arg2 ;
+  Rml::CompiledGeometryHandle *argp2 ;
+  
+  arg1 = *(Rml::RenderInterface **)&_swig_go_0; 
+  
+  argp2 = (Rml::CompiledGeometryHandle *)_swig_go_1;
+  if (argp2 == NULL) {
+    _swig_gopanic("Attempt to dereference null CompiledGeometryHandle");
+  }
+  arg2 = (Rml::CompiledGeometryHandle)*argp2;
+  
+  
+  (arg1)->ReleaseCompiledGeometry(arg2);
+  
+}
+
+
+void _wrap_RenderInterface_EnableScissorRegion_rmlui(Rml::RenderInterface *_swig_go_0, bool _swig_go_1) {
+  Rml::RenderInterface *arg1 = (Rml::RenderInterface *) 0 ;
+  bool arg2 ;
+  
+  arg1 = *(Rml::RenderInterface **)&_swig_go_0; 
+  arg2 = (bool)_swig_go_1; 
+  
+  (arg1)->EnableScissorRegion(arg2);
+  
+}
+
+
+void _wrap_RenderInterface_SetScissorRegion_rmlui(Rml::RenderInterface *_swig_go_0, intgo _swig_go_1, intgo _swig_go_2, intgo _swig_go_3, intgo _swig_go_4) {
+  Rml::RenderInterface *arg1 = (Rml::RenderInterface *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  int arg4 ;
+  int arg5 ;
+  
+  arg1 = *(Rml::RenderInterface **)&_swig_go_0; 
+  arg2 = (int)_swig_go_1; 
+  arg3 = (int)_swig_go_2; 
+  arg4 = (int)_swig_go_3; 
+  arg5 = (int)_swig_go_4; 
+  
+  (arg1)->SetScissorRegion(arg2,arg3,arg4,arg5);
+  
+}
+
+
+bool _wrap_RenderInterface_LoadTexture_rmlui(Rml::RenderInterface *_swig_go_0, Rml::TextureHandle *_swig_go_1, Rml::Vector2< int > *_swig_go_2, _gostring_ _swig_go_3) {
+  Rml::RenderInterface *arg1 = (Rml::RenderInterface *) 0 ;
+  Rml::TextureHandle *arg2 = 0 ;
+  Rml::Vector2i *arg3 = 0 ;
+  Rml::String *arg4 = 0 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::RenderInterface **)&_swig_go_0; 
+  arg2 = *(Rml::TextureHandle **)&_swig_go_1; 
+  arg3 = *(Rml::Vector2i **)&_swig_go_2; 
+  
+  Rml::String arg4_str(_swig_go_3.p, _swig_go_3.n);
+  arg4 = &arg4_str;
+  
+  
+  result = (bool)(arg1)->LoadTexture(*arg2,*arg3,(Rml::String const &)*arg4);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+bool _wrap_RenderInterface_GenerateTexture_rmlui(Rml::RenderInterface *_swig_go_0, Rml::TextureHandle *_swig_go_1, char *_swig_go_2, Rml::Vector2< int > *_swig_go_3) {
+  Rml::RenderInterface *arg1 = (Rml::RenderInterface *) 0 ;
+  Rml::TextureHandle *arg2 = 0 ;
+  Rml::byte *arg3 = (Rml::byte *) 0 ;
+  Rml::Vector2i *arg4 = 0 ;
+  bool result;
+  bool _swig_go_result;
+  
+  arg1 = *(Rml::RenderInterface **)&_swig_go_0; 
+  arg2 = *(Rml::TextureHandle **)&_swig_go_1; 
+  arg3 = *(Rml::byte **)&_swig_go_2; 
+  arg4 = *(Rml::Vector2i **)&_swig_go_3; 
+  
+  result = (bool)(arg1)->GenerateTexture(*arg2,(Rml::byte const *)arg3,(Rml::Vector2i const &)*arg4);
+  _swig_go_result = result; 
+  return _swig_go_result;
+}
+
+
+void _wrap_RenderInterface_ReleaseTexture_rmlui(Rml::RenderInterface *_swig_go_0, Rml::TextureHandle *_swig_go_1) {
+  Rml::RenderInterface *arg1 = (Rml::RenderInterface *) 0 ;
+  Rml::TextureHandle arg2 ;
+  Rml::TextureHandle *argp2 ;
+  
+  arg1 = *(Rml::RenderInterface **)&_swig_go_0; 
+  
+  argp2 = (Rml::TextureHandle *)_swig_go_1;
+  if (argp2 == NULL) {
+    _swig_gopanic("Attempt to dereference null TextureHandle");
+  }
+  arg2 = (Rml::TextureHandle)*argp2;
+  
+  
+  (arg1)->ReleaseTexture(arg2);
+  
+}
+
+
+void _wrap_RenderInterface_SetTransform_rmlui(Rml::RenderInterface *_swig_go_0, Rml::Matrix4f *_swig_go_1) {
+  Rml::RenderInterface *arg1 = (Rml::RenderInterface *) 0 ;
+  Rml::Matrix4f *arg2 = (Rml::Matrix4f *) 0 ;
+  
+  arg1 = *(Rml::RenderInterface **)&_swig_go_0; 
+  arg2 = *(Rml::Matrix4f **)&_swig_go_1; 
+  
+  (arg1)->SetTransform((Rml::Matrix4f const *)arg2);
+  
+}
+
 #ifdef __cplusplus
 }
 #endif

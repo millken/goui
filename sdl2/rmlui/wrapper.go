@@ -26,6 +26,7 @@ typedef _gostring__ swig_type_103;
 typedef _gostring__ swig_type_104;
 typedef _gostring__ swig_type_105;
 typedef _gostring__ swig_type_106;
+typedef _gostring__ swig_type_110;
 extern uintptr_t _wrap_new_Vector2Int__SWIG_1_rmlui(swig_intgo arg1);
 extern uintptr_t _wrap_new_Vector2Int__SWIG_2_rmlui(swig_intgo arg1, swig_intgo arg2);
 extern uintptr_t _wrap_new_Context_rmlui(swig_type_106 arg1);
@@ -63,6 +64,18 @@ extern void _wrap_SystemInterface_SetClipboardText_rmlui(uintptr_t arg1, swig_ty
 extern void _wrap_SystemInterface_GetClipboardText_rmlui(uintptr_t arg1, swig_voidp arg2);
 extern void _wrap_SystemInterface_ActivateKeyboard_rmlui(uintptr_t arg1, uintptr_t arg2, float arg3);
 extern void _wrap_SystemInterface_DeactivateKeyboard_rmlui(uintptr_t arg1);
+
+extern void _wrap_delete_RenderInterface_rmlui(uintptr_t arg1);
+extern void _wrap_RenderInterface_RenderGeometry_rmlui(uintptr_t arg1, uintptr_t arg2, swig_intgo arg3, swig_voidp arg4, swig_intgo arg5, uintptr_t arg6, uintptr_t arg7);
+extern uintptr_t _wrap_RenderInterface_CompileGeometry_rmlui(uintptr_t arg1, uintptr_t arg2, swig_intgo arg3, swig_voidp arg4, swig_intgo arg5, uintptr_t arg6);
+extern void _wrap_RenderInterface_RenderCompiledGeometry_rmlui(uintptr_t arg1, uintptr_t arg2, uintptr_t arg3);
+extern void _wrap_RenderInterface_ReleaseCompiledGeometry_rmlui(uintptr_t arg1, uintptr_t arg2);
+extern void _wrap_RenderInterface_EnableScissorRegion_rmlui(uintptr_t arg1, _Bool arg2);
+extern void _wrap_RenderInterface_SetScissorRegion_rmlui(uintptr_t arg1, swig_intgo arg2, swig_intgo arg3, swig_intgo arg4, swig_intgo arg5);
+extern _Bool _wrap_RenderInterface_LoadTexture_rmlui(uintptr_t arg1, uintptr_t arg2, uintptr_t arg3, swig_type_110 arg4);
+extern _Bool _wrap_RenderInterface_GenerateTexture_rmlui(uintptr_t arg1, uintptr_t arg2, swig_voidp arg3, uintptr_t arg4);
+extern void _wrap_RenderInterface_ReleaseTexture_rmlui(uintptr_t arg1, uintptr_t arg2);
+extern void _wrap_RenderInterface_SetTransform_rmlui(uintptr_t arg1, uintptr_t arg2);
 
 #undef intgo
 */
@@ -393,5 +406,162 @@ type Log_Type interface {
 }
 
 func (p SwigcptrLog_Type) Swigcptr() uintptr {
+	return uintptr(p)
+}
+
+type SwigcptrRenderInterface uintptr
+
+func (p SwigcptrRenderInterface) Swigcptr() uintptr {
+	return (uintptr)(p)
+}
+
+func (p SwigcptrRenderInterface) SwigIsRenderInterface() {
+}
+
+func DeleteRenderInterface(arg1 RenderInterface) {
+	_swig_i_0 := getSwigcptr(arg1)
+	C._wrap_delete_RenderInterface_rmlui(C.uintptr_t(_swig_i_0))
+}
+
+func (arg1 SwigcptrRenderInterface) RenderGeometry(arg2 Vertex, arg3 int, arg4 *int, arg5 int, arg6 TextureHandle, arg7 Rml_Vector2_Sl_float_Sg_) {
+	_swig_i_0 := arg1
+	_swig_i_1 := getSwigcptr(arg2)
+	_swig_i_2 := arg3
+	_swig_i_3 := arg4
+	_swig_i_4 := arg5
+	_swig_i_5 := getSwigcptr(arg6)
+	_swig_i_6 := getSwigcptr(arg7)
+	C._wrap_RenderInterface_RenderGeometry_rmlui(C.uintptr_t(_swig_i_0), C.uintptr_t(_swig_i_1), C.swig_intgo(_swig_i_2), C.swig_voidp(_swig_i_3), C.swig_intgo(_swig_i_4), C.uintptr_t(_swig_i_5), C.uintptr_t(_swig_i_6))
+}
+
+func (arg1 SwigcptrRenderInterface) CompileGeometry(arg2 Vertex, arg3 int, arg4 *int, arg5 int, arg6 TextureHandle) (_swig_ret CompiledGeometryHandle) {
+	var swig_r CompiledGeometryHandle
+	_swig_i_0 := arg1
+	_swig_i_1 := getSwigcptr(arg2)
+	_swig_i_2 := arg3
+	_swig_i_3 := arg4
+	_swig_i_4 := arg5
+	_swig_i_5 := getSwigcptr(arg6)
+	swig_r = (CompiledGeometryHandle)(SwigcptrCompiledGeometryHandle(C._wrap_RenderInterface_CompileGeometry_rmlui(C.uintptr_t(_swig_i_0), C.uintptr_t(_swig_i_1), C.swig_intgo(_swig_i_2), C.swig_voidp(_swig_i_3), C.swig_intgo(_swig_i_4), C.uintptr_t(_swig_i_5))))
+	return swig_r
+}
+
+func (arg1 SwigcptrRenderInterface) RenderCompiledGeometry(arg2 CompiledGeometryHandle, arg3 Rml_Vector2_Sl_float_Sg_) {
+	_swig_i_0 := arg1
+	_swig_i_1 := getSwigcptr(arg2)
+	_swig_i_2 := getSwigcptr(arg3)
+	C._wrap_RenderInterface_RenderCompiledGeometry_rmlui(C.uintptr_t(_swig_i_0), C.uintptr_t(_swig_i_1), C.uintptr_t(_swig_i_2))
+}
+
+func (arg1 SwigcptrRenderInterface) ReleaseCompiledGeometry(arg2 CompiledGeometryHandle) {
+	_swig_i_0 := arg1
+	_swig_i_1 := getSwigcptr(arg2)
+	C._wrap_RenderInterface_ReleaseCompiledGeometry_rmlui(C.uintptr_t(_swig_i_0), C.uintptr_t(_swig_i_1))
+}
+
+func (arg1 SwigcptrRenderInterface) EnableScissorRegion(arg2 bool) {
+	_swig_i_0 := arg1
+	_swig_i_1 := arg2
+	C._wrap_RenderInterface_EnableScissorRegion_rmlui(C.uintptr_t(_swig_i_0), C._Bool(_swig_i_1))
+}
+
+func (arg1 SwigcptrRenderInterface) SetScissorRegion(arg2 int, arg3 int, arg4 int, arg5 int) {
+	_swig_i_0 := arg1
+	_swig_i_1 := arg2
+	_swig_i_2 := arg3
+	_swig_i_3 := arg4
+	_swig_i_4 := arg5
+	C._wrap_RenderInterface_SetScissorRegion_rmlui(C.uintptr_t(_swig_i_0), C.swig_intgo(_swig_i_1), C.swig_intgo(_swig_i_2), C.swig_intgo(_swig_i_3), C.swig_intgo(_swig_i_4))
+}
+
+func (arg1 SwigcptrRenderInterface) LoadTexture(arg2 TextureHandle, arg3 Rml_Vector2_Sl_int_Sg_, arg4 string) (_swig_ret bool) {
+	var swig_r bool
+	_swig_i_0 := arg1
+	_swig_i_1 := getSwigcptr(arg2)
+	_swig_i_2 := getSwigcptr(arg3)
+	_swig_i_3 := arg4
+	swig_r = (bool)(C._wrap_RenderInterface_LoadTexture_rmlui(C.uintptr_t(_swig_i_0), C.uintptr_t(_swig_i_1), C.uintptr_t(_swig_i_2), *(*C.swig_type_110)(unsafe.Pointer(&_swig_i_3))))
+	if Swig_escape_always_false {
+		Swig_escape_val = arg4
+	}
+	return swig_r
+}
+
+func (arg1 SwigcptrRenderInterface) GenerateTexture(arg2 TextureHandle, arg3 *byte, arg4 Rml_Vector2_Sl_int_Sg_) (_swig_ret bool) {
+	var swig_r bool
+	_swig_i_0 := arg1
+	_swig_i_1 := getSwigcptr(arg2)
+	_swig_i_2 := arg3
+	_swig_i_3 := getSwigcptr(arg4)
+	swig_r = (bool)(C._wrap_RenderInterface_GenerateTexture_rmlui(C.uintptr_t(_swig_i_0), C.uintptr_t(_swig_i_1), C.swig_voidp(_swig_i_2), C.uintptr_t(_swig_i_3)))
+	return swig_r
+}
+
+func (arg1 SwigcptrRenderInterface) ReleaseTexture(arg2 TextureHandle) {
+	_swig_i_0 := arg1
+	_swig_i_1 := getSwigcptr(arg2)
+	C._wrap_RenderInterface_ReleaseTexture_rmlui(C.uintptr_t(_swig_i_0), C.uintptr_t(_swig_i_1))
+}
+
+func (arg1 SwigcptrRenderInterface) SetTransform(arg2 Matrix4f) {
+	_swig_i_0 := arg1
+	_swig_i_1 := getSwigcptr(arg2)
+	C._wrap_RenderInterface_SetTransform_rmlui(C.uintptr_t(_swig_i_0), C.uintptr_t(_swig_i_1))
+}
+
+type RenderInterface interface {
+	Swigcptr() uintptr
+	SwigIsRenderInterface()
+	RenderGeometry(arg2 Vertex, arg3 int, arg4 *int, arg5 int, arg6 TextureHandle, arg7 Rml_Vector2_Sl_float_Sg_)
+	CompileGeometry(arg2 Vertex, arg3 int, arg4 *int, arg5 int, arg6 TextureHandle) (_swig_ret CompiledGeometryHandle)
+	RenderCompiledGeometry(arg2 CompiledGeometryHandle, arg3 Rml_Vector2_Sl_float_Sg_)
+	ReleaseCompiledGeometry(arg2 CompiledGeometryHandle)
+	EnableScissorRegion(arg2 bool)
+	SetScissorRegion(arg2 int, arg3 int, arg4 int, arg5 int)
+	LoadTexture(arg2 TextureHandle, arg3 Rml_Vector2_Sl_int_Sg_, arg4 string) (_swig_ret bool)
+	GenerateTexture(arg2 TextureHandle, arg3 *byte, arg4 Rml_Vector2_Sl_int_Sg_) (_swig_ret bool)
+	ReleaseTexture(arg2 TextureHandle)
+	SetTransform(arg2 Matrix4f)
+}
+
+type SwigcptrCompiledGeometryHandle uintptr
+type CompiledGeometryHandle interface {
+	Swigcptr() uintptr
+}
+
+func (p SwigcptrCompiledGeometryHandle) Swigcptr() uintptr {
+	return uintptr(p)
+}
+
+type SwigcptrRml_ElementDocument uintptr
+
+func (p SwigcptrRml_ElementDocument) Swigcptr() uintptr {
+	return uintptr(p)
+}
+
+type SwigcptrMatrix4f uintptr
+type Matrix4f interface {
+	Swigcptr() uintptr
+}
+
+func (p SwigcptrMatrix4f) Swigcptr() uintptr {
+	return uintptr(p)
+}
+
+type SwigcptrTextureHandle uintptr
+type TextureHandle interface {
+	Swigcptr() uintptr
+}
+
+func (p SwigcptrTextureHandle) Swigcptr() uintptr {
+	return uintptr(p)
+}
+
+type SwigcptrVertex uintptr
+type Vertex interface {
+	Swigcptr() uintptr
+}
+
+func (p SwigcptrVertex) Swigcptr() uintptr {
 	return uintptr(p)
 }

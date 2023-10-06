@@ -6,11 +6,9 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
-type RenterInterface uintptr
-
-func NewRenterInterface(renderer *sdl.Renderer) SwigcptrRml_RenderInterface {
+func NewRenterInterface(renderer *sdl.Renderer) SwigcptrRenderInterface {
 	a := unsafe.Pointer(renderer)
-	return SwigcptrRml_RenderInterface(a)
+	return SwigcptrRenderInterface(a)
 }
 
 func NewSystemInterface(window *sdl.Window) SwigcptrSystemInterface {

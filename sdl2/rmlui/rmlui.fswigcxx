@@ -26,5 +26,5 @@
 %ignore Rml::Context::GetElementAtPoint;
 %ignore Rml::Context::GetRootElement;
 %include "RmlUi/Core/Context.h"
-%include "RmlUi/Core/SystemInterface.h"
+%include "RmlUi/Core/RenderInterface.h"
 %include "RmlUi/Core/Core.h"
