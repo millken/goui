@@ -7,6 +7,9 @@
         "list": "cpp",
         "string": "cpp",
         "rmlui.h": "c",
-        "__config": "cpp"
+        "__config": "cpp",
+        "__bit_reference": "cpp",
+        "vector": "cpp",
+        "limits": "cpp"
     }
 }
