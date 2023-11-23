@@ -70,3 +70,27 @@ type Style struct {
 	MaxDimensions  [DimensionCount]Value
 	AspectRatio    FloatOptional
 }
+
+func (s *Style) alignContent() Align {
+	return s.AlignContent
+}
+
+// display
+func (s *Style) display() Display {
+	return s.Display
+}
+
+// positionType
+func (s *Style) positionType() PositionType {
+	return s.PositionType
+}
+
+// overflow
+func (s *Style) overflow() Overflow {
+	return s.Overflow
+}
+
+// flexWrap
+func (s *Style) flexWrap() Wrap {
+	return s.FlexWrap
+}

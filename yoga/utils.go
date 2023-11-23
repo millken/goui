@@ -1,5 +1,17 @@
 package yoga
 
+type CollectFlexItemsRowValues struct {
+	itemsOnLine                  uint32
+	sizeConsumedOnCurrentLine    float32
+	totalFlexGrowFactors         float32
+	totalFlexShrinkScaledFactors float32
+	endOfLineIndex               uint32
+	relativeChildren             []*Node
+	remainingFreeSpace           float32
+	mainDim                      float32
+	crossDim                     float32
+}
+
 func FlexDirectionIsRow(direction FlexDirection) bool {
 	return direction == FlexDirectionRow || direction == FlexDirectionRowReverse
 }
@@ -69,4 +81,20 @@ func FloatMax(a float32, b float32) float32 {
 		return b
 	}
 	return a
+}
+
+// FloatsEqual
+func FloatsEqual(a float32, b float32) bool {
+	if FloatIsUndefined(a) && FloatIsUndefined(b) {
+		return true
+	}
+	return a == b
+}
+
+// Any 若expr成立，则返回a；否则返回b。
+func If[T any](expr bool, a, b T) T {
+	if expr {
+		return a
+	}
+	return b
 }

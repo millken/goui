@@ -151,6 +151,16 @@ func (n *Node) MarkDirtyAndPropagate() {
 	}
 }
 
+func (n *Node) iterChildrenAfterCloningIfNeeded(callback func(child *Node, layoutContext interface{}), cloneContext interface{}) {
+	for i, child := range n.Children {
+		if child.Owner != n {
+			n.Children[i] = n.Config.cloneNode(child)
+			n.Children[i].Owner = n.Owner
+		}
+		callback(n.Children[i], cloneContext)
+	}
+}
+
 func (n *Node) IsNodeDirty() bool {
 	return n.IsDirty
 }
@@ -753,9 +763,19 @@ func (n *Node) isStyleDimDefined(axis FlexDirection, ownerSize float32) bool {
 
 }
 
+// getConfig
+func (n *Node) getConfig() *Config {
+	return n.Config
+}
+
 // getResolvedDimension
 func (n *Node) getResolvedDimension(index int) *Value {
 	return n.resolvedDimensions[index]
+}
+
+// getResolvedDimensions
+func (n *Node) getResolvedDimensions() [2]*Value {
+	return n.resolvedDimensions
 }
 
 // resolveDimension
@@ -909,6 +929,46 @@ func (n *Node) RemoveChild(child *Node) *Node {
 		}
 	}
 	return n
+}
+
+// setLineIndex
+func (n *Node) setLineIndex(lineIndex uint32) {
+	n.lineIndex = lineIndex
+}
+
+// cloneChildrenIfNeeded
+func (n *Node) cloneChildrenIfNeeded() {
+	n.iterChildrenAfterCloningIfNeeded(func(child *Node, cloneContext interface{}) {}, nil)
+}
+
+// HasErrata
+func (n *Node) HasErrata(errata Errata) bool {
+	return n.Config.HasErrata(errata)
+}
+
+// GetChild
+func (n *Node) GetChild(index int) *Node {
+	return n.Children[index]
+}
+
+// getStyle
+func (n *Node) getStyle() *Style {
+	return &n.Style
+}
+
+// getLineIndex
+func (n *Node) getLineIndex() uint32 {
+	return n.lineIndex
+}
+
+// getLayout
+func (n *Node) getLayout() *Layout {
+	return n.Layout
+}
+
+// getChildren
+func (n *Node) getChildren() []*Node {
+	return n.Children
 }
 
 // SetLayoutDirection
@@ -1130,6 +1190,11 @@ func (n *Node) getTrailingBorder(axis FlexDirection) float32 {
 		val = computeEdgeValueForColumn(n.Style.Border, trailing[axis], ValueZero)
 	}
 	return fmaxf(val.Value, 0)
+}
+
+// getChildCount
+func (n *Node) getChildCount() int {
+	return len(n.Children)
 }
 
 // getLeadingPadding

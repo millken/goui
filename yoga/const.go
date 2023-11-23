@@ -274,3 +274,12 @@ const (
 	WrapWrap
 	WrapWrapReverse
 )
+
+type Errata int
+
+const (
+	ErrataNone             Errata = 0
+	ErrataStretchFlexBasis Errata = 1
+	ErrataAll              Errata = 2147483647
+	ErrataClassic          Errata = 2147483646
+)

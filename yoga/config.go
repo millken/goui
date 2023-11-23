@@ -14,6 +14,8 @@ type Config struct {
 	Logger                                        Logger
 	Context                                       interface{}
 	PrintTree                                     bool
+
+	errata Errata
 }
 
 var (
@@ -26,6 +28,7 @@ var (
 		PointScaleFactor: 1,
 		Logger:           DefaultLog,
 		Context:          nil,
+		errata:           ErrataNone,
 	}
 )
 
@@ -38,4 +41,40 @@ func NewConfig() *Config {
 
 func (c *Config) experimentalFeatureEnabled(feature ExperimentalFeature) bool {
 	return c.ExperimentalFeatures[feature]
+}
+
+// cloneNode
+func (c *Config) cloneNode(node *Node) *Node {
+	newNode := &Node{}
+	*newNode = *node
+	newNode.Owner = nil
+	newNode.Children = nil
+	newNode.NextChild = nil
+	newNode.Config = c
+	return newNode
+}
+
+// SetErrata
+func (c *Config) SetErrata(errata Errata) {
+	c.errata = errata
+}
+
+// AddErrata
+func (c *Config) AddErrata(errata Errata) {
+	c.errata |= errata
+}
+
+// RemoveErrata
+func (c *Config) RemoveErrata(errata Errata) {
+	c.errata &= ^errata
+}
+
+// GetErrata
+func (c *Config) GetErrata() Errata {
+	return c.errata
+}
+
+// HasErrata
+func (c *Config) HasErrata(errata Errata) bool {
+	return c.errata&errata != 0
 }
