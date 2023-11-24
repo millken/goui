@@ -19,6 +19,12 @@ type YGStyle struct {
 	aspectRatio_ FloatOptional
 }
 
+const (
+	DefaultFlexGrow      float32 = 0.0
+	DefaultFlexShrink    float32 = 0.0
+	WebDefaultFlexShrink float32 = 1.0
+)
+
 var (
 	directionOffset      uint8 = 0
 	flexDirectionOffset  uint8 = directionOffset + minimumBitCount(YGDirection(0))
