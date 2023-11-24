@@ -31,6 +31,7 @@ const (
 	YGAlignBaseline
 	YGAlignSpaceBetween
 	YGAlignSpaceAround
+	YGAlignSpaceEvenly
 )
 
 func (a YGAlign) String() string {
@@ -51,6 +52,8 @@ func (a YGAlign) String() string {
 		return "space-between"
 	case YGAlignSpaceAround:
 		return "space-around"
+	case YGAlignSpaceEvenly:
+		return "space-evenly"
 	}
 	return "unknown"
 }

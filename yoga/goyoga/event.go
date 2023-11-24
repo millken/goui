@@ -1,4 +1,13 @@
-package yoga
+package goyoga
+
+type LayoutType int
+
+const (
+	LayoutTypeLayout LayoutType = iota
+	LayoutTypeMeasure
+	LayoutTypeCachedLayout
+	LayoutTypeCachedMeasure
+)
 
 type LayoutPassReason uint8
 
@@ -40,7 +49,7 @@ func (r LayoutPassReason) String() string {
 type LayoutData struct {
 	layouts                     int32
 	measures                    int32
-	maxMeasureCache             int32
+	maxMeasureCache             uint32
 	cachedLayouts               int32
 	cachedMeasures              int32
 	measureCallbacks            int32

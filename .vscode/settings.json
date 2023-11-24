@@ -11,5 +11,6 @@
         "__bit_reference": "cpp",
         "vector": "cpp",
         "limits": "cpp"
-    }
+    },
+    "commentTranslate.hover.enabled": false
 }
