@@ -1,50 +1,42 @@
 package main
 
-import (
-	"context"
-	"os"
+// type app struct {
+// 	rootWindow goui.Window
+// }
 
-	"gitee.com/millken/goui"
-	"github.com/millken/golog"
-)
+// func (a *app) Startup(_ context.Context) error {
 
-type app struct {
-	rootWindow goui.Window
-}
+// 	panel := goui.NewPanel()
+// 	layout := goui.NewLayout(1, 1)
+// 	label := goui.NewLabel("Hello World")
+// 	layout.SetLabel(label)
+// 	panel.SetLayout(layout)
+// 	a.rootWindow.SetPanel(panel)
+// 	a.rootWindow.Show()
+// 	return nil
+// }
 
-func (a *app) Startup(_ context.Context) error {
+// func (a *app) Shutdown(_ context.Context) error {
+// 	golog.Info("shutdown")
+// 	os.Exit(0)
+// 	return nil
+// }
 
-	panel := goui.NewPanel()
-	layout := goui.NewLayout(1, 1)
-	label := goui.NewLabel("Hello World")
-	layout.SetLabel(label)
-	panel.SetLayout(layout)
-	a.rootWindow.SetPanel(panel)
-	a.rootWindow.Show()
-	return nil
-}
+// func (a *app) Window() goui.Window {
+// 	return a.rootWindow
+// }
 
-func (a *app) Shutdown(_ context.Context) error {
-	golog.Info("shutdown")
-	os.Exit(0)
-	return nil
-}
+// func NewApp() *app {
+// 	demoWin, err := goui.NewWindow()
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	demoWin.SetSize(800, 600)
+// 	return &app{
+// 		rootWindow: demoWin,
+// 	}
+// }
 
-func (a *app) Window() goui.Window {
-	return a.rootWindow
-}
-
-func NewApp() *app {
-	demoWin, err := goui.NewWindow()
-	if err != nil {
-		panic(err)
-	}
-	demoWin.SetSize(800, 600)
-	return &app{
-		rootWindow: demoWin,
-	}
-}
-
-func main() {
-	goui.Run(NewApp())
-}
+// func main() {
+// 	goui.Run(NewApp())
+// }

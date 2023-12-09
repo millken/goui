@@ -13,7 +13,7 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/richardwilkes/toolbox/xmath/geom"
+	"gitee.com/millken/goui/internal/geom"
 )
 
 type (

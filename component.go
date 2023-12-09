@@ -1,9 +1,11 @@
 package goui
 
+import "gitee.com/millken/goui/ui"
+
 type BaseComponent struct {
 	FrameChangeCallback func()
-	frame               Rect
-	border              Border
+	frame               ui.Rect
+	border              ui.Border
 	scale               float32
 	NeedsLayout         bool
 }
@@ -18,7 +20,7 @@ func (p *BaseComponent) Scale() float32 {
 }
 
 // SetFrameRect sets the location and size of the panel in its parent's coordinate system.
-func (p *BaseComponent) SetFrameRect(rect Rect) {
+func (p *BaseComponent) SetFrameRect(rect ui.Rect) {
 	scale := p.Scale()
 	rect.Width /= scale
 	rect.Height /= scale

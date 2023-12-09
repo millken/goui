@@ -27,7 +27,7 @@ import "C"
 import (
 	"unsafe"
 
-	"github.com/richardwilkes/toolbox/xmath/geom"
+	"gitee.com/millken/goui/internal/geom"
 )
 
 const ColorTypeN32 = ColorTypeRGBA8888
