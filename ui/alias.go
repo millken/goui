@@ -100,3 +100,10 @@ func NewRotationMatrix(radians float32) Matrix {
 func NewRotationByDegreesMatrix(degrees float32) Matrix {
 	return geom.NewRotationByDegreesMatrix(degrees)
 }
+
+func If[T any](cond bool, t, f T) T {
+	if cond {
+		return t
+	}
+	return f
+}

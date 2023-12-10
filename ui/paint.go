@@ -142,3 +142,10 @@ func (p *Paint) Style() PaintStyle {
 func (p *Paint) SetStyle(style PaintStyle) {
 	skia.PaintSetStyle(p.paint, skia.PaintStyle(style))
 }
+
+func (p *Paint) paintOrNil() skia.Paint {
+	if p == nil {
+		return nil
+	}
+	return p.paint
+}

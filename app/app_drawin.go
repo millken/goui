@@ -3,7 +3,7 @@
 
 package app
 
-import "gitee.com/millken/goui/driver/darwin"
+import "gitee.com/millken/goui/internal/driver/darwin"
 
 type nativeApplication struct {
 	app darwin.NSApplication

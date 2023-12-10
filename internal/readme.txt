@@ -1,0 +1,1 @@
+https://github.com/shuhei/book/blob/265e597e2207816077b32bf61f53e9f0d932763e/src/lab13.py#L2026

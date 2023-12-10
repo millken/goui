@@ -82,6 +82,11 @@ func (c *Canvas) ClipPath(path *Path, op ClipOp, antialias bool) {
 	skia.CanavasClipPathWithOperation(c.canvas, path.path, skia.ClipOp(op), antialias)
 }
 
+// DrawPaint fills the clip with Paint. Any MaskFilter or PathEffect in the Paint is ignored.
+func (c *Canvas) DrawPaint(paint *Paint) {
+	skia.CanvasDrawPaint(c.canvas, paint.paint)
+}
+
 // DrawRect draws the rectangle with Paint.
 func (c *Canvas) DrawRect(rect Rect, paint *Paint) {
 	skia.CanvasDrawRect(c.canvas, rect, paint.paint)
@@ -132,4 +137,23 @@ func (c *Canvas) DrawLine(sx, sy, ex, ey float32, paint *Paint) {
 // Flush any drawing.
 func (c *Canvas) Flush() {
 	c.surface.flush(true)
+}
+
+// RestoreToCount restores the transformation matrix and clip to the state they where in when the specified count was
+// returned from a call to Save() or SaveWithOpacity(). Does nothing if count is greater than the current state stack
+// count. Restores the state to the initial values if count is <= 1.
+func (c *Canvas) RestoreToCount(count int) {
+	skia.CanvasRestoreToCount(c.canvas, count)
+}
+
+// DrawImageInRect draws the image into the area specified by the rect, scaling if necessary. paint may be nil.
+func (c *Canvas) DrawImageInRect(img *Image, rect Rect, sampling *SamplingOptions, paint *Paint) {
+	c.DrawImageRectInRect(img, Rect{Size: img.Size()}, rect, sampling, paint)
+}
+
+// DrawImageRectInRect draws a portion of the image into the area specified, scaling if necessary. srcRect should be in
+// raw pixel coordinates, not logical coordinates. dstRect should be in logical coordinates. paint may be nil.
+func (c *Canvas) DrawImageRectInRect(img *Image, srcRect, dstRect Rect, sampling *SamplingOptions, paint *Paint) {
+	skia.CanvasDrawImageRect(c.canvas, img.ref().contextImg(c.surface), srcRect, dstRect, sampling.skSamplingOptions(),
+		paint.paintOrNil())
 }
