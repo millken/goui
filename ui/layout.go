@@ -1,12 +1,17 @@
 package ui
 
+import "github.com/millken/yoga"
+
 type Layout struct {
-	row, col int
+	yNode *yoga.Node
 }
 
-func NewLayout(row, col int) *Layout {
+func NewLayout() *Layout {
 	return &Layout{
-		row: row,
-		col: col,
+		yNode: yoga.NewNode(),
 	}
+}
+
+func (node *Layout) InsertWidget(widget Widget, index uint32) {
+	node.yNode.InsertChild(widget.Node(), index)
 }

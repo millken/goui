@@ -2,46 +2,83 @@ package app
 
 import (
 	"log"
-	"log/slog"
+	"runtime"
 	"sync/atomic"
 
 	"gitee.com/millken/goui/ui"
+	"github.com/go-gl/gl/v3.2-core/gl"
+	"github.com/pkg/errors"
 	"github.com/veandco/go-sdl2/sdl"
 )
 
+func init() {
+	// All init functions are run on the startup thread. Calling LockOSThread from an init function will cause the main
+	// function to be invoked on that thread.
+	runtime.LockOSThread()
+}
+
 var (
-	redrawSet = make(map[*ui.Window]struct{})
 	sdlInited atomic.Bool
 )
 
-type startupOption struct { // This exists just to prevent arbitrary functions from being passed to application startup.
-}
-
-// StartupOption holds an option for application startup.
-type StartupOption func(startupOption) error
-
 // Start the application. This function does NOT return. While some calls may be safe to make, it should be assumed no
 // calls into unison can be made prior to Start() being called unless explicitly stated otherwise.
-func Start(options ...StartupOption) {
+func Run(app ui.App) {
 	//init sdl
-	for _, option := range options {
-		if err := option(startupOption{}); err != nil {
-			log.Fatal(err)
-		}
+	if err := initSDL(); err != nil {
+		log.Fatal(err)
 	}
-	sdlInited.Store(true)
 	//init app
-	sdl.WaitEvent()
-	slog.Debug("redrawSet", len(redrawSet))
+	if err := app.Create(); err != nil {
+		log.Fatal(err)
+	}
+	defer app.Destroy()
+	running := true
+	for running {
+		event := sdl.WaitEvent()
+		switch event.(type) {
+		case *sdl.QuitEvent:
+			running = false
+		default:
+			//ui.DispatchEvent(event)
+			processEvents()
+		}
+
+	}
+}
+
+func processEvents() {
+	redrawSet := ui.LoadRedrawWindows()
 	if len(redrawSet) > 0 {
-		set := redrawSet
-		redrawSet = make(map[*ui.Window]struct{})
-		for wnd := range set {
+		for _, wnd := range redrawSet {
 			if wnd.IsVisible() {
+				ui.DeleteWindowFromRedraw(wnd)
 				wnd.ReDraw()
-			} else {
-				redrawSet[wnd] = struct{}{}
 			}
 		}
 	}
+}
+
+func initSDL() error {
+	if sdlInited.Load() {
+		return nil
+	}
+	sdl.GLSetAttribute(sdl.GL_CONTEXT_MAJOR_VERSION, 3)
+	sdl.GLSetAttribute(sdl.GL_CONTEXT_MINOR_VERSION, 1)
+
+	kStencilBits := 8
+	//kMsaaSampleCount := 4
+	sdl.GLSetAttribute(sdl.GL_RED_SIZE, 8)
+	sdl.GLSetAttribute(sdl.GL_GREEN_SIZE, 8)
+	sdl.GLSetAttribute(sdl.GL_BLUE_SIZE, 8)
+	sdl.GLSetAttribute(sdl.GL_DOUBLEBUFFER, 1)
+	sdl.GLSetAttribute(sdl.GL_DEPTH_SIZE, 0)
+	sdl.GLSetAttribute(sdl.GL_STENCIL_SIZE, kStencilBits)
+	sdl.GLSetAttribute(sdl.GL_ACCELERATED_VISUAL, 1)
+
+	if err := sdl.Init(sdl.INIT_VIDEO | sdl.INIT_EVENTS); err != nil {
+		return errors.Wrap(err, "sdl init error")
+	}
+	sdlInited.Store(true)
+	return gl.Init()
 }

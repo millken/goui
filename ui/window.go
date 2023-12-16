@@ -5,19 +5,40 @@ import (
 	"fmt"
 	"log/slog"
 	"math/rand"
+	"sync"
 	"time"
 
-	"github.com/go-gl/gl/v3.2-core/gl"
 	"github.com/veandco/go-sdl2/sdl"
 )
 
 var (
-	glInited bool
+	redrawSet = sync.Map{}
 )
+
+func LoadRedrawWindows() []*Window {
+	var set []*Window
+	redrawSet.Range(func(key, value interface{}) bool {
+		set = append(set, key.(*Window))
+		return true
+	})
+	return set
+}
+
+func MarkWindowForRedraw(w *Window) {
+	if _, exists := redrawSet.Load(w); !exists {
+		redrawSet.Store(w, struct{}{})
+	}
+}
+
+func DeleteWindowFromRedraw(w *Window) {
+	redrawSet.Delete(w)
+}
 
 // WindowOption holds an option for window creation.
 type WindowOption func(*Window) error
 type Window struct {
+	title            string
+	width, height    int32
 	wnd              *sdl.Window
 	surface          *surface
 	layout           *Layout
@@ -39,28 +60,38 @@ func NewWindow(opts ...WindowOption) (*Window, error) {
 }
 
 func (w *Window) SetTitle(title string) {
-}
-
-func (w *Window) SetSDLWindow(wnd *sdl.Window) {
-	w.wnd = wnd
-	w.valid = true
+	w.title = title
 }
 
 func (w *Window) SetLayout(layout *Layout) {
 	w.layout = layout
 }
 
-func (w *Window) SetSize(width, height int) {
-	//w.wnd.SetSize(width, height)
+func (w *Window) SetSize(width, height int32) {
+	w.width = width
+	w.height = height
 }
 
-func (w *Window) Size() (width, height int) {
-	//return w.wnd.GetSize()
-	return 0, 0
+func (w *Window) Size() (width, height int32) {
+	if w.width == 0 || w.height == 0 {
+		return 800, 600
+	}
+	return w.width, w.height
 }
 
 func (w *Window) Show() {
-	//w.wnd.Show()
+	var err error
+	if w.wnd == nil {
+		width, height := w.Size()
+		w.wnd, err = sdl.CreateWindow(w.title, sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
+			width, height, windowFlags)
+		if err != nil {
+			panic(err)
+		}
+	}
+	w.valid = true
+	w.ReDraw()
+
 }
 
 func (w *Window) Hide() {
@@ -136,12 +167,6 @@ func (w *Window) LocalContentRect() Rect {
 // ReDraw redraws the window.
 func (w *Window) ReDraw() {
 	if w.IsValid() {
-		if !glInited {
-			if err := gl.Init(); err != nil {
-				slog.Error(err.Error())
-			}
-			glInited = true
-		}
 		sx, sy := w.BackingScale()
 		ctx, err := w.wnd.GLCreateContext()
 		if err != nil {
@@ -163,4 +188,9 @@ func (w *Window) ReDraw() {
 		w.lastDrawDuration = time.Since(start)
 		w.wnd.GLSwap()
 	}
+}
+
+// MarkForRedraw marks this window for drawing at the next update.
+func (w *Window) MarkForRedraw() {
+	MarkWindowForRedraw(w)
 }

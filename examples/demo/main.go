@@ -1,5 +1,37 @@
 package main
 
+import (
+	"gitee.com/millken/goui/app"
+	"gitee.com/millken/goui/ui"
+)
+
+type App struct {
+}
+
+func (a *App) Create() error {
+	win, err := ui.NewWindow()
+	if err != nil {
+		return err
+	}
+	win.SetTitle("Hello World")
+	win.SetSize(800, 600)
+	layout := ui.NewLayout()
+	label := ui.NewLabel("Hello World")
+	layout.InsertWidget(label, 0)
+	win.SetLayout(layout)
+	win.Show()
+	return nil
+}
+
+func (a *App) Destroy() error {
+	return nil
+}
+func main() {
+
+	simpleApp := &App{}
+	app.Run(simpleApp)
+}
+
 // type app struct {
 // 	rootWindow goui.Window
 // }
