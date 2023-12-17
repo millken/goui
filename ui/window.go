@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-	"math/rand"
 	"sync"
 	"time"
 
@@ -14,6 +13,19 @@ import (
 var (
 	redrawSet = sync.Map{}
 )
+var (
+	windowFlags uint32
+)
+
+func init() {
+	if IsAndroid() {
+		windowFlags = sdl.WINDOW_OPENGL | sdl.WINDOW_RESIZABLE |
+			sdl.WINDOW_BORDERLESS | sdl.WINDOW_FULLSCREEN_DESKTOP |
+			sdl.WINDOW_ALLOW_HIGHDPI
+	} else {
+		windowFlags = sdl.WINDOW_OPENGL | sdl.WINDOW_RESIZABLE
+	}
+}
 
 func LoadRedrawWindows() []*Window {
 	var set []*Window
@@ -41,7 +53,7 @@ type Window struct {
 	width, height    int32
 	wnd              *sdl.Window
 	surface          *surface
-	layout           *Layout
+	layer            *Layer
 	valid            bool
 	lastDrawDuration time.Duration
 }
@@ -63,8 +75,8 @@ func (w *Window) SetTitle(title string) {
 	w.title = title
 }
 
-func (w *Window) SetLayout(layout *Layout) {
-	w.layout = layout
+func (w *Window) SetLayout(layout *Layer) {
+	w.layer = layout
 }
 
 func (w *Window) SetSize(width, height int32) {
@@ -107,14 +119,15 @@ func (w *Window) Destroy() {
 }
 
 func (w *Window) Draw(c *Canvas) {
-	paint := BackgroundColor.Paint(c, w.LocalContentRect(), Stroke)
-	for i := 0; i < 100; i++ {
-		paint.SetColor(RGB(rand.Intn(255), rand.Intn(255), rand.Intn(255)))
-		c.DrawRect(Rect{Point: Point{X: float32(rand.Intn(800)), Y: float32(rand.Intn(600))}, Size: Size{Width: float32(100), Height: float32(100)}}, paint)
-		c.Save()
-	}
-	//c.DrawPaint(paint)
-	//c.Save()
+	slog.Info("draw window", "rect", w.LocalContentRect())
+	paint := BackgroundColor.Paint(c, w.LocalContentRect(), Fill)
+	// for i := 0; i < 100; i++ {
+	// 	paint.SetColor(RGB(rand.Intn(255), rand.Intn(255), rand.Intn(255)))
+	// 	c.DrawRect(Rect{Point: Point{X: float32(rand.Intn(800)), Y: float32(rand.Intn(600))}, Size: Size{Width: float32(100), Height: float32(100)}}, paint)
+	// 	c.Save()
+	// }
+	c.DrawPaint(paint)
+	w.layer.Render(c, w.LocalContentRect())
 }
 
 func (w *Window) PerformLayout() {
@@ -148,6 +161,7 @@ func (w *Window) ContentRect() Rect {
 	if w.IsValid() {
 		x, y := w.wnd.GetPosition()
 		width, height := w.wnd.GetSize()
+		slog.Info("content rect", "x", x, "y", y, "width", width, "height", height)
 		return Rect{
 			Point: Point{X: float32(x), Y: float32(y)},
 			Size:  Size{Width: float32(width), Height: float32(height)},
@@ -168,6 +182,7 @@ func (w *Window) LocalContentRect() Rect {
 func (w *Window) ReDraw() {
 	if w.IsValid() {
 		sx, sy := w.BackingScale()
+		sx, sy = 1, 1
 		ctx, err := w.wnd.GLCreateContext()
 		if err != nil {
 			slog.Error(err.Error())

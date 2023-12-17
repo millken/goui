@@ -259,6 +259,13 @@ func (c Color) Paint(_ *Canvas, _ Rect, style PaintStyle) *Paint {
 	return paint
 }
 
+func (c Color) ToPaint(style PaintStyle) *Paint {
+	paint := NewPaint()
+	paint.SetStyle(style)
+	paint.SetColor(c)
+	return paint
+}
+
 // GetColor returns this Color. Here to satisfy the ColorProvider interface.
 func (c Color) GetColor() Color {
 	return c

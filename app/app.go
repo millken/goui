@@ -33,30 +33,8 @@ func Run(app ui.App) {
 		log.Fatal(err)
 	}
 	defer app.Destroy()
-	running := true
-	for running {
-		event := sdl.WaitEvent()
-		switch event.(type) {
-		case *sdl.QuitEvent:
-			running = false
-		default:
-			//ui.DispatchEvent(event)
-			processEvents()
-		}
+	ui.ProcessEvents()
 
-	}
-}
-
-func processEvents() {
-	redrawSet := ui.LoadRedrawWindows()
-	if len(redrawSet) > 0 {
-		for _, wnd := range redrawSet {
-			if wnd.IsVisible() {
-				ui.DeleteWindowFromRedraw(wnd)
-				wnd.ReDraw()
-			}
-		}
-	}
 }
 
 func initSDL() error {
