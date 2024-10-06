@@ -1,7 +1,7 @@
 package ui
 
 import (
-	"gitee.com/millken/goui/internal/geom"
+	"github.com/millken/goui/internal/geom"
 )
 
 // Point is an alias for geom.Point[float32], for convenience.

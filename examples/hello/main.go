@@ -4,7 +4,7 @@ import (
 	"log"
 	"runtime"
 
-	"gitee.com/millken/goui/ui"
+	"github.com/millken/goui/ui"
 	"github.com/veandco/go-sdl2/sdl"
 )
 

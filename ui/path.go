@@ -5,7 +5,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"gitee.com/millken/goui/internal/skia"
+	"github.com/millken/goui/internal/skia"
 )
 
 // Direction holds the direction of a path.

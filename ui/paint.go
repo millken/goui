@@ -3,7 +3,7 @@ package ui
 import (
 	"runtime"
 
-	"gitee.com/millken/goui/internal/skia"
+	"github.com/millken/goui/internal/skia"
 )
 
 // PaintStyle holds the type of painting to do.

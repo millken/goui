@@ -1,8 +1,8 @@
 package ui
 
 import (
-	"gitee.com/millken/goui/internal/skia"
 	"github.com/go-gl/gl/v3.2-core/gl"
+	"github.com/millken/goui/internal/skia"
 	"github.com/pkg/errors"
 )
 

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"gitee.com/millken/goui/app"
-	"gitee.com/millken/goui/ui"
+	"github.com/millken/goui/app"
+	"github.com/millken/goui/ui"
 	"github.com/millken/yoga"
 )
 

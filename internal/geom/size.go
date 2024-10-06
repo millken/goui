@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 
-	"gitee.com/millken/goui/internal/xmath"
+	"github.com/millken/goui/internal/xmath"
 	"golang.org/x/exp/constraints"
 )
 

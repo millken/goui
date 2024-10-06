@@ -2,10 +2,10 @@ module hello
 
 go 1.21.1
 
-replace gitee.com/millken/goui => ../../
+replace github.com/millken/goui => ../../
 
 require (
-	gitee.com/millken/goui v0.0.0-00010101000000-000000000000
+	github.com/millken/goui v0.0.0-00010101000000-000000000000
 	github.com/veandco/go-sdl2 v0.4.36
 )
 

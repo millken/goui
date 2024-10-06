@@ -12,7 +12,7 @@ package goui
 import (
 	"unsafe"
 
-	"gitee.com/millken/goui/internal/skia"
+	"github.com/millken/goui/internal/skia"
 )
 
 // All of the structures and constants in this file must match the equivalents in Skia

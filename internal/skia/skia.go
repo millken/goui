@@ -13,7 +13,7 @@ import (
 	"time"
 	"unsafe"
 
-	"gitee.com/millken/goui/internal/geom"
+	"github.com/millken/goui/internal/geom"
 )
 
 type (

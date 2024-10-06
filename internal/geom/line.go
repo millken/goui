@@ -3,7 +3,7 @@ package geom
 import (
 	"math"
 
-	"gitee.com/millken/goui/internal/xmath"
+	"github.com/millken/goui/internal/xmath"
 )
 
 // LineIntersection determines the intersection of two lines, if any. A return of no points indicates no intersection.

@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"sync"
 
-	"gitee.com/millken/goui/internal/skia"
-	"gitee.com/millken/goui/internal/softref"
 	"github.com/cespare/xxhash/v2"
+	"github.com/millken/goui/internal/skia"
+	"github.com/millken/goui/internal/softref"
 	"github.com/pkg/errors"
 	"github.com/richardwilkes/toolbox/errs"
 	"github.com/richardwilkes/toolbox/xio"

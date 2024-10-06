@@ -14,7 +14,7 @@ import (
 	"path"
 	"strings"
 
-	"gitee.com/millken/goui/internal/skia"
+	"github.com/millken/goui/internal/skia"
 )
 
 // InvalidImageFormatStr is returned for as an error indicator for some methods on EncodedImageFormat.

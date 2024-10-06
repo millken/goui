@@ -5,8 +5,8 @@ import (
 	"runtime"
 	"sync/atomic"
 
-	"gitee.com/millken/goui/ui"
 	"github.com/go-gl/gl/v3.2-core/gl"
+	"github.com/millken/goui/ui"
 	"github.com/pkg/errors"
 	"github.com/veandco/go-sdl2/sdl"
 )

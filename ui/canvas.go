@@ -1,8 +1,8 @@
 package ui
 
 import (
-	"gitee.com/millken/goui/internal/skia"
-	"gitee.com/millken/goui/internal/xmath"
+	"github.com/millken/goui/internal/skia"
+	"github.com/millken/goui/internal/xmath"
 )
 
 // PointMode controls how DrawPoints() renders the points passed to it.

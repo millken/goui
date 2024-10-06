@@ -1,6 +1,6 @@
 package goui
 
-import "gitee.com/millken/goui/ui"
+import "github.com/millken/goui/ui"
 
 type BaseComponent struct {
 	FrameChangeCallback func()

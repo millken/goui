@@ -1,7 +1,7 @@
 package widgets
 
 import (
-	"gitee.com/millken/goui/ui"
+	"github.com/millken/goui/ui"
 	"github.com/millken/yoga"
 )
 

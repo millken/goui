@@ -27,7 +27,7 @@ import "C"
 import (
 	"unsafe"
 
-	"gitee.com/millken/goui/internal/geom"
+	"github.com/millken/goui/internal/geom"
 )
 
 const ColorTypeN32 = ColorTypeRGBA8888

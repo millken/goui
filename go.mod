@@ -1,4 +1,4 @@
-module gitee.com/millken/goui
+module github.com/millken/goui
 
 go 1.21.1
 
