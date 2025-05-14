@@ -1,15 +1,22 @@
 package main
 
 import (
-	"github.com/millken/goui/app"
-	"github.com/millken/goui/ui"
+	"fmt"
+	"time"
+
+	"gitee.com/millken/goui/ui"
 	"github.com/millken/yoga"
 )
 
 type App struct {
 }
 
-func (a *App) Create() error {
+func (a *App) Create(settings *ui.Settings) error {
+	settings.Width = 800
+	return nil
+}
+
+func (a *App) Start() error {
 	win, err := ui.NewWindow()
 	if err != nil {
 		return err
@@ -37,52 +44,23 @@ func (a *App) Create() error {
 	return nil
 }
 
-func (a *App) Destroy() error {
-	return nil
+func (a *App) Pause() {
+	fmt.Println("pause")
+}
+func (a *App) Resume() {
+	fmt.Println("resume")
+}
+func (a *App) Destroy() {
+	fmt.Println("destroy")
+}
+func (a *App) Stop() {
+	fmt.Println("stop")
+}
+
+func (a *App) Tick(elaspedTime time.Duration, syncChan chan<- struct{}) {
 }
 func main() {
 
 	simpleApp := &App{}
-	app.Run(simpleApp)
+	ui.Run(simpleApp)
 }
-
-// type app struct {
-// 	rootWindow goui.Window
-// }
-
-// func (a *app) Startup(_ context.Context) error {
-
-// 	panel := goui.NewPanel()
-// 	layout := goui.NewLayout(1, 1)
-// 	label := goui.NewLabel("Hello World")
-// 	layout.SetLabel(label)
-// 	panel.SetLayout(layout)
-// 	a.rootWindow.SetPanel(panel)
-// 	a.rootWindow.Show()
-// 	return nil
-// }
-
-// func (a *app) Shutdown(_ context.Context) error {
-// 	golog.Info("shutdown")
-// 	os.Exit(0)
-// 	return nil
-// }
-
-// func (a *app) Window() goui.Window {
-// 	return a.rootWindow
-// }
-
-// func NewApp() *app {
-// 	demoWin, err := goui.NewWindow()
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	demoWin.SetSize(800, 600)
-// 	return &app{
-// 		rootWindow: demoWin,
-// 	}
-// }
-
-// func main() {
-// 	goui.Run(NewApp())
-// }

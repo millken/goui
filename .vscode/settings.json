@@ -12,5 +12,5 @@
         "vector": "cpp",
         "limits": "cpp"
     },
-    "commentTranslate.hover.enabled": false
+    "commentTranslate.hover.enabled": true
 }

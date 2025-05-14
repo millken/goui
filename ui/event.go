@@ -6,11 +6,34 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
+type Event uint8
+
+const (
+	OnNone Event = iota
+	OnMouseEnter
+	OnMouseMove
+	OnMouseLeave
+	OnMouseDown
+	OnMouseUp
+	OnClick
+	OnDoubleClick
+	OnKeyDown
+	OnKeyUp
+	OnKeyPress
+	OnResize
+	OnScroll
+)
+
+type EventData struct {
+	widget Widget
+	point  Point
+}
+
 var (
 	eventHandlers = make(map[Widget]func())
 )
 
-func ProcessEvents() {
+func ProcessEvents(ctx *Engine) {
 	running := true
 	for running {
 		event := sdl.WaitEvent()
@@ -32,7 +55,7 @@ func dispatchEvent(event sdl.Event) {
 	switch t {
 	case sdl.MOUSEMOTION:
 		e := event.(*sdl.MouseMotionEvent)
-		if e.State == sdl.BUTTON_LEFT {
+		if e.State == sdl.ButtonMask(sdl.ButtonLeft) {
 			fmt.Println("mouse drag", e.X, e.Y)
 		}
 	case sdl.MOUSEBUTTONDOWN:

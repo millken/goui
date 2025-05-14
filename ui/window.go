@@ -14,7 +14,7 @@ var (
 	redrawSet = sync.Map{}
 )
 var (
-	windowFlags uint32
+	windowFlags sdl.WindowFlags
 )
 
 func init() {

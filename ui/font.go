@@ -1,5 +1,19 @@
 package ui
 
+import "gitee.com/millken/goui/internal/skia"
+
+// FontMetrics flags
+const (
+	UnderlineThicknessIsValidFontMetricsFlag = 1 << iota
+	UnderlinePositionIsValidFontMetricsFlag
+	StrikeoutThicknessIsValidFontMetricsFlag
+	StrikeoutPositionIsValidFontMetricsFlag
+	BoundsInvalidFontMetricsFlag
+)
+
+// FontMetrics holds various metrics about a font.
+type FontMetrics = skia.FontMetrics
+
 type Font struct {
 	// Size is the font size in points.
 	Size float32

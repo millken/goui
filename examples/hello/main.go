@@ -85,7 +85,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	win.SetSDLWindow(window)
 
 	win.BackingScale()
 	// // 创建一个Bitmap

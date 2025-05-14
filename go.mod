@@ -15,3 +15,5 @@ require (
 )
 
 require gopkg.in/yaml.v3 v3.0.1 // indirect
+
+replace github.com/veandco/go-sdl2 => /Users/millken/github.com/millken/go-sdl2
