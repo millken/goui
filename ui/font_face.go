@@ -3,7 +3,7 @@ package ui
 import (
 	"runtime"
 
-	"gitee.com/millken/goui/internal/skia"
+	"github.com/millken/goui/internal/skia"
 )
 
 // FontFace holds the immutable portions of a font description.

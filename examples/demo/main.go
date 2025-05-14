@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"gitee.com/millken/goui/ui"
+	"github.com/millken/goui/ui"
 	"github.com/millken/yoga"
 )
 

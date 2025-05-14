@@ -7,8 +7,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"gitee.com/millken/goui/event"
 	"github.com/go-gl/gl/v3.2-core/gl"
+	"github.com/millken/goui/event"
 	"github.com/pkg/errors"
 	"github.com/veandco/go-sdl2/sdl"
 )

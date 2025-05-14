@@ -1,6 +1,6 @@
 package ui
 
-import "gitee.com/millken/goui/internal/skia"
+import "github.com/millken/goui/internal/skia"
 
 // FontMetrics flags
 const (

@@ -3,7 +3,7 @@ package ui
 import (
 	"reflect"
 
-	"gitee.com/millken/goui/event"
+	"github.com/millken/goui/event"
 )
 
 type Engine struct {
