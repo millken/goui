@@ -7,16 +7,10 @@ type UIElement interface {
 	Render(*Context)
 }
 
-// Context 渲染上下文（可扩展）
-type Context struct {
-	Style  Style
-	X, Y   float32
-	Width  float32
-	Height float32
-}
-
 // Style 样式
 type Style struct {
+	Data            any // 可存储 fontSize, borderRadius 等
+	Color           color.Color
 	Width           float32
 	Height          float32
 	Padding         [4]float32 // top, right, bottom, left
@@ -24,4 +18,5 @@ type Style struct {
 	BackgroundColor color.Color
 	BorderRadius    float32
 	FlexGrow        float32
+	ZIndex          int16 // 组件建议的层级
 }
