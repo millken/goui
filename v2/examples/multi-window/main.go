@@ -27,30 +27,22 @@ func (a *app) Create(ctx *v2.Context) error {
 	rootComp.AddChild(box2)
 	win1.SetRoot(rootComp)
 	win1.Show()
-	var w2 v2.Window
+	w2, err2 := impl.NewGLFWWindow("Second Window", 400, 300)
+	if err2 != nil {
+		return err2
+	}
+	if err := w2.Init(ctx); err != nil {
+		return err
+	}
+	w2.SetOnClose(func() {
+		w2.Hide()
+	})
+	// 简单根组件
+	r2 := component.NewBoxComponent()
+	r2.SetBounds(10, 10, 200, 150)
+	w2.SetRoot(r2)
 	rootComp.SetOnClick(func() {
-		if w2 == nil {
-			nw, err := impl.NewGLFWWindow("Second Window", 400, 300)
-			if err != nil {
-				fmt.Println("create second window failed:", err)
-				return
-			}
-			if err := nw.Init(ctx); err != nil {
-				fmt.Println("init second window failed:", err)
-				return
-			}
-			// 简单根组件
-			r2 := component.NewBoxComponent()
-			r2.SetBounds(10, 10, 200, 150)
-			nw.SetRoot(r2)
-			// 当点击窗口 X 时只隐藏窗口而不真正销毁，这样后续可以再次 Show()
-			nw.SetOnClose(func() {
-				nw.Hide()
-			})
-			w2 = nw
-			nw.Show()
-			return
-		}
+
 		w2.Show()
 	})
 
