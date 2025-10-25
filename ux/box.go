@@ -13,7 +13,26 @@ func (b *Box) Mount(ctx *Context) {
 	// 1. 临时保存原始样式
 	originalStyle := ctx.Style
 
-	// 解析宽度：未定义则继承上级；仍为 0 再回退默认
+	// --- 计算可用宽度 ---
+	parentAvailableWidth := ctx.Width // 从 Context 传入的容器宽度
+	if parentAvailableWidth == 0 {
+		parentAvailableWidth = 800 // 可选：全局默认宽度，如屏幕宽
+	}
+
+	// 考虑父级 X 位置和 Margin，计算当前可用空间
+	// 注意：ctx.X 是当前流式布局的 X 偏移
+	remainingWidth := parentAvailableWidth - ctx.X
+
+	// --- 确定 Box 宽度 ---
+	width := ctx.Style.Width
+	if width == 0 {
+		// 🔹 宽度未设置 → 占满父级剩余宽度（减去左右 margin）
+		width = remainingWidth - ctx.Style.Margin[1] - ctx.Style.Margin[3]
+		if width < 0 {
+			width = 0
+		}
+	}
+
 	resolvedWidth := cmp.Or(b.Style.Width, originalStyle.Width, ctx.Width)
 	if resolvedWidth == 0 {
 		resolvedWidth = 20
@@ -26,7 +45,7 @@ func (b *Box) Mount(ctx *Context) {
 	ctx.Style.Padding = b.Style.Padding
 	ctx.Style.ZIndex = b.Style.ZIndex
 
-	width := resolvedWidth
+	// width := resolvedWidth
 	height := cmp.Or(ctx.Style.Height, 20)
 
 	// 4. 计算位置（考虑 Margin）
