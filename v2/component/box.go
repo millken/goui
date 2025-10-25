@@ -10,6 +10,7 @@ type BoxComponent struct {
 	children []v2.Component
 	shown    bool
 	color    v2.Color
+	onClick  func()
 }
 
 // NewBoxComponent creates a new BoxComponent.
@@ -39,25 +40,75 @@ func (b *BoxComponent) Paint(c v2.Canvas) {
 	// 自身
 	c.DrawRect(b.rect, b.color)
 	// 子组件
-	if len(b.children) > 0 {
-		for _, ch := range b.children {
-			if ch != nil && ch.IsVisible() {
-				ch.Paint(c)
-			} else if ch != nil && !ch.IsVisible() { // 若未实现可见性，默认也绘制
-				ch.Paint(c)
-			}
+	if len(b.children) == 0 {
+		return
+	}
+	// 创建一个偏移 Canvas，使子组件以相对坐标绘制
+	oc := &offsetCanvas{base: c, dx: b.rect.X, dy: b.rect.Y}
+	for _, ch := range b.children {
+		if ch == nil {
+			continue
+		}
+		if ch.IsVisible() {
+			ch.Paint(oc)
+		} else {
+			// 如果组件未实现可见性，仍然调用 Paint（兼容旧实现）
+			ch.Paint(oc)
 		}
 	}
 }
 
+// offsetCanvas 把相对坐标偏移到父坐标再转发到底层 Canvas
+type offsetCanvas struct {
+	base   v2.Canvas
+	dx, dy float64
+}
+
+func (oc *offsetCanvas) DrawRect(rect v2.Rect, color v2.Color) {
+	rect.X += oc.dx
+	rect.Y += oc.dy
+	oc.base.DrawRect(rect, color)
+}
+
 // HandleEvent handles input event.
 func (b *BoxComponent) HandleEvent(e v2.Event) bool {
+	// 先对 children 进行 hit-test（从上到下，后加入的优先）
+	if len(b.children) > 0 {
+		for i := len(b.children) - 1; i >= 0; i-- {
+			ch := b.children[i]
+			if ch == nil || !ch.IsVisible() {
+				continue
+			}
+			switch ev := e.(type) {
+			case v2.MouseEvent:
+				// 将事件坐标转换为子组件本地坐标（子组件以父左上角为原点）
+				local := v2.MouseEvent{X: ev.X - b.rect.X, Y: ev.Y - b.rect.Y, Button: ev.Button, Down: ev.Down}
+				if ch.HandleEvent(local) {
+					return true
+				}
+			case v2.KeyEvent:
+				if ch.HandleEvent(ev) {
+					return true
+				}
+			default:
+				// forward other events as-is
+				if ch.HandleEvent(e) {
+					return true
+				}
+			}
+		}
+	}
+
+	// 若没有子组件处理，则由自身处理
 	switch ev := e.(type) {
 	case v2.MouseEvent:
-		// 点击检测：检查是否为左键按下且坐标在 b.rect 内
 		if ev.Button == v2.MouseLeft && ev.Down {
 			if ev.X >= b.rect.X && ev.X <= b.rect.X+b.rect.Width && ev.Y >= b.rect.Y && ev.Y <= b.rect.Y+b.rect.Height {
-				// 切换颜色（蓝色 <-> 红色）
+				if b.onClick != nil {
+					b.onClick()
+					return true
+				}
+				// fallback: 切换颜色（蓝色 <-> 红色）
 				if b.color.R == 52 && b.color.G == 152 {
 					b.color = v2.Color{R: 231, G: 76, B: 60, A: 255} // red
 				} else {
@@ -67,8 +118,7 @@ func (b *BoxComponent) HandleEvent(e v2.Event) bool {
 			}
 		}
 	case v2.KeyEvent:
-		// 简单示例：按下 R 键 (GLFW_KEY_R == 82) 将颜色设为红
-		if ev.Down && ev.Key == 82 {
+		if ev.Down && ev.Key == v2.KeyR {
 			b.color = v2.Color{R: 231, G: 76, B: 60, A: 255}
 			return true
 		}
@@ -93,3 +143,6 @@ func (b *BoxComponent) GetChild(id string) v2.Component { return nil }
 
 // SetColor allows changing the box color.
 func (b *BoxComponent) SetColor(c v2.Color) { b.color = c }
+
+// SetOnClick registers a callback to be invoked when the box is clicked.
+func (b *BoxComponent) SetOnClick(cb func()) { b.onClick = cb }

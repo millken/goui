@@ -25,3 +25,8 @@ type Component interface {
 	RemoveChild(id string)        // 移除子组件
 	GetChild(id string) Component // 获取子组件
 }
+
+// Clickable 可选接口：组件可以注册点击回调
+type Clickable interface {
+	SetOnClick(func())
+}

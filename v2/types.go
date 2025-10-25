@@ -83,3 +83,38 @@ type KeyEvent struct {
 }
 
 func (k KeyEvent) Type() EventType { return EventKey }
+
+// Key constants (generic, backend-agnostic).
+// Backends should map their native key codes to these generic constants.
+const (
+	KeyUnknown = iota
+	KeySpace
+	KeyA
+	KeyB
+	KeyC
+	KeyD
+	KeyE
+	KeyF
+	KeyG
+	KeyH
+	KeyI
+	KeyJ
+	KeyK
+	KeyL
+	KeyM
+	KeyN
+	KeyO
+	KeyP
+	KeyQ
+	KeyR
+	KeyS
+	KeyT
+	KeyU
+	KeyV
+	KeyW
+	KeyX
+	KeyY
+	KeyZ
+	KeyEnter
+	KeyEsc
+)

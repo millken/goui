@@ -22,8 +22,16 @@ func (a *app) Create(ctx *v2.Context) error {
 	rootComp := component.NewBoxComponent()
 	// 在窗口内的某个坐标绘制一个矩形（示例：x=100,y=80,width=220,height=160）
 	rootComp.SetBounds(100, 80, 220, 160)
-	box2 := component.NewBoxWithColor(v2.Color{R: 231, G: 76, B: 60, A: 255})
-	box2.SetBounds(50, 50, 100, 100)
+	// 内层子组件：初始为蓝色，点击切换为白色
+	box2 := component.NewBoxComponent()
+	box2.SetBounds(20, 20, 180, 120) // 相对于 root 的坐标（示例中未实现局部坐标变换，示意）
+	box2.SetOnClick(func() {
+		// 切换颜色
+		if box2.GetBounds().Width >= 0 {
+			// 直接切换颜色示例
+			box2.SetColor(v2.Color{R: 255, G: 255, B: 255, A: 255})
+		}
+	})
 	rootComp.AddChild(box2)
 	win1.SetRoot(rootComp)
 	win1.Show()

@@ -126,7 +126,7 @@ func (w *GLFWWindow) Init(ctx *v2.Context) error {
 			if w.ctx == nil {
 				return
 			}
-			ke := v2.KeyEvent{Key: int(key), Mod: int(mods), Down: action != glfw.Release}
+			ke := v2.KeyEvent{Key: mapGlfwKey(key), Mod: int(mods), Down: action != glfw.Release}
 			if wm := w.ctx.GetWindowManager(); wm != nil {
 				wm.Emit(v2.WindowEvent{Type: v2.WindowKey, Window: w, Event: ke})
 			}
@@ -135,12 +135,82 @@ func (w *GLFWWindow) Init(ctx *v2.Context) error {
 	return nil
 }
 
+// mapGlfwKey maps glfw key codes to backend-agnostic v2 key constants.
+func mapGlfwKey(k glfw.Key) int {
+	switch k {
+	case glfw.KeySpace:
+		return v2.KeySpace
+	case glfw.KeyA:
+		return v2.KeyA
+	case glfw.KeyB:
+		return v2.KeyB
+	case glfw.KeyC:
+		return v2.KeyC
+	case glfw.KeyD:
+		return v2.KeyD
+	case glfw.KeyE:
+		return v2.KeyE
+	case glfw.KeyF:
+		return v2.KeyF
+	case glfw.KeyG:
+		return v2.KeyG
+	case glfw.KeyH:
+		return v2.KeyH
+	case glfw.KeyI:
+		return v2.KeyI
+	case glfw.KeyJ:
+		return v2.KeyJ
+	case glfw.KeyK:
+		return v2.KeyK
+	case glfw.KeyL:
+		return v2.KeyL
+	case glfw.KeyM:
+		return v2.KeyM
+	case glfw.KeyN:
+		return v2.KeyN
+	case glfw.KeyO:
+		return v2.KeyO
+	case glfw.KeyP:
+		return v2.KeyP
+	case glfw.KeyQ:
+		return v2.KeyQ
+	case glfw.KeyR:
+		return v2.KeyR
+	case glfw.KeyS:
+		return v2.KeyS
+	case glfw.KeyT:
+		return v2.KeyT
+	case glfw.KeyU:
+		return v2.KeyU
+	case glfw.KeyV:
+		return v2.KeyV
+	case glfw.KeyW:
+		return v2.KeyW
+	case glfw.KeyX:
+		return v2.KeyX
+	case glfw.KeyY:
+		return v2.KeyY
+	case glfw.KeyZ:
+		return v2.KeyZ
+	case glfw.KeyEnter:
+		return v2.KeyEnter
+	case glfw.KeyEscape:
+		return v2.KeyEsc
+	default:
+		return v2.KeyUnknown
+	}
+}
+
 func (w *GLFWWindow) Show() {
 	w.visible = true
 	if wm := w.ctx.GetWindowManager(); wm != nil {
-		// 避免重复注册：如果 id 为空则在 Init 已生成；若未在 WM 中，注册一次
-		// 这里简单地调用 AddWindowWithID，WM 内部可容忍重复或后续可改为查询
-		wm.AddWindowWithID(w.id, w)
+		// 确保只有在未注册时才添加到 WindowManager，防止重复注册导致无法正确移除
+		if w.id == "" {
+			w.id = wm.NextID()
+		}
+		if existing := wm.GetWindow(w.id); existing == nil {
+			wm.AddWindowWithID(w.id, w)
+		}
 		wm.Emit(v2.WindowEvent{Type: v2.WindowShown, Window: w})
 		wm.MarkDirty(w)
 	}
