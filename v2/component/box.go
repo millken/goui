@@ -38,7 +38,10 @@ func (b *BoxComponent) GetBounds() v2.Rect { return b.rect }
 // Paint draws the box and then its children (if any).
 func (b *BoxComponent) Paint(c v2.Canvas) {
 	// 自身
-	c.DrawRect(b.rect, b.color)
+	c.Save()
+	c.SetFillStyle(v2.PaintStyle{Color: b.color})
+	c.DrawRect(b.rect)
+	c.Restore()
 	// 子组件
 	if len(b.children) == 0 {
 		return
@@ -64,10 +67,45 @@ type offsetCanvas struct {
 	dx, dy float64
 }
 
-func (oc *offsetCanvas) DrawRect(rect v2.Rect, color v2.Color) {
+func (oc *offsetCanvas) Save()                    { oc.base.Save() }
+func (oc *offsetCanvas) Restore()                 { oc.base.Restore() }
+func (oc *offsetCanvas) Translate(tx, ty float64) { oc.dx += tx; oc.dy += ty }
+func (oc *offsetCanvas) Scale(sx, sy float64)     { oc.base.Scale(sx, sy) }
+
+func (oc *offsetCanvas) ClipRect(r v2.Rect) {
+	r.X += oc.dx
+	r.Y += oc.dy
+	oc.base.ClipRect(r)
+}
+
+func (oc *offsetCanvas) SetFillStyle(style v2.PaintStyle)   { oc.base.SetFillStyle(style) }
+func (oc *offsetCanvas) SetStrokeStyle(style v2.PaintStyle) { oc.base.SetStrokeStyle(style) }
+func (oc *offsetCanvas) SetLineWidth(w float64)             { oc.base.SetLineWidth(w) }
+
+func (oc *offsetCanvas) DrawRect(rect v2.Rect) {
 	rect.X += oc.dx
 	rect.Y += oc.dy
-	oc.base.DrawRect(rect, color)
+	oc.base.DrawRect(rect)
+}
+
+func (oc *offsetCanvas) DrawLine(x0, y0, x1, y1 float64) {
+	x0 += oc.dx
+	y0 += oc.dy
+	x1 += oc.dx
+	y1 += oc.dy
+	oc.base.DrawLine(x0, y0, x1, y1)
+}
+
+func (oc *offsetCanvas) DrawImage(img v2.Image, dest v2.Rect) {
+	dest.X += oc.dx
+	dest.Y += oc.dy
+	oc.base.DrawImage(img, dest)
+}
+
+func (oc *offsetCanvas) DrawText(text string, x, y float64) {
+	x += oc.dx
+	y += oc.dy
+	oc.base.DrawText(text, x, y)
 }
 
 // HandleEvent handles input event.

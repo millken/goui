@@ -131,43 +131,164 @@ func (r *GLRenderer) SetViewport(x, y, width, height int) {
 	gl.Viewport(int32(x), int32(y), int32(width), int32(height))
 }
 
-// glCanvas 是一个最小实现，仅提供 DrawRect(rect,color)
+// (glCanvas 类型在下方有更完整的声明)
+
+// 绘制状态（保持简单）
+type drawState struct {
+	fill   v2.PaintStyle
+	stroke v2.PaintStyle
+	lineW  float32
+	// 2D 变换（3x3 矩阵）
+	tx, ty float32 // 仅支持平移（为简单起见），后续可扩展为完整矩阵
+}
+
+type clipRect struct {
+	x, y, w, h int32
+}
+
 type glCanvas struct {
 	r        *GLRenderer
 	fbW, fbH int
+
+	// 状态栈
+	stack []drawState
+	state drawState
+	clips []clipRect
 }
 
-// DrawRect 使用 TRIANGLE_STRIP 渲染矩形
-func (c *glCanvas) DrawRect(rect v2.Rect, color v2.Color) {
+// helper: 转换像素坐标（屏幕左上）到 NDC
+func (c *glCanvas) ndcRect(rect v2.Rect) (x0, y0, x1, y1 float32) {
 	if c.r == nil || !c.r.inited || c.r.prog == 0 || c.fbW <= 0 || c.fbH <= 0 {
 		return
 	}
+	x0 = float32((rect.X/float64(c.fbW))*2.0 - 1.0)
+	y0 = float32(1.0 - (rect.Y/float64(c.fbH))*2.0)
+	x1 = float32(((rect.X+rect.Width)/float64(c.fbW))*2.0 - 1.0)
+	y1 = float32(1.0 - ((rect.Y+rect.Height)/float64(c.fbH))*2.0)
+	return
+}
 
-	// 将屏幕像素坐标（左上角原点）转换到 NDC（左下角原点）
-	x0 := float32((rect.X/float64(c.fbW))*2.0 - 1.0)
-	y0 := float32(1.0 - (rect.Y/float64(c.fbH))*2.0)
-	x1 := float32(((rect.X+rect.Width)/float64(c.fbW))*2.0 - 1.0)
-	y1 := float32(1.0 - ((rect.Y+rect.Height)/float64(c.fbH))*2.0)
+// Save/Restore
+func (c *glCanvas) Save() {
+	c.stack = append(c.stack, c.state)
+}
 
+func (c *glCanvas) Restore() {
+	if len(c.stack) == 0 {
+		return
+	}
+	c.state = c.stack[len(c.stack)-1]
+	c.stack = c.stack[:len(c.stack)-1]
+	// 恢复裁剪
+	if len(c.clips) > 0 {
+		cr := c.clips[len(c.clips)-1]
+		gl.Enable(gl.SCISSOR_TEST)
+		gl.Scissor(cr.x, cr.y, cr.w, cr.h)
+	} else {
+		gl.Disable(gl.SCISSOR_TEST)
+	}
+}
+
+func (c *glCanvas) Translate(tx, ty float64) {
+	c.state.tx += float32(tx)
+	c.state.ty += float32(ty)
+}
+
+func (c *glCanvas) Scale(sx, sy float64) {
+	// 简化：不实现缩放，仅记录 TODO
+}
+
+func (c *glCanvas) ClipRect(r v2.Rect) {
+	// 转换为帧缓冲坐标（左下原点）并使用 glScissor
+	x := int32(r.X)
+	y := int32(r.Y)
+	w := int32(r.Width)
+	h := int32(r.Height)
+	// glScissor 的原点是左下，但我们的 Rect 是左上原点，转换如下：
+	y = int32(c.fbH) - y - h
+	c.clips = append(c.clips, clipRect{x, y, w, h})
+	gl.Enable(gl.SCISSOR_TEST)
+	gl.Scissor(x, y, w, h)
+}
+
+func (c *glCanvas) SetFillStyle(style v2.PaintStyle) {
+	c.state.fill = style
+}
+
+func (c *glCanvas) SetStrokeStyle(style v2.PaintStyle) {
+	c.state.stroke = style
+}
+
+func (c *glCanvas) SetLineWidth(w float64) {
+	c.state.lineW = float32(w)
+	gl.LineWidth(c.state.lineW)
+}
+
+// DrawRect 使用 TRIANGLE_STRIP 渲染矩形（填充）
+func (c *glCanvas) DrawRect(rect v2.Rect) {
+	if c.r == nil || !c.r.inited || c.r.prog == 0 || c.fbW <= 0 || c.fbH <= 0 {
+		return
+	}
+	// apply translation
+	rect.X += float64(c.state.tx)
+	rect.Y += float64(c.state.ty)
+
+	x0, y0, x1, y1 := c.ndcRect(rect)
 	verts := [...]float32{
 		x0, y0,
 		x1, y0,
 		x0, y1,
 		x1, y1,
 	}
-
 	gl.UseProgram(c.r.prog)
 	gl.BindVertexArray(c.r.vao)
 	gl.BindBuffer(gl.ARRAY_BUFFER, c.r.vbo)
 	gl.BufferSubData(gl.ARRAY_BUFFER, 0, len(verts)*4, gl.Ptr(&verts[0]))
-
-	r := float32(color.R) / 255.0
-	g := float32(color.G) / 255.0
-	b := float32(color.B) / 255.0
-	a := float32(color.A) / 255.0
+	col := c.state.fill.Color
+	r := float32(col.R) / 255.0
+	g := float32(col.G) / 255.0
+	b := float32(col.B) / 255.0
+	a := float32(col.A) / 255.0
 	gl.Uniform4f(c.r.colorLoc, r, g, b, a)
-
 	gl.DrawArrays(gl.TRIANGLE_STRIP, 0, 4)
+}
+
+// DrawLine 使用 GL_LINES
+func (c *glCanvas) DrawLine(x0, y0, x1, y1 float64) {
+	if c.r == nil || !c.r.inited || c.r.prog == 0 || c.fbW <= 0 || c.fbH <= 0 {
+		return
+	}
+	// apply translation
+	x0 += float64(c.state.tx)
+	y0 += float64(c.state.ty)
+	x1 += float64(c.state.tx)
+	y1 += float64(c.state.ty)
+
+	r0 := v2.Rect{X: x0, Y: y0, Width: 1, Height: 1}
+	r1 := v2.Rect{X: x1, Y: y1, Width: 1, Height: 1}
+	nx0, ny0, _, _ := c.ndcRect(r0)
+	nx1, ny1, _, _ := c.ndcRect(r1)
+	verts := [...]float32{nx0, ny0, nx1, ny1}
+	gl.UseProgram(c.r.prog)
+	gl.BindVertexArray(c.r.vao)
+	gl.BindBuffer(gl.ARRAY_BUFFER, c.r.vbo)
+	gl.BufferSubData(gl.ARRAY_BUFFER, 0, len(verts)*4, gl.Ptr(&verts[0]))
+	col := c.state.stroke.Color
+	r := float32(col.R) / 255.0
+	g := float32(col.G) / 255.0
+	b := float32(col.B) / 255.0
+	a := float32(col.A) / 255.0
+	gl.Uniform4f(c.r.colorLoc, r, g, b, a)
+	gl.DrawArrays(gl.LINES, 0, 2)
+}
+
+// DrawImage/DrawText 是占位，后续可接入字体与纹理支持
+func (c *glCanvas) DrawImage(img v2.Image, dest v2.Rect) {
+	// TODO: implement image drawing with textures
+}
+
+func (c *glCanvas) DrawText(text string, x, y float64) {
+	// TODO: implement text rendering (bitmap fonts or signed distance fields)
 }
 
 // 顶点/片段着色器源码（最小实现）
