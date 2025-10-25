@@ -81,9 +81,7 @@ func NewSettings() *Settings {
 }
 
 // SetRenderer sets the Renderer to be used.
-func (s *Settings) SetRenderer(r Renderer) {
-	s.Renderer = r
-}
+func (s *Settings) SetRenderer(r Renderer) { s.Renderer = r }
 
 // SetAspectRatio sets the aspect ratio (x:y). Use -1 to disable an axis.
 func (s *Settings) SetAspectRatio(x, y float32) {

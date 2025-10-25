@@ -1,25 +1,47 @@
 package impl
 
-import v2 "github.com/millken/goui/v2"
+import (
+	"fmt"
+
+	"github.com/go-gl/glfw/v3.3/glfw"
+	v2 "github.com/millken/goui/v2"
+)
 
 var _ v2.Window = (*GLFWWindow)(nil)
 
 type GLFWWindow struct {
-	// ...
+	win     *glfw.Window
+	root    v2.Component
+	visible bool
 }
 
-func NewGLFWWindow(title string, width, height int) *GLFWWindow {
-	return &GLFWWindow{
-		// ...
+func NewGLFWWindow(title string, width, height int) (*GLFWWindow, error) {
+	if err := glfw.Init(); err != nil {
+		return nil, fmt.Errorf("glfw init failed: %w", err)
 	}
+	glfw.WindowHint(glfw.ContextVersionMajor, 3)
+	glfw.WindowHint(glfw.ContextVersionMinor, 3)
+	glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCoreProfile)
+
+	win, err := glfw.CreateWindow(width, height, title, nil, nil)
+	if err != nil {
+		glfw.Terminate()
+		return nil, fmt.Errorf("create window failed: %w", err)
+	}
+	return &GLFWWindow{
+		win: win,
+	}, nil
 }
 
 func (w *GLFWWindow) Show() {
 	// Implementation to show the window
+	w.visible = true
+	v2.RegisterWindow(w)
 }
 
 func (w *GLFWWindow) Hide() {
 	// Implementation to hide the window
+	w.visible = false
 }
 
 func (w *GLFWWindow) Close() {
@@ -34,22 +56,14 @@ func (w *GLFWWindow) SetSize(width, height int) {
 	// Implementation to set the window size
 }
 
-func (w *GLFWWindow) AddComponent(component v2.Component) {
-	// Implementation to add a component
-}
-
-func (w *GLFWWindow) RemoveComponent(id string) {
-	// Implementation to remove a component
-}
-
-func (w *GLFWWindow) GetComponent(id string) v2.Component {
-	// Implementation to get a component
-	return nil
+func (w *GLFWWindow) SetRoot(root v2.Component) {
+	w.root = root
+	v2.BindRoot(w, root)
 }
 
 func (w *GLFWWindow) IsVisible() bool {
 	// Implementation to check if the window is visible
-	return false
+	return w.visible
 }
 
 func (w *GLFWWindow) GetSize() (width, height int) {
@@ -65,4 +79,8 @@ func (w *GLFWWindow) PreRender(r v2.Renderer) {
 // PostRenderer is called after the renderer is cleaned up.
 func (w *GLFWWindow) PostRenderer(r v2.Renderer) {
 	// Cleanup code after renderer cleanup
+}
+
+func (w *GLFWWindow) RequestRedraw() {
+	// mark dirty; for stub we do nothing
 }

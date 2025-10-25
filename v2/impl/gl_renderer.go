@@ -21,8 +21,10 @@ func (r *GLRenderer) Cleanup() {
 	// OpenGL cleanup code
 }
 
-func (r *GLRenderer) BeginFrame() {
-	// OpenGL begin frame code
+func (r *GLRenderer) BeginFrame(width, height int) (v2.Canvas, error) {
+	// OpenGL begin frame code: setup framebuffer/viewport
+	// Return a canvas implementation; placeholder returns NopCanvas
+	return v2.NopCanvas{}, nil
 }
 
 func (r *GLRenderer) EndFrame() {

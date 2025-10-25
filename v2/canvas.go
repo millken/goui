@@ -34,3 +34,27 @@ type Canvas interface {
 	Fill()              // 填充路径
 	Stroke()            // 描边路径
 }
+
+// NopCanvas 是一个空实现，便于后端快速打通渲染链路
+type NopCanvas struct{}
+
+func (NopCanvas) SetColor(color Color)                    {}
+func (NopCanvas) SetFont(font Font)                       {}
+func (NopCanvas) SetLineWidth(width float64)              {}
+func (NopCanvas) DrawRect(rect Rect)                      {}
+func (NopCanvas) DrawCircle(center Point, radius float64) {}
+func (NopCanvas) DrawLine(start, end Point)               {}
+func (NopCanvas) DrawText(text string, position Point)    {}
+func (NopCanvas) MeasureText(text string) Size            { return Size{} }
+func (NopCanvas) DrawImage(image Image, rect Rect)        {}
+func (NopCanvas) PushTransform()                          {}
+func (NopCanvas) PopTransform()                           {}
+func (NopCanvas) Translate(dx, dy float64)                {}
+func (NopCanvas) Rotate(angle float64)                    {}
+func (NopCanvas) Scale(sx, sy float64)                    {}
+func (NopCanvas) BeginPath()                              {}
+func (NopCanvas) MoveTo(point Point)                      {}
+func (NopCanvas) LineTo(point Point)                      {}
+func (NopCanvas) ClosePath()                              {}
+func (NopCanvas) Fill()                                   {}
+func (NopCanvas) Stroke()                                 {}
