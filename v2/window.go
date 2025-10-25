@@ -23,6 +23,10 @@ type Window interface {
 	PostRenderer(r Renderer) // 渲染后钩子（如退场、清理）
 	RequestRedraw()          // 请求下一帧重绘
 
+	// 注册关闭回调：当用户点击窗口的关闭按钮时会触发此回调
+	// 若回调处理了关闭（例如仅隐藏窗口），窗口实现应尊重此行为而不进行默认销毁。
+	SetOnClose(func())
+
 	// 状态获取
 	IsVisible() bool              // 窗口是否可见
 	GetSize() (width, height int) // 获取窗口尺寸

@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	"runtime"
-	"sync"
-	"time"
 
 	v2 "github.com/millken/goui/v2"
 	"github.com/millken/goui/v2/component"
@@ -29,65 +27,33 @@ func (a *app) Create(ctx *v2.Context) error {
 	rootComp.AddChild(box2)
 	win1.SetRoot(rootComp)
 	win1.Show()
-	// 当点击 rootComp 时弹出第二个窗口（只创建一次）
-	var win2 v2.Window
-	var mu sync.Mutex
-	created := false
+	var w2 v2.Window
 	rootComp.SetOnClick(func() {
-		mu.Lock()
-		defer mu.Unlock()
-		if !created {
-			w2, err := impl.NewGLFWWindow("Second Window", 400, 300)
+		if w2 == nil {
+			nw, err := impl.NewGLFWWindow("Second Window", 400, 300)
 			if err != nil {
 				fmt.Println("create second window failed:", err)
 				return
 			}
-			if err := w2.Init(ctx); err != nil {
+			if err := nw.Init(ctx); err != nil {
 				fmt.Println("init second window failed:", err)
 				return
 			}
 			// 简单根组件
 			r2 := component.NewBoxComponent()
 			r2.SetBounds(10, 10, 200, 150)
-			w2.SetRoot(r2)
-			win2 = w2
-			created = true
-			w2.Show()
-
-			// 启动后台 goroutine 监测 win2 是否从 WindowManager 中移除（不消费事件通道）
-			go func(w v2.Window) {
-				wm := ctx.GetWindowManager()
-				if wm == nil {
-					return
-				}
-				ticker := time.NewTicker(200 * time.Millisecond)
-				defer ticker.Stop()
-				for range ticker.C {
-					found := false
-					for _, wchk := range wm.ListWindows() {
-						if wchk == w {
-							found = true
-							break
-						}
-					}
-					if !found {
-						mu.Lock()
-						created = false
-						if win2 == w {
-							win2 = nil
-						}
-						mu.Unlock()
-						return
-					}
-				}
-			}(w2)
+			nw.SetRoot(r2)
+			// 当点击窗口 X 时只隐藏窗口而不真正销毁，这样后续可以再次 Show()
+			nw.SetOnClose(func() {
+				nw.Hide()
+			})
+			w2 = nw
+			nw.Show()
 			return
 		}
-		// 已创建则尝试显示（如果仍然存在）
-		if win2 != nil {
-			win2.Show()
-		}
+		w2.Show()
 	})
+
 	fmt.Println("App Created")
 	return nil
 }

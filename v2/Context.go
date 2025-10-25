@@ -8,10 +8,19 @@ type Context struct {
 	frameNo   uint64
 	winEvents []WindowEvent
 	wm        *WindowManager
+	sched     *Scheduler
 }
 
 // NewContext 创建新的渲染上下文
 func NewContext() *Context { return &Context{} }
+
+// GetScheduler returns the scheduler associated with this context.
+func (c *Context) GetScheduler() *Scheduler {
+	if c.sched == nil {
+		c.sched = NewScheduler()
+	}
+	return c.sched
+}
 
 // PushWindowEvent 收集窗口事件（由 App 主循环调用）
 func (c *Context) PushWindowEvent(e WindowEvent) { c.winEvents = append(c.winEvents, e) }

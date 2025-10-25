@@ -45,6 +45,7 @@ func (wm *WindowManager) AddWindowWithID(id string, win Window) {
 	wm.byID[id] = win
 	wm.windows = append(wm.windows, win)
 	wm.dirty[win] = true
+	fmt.Println("WindowManager: AddWindowWithID id=", id)
 }
 
 // RemoveWindow unregisters a window and emits a WindowClosed event.
@@ -67,6 +68,7 @@ func (wm *WindowManager) RemoveWindow(win Window) {
 	delete(wm.dirty, win)
 	wm.mu.Unlock()
 	wm.Emit(WindowEvent{Type: WindowClosed, Window: win})
+	fmt.Println("WindowManager: RemoveWindow, remaining=", len(wm.windows))
 }
 
 // ListWindows returns a snapshot of windows.

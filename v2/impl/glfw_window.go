@@ -3,7 +3,6 @@ package impl
 import (
 	"fmt"
 	"sync"
-	"time"
 
 	"github.com/go-gl/glfw/v3.3/glfw"
 	v2 "github.com/millken/goui/v2"
@@ -32,18 +31,18 @@ type GLFWWindow struct {
 	id      string
 	ctx     *v2.Context
 
-	loopOnce    sync.Once
-	ctrl        chan controlOp
-	removedOnce sync.Once
+	// store creation params so we can re-create the native window after it was destroyed
+	title  string
+	width  int
+	height int
+
+	// control goroutine lifecycle removed: GLFW must be called from main thread
+	loopMu      sync.Mutex
+	loopRunning bool
+	onClose     func()
 }
 
-type controlOp int
-
-const (
-	ctrlShow controlOp = iota
-	ctrlHide
-	ctrlClose
-)
+// control goroutine removed: all platform calls must be done on main thread
 
 func NewGLFWWindow(title string, width, height int) (*GLFWWindow, error) {
 	if err := ensureGLFW(); err != nil {
@@ -53,29 +52,24 @@ func NewGLFWWindow(title string, width, height int) (*GLFWWindow, error) {
 	glfw.WindowHint(glfw.ContextVersionMajor, 3)
 	glfw.WindowHint(glfw.ContextVersionMinor, 3)
 	glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCoreProfile)
+	// 默认创建为不可见，直到调用 Show()
+	glfw.WindowHint(glfw.Visible, glfw.False)
 
 	win, err := glfw.CreateWindow(width, height, title, nil, nil)
 	if err != nil {
 		return nil, fmt.Errorf("create window failed: %w", err)
 	}
 	w := &GLFWWindow{
-		win:  win,
-		id:   "", // set in Init when ctx is available
-		ctrl: make(chan controlOp, 8),
+		win:    win,
+		id:     "", // set in Init when ctx is available
+		title:  title,
+		width:  width,
+		height: height,
 	}
 
 	// 当 framebuffer 尺寸变化（窗口缩放或 DPI 变化）时，标记窗口为脏以触发重绘
-	win.SetFramebufferSizeCallback(func(_ *glfw.Window, fbw, fbh int) {
-		if w == nil {
-			return
-		}
-		if w.ctx != nil {
-			if wm := w.ctx.GetWindowManager(); wm != nil {
-				wm.MarkDirty(w)
-			}
-		}
-	})
-	w.startLoop()
+	// attach framebuffer callback and start event loop for this native window
+	w.attachFramebufferCallback()
 	return w, nil
 }
 
@@ -89,50 +83,90 @@ func (w *GLFWWindow) Init(ctx *v2.Context) error {
 	}
 
 	// 注册输入回调：鼠标按键、鼠标移动与键盘按键
+	// ensure callbacks are attached to the native window (if present)
 	if w.win != nil {
-		w.win.SetMouseButtonCallback(func(win *glfw.Window, button glfw.MouseButton, action glfw.Action, mods glfw.ModifierKey) {
-			if w.ctx == nil {
-				return
-			}
-			x, y := win.GetCursorPos()
-			me := v2.MouseEvent{X: x, Y: y}
-			switch button {
-			case glfw.MouseButtonLeft:
-				me.Button = v2.MouseLeft
-			case glfw.MouseButtonRight:
-				me.Button = v2.MouseRight
-			default:
-				me.Button = v2.MouseMiddle
-			}
-			me.Down = (action != glfw.Release)
-			if wm := w.ctx.GetWindowManager(); wm != nil {
-				wm.Emit(v2.WindowEvent{Type: v2.WindowMouse, Window: w, Event: me})
-			}
-		})
-
-		w.win.SetCursorPosCallback(func(win *glfw.Window, xpos float64, ypos float64) {
-			if w.ctx == nil {
-				return
-			}
-			if wm := w.ctx.GetWindowManager(); wm != nil {
-				// mark dirty so cursor driven interactions may force repaint if required
-				wm.MarkDirty(w)
-				me := v2.MouseEvent{X: xpos, Y: ypos, Button: 0, Down: false}
-				wm.Emit(v2.WindowEvent{Type: v2.WindowMouse, Window: w, Event: me})
-			}
-		})
-
-		w.win.SetKeyCallback(func(win *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
-			if w.ctx == nil {
-				return
-			}
-			ke := v2.KeyEvent{Key: mapGlfwKey(key), Mod: int(mods), Down: action != glfw.Release}
-			if wm := w.ctx.GetWindowManager(); wm != nil {
-				wm.Emit(v2.WindowEvent{Type: v2.WindowKey, Window: w, Event: ke})
-			}
-		})
+		w.attachInputCallbacks()
 	}
 	return nil
+}
+
+// attachFramebufferCallback attaches a framebuffer callback to the current native window (if any)
+func (w *GLFWWindow) attachFramebufferCallback() {
+	if w.win == nil {
+		return
+	}
+	w.win.SetFramebufferSizeCallback(func(_ *glfw.Window, fbw, fbh int) {
+		if w == nil {
+			return
+		}
+		if w.ctx != nil {
+			if wm := w.ctx.GetWindowManager(); wm != nil {
+				wm.MarkDirty(w)
+			}
+		}
+	})
+}
+
+// attachInputCallbacks attaches mouse/keyboard/cursor callbacks to the native window
+func (w *GLFWWindow) attachInputCallbacks() {
+	if w.win == nil {
+		return
+	}
+	w.win.SetMouseButtonCallback(func(win *glfw.Window, button glfw.MouseButton, action glfw.Action, mods glfw.ModifierKey) {
+		if w.ctx == nil {
+			return
+		}
+		x, y := win.GetCursorPos()
+		me := v2.MouseEvent{X: x, Y: y}
+		switch button {
+		case glfw.MouseButtonLeft:
+			me.Button = v2.MouseLeft
+		case glfw.MouseButtonRight:
+			me.Button = v2.MouseRight
+		default:
+			me.Button = v2.MouseMiddle
+		}
+		me.Down = (action != glfw.Release)
+		if wm := w.ctx.GetWindowManager(); wm != nil {
+			wm.Emit(v2.WindowEvent{Type: v2.WindowMouse, Window: w, Event: me})
+		}
+	})
+
+	w.win.SetCursorPosCallback(func(win *glfw.Window, xpos float64, ypos float64) {
+		if w.ctx == nil {
+			return
+		}
+		if wm := w.ctx.GetWindowManager(); wm != nil {
+			wm.MarkDirty(w)
+			me := v2.MouseEvent{X: xpos, Y: ypos, Button: 0, Down: false}
+			wm.Emit(v2.WindowEvent{Type: v2.WindowMouse, Window: w, Event: me})
+		}
+	})
+
+	w.win.SetKeyCallback(func(win *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
+		if w.ctx == nil {
+			return
+		}
+		ke := v2.KeyEvent{Key: mapGlfwKey(key), Mod: int(mods), Down: action != glfw.Release}
+		if wm := w.ctx.GetWindowManager(); wm != nil {
+			wm.Emit(v2.WindowEvent{Type: v2.WindowKey, Window: w, Event: ke})
+		}
+	})
+
+	// Close callback: emit WindowClosed so App.Run can handle cleanup
+	w.win.SetCloseCallback(func(win *glfw.Window) {
+		if w.ctx == nil {
+			return
+		}
+		// if an OnClose handler is registered, invoke it and do not perform default close
+		if w.onClose != nil {
+			w.onClose()
+			return
+		}
+		if wm := w.ctx.GetWindowManager(); wm != nil {
+			wm.Emit(v2.WindowEvent{Type: v2.WindowClosed, Window: w})
+		}
+	})
 }
 
 // mapGlfwKey maps glfw key codes to backend-agnostic v2 key constants.
@@ -210,16 +244,46 @@ func (w *GLFWWindow) Show() {
 		}
 		if existing := wm.GetWindow(w.id); existing == nil {
 			wm.AddWindowWithID(w.id, w)
+			fmt.Println("GLFWWindow.Show: added window id=", w.id, "title=", w.title)
+		} else {
+			fmt.Println("GLFWWindow.Show: window already registered id=", w.id)
 		}
 		wm.Emit(v2.WindowEvent{Type: v2.WindowShown, Window: w})
 		wm.MarkDirty(w)
 	}
-	if w.win != nil {
-		w.win.Show()
+	// if native window was destroyed earlier, recreate it
+	if w.win == nil {
+		// reapply hints to ensure the recreated window gets the expected GL context
+		glfw.WindowHint(glfw.ContextVersionMajor, 3)
+		glfw.WindowHint(glfw.ContextVersionMinor, 3)
+		glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCoreProfile)
+		// keep created window hidden until we explicitly show it
+		glfw.WindowHint(glfw.Visible, glfw.False)
+
+		// recreate native window on main thread
+		if w.ctx != nil && w.ctx.GetScheduler() != nil {
+			// synchronously create the window on main thread and wait for result
+			w.ctx.GetScheduler().RunWithResult(func() any {
+				nw, err := glfw.CreateWindow(w.width, w.height, w.title, nil, nil)
+				if err == nil {
+					w.win = nw
+					w.win.MakeContextCurrent()
+					w.attachFramebufferCallback()
+					w.attachInputCallbacks()
+				}
+				return nil
+			})
+		}
 	}
-	select {
-	case w.ctrl <- ctrlShow:
-	default:
+	// show native window on main thread
+	if w.win != nil {
+		if w.ctx != nil && w.ctx.GetScheduler() != nil {
+			ww := w.win
+			w.ctx.GetScheduler().RunWithResult(func() any { ww.Show(); return nil })
+		} else {
+			w.win.Show()
+		}
+		fmt.Println("GLFWWindow.Show: shown native window id=", w.id)
 	}
 }
 
@@ -228,10 +292,7 @@ func (w *GLFWWindow) Hide() {
 	if w.win != nil {
 		w.win.Hide()
 	}
-	select {
-	case w.ctrl <- ctrlHide:
-	default:
-	}
+	// no background goroutine; hide is synchronous
 	if wm := w.ctx.GetWindowManager(); wm != nil {
 		wm.Emit(v2.WindowEvent{Type: v2.WindowHidden, Window: w})
 		wm.MarkDirty(w)
@@ -240,13 +301,24 @@ func (w *GLFWWindow) Hide() {
 
 func (w *GLFWWindow) Close() {
 	if w.win != nil {
-		w.win.SetShouldClose(true)
+		ww := w.win
+		if w.ctx != nil && w.ctx.GetScheduler() != nil {
+			// synchronously destroy on main thread
+			w.ctx.GetScheduler().RunWithResult(func() any {
+				ww.SetShouldClose(true)
+				ww.Destroy()
+				return nil
+			})
+		} else {
+			ww.SetShouldClose(true)
+			ww.Destroy()
+		}
+		w.visible = false
+		w.win = nil
 	}
-	select {
-	case w.ctrl <- ctrlClose:
-	default:
+	if wm := w.ctx.GetWindowManager(); wm != nil {
+		wm.RemoveWindow(w)
 	}
-	w.removeFromWM()
 }
 
 func (w *GLFWWindow) SetTitle(title string) {
@@ -298,44 +370,15 @@ func (w *GLFWWindow) RequestRedraw() {
 }
 
 func (w *GLFWWindow) removeFromWM() {
-	w.removedOnce.Do(func() {
-		if wm := w.ctx.GetWindowManager(); wm != nil {
-			wm.RemoveWindow(w)
-		}
-	})
+	if wm := w.ctx.GetWindowManager(); wm != nil {
+		wm.RemoveWindow(w)
+	}
 }
 
-func (w *GLFWWindow) startLoop() {
-	w.loopOnce.Do(func() {
-		go func() {
-			for {
-				select {
-				case op := <-w.ctrl:
-					switch op {
-					case ctrlShow:
-						// platform show handled in Show()
-					case ctrlHide:
-						// platform hide handled in Hide()
-					case ctrlClose:
-						if w.win != nil {
-							w.win.Destroy()
-							w.visible = false
-							w.win = nil
-							w.removeFromWM()
-						}
-						return
-					}
-				case <-time.After(time.Second / 60):
-					// check close flag periodically
-					if w.win != nil && w.win.ShouldClose() {
-						w.win.Destroy()
-						w.visible = false
-						w.win = nil
-						w.removeFromWM()
-						return
-					}
-				}
-			}
-		}()
-	})
-}
+// SetOnClose registers a callback invoked when the user requests to close the window
+// (e.g., clicking the native close button). If the callback is provided it is
+// invoked instead of performing the default destroy behavior, allowing the
+// caller to hide the window or perform graceful shutdown.
+func (w *GLFWWindow) SetOnClose(cb func()) { w.onClose = cb }
+
+// background loop removed: GLFW calls must be performed on the main thread in App.Run

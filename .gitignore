@@ -22,3 +22,4 @@ go.work
 .DS_Store
 *.apk
 .vscode/
+v2/examples/multi-window/multi-window
