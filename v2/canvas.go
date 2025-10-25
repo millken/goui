@@ -1,60 +1,12 @@
 package v2
 
-// Canvas 提供高级绘图API
+// Canvas 提供高级绘图API（当前为调试最小实现）
 type Canvas interface {
-	// 绘图状态
-	SetColor(color Color)       // 设置绘图颜色
-	SetFont(font Font)          // 设置字体
-	SetLineWidth(width float64) // 设置线宽
-
-	// 基本图形绘制
-	DrawRect(rect Rect)                      // 绘制矩形
-	DrawCircle(center Point, radius float64) // 绘制圆形
-	DrawLine(start, end Point)               // 绘制直线
-
-	// 文本绘制
-	DrawText(text string, position Point) // 绘制文本
-	MeasureText(text string) Size         // 测量文本尺寸
-
-	// 图像绘制
-	DrawImage(image Image, rect Rect) // 绘制图像
-
-	// 变换操作
-	PushTransform()           // 保存当前变换
-	PopTransform()            // 恢复变换
-	Translate(dx, dy float64) // 平移
-	Rotate(angle float64)     // 旋转
-	Scale(sx, sy float64)     // 缩放
-
-	// 组合操作
-	BeginPath()         // 开始路径
-	MoveTo(point Point) // 移动路径点
-	LineTo(point Point) // 添加直线段
-	ClosePath()         // 闭合路径
-	Fill()              // 填充路径
-	Stroke()            // 描边路径
+	// 最小绘制接口：绘制矩形（带颜色）
+	DrawRect(rect Rect, color Color)
 }
 
 // NopCanvas 是一个空实现，便于后端快速打通渲染链路
 type NopCanvas struct{}
 
-func (NopCanvas) SetColor(color Color)                    {}
-func (NopCanvas) SetFont(font Font)                       {}
-func (NopCanvas) SetLineWidth(width float64)              {}
-func (NopCanvas) DrawRect(rect Rect)                      {}
-func (NopCanvas) DrawCircle(center Point, radius float64) {}
-func (NopCanvas) DrawLine(start, end Point)               {}
-func (NopCanvas) DrawText(text string, position Point)    {}
-func (NopCanvas) MeasureText(text string) Size            { return Size{} }
-func (NopCanvas) DrawImage(image Image, rect Rect)        {}
-func (NopCanvas) PushTransform()                          {}
-func (NopCanvas) PopTransform()                           {}
-func (NopCanvas) Translate(dx, dy float64)                {}
-func (NopCanvas) Rotate(angle float64)                    {}
-func (NopCanvas) Scale(sx, sy float64)                    {}
-func (NopCanvas) BeginPath()                              {}
-func (NopCanvas) MoveTo(point Point)                      {}
-func (NopCanvas) LineTo(point Point)                      {}
-func (NopCanvas) ClosePath()                              {}
-func (NopCanvas) Fill()                                   {}
-func (NopCanvas) Stroke()                                 {}
+func (NopCanvas) DrawRect(rect Rect, color Color) {}

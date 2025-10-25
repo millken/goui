@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"runtime"
 
 	v2 "github.com/millken/goui/v2"
 	"github.com/millken/goui/v2/component"
@@ -30,6 +31,8 @@ func (a *app) Destroy() error {
 	return nil
 }
 func main() {
+	// OpenGL/GLFW 需要在同一 OS 线程内进行所有 GL 调用
+	runtime.LockOSThread()
 	settings := v2.NewSettings()
 	settings.SetRenderer(impl.NewOpenGLRenderer()) // 假设有一个 OpenGL 渲染器实现
 	v2.Run(settings, v2.NewApp(app{}))

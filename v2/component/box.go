@@ -28,8 +28,10 @@ func (b *BoxComponent) SetSize(size v2.Size) { b.rect.Width, b.rect.Height = siz
 // GetBounds returns the box bounds.
 func (b *BoxComponent) GetBounds() v2.Rect { return b.rect }
 
-// Paint draws the box (no-op demo).
-func (b *BoxComponent) Paint(c v2.Canvas) { /* draw background/children if needed */ }
+// Paint draws the box as a solid colored rectangle for demo.
+func (b *BoxComponent) Paint(c v2.Canvas) {
+	c.DrawRect(b.rect, v2.Color{R: 52, G: 152, B: 219, A: 255}) // 蓝色
+}
 
 // HandleEvent handles input event.
 func (b *BoxComponent) HandleEvent(e v2.Event) bool { return false }

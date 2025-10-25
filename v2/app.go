@@ -35,6 +35,9 @@ func Run(settings *Settings, app App) {
 			now := time.Now()
 			ctx.tick(now)
 
+			// 驱动平台事件循环（如 GLFW 的 PollEvents）
+			wm.CallPump()
+
 			// 处理窗口关闭事件与渲染
 			windows := wm.ListWindows()
 			if len(windows) == 0 {

@@ -21,15 +21,8 @@ func ensureGLFW() error {
 }
 
 func startPoller() {
-	pollOnce.Do(func() {
-		go func() {
-			ticker := time.NewTicker(time.Second / 60)
-			defer ticker.Stop()
-			for range ticker.C {
-				glfw.PollEvents()
-			}
-		}()
-	})
+	// 保留空实现（由 App 主循环统一调用 WM 的 pump）
+	pollOnce.Do(func() {})
 }
 
 type GLFWWindow struct {
@@ -79,6 +72,8 @@ func (w *GLFWWindow) Init(ctx *v2.Context) error {
 	w.ctx = ctx
 	if wm := ctx.GetWindowManager(); wm != nil {
 		w.id = wm.NextID()
+		// 注册平台事件泵
+		wm.SetPump(glfw.PollEvents)
 	}
 	return nil
 }

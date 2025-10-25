@@ -14,6 +14,7 @@ type WindowManager struct {
 	events  chan WindowEvent
 	idCtr   uint64
 	dirty   map[Window]bool
+	pump    func()
 }
 
 func NewWindowManager() *WindowManager {
@@ -130,4 +131,21 @@ func (wm *WindowManager) PopDirtyWindows() []Window {
 		delete(wm.dirty, w)
 	}
 	return out
+}
+
+// SetPump registers a platform event pump (e.g., glfw.PollEvents) to be executed by App main loop.
+func (wm *WindowManager) SetPump(p func()) {
+	wm.mu.Lock()
+	wm.pump = p
+	wm.mu.Unlock()
+}
+
+// CallPump invokes the registered pump if present.
+func (wm *WindowManager) CallPump() {
+	wm.mu.RLock()
+	p := wm.pump
+	wm.mu.RUnlock()
+	if p != nil {
+		p()
+	}
 }
