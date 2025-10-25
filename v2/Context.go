@@ -1,5 +1,40 @@
 package v2
 
+import "time"
+
 type Context struct {
-	// 可能包含应用级别的配置和状态
+	Now       time.Time
+	Delta     time.Duration
+	frameNo   uint64
+	winEvents []WindowEvent
+	wm        *WindowManager
 }
+
+// NewContext 创建新的渲染上下文
+func NewContext() *Context { return &Context{} }
+
+// PushWindowEvent 收集窗口事件（由 App 主循环调用）
+func (c *Context) PushWindowEvent(e WindowEvent) { c.winEvents = append(c.winEvents, e) }
+
+// WindowEvents 返回并清空当前累计的窗口事件
+func (c *Context) WindowEvents() []WindowEvent {
+	out := c.winEvents
+	c.winEvents = c.winEvents[:0]
+	return out
+}
+
+func (c *Context) tick(now time.Time) {
+	if c.Now.IsZero() {
+		c.Delta = 0
+	} else {
+		c.Delta = now.Sub(c.Now)
+	}
+	c.Now = now
+	c.frameNo++
+}
+
+// SetWindowManager attaches a WindowManager to the context.
+func (c *Context) SetWindowManager(wm *WindowManager) { c.wm = wm }
+
+// GetWindowManager returns the attached WindowManager.
+func (c *Context) GetWindowManager() *WindowManager { return c.wm }

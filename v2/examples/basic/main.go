@@ -10,9 +10,12 @@ import (
 
 type app struct{}
 
-func (a *app) Create() error {
+func (a *app) Create(ctx *v2.Context) error {
 	win1, err := impl.NewGLFWWindow("First Window", 800, 600)
 	if err != nil {
+		return err
+	}
+	if err := win1.Init(ctx); err != nil {
 		return err
 	}
 	rootComp := component.NewBoxComponent()

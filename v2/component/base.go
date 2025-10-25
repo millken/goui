@@ -2,6 +2,7 @@ package component
 
 import v2 "github.com/millken/goui/v2"
 
+// BaseComponent 提供了 v2.Component 的基础实现（空实现/最小状态）。
 type BaseComponent struct {
 	position v2.Point
 	size     v2.Size
@@ -10,49 +11,51 @@ type BaseComponent struct {
 }
 
 func (c *BaseComponent) SetPosition(position v2.Point) {
-	// 设置组件位置的实现
+	c.position = position
 }
 
 func (c *BaseComponent) SetSize(size v2.Size) {
-	// 设置组件尺寸的实现
+	c.size = size
 }
 
+// SetBounds 以整数形式设置位置与尺寸，便于示例/适配器调用。
 func (c *BaseComponent) SetBounds(x, y, width, height int) {
-	// 设置组件边界的实现
+	c.position = v2.Point{X: float64(x), Y: float64(y)}
+	c.size = v2.Size{Width: float64(width), Height: float64(height)}
 }
 
 func (c *BaseComponent) GetBounds() v2.Rect {
-	// 获取组件边界的实现
-	return v2.Rect{0, 0, 0, 0}
+	return v2.Rect{X: c.position.X, Y: c.position.Y, Width: c.size.Width, Height: c.size.Height}
 }
 
-func (c *BaseComponent) Draw(canvas v2.Canvas) {
-	// 绘制组件的实现
-}
+// Paint 默认不进行绘制；子类型按需覆写。
+func (c *BaseComponent) Paint(canvas v2.Canvas) {}
 
-func (c *BaseComponent) HandleEvent(event v2.Event) bool {
-	// 处理事件的实现
-	return false
-}
+// HandleEvent 默认不处理事件。
+func (c *BaseComponent) HandleEvent(event v2.Event) bool { return false }
 
-func (c *BaseComponent) SetVisible(visible bool) {
-	// 设置可见性的实现
-}
+func (c *BaseComponent) SetVisible(visible bool) { c.visible = visible }
 
-func (c *BaseComponent) IsVisible() bool {
-	// 获取可见性的实现
-	return true
-}
+func (c *BaseComponent) IsVisible() bool { return c.visible }
 
 func (c *BaseComponent) AddChild(child v2.Component) {
-	// 添加子组件的实现
+	if c.children == nil {
+		c.children = make(map[string]v2.Component)
+	}
+	// 这里没有 ID 概念，存一个临时 key；真实实现应由子类提供 ID。
+	c.children["child"] = child
 }
 
 func (c *BaseComponent) RemoveChild(id string) {
-	// 移除子组件的实现
+	if c.children == nil {
+		return
+	}
+	delete(c.children, id)
 }
 
 func (c *BaseComponent) GetChild(id string) v2.Component {
-	// 获取子组件的实现
-	return nil
+	if c.children == nil {
+		return nil
+	}
+	return c.children[id]
 }

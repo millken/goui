@@ -1,6 +1,6 @@
 package v2
 
-// 基本类型
+// Color represents an RGBA color.
 type Color struct {
 	R, G, B, A uint8
 }
@@ -34,5 +34,20 @@ type Event interface {
 
 type EventType int
 
-// 事件类型
+// MouseButton represents a mouse button.
 type MouseButton int
+
+// WindowEventType 表示窗口级事件类型
+type WindowEventType int
+
+const (
+	WindowShown WindowEventType = iota
+	WindowHidden
+	WindowClosed
+)
+
+// WindowEvent 是由 App 主循环产生的窗口事件
+type WindowEvent struct {
+	Type   WindowEventType
+	Window Window
+}

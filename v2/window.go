@@ -8,6 +8,8 @@ package v2
 // 注意：Window 本身不关心具体渲染细节，交给 Renderer/Canvas。
 // Window 表示应用程序窗口
 type Window interface {
+	// 初始化：注入应用 Context，便于窗口访问 WindowManager 等上下文资源
+	Init(ctx *Context) error
 	// 窗口管理
 	Show()                     // 显示窗口
 	Hide()                     // 隐藏窗口

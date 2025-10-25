@@ -1,7 +1,11 @@
 package v2
 
+import (
+	"time"
+)
+
 type App interface {
-	Create() error
+	Create(ctx *Context) error
 	Destroy() error
 }
 
@@ -10,47 +14,59 @@ func NewApp[T any](t T) *T {
 }
 
 func Run(settings *Settings, app App) {
-	if err := app.Create(); err != nil {
+	ctx := NewContext()
+	wm := NewWindowManager()
+	ctx.SetWindowManager(wm)
+	if err := app.Create(ctx); err != nil {
 		panic(err)
 	}
 	defer app.Destroy()
 
-	// 统一渲染驱动（极简版本）：
-	r := settings.Renderer
-	if r == nil {
-		return
-	}
-	// 对所有注册的窗口执行一帧渲染（演示）。真实实现应有事件循环与重绘调度。
-	for _, w := range listWindows() {
-		if err := r.Initialize(w); err != nil {
-			continue
-		}
-		w.PreRender(r)
-		width, height := w.GetSize()
-		canvas, err := r.BeginFrame(width, height)
-		if err == nil && canvas != nil {
-			if root := getRoot(w); root != nil {
-				root.Paint(canvas)
+	// 主循环：基于 Context，并在所有窗口关闭后退出
+	ticker := time.NewTicker(time.Second / 60)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case ev := <-wm.Events():
+			// 收集来自窗口实现的事件
+			ctx.PushWindowEvent(ev)
+		case <-ticker.C:
+			now := time.Now()
+			ctx.tick(now)
+
+			// 处理窗口关闭事件与渲染
+			windows := wm.ListWindows()
+			if len(windows) == 0 {
+				return
+			}
+
+			// 仅渲染 dirty 窗口
+			dirty := wm.PopDirtyWindows()
+			if len(dirty) == 0 {
+				continue
+			}
+			for _, w := range dirty {
+				r := settings.Renderer
+				if r == nil {
+					continue
+				}
+				if err := r.Initialize(w); err != nil {
+					continue
+				}
+				w.PreRender(r)
+				width, height := w.GetSize()
+				canvas, err := r.BeginFrame(width, height)
+				if err == nil && canvas != nil {
+					if root := wm.GetRoot(w); root != nil {
+						root.Paint(canvas)
+					}
+				}
+				r.EndFrame()
+				r.Present()
+				w.PostRenderer(r)
+				r.Cleanup()
 			}
 		}
-		r.EndFrame()
-		r.Present()
-		w.PostRenderer(r)
-		r.Cleanup()
 	}
 }
-
-// --- minimal window registry for centralized driving ---
-var (
-	windows []Window
-	roots   = map[Window]Component{}
-)
-
-// RegisterWindow registers a window to be centrally driven by Run.
-func RegisterWindow(w Window) { windows = append(windows, w) }
-
-// BindRoot binds a root component to a window for centralized painting.
-func BindRoot(w Window, c Component) { roots[w] = c }
-
-func listWindows() []Window      { return windows }
-func getRoot(w Window) Component { return roots[w] }
