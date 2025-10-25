@@ -87,6 +87,51 @@ func (w *GLFWWindow) Init(ctx *v2.Context) error {
 		// 注册平台事件泵
 		wm.SetPump(glfw.PollEvents)
 	}
+
+	// 注册输入回调：鼠标按键、鼠标移动与键盘按键
+	if w.win != nil {
+		w.win.SetMouseButtonCallback(func(win *glfw.Window, button glfw.MouseButton, action glfw.Action, mods glfw.ModifierKey) {
+			if w.ctx == nil {
+				return
+			}
+			x, y := win.GetCursorPos()
+			me := v2.MouseEvent{X: x, Y: y}
+			switch button {
+			case glfw.MouseButtonLeft:
+				me.Button = v2.MouseLeft
+			case glfw.MouseButtonRight:
+				me.Button = v2.MouseRight
+			default:
+				me.Button = v2.MouseMiddle
+			}
+			me.Down = (action != glfw.Release)
+			if wm := w.ctx.GetWindowManager(); wm != nil {
+				wm.Emit(v2.WindowEvent{Type: v2.WindowMouse, Window: w, Event: me})
+			}
+		})
+
+		w.win.SetCursorPosCallback(func(win *glfw.Window, xpos float64, ypos float64) {
+			if w.ctx == nil {
+				return
+			}
+			if wm := w.ctx.GetWindowManager(); wm != nil {
+				// mark dirty so cursor driven interactions may force repaint if required
+				wm.MarkDirty(w)
+				me := v2.MouseEvent{X: xpos, Y: ypos, Button: 0, Down: false}
+				wm.Emit(v2.WindowEvent{Type: v2.WindowMouse, Window: w, Event: me})
+			}
+		})
+
+		w.win.SetKeyCallback(func(win *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
+			if w.ctx == nil {
+				return
+			}
+			ke := v2.KeyEvent{Key: int(key), Mod: int(mods), Down: action != glfw.Release}
+			if wm := w.ctx.GetWindowManager(); wm != nil {
+				wm.Emit(v2.WindowEvent{Type: v2.WindowKey, Window: w, Event: ke})
+			}
+		})
+	}
 	return nil
 }
 

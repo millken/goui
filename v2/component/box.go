@@ -51,7 +51,30 @@ func (b *BoxComponent) Paint(c v2.Canvas) {
 }
 
 // HandleEvent handles input event.
-func (b *BoxComponent) HandleEvent(e v2.Event) bool { return false }
+func (b *BoxComponent) HandleEvent(e v2.Event) bool {
+	switch ev := e.(type) {
+	case v2.MouseEvent:
+		// 点击检测：检查是否为左键按下且坐标在 b.rect 内
+		if ev.Button == v2.MouseLeft && ev.Down {
+			if ev.X >= b.rect.X && ev.X <= b.rect.X+b.rect.Width && ev.Y >= b.rect.Y && ev.Y <= b.rect.Y+b.rect.Height {
+				// 切换颜色（蓝色 <-> 红色）
+				if b.color.R == 52 && b.color.G == 152 {
+					b.color = v2.Color{R: 231, G: 76, B: 60, A: 255} // red
+				} else {
+					b.color = v2.Color{R: 52, G: 152, B: 219, A: 255} // blue
+				}
+				return true
+			}
+		}
+	case v2.KeyEvent:
+		// 简单示例：按下 R 键 (GLFW_KEY_R == 82) 将颜色设为红
+		if ev.Down && ev.Key == 82 {
+			b.color = v2.Color{R: 231, G: 76, B: 60, A: 255}
+			return true
+		}
+	}
+	return false
+}
 
 // SetVisible sets visibility.
 func (b *BoxComponent) SetVisible(v bool) { b.shown = v }

@@ -38,6 +38,21 @@ func Run(settings *Settings, app App) {
 			// 驱动平台事件循环（如 GLFW 的 PollEvents）
 			wm.CallPump()
 
+			// 先处理收集到的窗口事件（输入、关闭等）并分发到组件树
+			evs := ctx.WindowEvents()
+			if len(evs) > 0 {
+				for _, e := range evs {
+					if e.Event != nil {
+						if root := wm.GetRoot(e.Window); root != nil {
+							handled := root.HandleEvent(e.Event)
+							if handled {
+								wm.MarkDirty(e.Window)
+							}
+						}
+					}
+				}
+			}
+
 			// 处理窗口关闭事件与渲染
 			windows := wm.ListWindows()
 			if len(windows) == 0 {
