@@ -20,7 +20,11 @@ func (a *app) Create(ctx *v2.Context) error {
 		return err
 	}
 	rootComp := component.NewBoxComponent()
-	rootComp.SetBounds(0, 0, 800, 600)
+	// 在窗口内的某个坐标绘制一个矩形（示例：x=100,y=80,width=220,height=160）
+	rootComp.SetBounds(100, 80, 220, 160)
+	box2 := component.NewBoxWithColor(v2.Color{R: 231, G: 76, B: 60, A: 255})
+	box2.SetBounds(50, 50, 100, 100)
+	rootComp.AddChild(box2)
 	win1.SetRoot(rootComp)
 	win1.Show()
 	fmt.Println("App Created")

@@ -6,13 +6,19 @@ import v2 "github.com/millken/goui/v2"
 var _ v2.Component = (*BoxComponent)(nil)
 
 type BoxComponent struct {
-	rect  v2.Rect
-	child v2.Component
-	shown bool
+	rect     v2.Rect
+	children []v2.Component
+	shown    bool
+	color    v2.Color
 }
 
 // NewBoxComponent creates a new BoxComponent.
-func NewBoxComponent() *BoxComponent { return &BoxComponent{} }
+func NewBoxComponent() *BoxComponent {
+	return &BoxComponent{color: v2.Color{R: 52, G: 152, B: 219, A: 255}}
+}
+
+// NewBoxWithColor creates a new BoxComponent with specified color.
+func NewBoxWithColor(c v2.Color) *BoxComponent { return &BoxComponent{color: c} }
 
 // SetBounds sets the bounds of the box (helper for examples).
 func (b *BoxComponent) SetBounds(x, y, w, h int) {
@@ -28,9 +34,20 @@ func (b *BoxComponent) SetSize(size v2.Size) { b.rect.Width, b.rect.Height = siz
 // GetBounds returns the box bounds.
 func (b *BoxComponent) GetBounds() v2.Rect { return b.rect }
 
-// Paint draws the box as a solid colored rectangle for demo.
+// Paint draws the box and then its children (if any).
 func (b *BoxComponent) Paint(c v2.Canvas) {
-	c.DrawRect(b.rect, v2.Color{R: 52, G: 152, B: 219, A: 255}) // 蓝色
+	// 自身
+	c.DrawRect(b.rect, b.color)
+	// 子组件
+	if len(b.children) > 0 {
+		for _, ch := range b.children {
+			if ch != nil && ch.IsVisible() {
+				ch.Paint(c)
+			} else if ch != nil && !ch.IsVisible() { // 若未实现可见性，默认也绘制
+				ch.Paint(c)
+			}
+		}
+	}
 }
 
 // HandleEvent handles input event.
@@ -43,10 +60,13 @@ func (b *BoxComponent) SetVisible(v bool) { b.shown = v }
 func (b *BoxComponent) IsVisible() bool { return b.shown }
 
 // AddChild adds a child component.
-func (b *BoxComponent) AddChild(child v2.Component) { b.child = child }
+func (b *BoxComponent) AddChild(child v2.Component) { b.children = append(b.children, child) }
 
 // RemoveChild removes a child component by id (no-op demo).
-func (b *BoxComponent) RemoveChild(id string) { b.child = nil }
+func (b *BoxComponent) RemoveChild(id string) { /* id-based removal not implemented in demo */ }
 
 // GetChild returns the child component (single child demo).
-func (b *BoxComponent) GetChild(id string) v2.Component { return b.child }
+func (b *BoxComponent) GetChild(id string) v2.Component { return nil }
+
+// SetColor allows changing the box color.
+func (b *BoxComponent) SetColor(c v2.Color) { b.color = c }
