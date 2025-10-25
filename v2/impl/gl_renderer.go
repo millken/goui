@@ -99,11 +99,19 @@ func (r *GLRenderer) BeginFrame(width, height int) (v2.Canvas, error) {
 	if !r.inited {
 		return nil, fmt.Errorf("renderer not initialized")
 	}
+	// 使用帧缓冲尺寸（适配 DPI 缩放）
+	fbW, fbH := width, height
+	if r.win != nil && r.win.win != nil {
+		wfw, wfh := r.win.win.GetFramebufferSize()
+		if wfw > 0 && wfh > 0 {
+			fbW, fbH = wfw, wfh
+		}
+	}
 	// 设置视口并清屏
-	gl.Viewport(0, 0, int32(width), int32(height))
+	gl.Viewport(0, 0, int32(fbW), int32(fbH))
 	gl.ClearColor(r.clearR, r.clearG, r.clearB, r.clearA)
 	gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT)
-	return &glCanvas{r: r, fbW: width, fbH: height}, nil
+	return &glCanvas{r: r, fbW: fbW, fbH: fbH}, nil
 }
 
 func (r *GLRenderer) EndFrame() {

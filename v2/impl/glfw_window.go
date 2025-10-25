@@ -63,6 +63,18 @@ func NewGLFWWindow(title string, width, height int) (*GLFWWindow, error) {
 		id:   "", // set in Init when ctx is available
 		ctrl: make(chan controlOp, 8),
 	}
+
+	// 当 framebuffer 尺寸变化（窗口缩放或 DPI 变化）时，标记窗口为脏以触发重绘
+	win.SetFramebufferSizeCallback(func(_ *glfw.Window, fbw, fbh int) {
+		if w == nil {
+			return
+		}
+		if w.ctx != nil {
+			if wm := w.ctx.GetWindowManager(); wm != nil {
+				wm.MarkDirty(w)
+			}
+		}
+	})
 	w.startLoop()
 	return w, nil
 }
