@@ -16,19 +16,28 @@ func main() {
 	green := components.NewBox(60, 220, 120, 255)
 	blue := components.NewBox(60, 120, 220, 255)
 
-	// 简单设置子项尺寸（用 Yoga 节点的 Style 设置）
-	if n := red.GetNode(); n != nil {
-		n.SetWidth(120)
-		n.SetHeight(120)
-	}
-	if n := green.GetNode(); n != nil {
-		n.SetWidth(180)
-		n.SetHeight(80)
-	}
-	if n := blue.GetNode(); n != nil {
-		n.SetWidth(100)
-		n.SetHeight(160)
-	}
+	// 使用组件 Style API（避免直接访问 Yoga 节点）
+	red.SetStyle(goui.Style{
+		Width:       goui.Px(120),
+		Height:      goui.Px(120),
+		Margin:      goui.EdgesAll(goui.Px(6)),
+		Border:      goui.EdgesAll(goui.Px(4)),
+		BorderColor: strPtr("#333333"),
+	})
+	green.SetStyle(goui.Style{
+		Width:      goui.Px(180),
+		Height:     goui.Px(80),
+		Margin:     goui.EdgesAll(goui.Px(6)),
+		FlexGrow:   float32Ptr(1), // 演示占剩余空间（与蓝色对比）
+		FlexShrink: float32Ptr(0),
+	})
+	blue.SetStyle(goui.Style{
+		Width:       goui.Pc(30), // 30% 宽度（相对父）
+		Height:      goui.Px(160),
+		Margin:      goui.EdgesAll(goui.Px(6)),
+		Border:      goui.EdgesAll(goui.Px(2)),
+		BorderColor: strPtr("rgba(30,60,120,0.8)"),
+	})
 
 	root.AddChild(red)
 	root.AddChild(green)
@@ -41,3 +50,6 @@ func main() {
 	defer app.Close()
 	app.Run()
 }
+
+func float32Ptr(v float32) *float32 { return &v }
+func strPtr(s string) *string       { return &s }

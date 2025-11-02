@@ -56,12 +56,18 @@ func (a *App) Run() {
 	start := time.Now()
 	a.Root.Mount()
 	for !a.Win.ShouldClose() {
-		// 事件轮询（后续可转发到组件树）
+		// 仅轮询和释放 RGFW 事件，具体映射由平台层调用 Inject* 方法推送到 Context
 		ev := rgfw.GetEvent()
 		for a.Win.CheckEvent(ev) {
-			// TODO: 转换为 goui.Event 分发
-			_ = ev
 			rgfw.ReleaseEvent(ev)
+		}
+
+		// 分发已收集的 WindowEvents 到组件树
+		for _, we := range a.Ctx.WindowEvents() {
+			if we.Event == nil {
+				continue
+			}
+			_ = dispatchEvent(a.Root, we.Event)
 		}
 
 		// 布局
@@ -96,6 +102,16 @@ func (a *App) Run() {
 	}
 
 	a.Root.Unmount()
+}
+
+// InjectMouse 向应用注入鼠标事件（窗口坐标系，像素；用于平台层对接 RGFW/其它后端）
+func (a *App) InjectMouse(x, y float32, btn MouseButton, down bool) {
+	a.Ctx.PushWindowEvent(WindowEvent{Type: WindowMouse, Event: MouseEvent{X: x, Y: y, Button: btn, Down: down}})
+}
+
+// InjectKey 向应用注入按键事件
+func (a *App) InjectKey(key int, down bool) {
+	a.Ctx.PushWindowEvent(WindowEvent{Type: WindowKey, Event: KeyEvent{Key: key, Down: down}})
 }
 
 // Close 释放资源
