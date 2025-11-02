@@ -117,9 +117,9 @@ func TestMultiLineTextMeasurement(t *testing.T) {
 				maxWidth    float64
 				exactHeight float64
 			}{
-				minWidth:    30, // approximate
-				maxWidth:    60,
-				exactHeight: 19,
+				minWidth:    40, // approximate
+				maxWidth:    80,
+				exactHeight: 25, // 96 DPI下单行高度
 			},
 		},
 		{
@@ -130,9 +130,9 @@ func TestMultiLineTextMeasurement(t *testing.T) {
 				maxWidth    float64
 				exactHeight float64
 			}{
-				minWidth:    30,
-				maxWidth:    60,
-				exactHeight: 38, // 2 lines
+				minWidth:    40,
+				maxWidth:    80,
+				exactHeight: 50, // 2 lines at 96 DPI
 			},
 		},
 		{
@@ -143,9 +143,9 @@ func TestMultiLineTextMeasurement(t *testing.T) {
 				maxWidth    float64
 				exactHeight float64
 			}{
-				minWidth:    60,
-				maxWidth:    120,
-				exactHeight: 38, // 2 lines
+				minWidth:    80,
+				maxWidth:    160,
+				exactHeight: 50, // 2 lines at 96 DPI
 			},
 		},
 		{
@@ -158,7 +158,7 @@ func TestMultiLineTextMeasurement(t *testing.T) {
 			}{
 				minWidth:    0,
 				maxWidth:    0,
-				exactHeight: 57, // 3 lines
+				exactHeight: 75, // 3 lines at 96 DPI
 			},
 		},
 		{
@@ -169,9 +169,9 @@ func TestMultiLineTextMeasurement(t *testing.T) {
 				maxWidth    float64
 				exactHeight float64
 			}{
-				minWidth:    30,
-				maxWidth:    80,
-				exactHeight: 38, // 2 lines
+				minWidth:    40,
+				maxWidth:    100,
+				exactHeight: 50, // 2 lines at 96 DPI
 			},
 		},
 	}

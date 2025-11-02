@@ -102,7 +102,7 @@ func (fm *FontManager) loadFontFace(fontFamily string, fontSize float64) (font.F
 			parsedFont := parsedFontAny.(*opentype.Font)
 			face, err := opentype.NewFace(parsedFont, &opentype.FaceOptions{
 				Size:    fontSize,
-				DPI:     72,
+				DPI:     96, // 使用标准的96 DPI
 				Hinting: font.HintingFull,
 			})
 			if err != nil {
@@ -114,3 +114,4 @@ func (fm *FontManager) loadFontFace(fontFamily string, fontSize float64) (font.F
 	// 现在返回一个错误，触发默认字体加载
 	return nil, fmt.Errorf("font not found: %s", fontFamily)
 }
+

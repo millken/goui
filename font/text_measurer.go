@@ -1,8 +1,8 @@
 package font
 
 import (
-	"strings"
 	"sync"
+	"unicode/utf8"
 
 	"golang.org/x/image/font"
 	"golang.org/x/image/math/fixed"
@@ -13,6 +13,11 @@ type TextMeasurer struct {
 	face       font.Face
 	glyphCache *GlyphCache
 	mutex      sync.RWMutex
+
+	// 优化：ASCII 快路径（预热一次）
+	asciiAdv [128]fixed.Int26_6
+	// 是否启用字距（默认关闭以提升性能）
+	Kerning bool
 }
 
 // 测量结果
@@ -26,11 +31,15 @@ func NewTextMeasurer(face font.Face) *TextMeasurer {
 	measurer := &TextMeasurer{
 		face:       face,
 		glyphCache: NewGlyphCache(face),
+		Kerning:    true,
 	}
 
 	// 立即预加载常用字符
 	measurer.PreloadCommonGlyphs()
-
+	// 预热 ASCII 宽度
+	for i := 0; i < 128; i++ {
+		measurer.asciiAdv[i] = measurer.glyphCache.GetAdvance(rune(i))
+	}
 	return measurer
 }
 
@@ -44,60 +53,66 @@ func (tm *TextMeasurer) MeasureText(text string) TextMetrics {
 	if text == "" {
 		return TextMetrics{Width: 0, Height: 0}
 	}
-
-	// 按换行符分割文本
-	lines := strings.Split(text, "\n")
-
-	// 计算高度
 	metrics := tm.face.Metrics()
 	lineHeight := fixedToFloat(metrics.Height)
-	totalHeight := lineHeight * float64(len(lines))
 
-	// 计算每行的宽度，取最大值
-	var maxWidth fixed.Int26_6
+	var (
+		maxWidth  fixed.Int26_6
+		lineWidth fixed.Int26_6
+		prevRune  rune = -1
+		lines          = 1
+	)
 
-	for _, line := range lines {
-		if line == "" {
-			// 空行宽度为0，但仍有高度
+	for i := 0; i < len(text); {
+		b := text[i]
+		// ASCII 快路径
+		if b < 0x80 {
+			i++
+			if b == '\n' {
+				if lineWidth > maxWidth {
+					maxWidth = lineWidth
+				}
+				lines++
+				lineWidth = 0
+				prevRune = -1
+				continue
+			}
+			adv := tm.asciiAdv[b]
+			if tm.Kerning && prevRune >= 0 {
+				lineWidth += tm.face.Kern(prevRune, rune(b))
+			}
+			lineWidth += adv
+			prevRune = rune(b)
 			continue
 		}
 
-		runes := []rune(line)
-
-		// 批量获取字形宽度
-		advances := tm.glyphCache.GetAdvances(runes)
-
-		var lineWidth fixed.Int26_6
-		var prevRune rune = -1
-
-		for i, r := range runes {
-			var advance fixed.Int26_6
-
-			if advances[i] >= 0 {
-				advance = advances[i]
-			} else {
-				// 动态加载
-				advance = tm.glyphCache.GetAdvance(r)
+		// 非 ASCII
+		r, sz := utf8.DecodeRuneInString(text[i:])
+		i += sz
+		if r == '\n' {
+			if lineWidth > maxWidth {
+				maxWidth = lineWidth
 			}
-
-			// 处理字距调整（对于拉丁字母等）
-			if prevRune >= 0 {
-				kern := tm.face.Kern(prevRune, r)
-				lineWidth += kern
-			}
-
-			lineWidth += advance
-			prevRune = r
+			lines++
+			lineWidth = 0
+			prevRune = -1
+			continue
 		}
-
-		if lineWidth > maxWidth {
-			maxWidth = lineWidth
+		adv := tm.glyphCache.GetAdvance(r)
+		if tm.Kerning && prevRune >= 0 {
+			lineWidth += tm.face.Kern(prevRune, r)
 		}
+		lineWidth += adv
+		prevRune = r
+	}
+
+	if lineWidth > maxWidth {
+		maxWidth = lineWidth
 	}
 
 	return TextMetrics{
 		Width:  fixedToFloat(maxWidth),
-		Height: totalHeight,
+		Height: lineHeight * float64(lines),
 	}
 }
 

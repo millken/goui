@@ -69,7 +69,7 @@ func BenchmarkGetMeasurer_Concurrent(b *testing.B) {
 		go func() {
 			defer wg.Done()
 			for j := 0; j < b.N/10; j++ {
-				fm.GetMeasurer("default", 14).MeasureText("aaa")
+				fm.GetMeasurer("default", 14).MeasureText("aaa撒旦")
 			}
 		}()
 	}
