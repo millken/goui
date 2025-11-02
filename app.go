@@ -2,17 +2,18 @@ package goui
 
 import (
 	"fmt"
+	"runtime"
 	"time"
 
 	"github.com/go-gl/gl/v4.6-core/gl"
-	"github.com/millken/go/rgfw"
+	"github.com/go-gl/glfw/v3.3/glfw"
 	"github.com/millken/go/thorvg"
 	"github.com/millken/yoga"
 )
 
 // App 负责主窗口、渲染、事件分发
 type App struct {
-	Win      *rgfw.Window
+	Win      *glfw.Window
 	Renderer Renderer
 	Root     Component
 	Ctx      *Context
@@ -22,21 +23,42 @@ type App struct {
 
 // NewApp 创建一个基本 App，内部初始化 window/OpenGL/ThorVG
 func NewApp(title string, w, h int, root Component) (*App, error) {
+	runtime.LockOSThread()
 	// ThorVG init 由外部也可调用，这里确保一次
 	if err := thorvg.Init(0); err != nil {
 		return nil, fmt.Errorf("thorvg init: %w", err)
 	}
 
-	rgfw.SetClassName("Goui")
-	win := rgfw.CreateWindow(title, rgfw.Rect{X: 100, Y: 100, W: int32(w), H: int32(h)}, rgfw.WindowCenter|rgfw.WindowAllowDND|rgfw.WindowOpenGL)
-	win.MakeCurrentOpenGL()
+	if err := glfw.Init(); err != nil {
+		return nil, fmt.Errorf("glfw init: %w", err)
+	}
+	glfw.WindowHint(glfw.ContextVersionMajor, 3)
+	glfw.WindowHint(glfw.ContextVersionMinor, 3)
+	glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCoreProfile)
+	glfw.WindowHint(glfw.Resizable, glfw.True)
+
+	win, err := glfw.CreateWindow(w, h, title, nil, nil)
+	if err != nil {
+		glfw.Terminate()
+		return nil, fmt.Errorf("create window: %w", err)
+	}
+	win.MakeContextCurrent()
+
 	if err := gl.Init(); err != nil {
+		win.Destroy()
+		glfw.Terminate()
 		return nil, fmt.Errorf("opengl init: %w", err)
 	}
-	win.SwapIntervalOpenGL(1)
+	glfw.SwapInterval(1)
 
-	gr, err := NewGLRenderer(win, uint32(w), uint32(h))
+	fbw, fbh := win.GetFramebufferSize()
+	if fbw <= 0 || fbh <= 0 {
+		fbw, fbh = w, h
+	}
+	gr, err := NewGLRenderer(win, uint32(fbw), uint32(fbh))
 	if err != nil {
+		win.Destroy()
+		glfw.Terminate()
 		return nil, err
 	}
 
@@ -45,9 +67,51 @@ func NewApp(title string, w, h int, root Component) (*App, error) {
 		Renderer: gr,
 		Root:     root,
 		Ctx:      NewContext(),
-		width:    w,
-		height:   h,
+		width:    fbw,
+		height:   fbh,
 	}
+
+	// 回调：帧缓冲尺寸变化
+	win.SetFramebufferSizeCallback(func(w *glfw.Window, width, height int) {
+		if width <= 0 || height <= 0 {
+			return
+		}
+		if gr2, ok := app.Renderer.(*GLRenderer); ok {
+			_ = gr2.resize(uint32(width), uint32(height))
+		}
+		app.width, app.height = width, height
+		app.Ctx.PushWindowEvent(WindowEvent{Type: WindowResize})
+	})
+
+	// 回调：鼠标
+	win.SetMouseButtonCallback(func(w *glfw.Window, button glfw.MouseButton, action glfw.Action, mods glfw.ModifierKey) {
+		x, y := w.GetCursorPos()
+		var mb MouseButton
+		switch button {
+		case glfw.MouseButtonLeft:
+			mb = MouseLeft
+		case glfw.MouseButtonRight:
+			mb = MouseRight
+		case glfw.MouseButtonMiddle:
+			mb = MouseMiddle
+		default:
+			mb = 0
+		}
+		down := action == glfw.Press
+		app.InjectMouse(float32(x), float32(y), mb, down)
+	})
+	win.SetCursorPosCallback(func(w *glfw.Window, x, y float64) {
+		app.Ctx.PushWindowEvent(WindowEvent{Type: WindowMouse, Event: MouseEvent{X: float32(x), Y: float32(y), Button: 0, Down: false}})
+	})
+
+	// 回调：键盘
+	win.SetKeyCallback(func(w *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
+		down := action != glfw.Release
+		// 简单映射示例（可扩展）
+		mapped := int(key)
+		app.InjectKey(mapped, down)
+	})
+
 	return app, nil
 }
 
@@ -56,10 +120,20 @@ func (a *App) Run() {
 	start := time.Now()
 	a.Root.Mount()
 	for !a.Win.ShouldClose() {
-		// 仅轮询和释放 RGFW 事件，具体映射由平台层调用 Inject* 方法推送到 Context
-		ev := rgfw.GetEvent()
-		for a.Win.CheckEvent(ev) {
-			rgfw.ReleaseEvent(ev)
+		// 轮询 GLFW 事件
+		glfw.PollEvents()
+
+		// 查询窗口尺寸变化（在没有直接尺寸事件映射时，主动拉取）
+		// 注意：若后端提供 GetSize/Rect API，可替换以下获取逻辑
+		if a.Win != nil {
+			fbw, fbh := a.Win.GetFramebufferSize()
+			if fbw > 0 && fbh > 0 && (fbw != a.width || fbh != a.height) {
+				if gr, ok := a.Renderer.(*GLRenderer); ok {
+					_ = gr.resize(uint32(fbw), uint32(fbh))
+				}
+				a.width, a.height = fbw, fbh
+				a.Ctx.PushWindowEvent(WindowEvent{Type: WindowResize})
+			}
 		}
 
 		// 分发已收集的 WindowEvents 到组件树
@@ -120,10 +194,11 @@ func (a *App) Close() {
 		a.Renderer.Cleanup()
 	}
 	if a.Win != nil {
-		a.Win.Close()
+		a.Win.Destroy()
 	}
 	if a.Ctx != nil {
 		a.Ctx.Shutdown()
 	}
 	thorvg.Term()
+	glfw.Terminate()
 }

@@ -57,6 +57,7 @@ const (
 	WindowClosed
 	WindowMouse
 	WindowKey
+	WindowResize
 )
 
 // WindowEvent 是由 App 主循环产生的窗口事件
