@@ -44,10 +44,10 @@ func NewApp(title string, w, h int, root Component) (*App, error) {
 	}
 	win.MakeContextCurrent()
 
-	if err := gl.Init(); err != nil {
+	if glErr := gl.Init(); glErr != nil {
 		win.Destroy()
 		glfw.Terminate()
-		return nil, fmt.Errorf("opengl init: %w", err)
+		return nil, fmt.Errorf("opengl init: %w", glErr)
 	}
 	glfw.SwapInterval(1)
 

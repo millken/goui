@@ -1,7 +1,28 @@
 package goui
 
+/*
+#cgo linux LDFLAGS: -lGL
+#cgo windows LDFLAGS: -lopengl32
+#cgo darwin LDFLAGS: -framework OpenGL
+#include <stdlib.h>
+#ifdef __linux__
+#include <GL/glx.h>
+typedef GLXContext GLContext;
+GLContext getCurrentGLContext() { return glXGetCurrentContext(); }
+#elif defined(_WIN32)
+#include <windows.h>
+typedef HGLRC GLContext;
+GLContext getCurrentGLContext() { return wglGetCurrentContext(); }
+#elif defined(__APPLE__)
+#include <OpenGL/OpenGL.h>
+typedef CGLContextObj GLContext;
+GLContext getCurrentGLContext() { return CGLGetCurrentContext(); }
+#endif
+*/
+import "C"
 import (
 	"fmt"
+	"unsafe"
 
 	"github.com/go-gl/gl/v4.6-core/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
@@ -36,9 +57,9 @@ func (r *GLRenderer) resize(w, h uint32) error {
 	r.width, r.height = w, h
 	// 更新 OpenGL 视口
 	gl.Viewport(0, 0, int32(w), int32(h))
-	// 在 GLFW 中，ThorVG OpenGL 目标绑定通常使用当前上下文，无需显式从窗口获取上下文句柄。
-	// 传入 0 作为上下文句柄（取决于 thorvg 绑定实现），若需要可用平台特定 API 获取。
-	return r.canvas.GlCanvasSetTarget(nil, 0, r.width, r.height, thorvg.ColorspaceABGR8888S)
+	// 获取当前 GL 上下文句柄
+	ctx := C.getCurrentGLContext()
+	return r.canvas.GlCanvasSetTarget(unsafe.Pointer(ctx), 0, r.width, r.height, thorvg.ColorspaceABGR8888S)
 }
 
 // BeginFrame 准备一帧绘制并返回 ThorVG 画布
