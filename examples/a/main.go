@@ -16,27 +16,55 @@ func main() {
 	green := components.NewBox(60, 220, 120, 255)
 	blue := components.NewBox(60, 120, 220, 255)
 
-	// 使用组件 Style API（避免直接访问 Yoga 节点）
-	red.SetStyle(goui.Style{
-		Width:       goui.Px(120),
-		Height:      goui.Px(120),
-		Margin:      goui.EdgesAll(goui.Px(6)),
-		Border:      goui.EdgesAll(goui.Px(4)),
-		BorderColor: strPtr("#333333"),
+	// 辅助函数：创建 Box Style
+	createBoxStyle := func(bgColor string, width *goui.Dimension, height *goui.Dimension, borderWidth float32, borderColor string, flexGrow *float32) goui.Style {
+		style := goui.Style{
+			Width:  width,
+			Height: height,
+			Margin: goui.EdgesAll(goui.Px(6)),
+		}
+		if bgColor != "" {
+			style.BackgroundColor = &bgColor
+		}
+		if borderWidth > 0 {
+			style.Border = goui.EdgesAll(goui.Px(borderWidth))
+			if borderColor != "" {
+				style.BorderColor = &borderColor
+			}
+		}
+		if flexGrow != nil {
+			style.FlexGrow = flexGrow
+			style.FlexShrink = float32Ptr(0)
+		}
+		return style
+	}
+
+	// 设置初始 Style 和事件
+	red.SetStyle(createBoxStyle("#ff0000", goui.Px(120), goui.Px(120), 4, "#333333", nil))
+	red.SetOnHover(func(hovered bool) {
+		if hovered {
+			red.SetStyle(createBoxStyle("#ffcccc", goui.Px(120), goui.Px(120), 4, "#333333", nil))
+		} else {
+			red.SetStyle(createBoxStyle("#ff0000", goui.Px(120), goui.Px(120), 4, "#333333", nil))
+		}
 	})
-	green.SetStyle(goui.Style{
-		Width:      goui.Px(180),
-		Height:     goui.Px(80),
-		Margin:     goui.EdgesAll(goui.Px(6)),
-		FlexGrow:   float32Ptr(1), // 演示占剩余空间（与蓝色对比）
-		FlexShrink: float32Ptr(0),
+
+	green.SetStyle(createBoxStyle("#00ff00", goui.Px(180), goui.Px(80), 0, "", float32Ptr(1)))
+	green.SetOnHover(func(hovered bool) {
+		if hovered {
+			green.SetStyle(createBoxStyle("#ccffcc", goui.Px(180), goui.Px(80), 0, "", float32Ptr(1)))
+		} else {
+			green.SetStyle(createBoxStyle("#00ff00", goui.Px(180), goui.Px(80), 0, "", float32Ptr(1)))
+		}
 	})
-	blue.SetStyle(goui.Style{
-		Width:       goui.Pc(30), // 30% 宽度（相对父）
-		Height:      goui.Px(160),
-		Margin:      goui.EdgesAll(goui.Px(6)),
-		Border:      goui.EdgesAll(goui.Px(2)),
-		BorderColor: strPtr("rgba(30,60,120,0.8)"),
+
+	blue.SetStyle(createBoxStyle("#0000ff", goui.Pc(30), goui.Px(160), 2, "rgba(30,60,120,0.8)", nil))
+	blue.SetOnHover(func(hovered bool) {
+		if hovered {
+			blue.SetStyle(createBoxStyle("#ccccff", goui.Pc(30), goui.Px(160), 2, "rgba(30,60,120,0.8)", nil))
+		} else {
+			blue.SetStyle(createBoxStyle("#0000ff", goui.Pc(30), goui.Px(160), 2, "rgba(30,60,120,0.8)", nil))
+		}
 	})
 
 	root.AddChild(red)

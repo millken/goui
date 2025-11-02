@@ -37,6 +37,8 @@ type EventType int
 const (
 	EventMouse EventType = iota + 1
 	EventKey
+	EventScroll
+	EventFocus
 )
 
 // MouseButton represents a mouse button.
@@ -58,6 +60,8 @@ const (
 	WindowMouse
 	WindowKey
 	WindowResize
+	WindowScroll
+	WindowFocus
 )
 
 // WindowEvent 是由 App 主循环产生的窗口事件
@@ -83,6 +87,20 @@ type KeyEvent struct {
 }
 
 func (k KeyEvent) Type() EventType { return EventKey }
+
+// ScrollEvent 传递鼠标滚轮信息
+type ScrollEvent struct {
+	X, Y float32 // 滚轮偏移量
+}
+
+func (s ScrollEvent) Type() EventType { return EventScroll }
+
+// FocusEvent 传递窗口焦点信息
+type FocusEvent struct {
+	Focused bool
+}
+
+func (f FocusEvent) Type() EventType { return EventFocus }
 
 // Key constants (generic, backend-agnostic).
 // Backends should map their native key codes to these generic constants.

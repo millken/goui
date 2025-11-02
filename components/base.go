@@ -142,6 +142,15 @@ func (b *Base) HandleEvent(event goui.Event) bool {
 			}
 		}
 		return false
+	case goui.ScrollEvent:
+		// 可以添加滚轮处理逻辑，例如滚动容器
+		return false
+	case goui.FocusEvent:
+		// 可以添加焦点处理逻辑
+		return false
+	case goui.KeyEvent:
+		// 可以添加键盘处理逻辑，例如快捷键
+		return false
 	default:
 		return false
 	}

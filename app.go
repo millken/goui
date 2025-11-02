@@ -109,7 +109,17 @@ func NewApp(title string, w, h int, root Component) (*App, error) {
 		down := action != glfw.Release
 		// 简单映射示例（可扩展）
 		mapped := int(key)
-		app.InjectKey(mapped, down)
+		app.InjectKey(mapped, int(mods), down)
+	})
+
+	// 回调：鼠标滚轮
+	win.SetScrollCallback(func(w *glfw.Window, xoffset, yoffset float64) {
+		app.Ctx.PushWindowEvent(WindowEvent{Type: WindowScroll, Event: ScrollEvent{X: float32(xoffset), Y: float32(yoffset)}})
+	})
+
+	// 回调：窗口焦点
+	win.SetFocusCallback(func(w *glfw.Window, focused bool) {
+		app.Ctx.PushWindowEvent(WindowEvent{Type: WindowFocus, Event: FocusEvent{Focused: focused}})
 	})
 
 	return app, nil
@@ -184,8 +194,8 @@ func (a *App) InjectMouse(x, y float32, btn MouseButton, down bool) {
 }
 
 // InjectKey 向应用注入按键事件
-func (a *App) InjectKey(key int, down bool) {
-	a.Ctx.PushWindowEvent(WindowEvent{Type: WindowKey, Event: KeyEvent{Key: key, Down: down}})
+func (a *App) InjectKey(key int, mods int, down bool) {
+	a.Ctx.PushWindowEvent(WindowEvent{Type: WindowKey, Event: KeyEvent{Key: key, Mod: mods, Down: down}})
 }
 
 // Close 释放资源
