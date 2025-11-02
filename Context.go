@@ -15,8 +15,6 @@ type Context struct {
 	Delta     time.Duration
 	frameNo   uint64
 	winEvents []WindowEvent
-	WM        *WindowManager
-	sched     *Scheduler
 	fm        *font.FontManager
 }
 
@@ -44,14 +42,6 @@ func (c *Context) Done() <-chan struct{} {
 // Err 返回上下文错误
 func (c *Context) Err() error {
 	return c.Context.Err()
-}
-
-// GetScheduler returns the scheduler associated with this context.
-func (c *Context) GetScheduler() *Scheduler {
-	if c.sched == nil {
-		c.sched = NewScheduler()
-	}
-	return c.sched
 }
 
 // PushWindowEvent 收集窗口事件（由 App 主循环调用）

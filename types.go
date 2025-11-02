@@ -61,9 +61,8 @@ const (
 
 // WindowEvent 是由 App 主循环产生的窗口事件
 type WindowEvent struct {
-	Type   WindowEventType
-	Window Window
-	Event  Event // optional payload (MouseEvent/KeyEvent)
+	Type  WindowEventType
+	Event Event // optional payload (MouseEvent/KeyEvent)
 }
 
 // MouseEvent 传递鼠标信息（窗口坐标，按钮，按下或释放）

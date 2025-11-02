@@ -1,6 +1,9 @@
 package goui
 
-import "github.com/millken/yoga"
+import (
+	"github.com/millken/go/thorvg"
+	"github.com/millken/yoga"
+)
 
 // Component 定义所有UI组件的基础接口
 type Component interface {
@@ -10,7 +13,7 @@ type Component interface {
 	// Layout 计算布局
 	Layout(width, height float32, direction yoga.Direction)
 	// 渲染
-	Paint(canvas Canvas) // 绘制组件（原 Draw 改名，更贴近通用术语）
+	Paint(canvas *thorvg.Canvas) // 绘制组件（原 Draw 改名，更贴近通用术语）
 
 	// GetComputedLayout 获取计算后的布局信息
 	GetComputedLayout() yoga.Layout
