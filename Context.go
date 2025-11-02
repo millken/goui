@@ -1,23 +1,50 @@
 package goui
 
 import (
+	"context"
 	"time"
 
 	"github.com/millken/goui/font"
 )
 
 type Context struct {
+	context.Context // 嵌入标准 context
+	cancel          context.CancelFunc
+
 	Now       time.Time
 	Delta     time.Duration
 	frameNo   uint64
 	winEvents []WindowEvent
-	wm        *WindowManager
+	WM        *WindowManager
 	sched     *Scheduler
 	fm        *font.FontManager
 }
 
 // NewContext 创建新的渲染上下文
-func NewContext() *Context { return &Context{} }
+func NewContext() *Context {
+	ctx, cancel := context.WithCancel(context.Background())
+	return &Context{
+		Context: ctx,
+		cancel:  cancel,
+	}
+}
+
+// Shutdown 优雅关闭上下文
+func (c *Context) Shutdown() {
+	if c.cancel != nil {
+		c.cancel()
+	}
+}
+
+// Done 返回关闭通道
+func (c *Context) Done() <-chan struct{} {
+	return c.Context.Done()
+}
+
+// Err 返回上下文错误
+func (c *Context) Err() error {
+	return c.Context.Err()
+}
 
 // GetScheduler returns the scheduler associated with this context.
 func (c *Context) GetScheduler() *Scheduler {
@@ -46,12 +73,6 @@ func (c *Context) tick(now time.Time) {
 	c.Now = now
 	c.frameNo++
 }
-
-// SetWindowManager attaches a WindowManager to the context.
-func (c *Context) SetWindowManager(wm *WindowManager) { c.wm = wm }
-
-// GetWindowManager returns the attached WindowManager.
-func (c *Context) GetWindowManager() *WindowManager { return c.wm }
 
 // GetFontManager returns or creates the Context's FontManager
 func (c *Context) GetFontManager() *font.FontManager {

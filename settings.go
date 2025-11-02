@@ -1,5 +1,6 @@
 package goui
 
+
 // Settings contains configuration flags and thresholds used by PolyUI.
 // This is a Go translation of org.polyfrost.polyui.Settings (Kotlin).
 type Settings struct {
@@ -34,6 +35,10 @@ type Settings struct {
 	LoadTranslationsOnInit     bool
 	SmoothThemeChanges         bool
 	RoundedCorners             bool
+
+	// 新增核心配置选项
+	FrameRate    int           // 目标帧率 (0 = 默认60 FPS)
+	ErrorHandler func(error)   // 自定义错误处理函数
 }
 
 type ResourcePolicy int
@@ -76,6 +81,10 @@ func NewSettings() *Settings {
 		LoadTranslationsOnInit:     true,
 		SmoothThemeChanges:         true,
 		RoundedCorners:             true,
+
+		// 新增配置的默认值
+		FrameRate:    0,     // 0 = 默认60 FPS
+		ErrorHandler: nil,   // 使用默认错误处理
 	}
 	return s
 }
