@@ -23,7 +23,7 @@ func NewBoxWithColor(c v2.Color) *BoxComponent { return &BoxComponent{color: c} 
 
 // SetBounds sets the bounds of the box (helper for examples).
 func (b *BoxComponent) SetBounds(x, y, w, h int) {
-	b.rect = v2.Rect{X: float64(x), Y: float64(y), Width: float64(w), Height: float64(h)}
+	b.rect = v2.Rect{X: float32(x), Y: float32(y), Width: float32(w), Height: float32(h)}
 }
 
 // SetPosition sets the position of the box.
@@ -39,7 +39,7 @@ func (b *BoxComponent) GetBounds() v2.Rect { return b.rect }
 func (b *BoxComponent) Paint(c v2.Canvas) {
 	// 自身
 	c.Save()
-	c.SetFillStyle(v2.PaintStyle{Color: b.color})
+	c.SetColor(b.color)
 	c.DrawRect(b.rect)
 	c.Restore()
 	// 子组件
@@ -64,23 +64,16 @@ func (b *BoxComponent) Paint(c v2.Canvas) {
 // offsetCanvas 把相对坐标偏移到父坐标再转发到底层 Canvas
 type offsetCanvas struct {
 	base   v2.Canvas
-	dx, dy float64
+	dx, dy float32
 }
 
 func (oc *offsetCanvas) Save()                    { oc.base.Save() }
 func (oc *offsetCanvas) Restore()                 { oc.base.Restore() }
-func (oc *offsetCanvas) Translate(tx, ty float64) { oc.dx += tx; oc.dy += ty }
-func (oc *offsetCanvas) Scale(sx, sy float64)     { oc.base.Scale(sx, sy) }
+func (oc *offsetCanvas) Translate(tx, ty float32) { oc.dx += tx; oc.dy += ty }
+func (oc *offsetCanvas) Scale(sx, sy float32)     { oc.base.Scale(sx, sy) }
 
-func (oc *offsetCanvas) ClipRect(r v2.Rect) {
-	r.X += oc.dx
-	r.Y += oc.dy
-	oc.base.ClipRect(r)
-}
-
-func (oc *offsetCanvas) SetFillStyle(style v2.PaintStyle)   { oc.base.SetFillStyle(style) }
-func (oc *offsetCanvas) SetStrokeStyle(style v2.PaintStyle) { oc.base.SetStrokeStyle(style) }
-func (oc *offsetCanvas) SetLineWidth(w float64)             { oc.base.SetLineWidth(w) }
+func (oc *offsetCanvas) SetColor(color v2.Color) { oc.base.SetColor(color) }
+func (oc *offsetCanvas) SetFont(font v2.Font)    { oc.base.SetFont(font) }
 
 func (oc *offsetCanvas) DrawRect(rect v2.Rect) {
 	rect.X += oc.dx
@@ -88,7 +81,7 @@ func (oc *offsetCanvas) DrawRect(rect v2.Rect) {
 	oc.base.DrawRect(rect)
 }
 
-func (oc *offsetCanvas) DrawLine(x0, y0, x1, y1 float64) {
+func (oc *offsetCanvas) DrawLine(x0, y0, x1, y1 float32) {
 	x0 += oc.dx
 	y0 += oc.dy
 	x1 += oc.dx
@@ -102,7 +95,7 @@ func (oc *offsetCanvas) DrawImage(img v2.Image, dest v2.Rect) {
 	oc.base.DrawImage(img, dest)
 }
 
-func (oc *offsetCanvas) DrawText(text string, x, y float64) {
+func (oc *offsetCanvas) DrawText(text string, x, y float32) {
 	x += oc.dx
 	y += oc.dy
 	oc.base.DrawText(text, x, y)

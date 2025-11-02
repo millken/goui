@@ -1,6 +1,6 @@
 module github.com/millken/goui
 
-go 1.24.4
+go 1.24.8
 
 require (
 	github.com/cespare/xxhash/v2 v2.2.0
@@ -32,6 +32,7 @@ require (
 	github.com/go-text/typesetting v0.3.0 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/kolesa-team/go-webp v1.0.5 // indirect
+	github.com/millken/go/plutovg v1.0.0 // indirect
 	github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef // indirect
 	github.com/srwiley/scanx v0.0.0-20190309010443-e94503791388 // indirect
 	github.com/tdewolff/font v0.0.0-20250430140153-b654fd8acba3 // indirect

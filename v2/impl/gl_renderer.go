@@ -2,10 +2,15 @@ package impl
 
 import (
 	"fmt"
+	"image"
+	"image/color"
+	"image/draw"
 
 	"github.com/go-gl/gl/v4.6-core/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
 	v2 "github.com/millken/goui/v2"
+	"golang.org/x/image/font"
+	"golang.org/x/image/math/fixed"
 )
 
 var _ v2.Renderer = (*GLRenderer)(nil)
@@ -21,6 +26,10 @@ type GLRenderer struct {
 	inited   bool
 
 	clearR, clearG, clearB, clearA float32
+	// textured drawing program and resources
+	texProg uint32
+	texVao  uint32
+	texVbo  uint32
 }
 
 func NewOpenGLRenderer() *GLRenderer {
@@ -72,6 +81,26 @@ func (r *GLRenderer) Initialize(window v2.Window) error {
 	gl.VertexAttribPointer(0, 2, gl.FLOAT, false, 2*4, gl.PtrOffset(0))
 
 	r.inited = true
+	// 初始化纹理渲染程序
+	tprog, err := buildProgram(texVertexSrc, texFragmentSrc)
+	if err != nil {
+		return err
+	}
+	r.texProg = tprog
+	gl.GenVertexArrays(1, &r.texVao)
+	gl.BindVertexArray(r.texVao)
+	gl.GenBuffers(1, &r.texVbo)
+	gl.BindBuffer(gl.ARRAY_BUFFER, r.texVbo)
+	// 每个顶点: pos.xy (2 floats) + tex.xy (2 floats) => 4 floats
+	gl.BufferData(gl.ARRAY_BUFFER, 4*4*4, nil, gl.DYNAMIC_DRAW)
+	// pos attrib
+	gl.EnableVertexAttribArray(0)
+	gl.VertexAttribPointer(0, 2, gl.FLOAT, false, 4*4, gl.PtrOffset(0))
+	// texcoord attrib
+	gl.EnableVertexAttribArray(1)
+	gl.VertexAttribPointer(1, 2, gl.FLOAT, false, 4*4, gl.PtrOffset(2*4))
+	// unbind
+	gl.BindVertexArray(0)
 	return nil
 }
 
@@ -83,13 +112,25 @@ func (r *GLRenderer) Cleanup() {
 		gl.DeleteProgram(r.prog)
 		r.prog = 0
 	}
+	if r.texProg != 0 {
+		gl.DeleteProgram(r.texProg)
+		r.texProg = 0
+	}
 	if r.vbo != 0 {
 		gl.DeleteBuffers(1, &r.vbo)
 		r.vbo = 0
 	}
+	if r.texVbo != 0 {
+		gl.DeleteBuffers(1, &r.texVbo)
+		r.texVbo = 0
+	}
 	if r.vao != 0 {
 		gl.DeleteVertexArrays(1, &r.vao)
 		r.vao = 0
+	}
+	if r.texVao != 0 {
+		gl.DeleteVertexArrays(1, &r.texVao)
+		r.texVao = 0
 	}
 	// 可在此处分离上下文，如需要：glfw.DetachCurrentContext()
 	r.inited = false
@@ -135,9 +176,9 @@ func (r *GLRenderer) SetViewport(x, y, width, height int) {
 
 // 绘制状态（保持简单）
 type drawState struct {
-	fill   v2.PaintStyle
-	stroke v2.PaintStyle
-	lineW  float32
+	color v2.Color
+	font  v2.Font
+	lineW float32
 	// 2D 变换（3x3 矩阵）
 	tx, ty float32 // 仅支持平移（为简单起见），后续可扩展为完整矩阵
 }
@@ -161,10 +202,10 @@ func (c *glCanvas) ndcRect(rect v2.Rect) (x0, y0, x1, y1 float32) {
 	if c.r == nil || !c.r.inited || c.r.prog == 0 || c.fbW <= 0 || c.fbH <= 0 {
 		return
 	}
-	x0 = float32((rect.X/float64(c.fbW))*2.0 - 1.0)
-	y0 = float32(1.0 - (rect.Y/float64(c.fbH))*2.0)
-	x1 = float32(((rect.X+rect.Width)/float64(c.fbW))*2.0 - 1.0)
-	y1 = float32(1.0 - ((rect.Y+rect.Height)/float64(c.fbH))*2.0)
+	x0 = float32((rect.X/float32(c.fbW))*2.0 - 1.0)
+	y0 = float32(1.0 - (rect.Y/float32(c.fbH))*2.0)
+	x1 = float32(((rect.X+rect.Width)/float32(c.fbW))*2.0 - 1.0)
+	y1 = float32(1.0 - ((rect.Y+rect.Height)/float32(c.fbH))*2.0)
 	return
 }
 
@@ -189,34 +230,21 @@ func (c *glCanvas) Restore() {
 	}
 }
 
-func (c *glCanvas) Translate(tx, ty float64) {
+func (c *glCanvas) Translate(tx, ty float32) {
 	c.state.tx += float32(tx)
 	c.state.ty += float32(ty)
 }
 
-func (c *glCanvas) Scale(sx, sy float64) {
+func (c *glCanvas) Scale(sx, sy float32) {
 	// 简化：不实现缩放，仅记录 TODO
 }
 
-func (c *glCanvas) ClipRect(r v2.Rect) {
-	// 转换为帧缓冲坐标（左下原点）并使用 glScissor
-	x := int32(r.X)
-	y := int32(r.Y)
-	w := int32(r.Width)
-	h := int32(r.Height)
-	// glScissor 的原点是左下，但我们的 Rect 是左上原点，转换如下：
-	y = int32(c.fbH) - y - h
-	c.clips = append(c.clips, clipRect{x, y, w, h})
-	gl.Enable(gl.SCISSOR_TEST)
-	gl.Scissor(x, y, w, h)
+func (c *glCanvas) SetColor(color v2.Color) {
+	c.state.color = color
 }
 
-func (c *glCanvas) SetFillStyle(style v2.PaintStyle) {
-	c.state.fill = style
-}
-
-func (c *glCanvas) SetStrokeStyle(style v2.PaintStyle) {
-	c.state.stroke = style
+func (c *glCanvas) SetFont(font v2.Font) {
+	c.state.font = font
 }
 
 func (c *glCanvas) SetLineWidth(w float64) {
@@ -230,8 +258,8 @@ func (c *glCanvas) DrawRect(rect v2.Rect) {
 		return
 	}
 	// apply translation
-	rect.X += float64(c.state.tx)
-	rect.Y += float64(c.state.ty)
+	rect.X += float32(c.state.tx)
+	rect.Y += float32(c.state.ty)
 
 	x0, y0, x1, y1 := c.ndcRect(rect)
 	verts := [...]float32{
@@ -244,7 +272,7 @@ func (c *glCanvas) DrawRect(rect v2.Rect) {
 	gl.BindVertexArray(c.r.vao)
 	gl.BindBuffer(gl.ARRAY_BUFFER, c.r.vbo)
 	gl.BufferSubData(gl.ARRAY_BUFFER, 0, len(verts)*4, gl.Ptr(&verts[0]))
-	col := c.state.fill.Color
+	col := c.state.color
 	r := float32(col.R) / 255.0
 	g := float32(col.G) / 255.0
 	b := float32(col.B) / 255.0
@@ -254,15 +282,15 @@ func (c *glCanvas) DrawRect(rect v2.Rect) {
 }
 
 // DrawLine 使用 GL_LINES
-func (c *glCanvas) DrawLine(x0, y0, x1, y1 float64) {
+func (c *glCanvas) DrawLine(x0, y0, x1, y1 float32) {
 	if c.r == nil || !c.r.inited || c.r.prog == 0 || c.fbW <= 0 || c.fbH <= 0 {
 		return
 	}
 	// apply translation
-	x0 += float64(c.state.tx)
-	y0 += float64(c.state.ty)
-	x1 += float64(c.state.tx)
-	y1 += float64(c.state.ty)
+	x0 += float32(c.state.tx)
+	y0 += float32(c.state.ty)
+	x1 += float32(c.state.tx)
+	y1 += float32(c.state.ty)
 
 	r0 := v2.Rect{X: x0, Y: y0, Width: 1, Height: 1}
 	r1 := v2.Rect{X: x1, Y: y1, Width: 1, Height: 1}
@@ -273,7 +301,7 @@ func (c *glCanvas) DrawLine(x0, y0, x1, y1 float64) {
 	gl.BindVertexArray(c.r.vao)
 	gl.BindBuffer(gl.ARRAY_BUFFER, c.r.vbo)
 	gl.BufferSubData(gl.ARRAY_BUFFER, 0, len(verts)*4, gl.Ptr(&verts[0]))
-	col := c.state.stroke.Color
+	col := c.state.color
 	r := float32(col.R) / 255.0
 	g := float32(col.G) / 255.0
 	b := float32(col.B) / 255.0
@@ -287,8 +315,106 @@ func (c *glCanvas) DrawImage(img v2.Image, dest v2.Rect) {
 	// TODO: implement image drawing with textures
 }
 
-func (c *glCanvas) DrawText(text string, x, y float64) {
-	// TODO: implement text rendering (bitmap fonts or signed distance fields)
+func (c *glCanvas) DrawText(text string, x, y float32) {
+	if c.r == nil || !c.r.inited || c.r.prog == 0 || c.fbW <= 0 || c.fbH <= 0 {
+		return
+	}
+	if c.r.win == nil || c.r.win.ctx == nil {
+		return
+	}
+	fm := c.r.win.ctx.GetFontManager()
+	// 使用默认字体名 "default" 和字号 16（可改为参数）
+	face, err := fm.GetFace("default", 16)
+	if err != nil {
+		// 无法获得字体，跳过绘制
+		fmt.Println("DrawText: GetFace error:", err)
+		return
+	}
+
+	// 使用 font.Drawer 在 Alpha 图上绘制文本
+	d := &font.Drawer{
+		Face: face,
+	}
+	adv := d.MeasureString(text)
+	w := int((adv + fixed.Int26_6(63)) >> 6)
+	if w <= 0 {
+		w = 1
+	}
+	m := face.Metrics()
+	h := int((m.Ascent + m.Descent).Ceil())
+	if h <= 0 {
+		h = 1
+	}
+
+	// debug print
+	fmt.Println("DrawText: text=", text, "adv=", adv, "w=", w, "h=", h)
+	fmtry := "nil"
+	if fm != nil {
+		fmtry = "ok"
+	}
+	fmt.Println("DrawText: fontmanager=", fmtry)
+	fmt.Println("DrawText: face metrics:", face.Metrics())
+
+	alpha := image.NewAlpha(image.Rect(0, 0, w, h))
+	d.Dst = alpha
+	d.Src = image.NewUniform(color.Alpha{A: 255})
+	d.Dot = fixed.Point26_6{X: 0, Y: m.Ascent}
+	d.DrawString(text)
+
+	// convert alpha to RGBA where RGB=1, A=alpha
+	rgba := image.NewRGBA(alpha.Bounds())
+	draw.Draw(rgba, rgba.Bounds(), &image.Uniform{C: color.RGBA{R: 255, G: 255, B: 255, A: 0}}, image.Point{}, draw.Src)
+	// copy alpha channel
+	for yy := 0; yy < h; yy++ {
+		for xx := 0; xx < w; xx++ {
+			a := alpha.AlphaAt(xx, yy).A
+			rgba.SetRGBA(xx, yy, color.RGBA{R: 255, G: 255, B: 255, A: a})
+		}
+	}
+
+	// upload texture
+	tex := c.r.uploadRGBAAsTexture(rgba)
+	fmt.Println("DrawText: uploaded texture id=", tex, "size=", w, "x", h)
+	defer func() { gl.DeleteTextures(1, &tex) }()
+
+	// compute dest rect and NDC
+	dest := v2.Rect{X: x, Y: y, Width: float32(w), Height: float32(h)}
+	// apply translation
+	dest.X += c.state.tx
+	dest.Y += c.state.ty
+	x0, y0, x1, y1 := c.ndcRect(dest)
+
+	// texture coords
+	verts := []float32{
+		x0, y0, 0.0, 1.0,
+		x1, y0, 1.0, 1.0,
+		x0, y1, 0.0, 0.0,
+		x1, y1, 1.0, 0.0,
+	}
+
+	// use textured program
+	gl.UseProgram(c.r.texProg)
+	gl.BindVertexArray(c.r.texVao)
+	gl.BindBuffer(gl.ARRAY_BUFFER, c.r.texVbo)
+	gl.BufferSubData(gl.ARRAY_BUFFER, 0, int(len(verts))*4, gl.Ptr(&verts[0]))
+
+	// set color uniform
+	colorLoc := gl.GetUniformLocation(c.r.texProg, gl.Str("uColor\x00"))
+	col := c.state.color
+	fr := float32(col.R) / 255.0
+	fg := float32(col.G) / 255.0
+	fb := float32(col.B) / 255.0
+	fa := float32(col.A) / 255.0
+	gl.Uniform4f(colorLoc, fr, fg, fb, fa)
+
+	// bind texture
+	gl.ActiveTexture(gl.TEXTURE0)
+	gl.BindTexture(gl.TEXTURE_2D, tex)
+	texLoc := gl.GetUniformLocation(c.r.texProg, gl.Str("uTex\x00"))
+	gl.Uniform1i(texLoc, 0)
+
+	gl.DrawArrays(gl.TRIANGLE_STRIP, 0, 4)
+	gl.BindVertexArray(0)
 }
 
 // 顶点/片段着色器源码（最小实现）
@@ -360,4 +486,44 @@ func checkProgram(p uint32) error {
 		return fmt.Errorf("link failed: %s", string(log))
 	}
 	return nil
+}
+
+var texVertexSrc = `#version 330 core
+layout(location = 0) in vec2 aPos;
+layout(location = 1) in vec2 aTex;
+out vec2 vTex;
+void main(){
+	gl_Position = vec4(aPos, 0.0, 1.0);
+	vTex = aTex;
+}` + "\x00"
+
+var texFragmentSrc = `#version 330 core
+in vec2 vTex;
+out vec4 FragColor;
+uniform sampler2D uTex;
+uniform vec4 uColor;
+void main(){
+	vec4 t = texture(uTex, vTex);
+	// assume white glyphs in texture with alpha channel
+	FragColor = vec4(uColor.rgb, uColor.a * t.a);
+}` + "\x00"
+
+// uploadRGBAAsTexture 上传 RGBA 图像到 GPU 并返回生成的 texture id
+func (r *GLRenderer) uploadRGBAAsTexture(img *image.RGBA) uint32 {
+	var tex uint32
+	gl.GenTextures(1, &tex)
+	gl.BindTexture(gl.TEXTURE_2D, tex)
+	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+	gl.PixelStorei(gl.UNPACK_ALIGNMENT, 1)
+	w := int32(img.Bounds().Dx())
+	h := int32(img.Bounds().Dy())
+	if w == 0 || h == 0 {
+		return tex
+	}
+	gl.TexImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, gl.Ptr(&img.Pix[0]))
+	gl.BindTexture(gl.TEXTURE_2D, 0)
+	return tex
 }

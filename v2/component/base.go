@@ -20,8 +20,8 @@ func (c *BaseComponent) SetSize(size v2.Size) {
 
 // SetBounds 以整数形式设置位置与尺寸，便于示例/适配器调用。
 func (c *BaseComponent) SetBounds(x, y, width, height int) {
-	c.position = v2.Point{X: float64(x), Y: float64(y)}
-	c.size = v2.Size{Width: float64(width), Height: float64(height)}
+	c.position = v2.Point{X: float32(x), Y: float32(y)}
+	c.size = v2.Size{Width: float32(width), Height: float32(height)}
 }
 
 func (c *BaseComponent) GetBounds() v2.Rect {

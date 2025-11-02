@@ -16,16 +16,16 @@ type Image interface {
 }
 
 type Point struct {
-	X, Y float64
+	X, Y float32
 }
 
 type Size struct {
-	Width, Height float64
+	Width, Height float32
 }
 
 type Rect struct {
-	X, Y          float64
-	Width, Height float64
+	X, Y          float32
+	Width, Height float32
 }
 
 type Event interface {
@@ -68,7 +68,7 @@ type WindowEvent struct {
 
 // MouseEvent 传递鼠标信息（窗口坐标，按钮，按下或释放）
 type MouseEvent struct {
-	X, Y   float64
+	X, Y   float32
 	Button MouseButton
 	Down   bool
 }

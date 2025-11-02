@@ -57,6 +57,8 @@ github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0/go.mod h1:E/TSTwGw
 github.com/google/go-cmp v0.6.0/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeNGIjoY=
 github.com/kolesa-team/go-webp v1.0.5 h1:GZQHJBaE8dsNKZltfwqsL0qVJ7vqHXsfA+4AHrQW3pE=
 github.com/kolesa-team/go-webp v1.0.5/go.mod h1:QmJu0YHXT3ex+4SgUvs+a+1SFCDcCqyZg+LbIuNNTnE=
+github.com/millken/go/plutovg v1.0.0 h1:JvOxu2ZaVXEDzSZkCon29rUVhQ+gHYjn3E6VXXXi24w=
+github.com/millken/go/plutovg v1.0.0/go.mod h1:oLEFMV91+7Uya7HSLGnCQiTPP+6Bg+YSG1chpXLjpFo=
 github.com/millken/yoga v0.0.0-20231130123727-a557d07657f3 h1:FlGf8ayh2H1R0mKhcyIIMyCo4Ft/jIN7MUGv4twCuxw=
 github.com/millken/yoga v0.0.0-20231130123727-a557d07657f3/go.mod h1:G+ZGtKj4+57uI6Nm0TMuMzQ9y54UruSzhKSnAVoxEzs=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=

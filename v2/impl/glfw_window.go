@@ -117,7 +117,7 @@ func (w *GLFWWindow) attachInputCallbacks() {
 			return
 		}
 		x, y := win.GetCursorPos()
-		me := v2.MouseEvent{X: x, Y: y}
+		me := v2.MouseEvent{X: float32(x), Y: float32(y)}
 		switch button {
 		case glfw.MouseButtonLeft:
 			me.Button = v2.MouseLeft
@@ -138,7 +138,7 @@ func (w *GLFWWindow) attachInputCallbacks() {
 		}
 		if wm := w.ctx.GetWindowManager(); wm != nil {
 			wm.MarkDirty(w)
-			me := v2.MouseEvent{X: xpos, Y: ypos, Button: 0, Down: false}
+			me := v2.MouseEvent{X: float32(xpos), Y: float32(ypos), Button: 0, Down: false}
 			wm.Emit(v2.WindowEvent{Type: v2.WindowMouse, Window: w, Event: me})
 		}
 	})

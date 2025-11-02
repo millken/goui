@@ -1,6 +1,10 @@
 package v2
 
-import "time"
+import (
+	"time"
+
+	"github.com/millken/goui/font"
+)
 
 type Context struct {
 	Now       time.Time
@@ -9,6 +13,7 @@ type Context struct {
 	winEvents []WindowEvent
 	wm        *WindowManager
 	sched     *Scheduler
+	fm        *font.FontManager
 }
 
 // NewContext 创建新的渲染上下文
@@ -47,3 +52,11 @@ func (c *Context) SetWindowManager(wm *WindowManager) { c.wm = wm }
 
 // GetWindowManager returns the attached WindowManager.
 func (c *Context) GetWindowManager() *WindowManager { return c.wm }
+
+// GetFontManager returns or creates the Context's FontManager
+func (c *Context) GetFontManager() *font.FontManager {
+	if c.fm == nil {
+		c.fm = font.NewFontManager()
+	}
+	return c.fm
+}

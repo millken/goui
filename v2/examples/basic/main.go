@@ -33,6 +33,12 @@ func (a *app) Create(ctx *v2.Context) error {
 		}
 	})
 	rootComp.AddChild(box2)
+	// 添加一个 Label 演示文本渲染
+	lbl := component.NewLabel("Hello Goui - Label")
+	lbl.SetBounds(10, 10, 200, 24)
+	// set label color to white so it is visible on default background
+	lbl.SetColor(v2.Color{R: 0, G: 0, B: 255, A: 255})
+	rootComp.AddChild(lbl)
 	win1.SetRoot(rootComp)
 	win1.Show()
 	fmt.Println("App Created")
