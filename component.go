@@ -1,166 +1,508 @@
 package goui
 
 import (
+	"image"
+	"sync"
+
 	"github.com/millken/go/thorvg"
 	"github.com/millken/yoga"
 )
 
-// Component 定义所有UI组件的基础接口
+
+// Component 精简的组件接口
 type Component interface {
-	// GetNode 返回yoga节点
-	GetNode() *yoga.Node
+	// 基础属性
+	ID() string
+	Children() []Component
+	Parent() Component
 
-	// Layout 计算布局
-	Layout(width, height float32, direction yoga.Direction)
-	// 渲染
-	Paint(canvas *thorvg.Canvas) // 绘制组件（原 Draw 改名，更贴近通用术语）
+	// 几何计算
+	Bounds() image.Rectangle
 
-	// GetComputedLayout 获取计算后的布局信息
-	GetComputedLayout() yoga.Layout
+	// 渲染相关
+	Renderable
 
-	// SetVisible 设置可见性
-	SetVisible(visible bool)
-	IsVisible() bool
-
-	// SetID 设置组件ID
-	SetID(id string)
-	GetID() string
-
-	// AddChild 添加子组件
-	AddChild(child Component)
-	RemoveChild(child Component)
-	GetChildren() []Component
-
-	HandleEvent(event Event) bool // 处理事件，返回是否已处理
-
-	// 生命周期方法
-	Mount()
-	Unmount()
+	// 生命周期
 	Update()
-	Destroy()
-
-	// 脏渲染机制
-	MarkDirty()
-	IsDirty() bool
-	ClearDirty()
 
 	// 事件处理
-	SetOnClick(handler func())
-	SetOnHover(handler func(bool))
+	OnClick(func(MouseEvent))
+	OnHover(func(bool))
+
+	// 状态管理
+	SetVisible(bool)
+	IsVisible() bool
+	SetEnabled(bool)
+	IsEnabled() bool
+
+	// 组件树操作
+	AddChild(Component)
+	RemoveChild(Component)
+	FindChild(string) Component
+	setParent(Component)
 }
 
-// Style 定义组件样式
-type Style struct {
-	// 布局尺寸（支持 px/percent/auto）
-	Width     *Dimension
-	Height    *Dimension
-	MinWidth  *Dimension
-	MinHeight *Dimension
-	MaxWidth  *Dimension
-	MaxHeight *Dimension
-
-	// Flexbox属性
-	Flex           *float32
-	FlexGrow       *float32
-	FlexShrink     *float32
-	FlexBasis      *Dimension // auto/px/%
-	FlexDirection  *yoga.FlexDirection
-	JustifyContent *yoga.Justify
-	AlignItems     *yoga.Align
-	AlignSelf      *yoga.Align
-	AlignContent   *yoga.Align
-	FlexWrap       *yoga.Wrap
-
-	// 位置与偏移
-	Position *yoga.PositionType
-	Left     *Dimension
-	Top      *Dimension
-	Right    *Dimension
-	Bottom   *Dimension
-
-	// 边距 / 内边距 / 边框（支持简写与按边设置）
-	Margin  *Edges
-	Padding *Edges
-	Border  *Edges // 这里仅表示边框宽度，颜色见下
-
-	BorderRadius *Dimension // 简化为统一圆角，后续可扩展为四角
-	BorderColor  *string
-
-	// 文本属性
-	Color    *string
-	FontSize *float32
-	Font     *string
-
-	// 背景属性
-	BackgroundColor *string
-
-	// 其他属性
-	AspectRatio *float32
-	Overflow    *yoga.Overflow
-	Display     *yoga.Display
-	Gap         *Dimension // 行列间距（容器）
-
-	// 交互属性
-	Opacity       *float32
-	Cursor        *string
-	Transition    *string
-	PointerEvents *string
-
-	// CSS属性（用于调试和未来扩展）
-	ZIndex    *int
-	BoxShadow *string
-	Transform *string
+// EventHandlers 事件处理器集合
+type EventHandlers struct {
+	OnClick    func(MouseEvent)
+	OnHover    func(bool)
+	OnFocus    func()
+	OnBlur     func()
+	OnKeyPress func(KeyEvent)
+	OnScroll   func(ScrollEvent)
+	OnMount    func()
+	OnUnmount  func()
+	OnUpdate   func()
 }
 
-// Unit 表示数值单位
-type Unit uint8
+// BaseComponent 基础组件实现
+type BaseComponent struct {
+	id        string
+	visible   bool
+	enabled   bool
+	node      *yoga.Node
+	parent    Component
+	children  []Component
 
-const (
-	UnitUndefined Unit = iota // 未设置
-	UnitAuto                  // 自适应
-	UnitPoint                 // 物理像素/pt
-	UnitPercent               // 百分比（0..100）
-)
+	// 渲染相关
+	layer       RenderLayer
+	needsLayout bool
+	needsRender bool
 
-// Dimension 带单位的尺寸
-type Dimension struct {
-	Value float32
-	Unit  Unit
+	// 事件处理
+	events *EventHandlers
+
+	// 同步锁
+	mu sync.RWMutex
+
+	// 渲染缓存
+	canvas *thorvg.Canvas
 }
 
-// Edges 边集（支持 CSS 样式的简写与方向）
-type Edges struct {
-	All        *Dimension
-	Horizontal *Dimension
-	Vertical   *Dimension
-	Left       *Dimension
-	Top        *Dimension
-	Right      *Dimension
-	Bottom     *Dimension
+// NewBaseComponent 创建基础组件
+func NewBaseComponent(id string) *BaseComponent {
+	node := yoga.NewNode()
+	return &BaseComponent{
+		id:          id,
+		visible:     true,
+		enabled:     true,
+		node:        node,
+		layer:       LayerContent,
+		needsLayout: true,
+		needsRender: true,
+		events:      &EventHandlers{},
+	}
 }
 
-// Dimension helpers
-func Px(v float32) *Dimension  { return &Dimension{Value: v, Unit: UnitPoint} }
-func Pc(v float32) *Dimension  { return &Dimension{Value: v, Unit: UnitPercent} }
-func AutoDim() *Dimension      { return &Dimension{Unit: UnitAuto} }
-func UndefinedDim() *Dimension { return &Dimension{Unit: UnitUndefined} }
+// 精简接口实现
+func (b *BaseComponent) ID() string { return b.id }
+func (b *BaseComponent) Children() []Component { return b.children }
+func (b *BaseComponent) Parent() Component { return b.parent }
 
-// Props 定义组件属性接口
-type Props interface {
-	GetStyle() Style
-	GetChildren() []Component
+// 内部方法（不暴露在接口中，但可选择性使用）
+func (b *BaseComponent) SetID(id string) { b.id = id }
+
+// 内部方法（不暴露给用户，但子组件可访问）
+func (b *BaseComponent) getNode() *yoga.Node { return b.node }
+
+// GetYogaNode 公开方法供子组件使用（内部实现细节）
+func (b *BaseComponent) GetYogaNode() *yoga.Node { return b.node }
+
+// 几何计算方法（精简接口）
+func (b *BaseComponent) Bounds() image.Rectangle {
+	if !b.visible {
+		return image.Rectangle{}
+	}
+	return b.getGlobalBounds()
 }
 
-// EventHandler 定义事件处理器类型
-type EventHandler func()
+// 内部方法
+func (b *BaseComponent) GetBounds() image.Rectangle {
+	return b.Bounds()
+}
 
-// ComponentEvents 组件事件
-type ComponentEvents struct {
-	OnClick   EventHandler
-	OnHover   func(bool)
-	OnFocus   func()
-	OnBlur    func()
-	OnMount   func()
-	OnUnmount func()
-	OnUpdate  func()
+func (b *BaseComponent) GetLayer() RenderLayer { return b.layer }
+
+func (b *BaseComponent) ShouldRender(region image.Rectangle) bool {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+
+	if !b.visible || !b.needsRender {
+		return false
+	}
+
+	bounds := b.GetGlobalBounds()
+	return bounds.Intersect(region).Empty() == false
+}
+
+func (b *BaseComponent) Render(canvas *thorvg.Canvas, region image.Rectangle) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	if !b.visible {
+		return
+	}
+
+	// 创建渲染上下文
+	if b.canvas == nil {
+		b.canvas = canvas
+	}
+
+	// 子类实现具体渲染逻辑
+	b.onRender(canvas, region)
+
+	// 递归渲染子组件
+	for _, child := range b.children {
+		if child.ShouldRender(region) {
+			child.Render(canvas, region)
+		}
+	}
+
+	b.needsRender = false
+}
+
+func (b *BaseComponent) onRender(canvas *thorvg.Canvas, region image.Rectangle) {
+	// 默认空实现，由子类重写
+}
+
+// 内部布局方法（不暴露给用户）
+func (b *BaseComponent) layout(width, height float32, direction yoga.Direction) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	if b.node == nil {
+		return
+	}
+
+	b.node.CalculateLayout(width, height, direction)
+	b.needsLayout = false
+
+	// 递归布局子组件
+	for _, child := range b.children {
+		if baseChild, ok := child.(*BaseComponent); ok {
+			childLayout := baseChild.node.GetComputedLayout()
+			baseChild.layout(childLayout.Width, childLayout.Height, direction)
+		}
+	}
+}
+
+func (b *BaseComponent) invalidateLayout() {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	b.needsLayout = true
+	b.needsRender = true
+
+	// 向上传播布局失效
+	if b.parent != nil {
+		if parentBase, ok := b.parent.(*BaseComponent); ok {
+			parentBase.invalidateLayout()
+		}
+	}
+}
+
+// 向后兼容方法
+func (b *BaseComponent) Layout(width, height float32, direction yoga.Direction) {
+	b.layout(width, height, direction)
+}
+
+// InvalidateLayout 公开的布局失效方法（供子组件调用）
+func (b *BaseComponent) InvalidateLayout() {
+	b.invalidateLayout()
+}
+
+// 精简的生命周期方法（仅保留Update在接口中）
+func (b *BaseComponent) Update() {
+	if b.events.OnUpdate != nil {
+		b.events.OnUpdate()
+	}
+
+	// 标记需要重新渲染
+	b.mu.Lock()
+	b.needsRender = true
+	b.mu.Unlock()
+
+	// 递归更新子组件
+	for _, child := range b.children {
+		child.Update()
+	}
+}
+
+
+// 内部方法（不暴露在接口中）
+func (b *BaseComponent) mount() {
+	if b.events.OnMount != nil {
+		b.events.OnMount()
+	}
+
+	// 递归挂载子组件
+	for _, child := range b.children {
+		if baseChild, ok := child.(*BaseComponent); ok {
+			baseChild.mount()
+		}
+	}
+}
+
+func (b *BaseComponent) unmount() {
+	if b.events.OnUnmount != nil {
+		b.events.OnUnmount()
+	}
+
+	// 递归卸载子组件
+	for _, child := range b.children {
+		if baseChild, ok := child.(*BaseComponent); ok {
+			baseChild.unmount()
+		}
+	}
+}
+
+func (b *BaseComponent) destroy() {
+	// 清理资源
+	b.canvas = nil
+
+	// 递归销毁子组件
+	for _, child := range b.children {
+		if baseChild, ok := child.(*BaseComponent); ok {
+			baseChild.destroy()
+		}
+	}
+}
+
+// 向后兼容方法
+func (b *BaseComponent) Mount() {
+	b.mount()
+}
+
+func (b *BaseComponent) Unmount() {
+	b.unmount()
+}
+
+func (b *BaseComponent) Destroy() {
+	b.destroy()
+}
+
+// 精简的事件处理API（接口方法）
+func (b *BaseComponent) OnClick(handler func(MouseEvent)) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	b.events.OnClick = handler
+}
+
+func (b *BaseComponent) OnHover(handler func(bool)) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	b.events.OnHover = handler
+}
+
+// 内部事件处理
+func (b *BaseComponent) HandleEvent(event Event) bool {
+	// 默认实现处理基本事件
+	switch e := event.(type) {
+	case MouseEvent:
+		if b.events.OnClick != nil && e.Down {
+			b.events.OnClick(e)
+			return true
+		}
+	case KeyEvent:
+		if b.events.OnKeyPress != nil {
+			b.events.OnKeyPress(e)
+			return true
+		}
+	}
+	return false
+}
+
+// 向后兼容方法
+func (b *BaseComponent) SetEventHandlers(handlers *EventHandlers) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	b.events = handlers
+}
+
+func (b *BaseComponent) GetEventHandlers() *EventHandlers {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+	return b.events
+}
+
+// 状态管理
+func (b *BaseComponent) SetVisible(visible bool) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	if b.visible != visible {
+		b.visible = visible
+		b.needsRender = true
+	}
+}
+
+func (b *BaseComponent) IsVisible() bool {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+	return b.visible
+}
+
+func (b *BaseComponent) SetEnabled(enabled bool) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	if b.enabled != enabled {
+		b.enabled = enabled
+		b.needsRender = true
+	}
+}
+
+func (b *BaseComponent) IsEnabled() bool {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+	return b.enabled
+}
+
+// 便利方法：显示/隐藏
+func (b *BaseComponent) Show() {
+	b.SetVisible(true)
+}
+
+func (b *BaseComponent) Hide() {
+	b.SetVisible(false)
+}
+
+// 便利方法：启用/禁用
+func (b *BaseComponent) Enable() {
+	b.SetEnabled(true)
+}
+
+func (b *BaseComponent) Disable() {
+	b.SetEnabled(false)
+}
+
+// 便利方法：切换状态
+func (b *BaseComponent) ToggleVisible() {
+	b.SetVisible(!b.IsVisible())
+}
+
+func (b *BaseComponent) ToggleEnabled() {
+	b.SetEnabled(!b.IsEnabled())
+}
+
+// 组件树操作（接口方法）
+func (b *BaseComponent) AddChild(child Component) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	b.children = append(b.children, child)
+	child.setParent(b)
+
+	// 同步到Yoga节点
+	if b.node != nil {
+		if childBase, ok := child.(*BaseComponent); ok && childBase.node != nil {
+			b.node.InsertChild(childBase.node, uint32(len(b.children)-1))
+		}
+	}
+
+	// 自动挂载子组件（如果父组件已挂载）
+	if b.parent != nil {
+		if childBase, ok := child.(*BaseComponent); ok {
+			childBase.mount()
+		}
+	}
+
+	// 标记需要重新布局
+	b.needsLayout = true
+	b.needsRender = true
+}
+
+func (b *BaseComponent) RemoveChild(child Component) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	for i, c := range b.children {
+		if c == child {
+			b.children = append(b.children[:i], b.children[i+1:]...)
+			child.setParent(nil)
+
+			// 自动卸载子组件
+			if childBase, ok := child.(*BaseComponent); ok {
+				childBase.unmount()
+			}
+
+			// 从Yoga节点移除
+			if b.node != nil {
+				if childBase, ok := child.(*BaseComponent); ok && childBase.node != nil {
+					b.node.RemoveChild(childBase.node)
+				}
+			}
+
+			b.needsLayout = true
+			b.needsRender = true
+			break
+		}
+	}
+}
+
+func (b *BaseComponent) SetParent(parent Component) {
+	b.setParent(parent)
+}
+
+func (b *BaseComponent) setParent(parent Component) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	b.parent = parent
+}
+
+func (b *BaseComponent) FindChild(id string) Component {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+
+	for _, child := range b.children {
+		if child.ID() == id {
+			return child
+		}
+		if result := child.FindChild(id); result != nil {
+			return result
+		}
+	}
+	return nil
+}
+
+// 向后兼容方法
+func (b *BaseComponent) GetChildByID(id string) Component {
+	return b.FindChild(id)
+}
+
+// 内部边界计算方法
+func (b *BaseComponent) getLocalBounds() image.Rectangle {
+	if b.node == nil {
+		return image.Rectangle{}
+	}
+
+	layout := b.node.GetComputedLayout()
+	return image.Rect(
+		int(layout.Left), int(layout.Top),
+		int(layout.Left+layout.Width), int(layout.Top+layout.Height),
+	)
+}
+
+func (b *BaseComponent) getGlobalBounds() image.Rectangle {
+	localBounds := b.getLocalBounds()
+	if b.parent == nil {
+		return localBounds
+	}
+
+	parentBounds := b.parent.Bounds()
+	return image.Rect(
+		localBounds.Min.X+parentBounds.Min.X,
+		localBounds.Min.Y+parentBounds.Min.Y,
+		localBounds.Max.X+parentBounds.Min.X,
+		localBounds.Max.Y+parentBounds.Min.Y,
+	)
+}
+
+// 向后兼容方法
+func (b *BaseComponent) GetLocalBounds() image.Rectangle {
+	return b.getLocalBounds()
+}
+
+func (b *BaseComponent) GetGlobalBounds() image.Rectangle {
+	return b.getGlobalBounds()
 }
