@@ -51,6 +51,14 @@ type DirtyRectManager struct {
 	maxRects int
 }
 
+// RenderStats 渲染统计
+type RenderStats struct {
+	FrameCount int64
+	FPS        float32
+	DrawCalls  int64
+	DirtyRects int
+}
+
 func NewDirtyRectManager(maxRects int) *DirtyRectManager {
 	return &DirtyRectManager{
 		rects:    make([]image.Rectangle, 0),
@@ -96,6 +104,13 @@ func (d *DirtyRectManager) GetDirtyRegions() []image.Rectangle {
 	copy(result, d.rects)
 	d.rects = d.rects[:0] // 清空
 	return result
+}
+
+// GetDirtyRectCount 获取脏区域数量
+func (d *DirtyRectManager) GetDirtyRectCount() int {
+	d.mu.RLock()
+	defer d.mu.RUnlock()
+	return len(d.rects)
 }
 
 // unionIfClose 如果两个矩形接近则合并

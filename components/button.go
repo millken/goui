@@ -251,7 +251,7 @@ func (b *Button) HandleEvent(event goui.Event) bool {
 	}
 
 	switch e := event.(type) {
-	case goui.MouseEvent:
+	case *goui.MouseEvent:
 		if e.Down {
 			b.SetState(ButtonStatePressed)
 		} else {
@@ -259,7 +259,7 @@ func (b *Button) HandleEvent(event goui.Event) bool {
 				b.SetState(ButtonStateHovered)
 				// 触发点击事件
 				if handlers := b.GetEventHandlers(); handlers != nil && handlers.OnClick != nil {
-					handlers.OnClick(e)
+					handlers.OnClick(*e)
 				}
 			}
 		}

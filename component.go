@@ -44,15 +44,16 @@ type Component interface {
 
 // EventHandlers 事件处理器集合
 type EventHandlers struct {
-	OnClick    func(MouseEvent)
-	OnHover    func(bool)
-	OnFocus    func()
-	OnBlur     func()
-	OnKeyPress func(KeyEvent)
-	OnScroll   func(ScrollEvent)
-	OnMount    func()
-	OnUnmount  func()
-	OnUpdate   func()
+	OnClick       func(MouseEvent)
+	OnHover       func(bool)
+	OnFocus       func()
+	OnBlur        func()
+	OnKeyPress    func(KeyEvent)
+	OnScroll      func(ScrollEvent)
+	OnMount       func()
+	OnUnmount     func()
+	OnUpdate      func()
+	OnWindowResize func(WindowEvent)
 }
 
 // BaseComponent 基础组件实现
@@ -294,21 +295,139 @@ func (b *BaseComponent) OnHover(handler func(bool)) {
 	b.events.OnHover = handler
 }
 
-// 内部事件处理
+// 内部事件处理 - 实现EventListener接口
 func (b *BaseComponent) HandleEvent(event Event) bool {
-	// 默认实现处理基本事件
-	switch e := event.(type) {
-	case MouseEvent:
-		if b.events.OnClick != nil && e.Down {
-			b.events.OnClick(e)
-			return true
-		}
-	case KeyEvent:
-		if b.events.OnKeyPress != nil {
-			b.events.OnKeyPress(e)
-			return true
-		}
+	// 检查组件是否可见和启用
+	if !b.visible || !b.enabled {
+		return false
 	}
+
+	// 根据事件类型处理
+	switch e := event.(type) {
+	case *MouseEvent:
+		return b.handleMouseEvent(e)
+	case *KeyEvent:
+		return b.handleKeyEvent(e)
+	case *TouchEvent:
+		return b.handleTouchEvent(e)
+	case *WindowEvent:
+		return b.handleWindowEvent(e)
+	case *FocusEvent:
+		return b.handleFocusEvent(e)
+	case *ScrollEvent:
+		return b.handleScrollEvent(e)
+	default:
+		return false
+	}
+}
+
+// handleMouseEvent 处理鼠标事件
+func (b *BaseComponent) handleMouseEvent(event *MouseEvent) bool {
+	// 检查鼠标是否在组件边界内
+	bounds := b.Bounds()
+	point := image.Pt(int(event.X), int(event.Y))
+	if point.X < bounds.Min.X || point.X >= bounds.Max.X || point.Y < bounds.Min.Y || point.Y >= bounds.Max.Y {
+		return false
+	}
+
+	// 处理点击事件
+	if event.Down && b.events.OnClick != nil {
+		b.events.OnClick(*event)
+		return true
+	}
+
+	// 处理悬停事件
+	if b.events.OnHover != nil {
+		b.events.OnHover(event.Down)
+		return true
+	}
+
+	return false
+}
+
+// handleKeyEvent 处理键盘事件
+func (b *BaseComponent) handleKeyEvent(event *KeyEvent) bool {
+	if event.Down && b.events.OnKeyPress != nil {
+		b.events.OnKeyPress(*event)
+		return true
+	}
+	return false
+}
+
+// handleTouchEvent 处理触摸事件
+func (b *BaseComponent) handleTouchEvent(event *TouchEvent) bool {
+	// 检查触摸是否在组件边界内
+	bounds := b.Bounds()
+	point := image.Pt(int(event.X), int(event.Y))
+	if point.X < bounds.Min.X || point.X >= bounds.Max.X || point.Y < bounds.Min.Y || point.Y >= bounds.Max.Y {
+		return false
+	}
+
+	// 类似鼠标点击处理
+	if event.Down && b.events.OnClick != nil {
+		// 将触摸事件转换为鼠标事件
+		mouseEvent := MouseEvent{
+			X:    event.X,
+			Y:    event.Y,
+			Down: event.Down,
+			Count: 1,
+		}
+		b.events.OnClick(mouseEvent)
+		return true
+	}
+
+	return false
+}
+
+// handleWindowEvent 处理窗口事件
+func (b *BaseComponent) handleWindowEvent(event *WindowEvent) bool {
+	// 只有根组件处理窗口事件
+	if b.parent != nil {
+		return false
+	}
+
+	if b.events.OnWindowResize != nil {
+		b.events.OnWindowResize(*event)
+		return true
+	}
+
+	return false
+}
+
+// handleFocusEvent 处理焦点事件
+func (b *BaseComponent) handleFocusEvent(event *FocusEvent) bool {
+	if event.Gained && b.events.OnFocus != nil {
+		b.events.OnFocus()
+		return true
+	} else if !event.Gained && b.events.OnBlur != nil {
+		b.events.OnBlur()
+		return true
+	}
+
+	return false
+}
+
+// handleScrollEvent 处理滚动事件
+func (b *BaseComponent) handleScrollEvent(event *ScrollEvent) bool {
+	// 检查滚动是否在组件边界内
+	bounds := b.Bounds()
+	point := image.Pt(int(event.X), int(event.Y))
+	if point.X < bounds.Min.X || point.X >= bounds.Max.X || point.Y < bounds.Min.Y || point.Y >= bounds.Max.Y {
+		return false
+	}
+
+	// 将滚动事件转换为鼠标事件（兼容现有API）
+	mouseEvent := MouseEvent{
+		X:     event.X,
+		Y:     event.Y,
+		Delta: event.DeltaY,
+	}
+
+	if b.events.OnClick != nil {
+		b.events.OnClick(mouseEvent)
+		return true
+	}
+
 	return false
 }
 
