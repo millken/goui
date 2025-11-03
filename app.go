@@ -127,11 +127,17 @@ func NewApp(title string, w, h int, root Component) (*App, error) {
 
 // Run 进入主循环
 func (a *App) Run() {
-	start := time.Now()
 	a.Root.Mount()
+
+	// 强制初始渲染
+	a.forceRender()
+
 	for !a.Win.ShouldClose() {
 		// 轮询 GLFW 事件
 		glfw.PollEvents()
+
+		hasDirty := false
+		windowResized := false
 
 		// 查询窗口尺寸变化（在没有直接尺寸事件映射时，主动拉取）
 		// 注意：若后端提供 GetSize/Rect API，可替换以下获取逻辑
@@ -143,6 +149,7 @@ func (a *App) Run() {
 				}
 				a.width, a.height = fbw, fbh
 				a.Ctx.PushWindowEvent(WindowEvent{Type: WindowResize})
+				windowResized = true
 			}
 		}
 
@@ -154,38 +161,80 @@ func (a *App) Run() {
 			_ = dispatchEvent(a.Root, we.Event)
 		}
 
-		// 布局
-		w, h := a.width, a.height
-		a.Root.Layout(float32(w), float32(h), yoga.DirectionLTR)
+		// 检查是否有脏组件或窗口尺寸变化
+		hasDirty = CheckDirty(a.Root) || windowResized
 
-		// 开始渲染
-		canvas, err := a.Renderer.BeginFrame(int(w), int(h))
-		if err != nil {
-			fmt.Println("BeginFrame error:", err)
-			break
+		if hasDirty {
+			// 布局
+			w, h := a.width, a.height
+			a.Root.Layout(float32(w), float32(h), yoga.DirectionLTR)
+
+			// 开始渲染
+			canvas, err := a.Renderer.BeginFrame(int(w), int(h))
+			if err != nil {
+				fmt.Println("BeginFrame error:", err)
+				break
+			}
+
+			// 清屏背景
+			bg := thorvg.NewShape()
+			if bg != nil {
+				bg.AppendRect(0, 0, float32(w), float32(h), 0, 0, false)
+				bg.SetFillColor(245, 245, 245, 255)
+				canvas.Push(&bg.Paint)
+				bg.Release()
+			}
+
+			// 递归绘制
+			a.Root.Paint(canvas)
+
+			a.Renderer.EndFrame()
+			a.Renderer.Present()
+
+			// 清除脏标记
+			ClearDirtyRecursive(a.Root)
 		}
 
-		// 清屏背景
-		bg := thorvg.NewShape()
-		if bg != nil {
-			bg.AppendRect(0, 0, float32(w), float32(h), 0, 0, false)
-			bg.SetFillColor(245, 245, 245, 255)
-			canvas.Push(&bg.Paint)
-			bg.Release()
+		// 简单限帧 - 只有在没有渲染时可以稍微延长睡眠时间
+		if hasDirty {
+			time.Sleep(16 * time.Millisecond) // 60 FPS
+		} else {
+			time.Sleep(33 * time.Millisecond) // 30 FPS，减少CPU占用
 		}
-
-		// 递归绘制
-		a.Root.Paint(canvas)
-
-		a.Renderer.EndFrame()
-		a.Renderer.Present()
-
-		// 简单限帧
-		_ = start
-		time.Sleep(16 * time.Millisecond)
 	}
 
 	a.Root.Unmount()
+}
+
+// forceRender 强制进行一次完整渲染
+func (a *App) forceRender() {
+	w, h := a.width, a.height
+	a.Root.Layout(float32(w), float32(h), yoga.DirectionLTR)
+
+	// 开始渲染
+	canvas, err := a.Renderer.BeginFrame(int(w), int(h))
+	if err != nil {
+		fmt.Println("BeginFrame error:", err)
+		return
+	}
+
+	// 清屏背景
+	bg := thorvg.NewShape()
+	if bg != nil {
+		bg.AppendRect(0, 0, float32(w), float32(h), 0, 0, false)
+		bg.SetFillColor(245, 245, 245, 255)
+		canvas.Push(&bg.Paint)
+		bg.Release()
+	}
+
+	// 递归绘制
+	a.Root.Paint(canvas)
+
+	a.Renderer.EndFrame()
+	a.Renderer.Present()
+
+	// 清除脏标记
+	ClearDirtyRecursive(a.Root)
 }
 
 // InjectMouse 向应用注入鼠标事件（窗口坐标系，像素；用于平台层对接 RGFW/其它后端）

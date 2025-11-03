@@ -39,6 +39,11 @@ type Component interface {
 	Update()
 	Destroy()
 
+	// 脏渲染机制
+	MarkDirty()
+	IsDirty() bool
+	ClearDirty()
+
 	// 事件处理
 	SetOnClick(handler func())
 	SetOnHover(handler func(bool))

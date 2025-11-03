@@ -20,12 +20,15 @@ type Base struct {
 	// 输入状态
 	hovered bool
 	pressed bool
+
+	// 脏标记
+	dirty bool
 }
 
 // NewBase 创建一个带 Yoga 节点的基础组件
 func NewBase() Base {
 	n := yoga.NewNode()
-	return Base{node: n, visible: true}
+	return Base{node: n, visible: true, dirty: true}
 }
 
 // Layout 触发布局计算
@@ -123,6 +126,8 @@ func (b *Base) HandleEvent(event goui.Event) bool {
 		inside := b.pointInside(e.X, e.Y)
 		if inside != b.hovered {
 			b.hovered = inside
+			// 悬停状态变化时标记为脏
+			b.MarkDirty()
 			if b.events.OnHover != nil {
 				b.events.OnHover(b.hovered)
 			}
@@ -193,7 +198,24 @@ func (b *Base) SetStyle(s goui.Style) {
 	if n := b.GetNode(); n != nil {
 		goui.ApplyStyle(n, s)
 	}
+	// 样式变更时标记为脏
+	b.MarkDirty()
 }
 
 // GetStyle 返回已存储的样式（快照）
 func (b *Base) GetStyle() goui.Style { return b.style }
+
+// MarkDirty 标记组件为脏，需要重新渲染
+func (b *Base) MarkDirty() {
+	b.dirty = true
+	// 递归标记父组件也需要重新布局
+	if b.parent != nil {
+		b.parent.MarkDirty()
+	}
+}
+
+// IsDirty 检查组件是否需要重新渲染
+func (b *Base) IsDirty() bool { return b.dirty }
+
+// ClearDirty 清除脏标记
+func (b *Base) ClearDirty() { b.dirty = false }
