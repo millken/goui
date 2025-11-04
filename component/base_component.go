@@ -2,7 +2,9 @@
 package component
 
 import (
+	"fmt"
 	"image"
+	"log/slog"
 	"sync"
 
 	"github.com/millken/go/thorvg"
@@ -17,7 +19,8 @@ type BaseComponent struct {
 	yoga     *yoga.Node
 	children []Component
 	//events
-	eventManager *event.EventManager
+	eventManager     *event.EventManager
+	pendingListeners map[event.Type][]event.EventListener
 
 	parent  Component
 	visible bool // 可见性标记
@@ -33,19 +36,59 @@ func NewBaseComponent(id ...string) *BaseComponent {
 				return GenerateID()
 			}
 		}(),
-		yoga:     yoga.NewNode(),
-		children: []Component{},
-		parent:   nil,
-		visible:  true, // 默认可见
-		dirty:    true, // 初始状态为需要渲染
+		yoga:             yoga.NewNode(),
+		children:         []Component{},
+		parent:           nil,
+		visible:          true, // 默认可见
+		dirty:            true, // 初始状态为需要渲染
+		pendingListeners: make(map[event.Type][]event.EventListener),
 	}
 	return base
 }
 
 func (b *BaseComponent) SetRoot(c Component) {
 	b.mu.Lock()
-	defer b.mu.Unlock()
 	b.root = c
+	// 复制 children 与 pending 快照
+	children := append([]Component(nil), b.children...)
+	pending := make(map[event.Type][]event.EventListener, len(b.pendingListeners))
+	for et, ls := range b.pendingListeners {
+		if len(ls) == 0 {
+			continue
+		}
+		cp := make([]event.EventListener, len(ls))
+		copy(cp, ls)
+		pending[et] = cp
+	}
+	// 清空缓存，避免重复
+	b.pendingListeners = make(map[event.Type][]event.EventListener)
+	b.mu.Unlock()
+
+	// 若能从 root 上拿到 EventManager，则立即注册缓存的监听器
+	if rc, ok := c.(RootComponent); ok && rc != nil {
+		if em := rc.GetEventManager(); em != nil {
+			for et, ls := range pending {
+				for _, l := range ls {
+					em.RegisterListener(b.ID(), et, l)
+				}
+			}
+			// 清空已注册成功的本地快照
+			pending = nil
+		}
+	}
+	// 如果仍无法注册（例如 EM 未就绪），将快照放回缓存
+	if len(pending) > 0 {
+		b.mu.Lock()
+		for et, ls := range pending {
+			b.pendingListeners[et] = append(b.pendingListeners[et], ls...)
+		}
+		b.mu.Unlock()
+	}
+
+	// 将根组件的引用向下传播，避免已添加的子组件 Root 仍为 nil
+	for _, child := range children {
+		child.SetRoot(c)
+	}
 }
 
 func (b *BaseComponent) Root() Component {
@@ -55,9 +98,43 @@ func (b *BaseComponent) Root() Component {
 }
 
 func (b *BaseComponent) SetEventManager(em *event.EventManager) {
+	// 设置自身 EM，并尽量刷新缓存，再向下传播
 	b.mu.Lock()
-	defer b.mu.Unlock()
 	b.eventManager = em
+	// 快照 children 与 pending，避免持锁调用外部
+	children := append([]Component(nil), b.children...)
+	pending := make(map[event.Type][]event.EventListener, len(b.pendingListeners))
+	for et, ls := range b.pendingListeners {
+		if len(ls) == 0 {
+			continue
+		}
+		cp := make([]event.EventListener, len(ls))
+		copy(cp, ls)
+		pending[et] = cp
+	}
+	// 清空缓存，避免重复
+	b.pendingListeners = make(map[event.Type][]event.EventListener)
+	b.mu.Unlock()
+
+	if em != nil {
+		for et, ls := range pending {
+			for _, l := range ls {
+				em.RegisterListener(b.ID(), et, l)
+			}
+		}
+	} else if len(pending) > 0 {
+		// EM 仍为空，把快照放回缓存（极少见）
+		b.mu.Lock()
+		for et, ls := range pending {
+			b.pendingListeners[et] = append(b.pendingListeners[et], ls...)
+		}
+		b.mu.Unlock()
+	}
+
+	// 将 EM 向下传播，促使子组件也能刷新缓存
+	for _, child := range children {
+		child.SetEventManager(em)
+	}
 }
 
 func (b *BaseComponent) GetEventManager() *event.EventManager {
@@ -109,7 +186,12 @@ func (b *BaseComponent) ComputedLayout() yoga.Layout {
 
 func (b *BaseComponent) AddChild(c Component) {
 	b.children = append(b.children, c)
-	c.SetRoot(b.Root())
+	// 若当前 Root 已设置则传递；否则先用自身作为临时 Root，后续 SetRoot 会向下传播
+	if r := b.Root(); r != nil {
+		c.SetRoot(r)
+	} else {
+		c.SetRoot(b)
+	}
 	c.SetParent(b)
 	b.MarkDirty(false) // 添加子组件时标记为脏
 }
@@ -221,13 +303,47 @@ func (b *BaseComponent) PointInside(x, y float32) bool {
 }
 
 func (b *BaseComponent) RegisterEventListener(eventType event.Type, listener event.EventListener) {
-	b.mu.RLock()
-	defer b.mu.RUnlock()
-	root := b.root
+	slog.Debug("Registering event listener", "componentID", b.ID(), "eventType", eventType)
+
+	root := b.Root()
+	if root == nil {
+		// Root 尚未就绪，暂存监听器，待 SetRoot/EM 可用时注册
+		b.mu.Lock()
+		b.pendingListeners[eventType] = append(b.pendingListeners[eventType], listener)
+		b.mu.Unlock()
+		return
+	}
 	if rootComp, ok := root.(RootComponent); ok {
 		em := rootComp.GetEventManager()
 		if em != nil {
 			em.RegisterListener(b.ID(), eventType, listener)
+			return
 		}
+		// EM 未就绪，暂存
+		b.mu.Lock()
+		b.pendingListeners[eventType] = append(b.pendingListeners[eventType], listener)
+		b.mu.Unlock()
+		return
 	}
+	// root 非 RootComponent，保底暂存
+	b.mu.Lock()
+	b.pendingListeners[eventType] = append(b.pendingListeners[eventType], listener)
+	b.mu.Unlock()
+}
+
+func (b *BaseComponent) OnClick(handler func(event event.MouseEvent)) {
+	b.RegisterEventListener(event.EventMouse, event.EventListenerFunc(func(e event.Event) bool {
+		if mouseEvent, ok := e.(*event.MouseEvent); ok && mouseEvent.Down {
+			handler(*mouseEvent)
+			return true
+		}
+		return false
+	}))
+}
+
+func (b *BaseComponent) OnHover(handler func(hover bool)) {
+	b.RegisterEventListener(event.EventMouse, event.EventListenerFunc(func(e event.Event) bool {
+		fmt.Println("ss")
+		return true
+	}))
 }

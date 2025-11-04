@@ -3,7 +3,6 @@ package event
 
 import (
 	"errors"
-	"log/slog"
 	"sync"
 	"sync/atomic"
 )
@@ -62,7 +61,7 @@ func (em *EventManager) Start() error {
 
 func (em *EventManager) eventLoop() {
 	for event := range em.eventQueue {
-		slog.Debug("Processing event", "type", event.Type(), "event", event)
+		// slog.Debug("Processing event", "type", event.Type(), "event", event)
 		// 处理事件
 		em.handleEvent(event)
 	}
@@ -82,8 +81,8 @@ func (em *EventManager) handleEvent(event Event) {
 			batch = append(batch, ls...)
 		}
 	}
+	// slog.Debug("Dispatching event", "type", event.Type(), "em.listeners", len(em.listeners), "listeners", len(batch))
 	em.mu.RUnlock()
-
 	for _, l := range batch {
 		// 监听器可根据需要自行决定是否消费该事件
 		_ = l.HandleEvent(event)

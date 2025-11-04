@@ -56,16 +56,18 @@ func NewApp(window window.Window, root component.Component) (*App, error) {
 		window:   window,
 		renderer: r,
 	}
-	if err := app.eventM.Start(); err != nil {
-		return nil, err
-	}
 
 	// 注册事件管理器到根组件
 	base, ok := root.(component.RootComponent)
 	if !ok {
 		return nil, fmt.Errorf("根组件必须是 RootComponent 类型")
 	}
+	// 先将 EM 挂到组件树并刷新监听器，再启动事件循环，避免事件先于监听器注册被处理
 	base.SetEventManager(app.eventM)
+
+	if err := app.eventM.Start(); err != nil {
+		return nil, err
+	}
 	return app, nil
 }
 
@@ -190,9 +192,7 @@ func (a *App) Close() {
 	// }
 
 	// 卸载根组件
-	if a.root != nil {
-
-	}
+	// 卸载逻辑留空，后续按需实现
 
 	fmt.Println("应用程序已关闭")
 }

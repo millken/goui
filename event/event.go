@@ -116,6 +116,18 @@ type EventListener interface {
 	HandleEvent(event Event) bool
 }
 
+func EventListenerFunc(f func(event Event) bool) EventListener {
+	return &eventListenerFunc{f: f}
+}
+
+type eventListenerFunc struct {
+	f func(event Event) bool
+}
+
+func (elf *eventListenerFunc) HandleEvent(event Event) bool {
+	return elf.f(event)
+}
+
 // EventFilter 事件过滤器
 type EventFilter interface {
 	FilterEvent(event Event) bool
