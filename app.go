@@ -11,6 +11,7 @@ import (
 	"github.com/millken/goui/event"
 	"github.com/millken/goui/renderer"
 	"github.com/millken/goui/window"
+	"github.com/millken/yoga"
 )
 
 // App 应用程序主结构
@@ -126,6 +127,10 @@ func (a *App) Run() {
 			a.root.MarkDirty(true)
 		}
 
+		// 在渲染前计算布局（以窗口尺寸为根容器尺寸）
+		if a.root != nil {
+			a.root.Layout(float32(w), float32(h), yoga.DirectionLTR)
+		}
 		// 渲染帧（Render方法内部会检查是否需要渲染）
 		rendered := a.root.Paint(canvas)
 
@@ -138,6 +143,7 @@ func (a *App) Run() {
 			a.window.SwapBuffers()
 			frameCount++
 		} else {
+			// 即使没有组件标记脏，窗口缩放等也可能需要刷新背景
 			skippedFrames++
 		}
 

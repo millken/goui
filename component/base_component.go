@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"image"
 	"log/slog"
+	"math"
 	"sync"
 
 	"github.com/millken/go/thorvg"
@@ -185,15 +186,33 @@ func (b *BaseComponent) ComputedLayout() yoga.Layout {
 }
 
 func (b *BaseComponent) AddChild(c Component) {
+	// 在加锁前抓取子组件 Yoga 节点，避免在持有父锁时再去锁子组件
+	var childNode *yoga.Node
+	type yogaNodeProvider interface{ GetYogaNode() *yoga.Node }
+	if yp, ok := any(c).(yogaNodeProvider); ok {
+		childNode = yp.GetYogaNode()
+	}
+
+	// 并发安全地修改 children，并将 Yoga 子节点挂接到父节点
+	b.mu.Lock()
 	b.children = append(b.children, c)
-	// 若当前 Root 已设置则传递；否则先用自身作为临时 Root，后续 SetRoot 会向下传播
+	if b.yoga != nil && childNode != nil {
+		idx := b.yoga.GetChildCount()
+		b.yoga.InsertChild(childNode, idx)
+	}
+	// 标记自身为脏
+	b.dirty = true
+	b.mu.Unlock()
+
+	// 在未持有父锁的情况下设置父子关系，避免潜在的锁顺序反转
+	c.SetParent(b)
+
+	// Root 传递：若当前 Root 已设置则传递；否则先用自身作为临时 Root，后续 SetRoot 会向下传播
 	if r := b.Root(); r != nil {
 		c.SetRoot(r)
 	} else {
 		c.SetRoot(b)
 	}
-	c.SetParent(b)
-	b.MarkDirty(false) // 添加子组件时标记为脏
 }
 
 func (b *BaseComponent) Children() []Component {
@@ -247,6 +266,13 @@ func (b *BaseComponent) IsDirty() bool {
 	return b.dirty
 }
 
+// ClearDirty 清除脏标记
+func (b *BaseComponent) ClearDirty() {
+	b.mu.Lock()
+	b.dirty = false
+	b.mu.Unlock()
+}
+
 // SetParent 设置父组件
 func (b *BaseComponent) SetParent(c Component) {
 	b.mu.Lock()
@@ -265,8 +291,13 @@ func (b *BaseComponent) Parent() Component {
 func (b *BaseComponent) Bounds() image.Rectangle {
 	l := b.ComputedLayout()
 	ax, ay := b.absoluteOffset()
-	left, top := ax, ay
-	right, bottom := left+l.Width, top+l.Height
+	// 清洗可能的 NaN/Inf，避免产生极端边界
+	left := sanitizeFloat(ax)
+	top := sanitizeFloat(ay)
+	width := sanitizeFloat(l.Width)
+	height := sanitizeFloat(l.Height)
+	right := left + width
+	bottom := top + height
 	return image.Rectangle{
 		Min: image.Point{X: int(left), Y: int(top)},
 		Max: image.Point{X: int(right), Y: int(bottom)},
@@ -286,8 +317,8 @@ func (b *BaseComponent) absoluteOffset() (float32, float32) {
 	var cur Component = b
 	for cur != nil {
 		l := cur.ComputedLayout()
-		x += l.Left
-		y += l.Top
+		x += sanitizeFloat(l.Left)
+		y += sanitizeFloat(l.Top)
 		cur = cur.Parent()
 	}
 	return x, y
@@ -297,9 +328,18 @@ func (b *BaseComponent) absoluteOffset() (float32, float32) {
 func (b *BaseComponent) PointInside(x, y float32) bool {
 	l := b.ComputedLayout()
 	ax, ay := b.absoluteOffset()
-	left, top := ax, ay
-	right, bottom := left+l.Width, top+l.Height
+	left, top := sanitizeFloat(ax), sanitizeFloat(ay)
+	right, bottom := left+sanitizeFloat(l.Width), top+sanitizeFloat(l.Height)
 	return x >= left && x <= right && y >= top && y <= bottom
+}
+
+// sanitizeFloat 将 NaN/Inf 等非常规数值转换为 0，避免后续整数转换产生极端值
+func sanitizeFloat(f float32) float32 {
+	df := float64(f)
+	if math.IsNaN(df) || math.IsInf(df, 0) {
+		return 0
+	}
+	return f
 }
 
 func (b *BaseComponent) RegisterEventListener(eventType event.Type, listener event.EventListener) {

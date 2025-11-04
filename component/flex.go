@@ -1,6 +1,10 @@
 package component
 
-import "github.com/millken/yoga"
+import (
+	"github.com/millken/go/thorvg"
+	gouicolor "github.com/millken/goui/color"
+	"github.com/millken/yoga"
+)
 
 // Flex 弹性布局容器
 type Flex struct {
@@ -49,6 +53,32 @@ func (f *Flex) configureYogaNode() {
 	if f.gap > 0 {
 		node.SetGap(yoga.GutterAll, f.gap) // 根据实际Yoga版本调整
 	}
+}
+
+// Paint 按 Yoga 布局渲染子组件
+func (f *Flex) Paint(vg *thorvg.Canvas) bool {
+	rendered := false
+	// 如果自身脏，绘制自身（例如调试背景）
+	if f.IsDirty() {
+		l := f.ComputedLayout()
+		bg := thorvg.NewShape()
+		if bg != nil {
+			bg.AppendRect(l.Left, l.Top, l.Width, l.Height, 0, 0, false)
+			r, g, b, a := gouicolor.NewColor(0, 0, 0, 20).RGBA()
+			bg.SetFillColor(r, g, b, a)
+			vg.Push(&bg.Paint)
+			bg.Release()
+		}
+		f.ClearDirty()
+		rendered = true
+	}
+	// 递归渲染子组件，聚合它们的渲染结果
+	for _, child := range f.Children() {
+		if child.Paint(vg) {
+			rendered = true
+		}
+	}
+	return rendered
 }
 
 // SetDirection 设置主轴方向
@@ -138,3 +168,6 @@ func SpaceEvenly(id string) *Flex {
 	flex.SetJustify(JustifySpaceEvenly)
 	return flex
 }
+
+// Bounds 使用 BaseComponent 的 Yoga 计算结果
+// 若后续需要为 Flex 提供内边距/边框，可在这里叠加样式计算

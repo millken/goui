@@ -1,3 +1,5 @@
+// Package renderer defines the rendering interfaces and OpenGL/ThorVG based implementations
+// used by GOUI to draw components onto a canvas.
 package renderer
 
 import "github.com/millken/go/thorvg"

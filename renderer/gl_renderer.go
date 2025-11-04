@@ -1,3 +1,5 @@
+// Package renderer provides the GLRenderer which bridges OpenGL contexts
+// and the ThorVG canvas for GPU-accelerated vector rendering.
 package renderer
 
 /*
@@ -74,6 +76,9 @@ func (r *GLRenderer) BeginFrame(width, height int) (*thorvg.Canvas, error) {
 
 func (r *GLRenderer) EndFrame() {
 	var err error
+	// 渲染前清理背景，仅在确实要绘制时执行
+	gl.ClearColor(0.12, 0.12, 0.12, 1.0)
+	gl.Clear(gl.COLOR_BUFFER_BIT)
 	if err = r.canvas.Update(); err != nil {
 		panic(err)
 	}
