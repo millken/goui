@@ -28,7 +28,7 @@ func (b *BaseComponent) AddChild(c Component) {
 		b.children = []Component{}
 	}
 	b.children = append(b.children, c)
-	b.MarkDirty() // 添加子组件时标记为脏
+	b.MarkDirty(false) // 添加子组件时标记为脏
 }
 
 func (b *BaseComponent) Children() []Component {
@@ -58,12 +58,16 @@ func (b *BaseComponent) Render(vg *thorvg.Canvas) bool {
 	return childRendered
 }
 
-
 // MarkDirty 标记组件为脏（需要重绘）
-func (b *BaseComponent) MarkDirty() {
+func (b *BaseComponent) MarkDirty(recursive bool) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	b.dirty = true
+	if recursive {
+		for _, child := range b.children {
+			child.MarkDirty(true)
+		}
+	}
 }
 
 // IsDirty 检查组件是否需要重绘
@@ -78,19 +82,4 @@ func (b *BaseComponent) CheckDirtyRecursive() bool {
 	b.mu.RLock()
 	defer b.mu.RUnlock()
 	return b.dirty
-}
-
-// ClearDirtyRecursive 递归清理所有脏标记（保留向后兼容）
-func (b *BaseComponent) ClearDirtyRecursive() {
-	b.mu.Lock()
-	defer b.mu.Unlock()
-
-	b.dirty = false
-
-	// 清理子组件
-	for _, child := range b.children {
-		if baseChild, ok := child.(*BaseComponent); ok {
-			baseChild.ClearDirtyRecursive()
-		}
-	}
 }

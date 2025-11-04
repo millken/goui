@@ -59,56 +59,6 @@ func NewApp(window window.Window, root component.Component) (*App, error) {
 	return app, nil
 }
 
-// // NewAppWithConfig 使用配置创建应用程序
-// func NewAppWithConfig(root Component, config *AppConfig) (*App, error) {
-// 	if root == nil {
-// 		return nil, fmt.Errorf("root component cannot be nil")
-// 	}
-// 	if config == nil {
-// 		return nil, fmt.Errorf("config cannot be nil")
-// 	}
-
-// 	app := &App{
-// 		root:   root,
-// 		config: config,
-// 	}
-
-// 	// 创建平台实例
-// 	platformConfig := &PlatformConfig{
-// 		Title:        config.Title,
-// 		Width:        config.Width,
-// 		Height:       config.Height,
-// 		Resizable:    config.Resizable,
-// 		Decorated:    config.Decorated,
-// 		Fullscreen:   config.Fullscreen,
-// 		VSync:        config.EnableVSync,
-// 		Backend:      config.Backend,
-// 		MouseVisible: config.MouseVisible,
-// 	}
-
-// 	platform, err := GlobalPlatformManager.CreatePlatform(platformConfig)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("failed to create platform: %w", err)
-// 	}
-// 	app.platform = platform
-
-// 	// 创建事件管理器
-// 	app.eventManager = NewEventManager(platform)
-
-// 	// 创建渲染引擎
-// 	renderConfig := &RenderConfig{
-// 		TargetFPS:         config.TargetFPS,
-// 		EnableVSync:       config.EnableVSync,
-// 		MaxDirtyRects:     config.MaxDirtyRects,
-// 		WorkerCount:       config.WorkerCount,
-// 		EnableStats:       config.EnableStats,
-// 		EnableMultithread: config.WorkerCount != 1,
-// 	}
-// 	app.renderEngine = NewRenderEngineWithConfig(renderConfig)
-
-// 	return app, nil
-// }
-
 // Run 运行应用程序（集成事件系统）
 func (a *App) Run() {
 	runtime.LockOSThread()
@@ -140,7 +90,7 @@ func (a *App) Run() {
 		frameStart := time.Now()
 
 		// 处理平台事件
-		event := a.window.WaitEvents(time.Millisecond * 16)
+		event := a.window.WaitEvents(time.Millisecond * 16) // 大约60 FPS
 		if event != nil {
 			// a.eventManager.PostEvent(event)
 		}
@@ -162,20 +112,19 @@ func (a *App) Run() {
 
 		// 如果窗口大小改变了，标记根组件为脏
 		if windowResized && a.root != nil {
-			a.root.MarkDirty()
+			a.root.MarkDirty(true)
 		}
 
 		// 渲染帧（Render方法内部会检查是否需要渲染）
 		rendered := a.root.Render(canvas)
 
-		// 渲染一帧
-		a.renderer.EndFrame()
-		a.renderer.Present()
-
-		// 交换缓冲区
-		a.window.SwapBuffers()
-
 		if rendered {
+			// 渲染一帧
+			a.renderer.EndFrame()
+			a.renderer.Present()
+
+			// 交换缓冲区
+			a.window.SwapBuffers()
 			frameCount++
 		} else {
 			skippedFrames++

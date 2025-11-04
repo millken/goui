@@ -30,7 +30,7 @@ func NewBox(x, y, w, h int) *Box {
 func (b *Box) SetBackgroundColor(c color.Color) {
 	if b.bgColor != c {
 		b.bgColor = c
-		b.MarkDirty() // 颜色改变时标记为脏
+		b.MarkDirty(false) // 颜色改变时标记为脏
 	}
 }
 
