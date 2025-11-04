@@ -17,13 +17,14 @@ func GenerateID() string {
 }
 
 type RootComponent interface {
-	SetRoot(Component) //由App设置根组件
-	Root() Component
 	SetEventManager(*event.EventManager)
+	GetEventManager() *event.EventManager
 }
 
 type Component interface {
 	RootComponent
+	SetRoot(Component) //由App设置根组件
+	Root() Component
 
 	SetID(string)
 	ID() string

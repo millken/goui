@@ -60,6 +60,12 @@ func (b *BaseComponent) SetEventManager(em *event.EventManager) {
 	b.eventManager = em
 }
 
+func (b *BaseComponent) GetEventManager() *event.EventManager {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+	return b.eventManager
+}
+
 func (b *BaseComponent) SetID(id string) {
 	b.id = id
 }
@@ -218,8 +224,8 @@ func (b *BaseComponent) RegisterEventListener(eventType event.Type, listener eve
 	b.mu.RLock()
 	defer b.mu.RUnlock()
 	root := b.root
-	if rootComp, ok := root.(*BaseComponent); ok {
-		em := rootComp.eventManager
+	if rootComp, ok := root.(RootComponent); ok {
+		em := rootComp.GetEventManager()
 		if em != nil {
 			em.RegisterListener(b.ID(), eventType, listener)
 		}

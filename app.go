@@ -61,9 +61,9 @@ func NewApp(window window.Window, root component.Component) (*App, error) {
 	}
 
 	// 注册事件管理器到根组件
-	base, ok := root.(*component.BaseComponent)
+	base, ok := root.(component.RootComponent)
 	if !ok {
-		return nil, fmt.Errorf("根组件必须是 BaseComponent 类型")
+		return nil, fmt.Errorf("根组件必须是 RootComponent 类型")
 	}
 	base.SetEventManager(app.eventM)
 	return app, nil
