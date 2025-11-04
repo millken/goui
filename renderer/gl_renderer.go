@@ -71,14 +71,14 @@ func (r *GLRenderer) BeginFrame(width, height int) (*thorvg.Canvas, error) {
 			return nil, err
 		}
 	}
+	// 在绘制开始前清理默认帧缓冲，避免上一帧残留
+	gl.ClearColor(0.12, 0.12, 0.12, 1.0)
+	gl.Clear(gl.COLOR_BUFFER_BIT)
 	return r.canvas, nil
 }
 
 func (r *GLRenderer) EndFrame() {
 	var err error
-	// 渲染前清理背景，仅在确实要绘制时执行
-	gl.ClearColor(0.12, 0.12, 0.12, 1.0)
-	gl.Clear(gl.COLOR_BUFFER_BIT)
 	if err = r.canvas.Update(); err != nil {
 		panic(err)
 	}

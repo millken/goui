@@ -131,8 +131,28 @@ func (a *App) Run() {
 		if a.root != nil {
 			a.root.Layout(float32(w), float32(h), yoga.DirectionLTR)
 		}
-		// 渲染帧（Render方法内部会检查是否需要渲染）
-		rendered := a.root.Paint(canvas)
+
+		// 判断是否需要绘制：窗口尺寸改变或组件脏
+		willRender := windowResized
+		if !willRender {
+			if dc, ok := a.root.(interface{ CheckDirtyRecursive() bool }); ok {
+				willRender = dc.CheckDirtyRecursive()
+			}
+		}
+
+		// 若需要绘制，先压入一层全屏实心背景，防止叠影
+		rendered := false
+		if willRender {
+			bg := thorvg.NewShape()
+			if bg != nil {
+				bg.AppendRect(0, 0, float32(w), float32(h), 0, 0, false)
+				bg.SetFillColor(229, 229, 229, 255) // 统一浅灰背景
+				canvas.Push(&bg.Paint)
+				bg.Release()
+			}
+			// 再绘制组件树
+			rendered = a.root.Paint(canvas) || true
+		}
 
 		if rendered {
 			// 渲染一帧
@@ -144,7 +164,22 @@ func (a *App) Run() {
 			frameCount++
 		} else {
 			// 即使没有组件标记脏，窗口缩放等也可能需要刷新背景
-			skippedFrames++
+			if windowResized {
+				// 若到此 willRender=false，说明没有组件绘制，这里压入背景并绘制一次
+				bg := thorvg.NewShape()
+				if bg != nil {
+					bg.AppendRect(0, 0, float32(w), float32(h), 0, 0, false)
+					bg.SetFillColor(229, 229, 229, 255)
+					canvas.Push(&bg.Paint)
+					bg.Release()
+				}
+				a.renderer.EndFrame()
+				a.renderer.Present()
+				a.window.SwapBuffers()
+				frameCount++
+			} else {
+				skippedFrames++
+			}
 		}
 
 		// 帧率控制
