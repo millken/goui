@@ -111,8 +111,8 @@ func Column(id string) *Flex {
 }
 
 // Center 创建居中布局
-func Center(id string) *Flex {
-	flex := NewFlex(id)
+func Center(id ...string) *Flex {
+	flex := NewFlex(id...)
 	flex.SetJustify(JustifyCenter)
 	flex.SetAlign(AlignCenter)
 	return flex

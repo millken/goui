@@ -21,17 +21,28 @@ type EventManagerConfig struct {
 	MaxFilters      int
 	EnableProfiling bool
 }
+
 type EventManager struct {
+	config *EventManagerConfig
 	// 事件队列
 	eventQueue chan Event
+
+	filters []EventFilter
 	// 状态管理
 	running int32
 	mu      sync.RWMutex
 }
 
 func NewEventManager() *EventManager {
+	config := &EventManagerConfig{
+		QueueSize:       1000,
+		PrioritySize:    100,
+		MaxFilters:      100,
+		EnableProfiling: false,
+	}
 	return &EventManager{
-		eventQueue: make(chan Event, 1000), // 设置合理的缓冲区大小
+		filters:    make([]EventFilter, config.MaxFilters),
+		eventQueue: make(chan Event, config.QueueSize), // 设置合理的缓冲区大小
 	}
 }
 
@@ -74,4 +85,17 @@ func (em *EventManager) PostEvent(event Event) error {
 	default:
 		return ErrEventQueueFull
 	}
+}
+
+// RegisterFilter 注册事件过滤器
+func (em *EventManager) RegisterFilter(filter EventFilter) error {
+	em.mu.Lock()
+	defer em.mu.Unlock()
+
+	if len(em.filters) >= em.config.MaxFilters {
+		return ErrTooManyFilters
+	}
+
+	em.filters = append(em.filters, filter)
+	return nil
 }

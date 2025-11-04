@@ -40,3 +40,11 @@ type Component interface {
 	//MarkDirty 标记组件为脏，如果递归标记子组件则传入 true
 	MarkDirty(bool)
 }
+
+// ComponentEvents 组件事件
+type ComponentEvents struct {
+	OnClick func()
+	OnHover func(bool)
+	OnFocus func()
+	OnBlur  func()
+}

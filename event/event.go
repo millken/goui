@@ -116,6 +116,11 @@ type EventListener interface {
 	HandleEvent(event Event) bool
 }
 
+// EventFilter 事件过滤器
+type EventFilter interface {
+	FilterEvent(event Event) bool
+}
+
 // NewMouseEvent 创建新的鼠标事件
 func NewMouseEvent(x, y float32, down bool, count int) *MouseEvent {
 	return &MouseEvent{
