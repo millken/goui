@@ -5,6 +5,7 @@ import (
 
 	"github.com/millken/go/thorvg"
 	"github.com/millken/goui"
+	"github.com/millken/goui/component"
 	"github.com/millken/yoga"
 )
 
@@ -20,7 +21,7 @@ type Flex struct {
 }
 
 // 确保Flex实现了Component接口
-var _ goui.Component = (*Flex)(nil)
+var _ component.Component = (*Flex)(nil)
 
 // NewFlex 创建弹性布局容器
 func NewFlex(id string) *Flex {
@@ -117,13 +118,8 @@ func (f *Flex) SetGap(gap float32) {
 }
 
 // Render 渲染容器（可选择性绘制背景等）
-func (f *Flex) Render(canvas *thorvg.Canvas, region image.Rectangle) {
-	// 调用基类渲染
-	f.BaseComponent.Render(canvas, region)
+func (f *Flex) Render(canvas *thorvg.Canvas) {
 
-	// 容器可以选择绘制背景、边框等
-	f.renderBackground(canvas, region)
-	f.renderBorder(canvas, region)
 }
 
 // renderBackground 渲染背景
