@@ -9,18 +9,44 @@ import (
 )
 
 type BaseComponent struct {
+	id       string
 	mu       sync.RWMutex
 	yoga     *yoga.Node
 	children []Component
 	dirty    bool // 脏标记
 }
 
-func NewBaseComponent() *BaseComponent {
+func NewBaseComponent(id ...string) *BaseComponent {
 	return &BaseComponent{
+		id: func() string {
+			if len(id) > 0 {
+				return id[0]
+			} else {
+				return GenerateID()
+			}
+		}(),
 		yoga:     yoga.NewNode(),
 		children: []Component{},
 		dirty:    true, // 初始状态为需要渲染
 	}
+}
+
+func (b *BaseComponent) SetID(id string) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	b.id = id
+}
+
+func (b *BaseComponent) ID() string {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+	return b.id
+}
+
+func (b *BaseComponent) GetYogaNode() *yoga.Node {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+	return b.yoga
 }
 
 func (b *BaseComponent) AddChild(c Component) {
@@ -37,14 +63,14 @@ func (b *BaseComponent) Children() []Component {
 	return b.children
 }
 
-func (b *BaseComponent) Render(vg *thorvg.Canvas) bool {
+func (b *BaseComponent) Paint(vg *thorvg.Canvas) bool {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 
 	// 递归渲染子组件
 	childRendered := false
 	for _, child := range b.children {
-		if child.Render(vg) {
+		if child.Paint(vg) {
 			childRendered = true
 		}
 	}

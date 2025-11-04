@@ -116,7 +116,7 @@ func (a *App) Run() {
 		}
 
 		// 渲染帧（Render方法内部会检查是否需要渲染）
-		rendered := a.root.Render(canvas)
+		rendered := a.root.Paint(canvas)
 
 		if rendered {
 			// 渲染一帧

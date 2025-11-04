@@ -34,8 +34,8 @@ func (b *Box) SetBackgroundColor(c color.Color) {
 	}
 }
 
-// Render 渲染Box组件
-func (b *Box) Render(vg *thorvg.Canvas) bool {
+// Paint 渲染Box组件
+func (b *Box) Paint(vg *thorvg.Canvas) bool {
 	// 首先渲染自己（如果需要）
 	selfRendered := false
 	if b.IsDirty() {
@@ -53,7 +53,7 @@ func (b *Box) Render(vg *thorvg.Canvas) bool {
 	}
 
 	// 然后渲染子组件
-	childRendered := b.BaseComponent.Render(vg)
+	childRendered := b.BaseComponent.Paint(vg)
 
 	return selfRendered || childRendered
 }
