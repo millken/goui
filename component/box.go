@@ -28,21 +28,32 @@ func NewBox(x, y, w, h int) *Box {
 }
 
 func (b *Box) SetBackgroundColor(c color.Color) {
-	b.bgColor = c
+	if b.bgColor != c {
+		b.bgColor = c
+		b.MarkDirty() // 颜色改变时标记为脏
+	}
 }
 
 // Render 渲染Box组件
-func (b *Box) Render(vg *thorvg.Canvas) {
-	// 绘制背景色
-	if b.bgColor != color.TRANSPARENT {
-		background := thorvg.NewShape()
-		if background != nil {
-			background.AppendRect(float32(b.x), float32(b.y), float32(b.w), float32(b.h), 0, 0, false)
-			background.SetFillColor(b.bgColor.RGBA())
-			vg.Push(&background.Paint)
-			background.Release()
+func (b *Box) Render(vg *thorvg.Canvas) bool {
+	// 首先渲染自己（如果需要）
+	selfRendered := false
+	if b.IsDirty() {
+		// 绘制背景色
+		if b.bgColor != color.TRANSPARENT {
+			background := thorvg.NewShape()
+			if background != nil {
+				background.AppendRect(float32(b.x), float32(b.y), float32(b.w), float32(b.h), 0, 0, false)
+				background.SetFillColor(b.bgColor.RGBA())
+				vg.Push(&background.Paint)
+				background.Release()
+			}
 		}
+		selfRendered = true
 	}
-	b.BaseComponent.Render(vg)
 
+	// 然后渲染子组件
+	childRendered := b.BaseComponent.Render(vg)
+
+	return selfRendered || childRendered
 }

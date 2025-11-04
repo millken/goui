@@ -127,29 +127,77 @@ func (a *App) Run() {
 
 	fmt.Println("按窗口关闭按钮或Ctrl+C退出应用程序")
 
+	// 渲染统计
+	frameCount := 0
+	skippedFrames := 0
+	statsTicker := time.NewTicker(3 * time.Second)
+	defer statsTicker.Stop()
+
+	// 跟踪窗口大小变化
+	lastWindowSize := [2]int{0, 0}
+
 	for a.window.IsOpen() {
+		frameStart := time.Now()
+
 		// 处理平台事件
 		event := a.window.WaitEvents(time.Millisecond * 16)
 		if event != nil {
 			// a.eventManager.PostEvent(event)
 		}
-		w, h := a.window.GetSize() // 触发可能的大小变化
+
+		// 获取当前窗口大小
+		w, h := a.window.GetSize()
+		currentWindowSize := [2]int{w, h}
+
+		// 检查窗口大小是否改变
+		windowResized := lastWindowSize != currentWindowSize
+		lastWindowSize = currentWindowSize
+
+		// 渲染帧（在Render内部进行脏检查）
 		canvas, err := a.renderer.BeginFrame(w, h)
 		if err != nil {
 			fmt.Printf("渲染器 BeginFrame 错误: window{%d,%d} %v\n", w, h, err)
 			continue
 		}
-		// 触发根组件更新
-		a.root.Render(canvas)
+
+		// 如果窗口大小改变了，标记根组件为脏
+		if windowResized && a.root != nil {
+			a.root.MarkDirty()
+		}
+
+		// 渲染帧（Render方法内部会检查是否需要渲染）
+		rendered := a.root.Render(canvas)
 
 		// 渲染一帧
 		a.renderer.EndFrame()
-
 		a.renderer.Present()
 
 		// 交换缓冲区
 		a.window.SwapBuffers()
-		time.Sleep(16 * time.Millisecond) // 约60 FPS
+
+		if rendered {
+			frameCount++
+		} else {
+			skippedFrames++
+		}
+
+		// 帧率控制
+		frameTime := time.Since(frameStart)
+		if frameTime < 16*time.Millisecond { // 约60 FPS
+			time.Sleep(16*time.Millisecond - frameTime)
+		}
+
+		// 定期输出统计信息
+		select {
+		case <-statsTicker.C:
+			totalFrames := frameCount + skippedFrames
+			if totalFrames > 0 {
+				skipRate := float64(skippedFrames) / float64(totalFrames) * 100
+				fmt.Printf("渲染优化统计: 总帧数=%d, 渲染=%d, 跳过=%d (跳过率: %.1f%%)\n",
+					totalFrames, frameCount, skippedFrames, skipRate)
+			}
+		default:
+		}
 	}
 }
 

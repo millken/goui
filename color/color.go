@@ -22,5 +22,6 @@ var (
 	RED         = NewColor(255, 0, 0, 255)
 	GREEN       = NewColor(0, 255, 0, 255)
 	BLUE        = NewColor(0, 0, 255, 255)
+	YELLOW      = NewColor(255, 255, 0, 255)
 	TRANSPARENT = NewColor(0, 0, 0, 0)
 )

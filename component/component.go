@@ -8,5 +8,6 @@ type Component interface {
 
 	Children() []Component
 
-	Render(*thorvg.Canvas)
+	Render(*thorvg.Canvas) bool  // 返回是否实际进行了渲染
+	MarkDirty()
 }
