@@ -21,7 +21,7 @@ func (d *MouseEventDispatcher) Dispatch(event Event, target component.Component)
 	}
 
 	// 检查组件是否可见和启用
-	if !target.IsVisible() || !target.IsEnabled() {
+	if !target.IsVisible() {
 		return false
 	}
 
@@ -55,7 +55,7 @@ func (d *KeyEventDispatcher) Dispatch(event Event, target component.Component) b
 	}
 
 	// 检查组件是否可见和启用
-	if !target.IsVisible() || !target.IsEnabled() {
+	if !target.IsVisible() {
 		return false
 	}
 
@@ -91,10 +91,10 @@ func (d *WindowEventDispatcher) Dispatch(event Event, target component.Component
 		return false
 	}
 
-	// 窗口事件通常只对根组件有意义
-	if target.Parent() != nil {
-		return false
-	}
+	// // 窗口事件通常只对根组件有意义
+	// if target.Parent() != nil {
+	// 	return false
+	// }
 
 	if handler, ok := target.(EventListener); ok {
 		return handler.HandleEvent(windowEvent)
@@ -118,7 +118,7 @@ func (d *TouchEventDispatcher) Dispatch(event Event, target component.Component)
 	}
 
 	// 检查组件是否可见和启用
-	if !target.IsVisible() || !target.IsEnabled() {
+	if !target.IsVisible() {
 		return false
 	}
 
@@ -177,7 +177,7 @@ func (d *ScrollEventDispatcher) Dispatch(event Event, target component.Component
 	}
 
 	// 检查组件是否可见和启用
-	if !target.IsVisible() || !target.IsEnabled() {
+	if !target.IsVisible() {
 		return false
 	}
 

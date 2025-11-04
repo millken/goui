@@ -20,5 +20,5 @@ type Window interface {
 
 	SwapBuffers()
 	PollEvents()
-	WaitEvents(timeout time.Duration) *event.Event
+	WaitEvents(timeout time.Duration) event.Event
 }

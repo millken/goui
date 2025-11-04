@@ -97,7 +97,7 @@ func (w *Window) PollEvents() {
 	glfw.PollEvents()
 }
 
-func (w *Window) WaitEvents(timeout time.Duration) *event.Event {
+func (w *Window) WaitEvents(timeout time.Duration) event.Event {
 	glfw.WaitEventsTimeout(timeout.Seconds())
 	return nil
 }

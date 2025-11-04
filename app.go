@@ -8,6 +8,7 @@ import (
 
 	"github.com/millken/go/thorvg"
 	"github.com/millken/goui/component"
+	"github.com/millken/goui/event"
 	"github.com/millken/goui/renderer"
 	"github.com/millken/goui/window"
 )
@@ -17,11 +18,9 @@ type App struct {
 	root   component.Component
 	config *AppConfig
 
-	// 事件系统
-	eventManager *EventManager
-	platform     Platform
-	window       window.Window
-	renderer     renderer.Renderer
+	eventM   *event.EventManager
+	window   window.Window
+	renderer renderer.Renderer
 
 	// 运行状态
 	running bool
@@ -51,10 +50,15 @@ func NewApp(window window.Window, root component.Component) (*App, error) {
 		return nil, err
 	}
 	app := &App{
+		eventM:   event.NewEventManager(),
 		root:     root,
 		window:   window,
 		renderer: r,
 	}
+	if err := app.eventM.Start(); err != nil {
+		return nil, err
+	}
+
 	return app, nil
 }
 
@@ -65,7 +69,6 @@ func (a *App) Run() {
 
 	// // 启动系统
 	// a.renderEngine.Start(a.canvas)
-	// a.eventManager.Start()
 
 	fmt.Println("渲染引擎和事件系统已启动，应用程序正在运行...")
 
@@ -91,7 +94,7 @@ func (a *App) Run() {
 		// 处理平台事件
 		event := a.window.WaitEvents(time.Millisecond * 16) // 大约60 FPS
 		if event != nil {
-			// a.eventManager.PostEvent(event)
+			a.eventM.PostEvent(event)
 		}
 
 		// 获取当前窗口大小
@@ -175,18 +178,13 @@ func (a *App) Close() {
 	a.mu.Unlock()
 
 	// 停止事件管理器
-	if a.eventManager != nil {
-		a.eventManager.Stop()
-	}
+	// if a.eventManager != nil {
+	// 	a.eventManager.Stop()
+	// }
 
 	// 卸载根组件
 	if a.root != nil {
 
-	}
-
-	// 关闭平台
-	if a.platform != nil {
-		a.platform.Shutdown()
 	}
 
 	fmt.Println("应用程序已关闭")

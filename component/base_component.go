@@ -2,6 +2,7 @@
 package component
 
 import (
+	"image"
 	"sync"
 
 	"github.com/millken/go/thorvg"
@@ -13,8 +14,10 @@ type BaseComponent struct {
 	mu       sync.RWMutex
 	yoga     *yoga.Node
 	children []Component
-	visible  bool // 可见性标记
-	dirty    bool // 脏标记
+
+	parent  Component
+	visible bool // 可见性标记
+	dirty   bool // 脏标记
 }
 
 func NewBaseComponent(id ...string) *BaseComponent {
@@ -28,6 +31,8 @@ func NewBaseComponent(id ...string) *BaseComponent {
 		}(),
 		yoga:     yoga.NewNode(),
 		children: []Component{},
+		parent:   nil,
+		visible:  true, // 默认可见
 		dirty:    true, // 初始状态为需要渲染
 	}
 }
@@ -65,11 +70,24 @@ func (b *BaseComponent) GetYogaNode() *yoga.Node {
 	return b.yoga
 }
 
+func (b *BaseComponent) Layout(width, height float32, direction yoga.Direction) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	b.yoga.CalculateLayout(width, height, direction)
+}
+
+func (b *BaseComponent) ComputedLayout() yoga.Layout {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+	return b.yoga.GetComputedLayout()
+}
+
 func (b *BaseComponent) AddChild(c Component) {
 	if b.children == nil {
 		b.children = []Component{}
 	}
 	b.children = append(b.children, c)
+	c.SetParent(b)
 	b.MarkDirty(false) // 添加子组件时标记为脏
 }
 
@@ -124,9 +142,57 @@ func (b *BaseComponent) IsDirty() bool {
 	return b.dirty
 }
 
+// SetParent 设置父组件
+func (b *BaseComponent) SetParent(c Component) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	b.parent = c
+}
+
+// Parent 获取父组件
+func (b *BaseComponent) Parent() Component {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+	return b.parent
+}
+
+// Bounds 返回组件的边界矩形
+func (b *BaseComponent) Bounds() image.Rectangle {
+	l := b.ComputedLayout()
+	ax, ay := b.absoluteOffset()
+	left, top := ax, ay
+	right, bottom := left+l.Width, top+l.Height
+	return image.Rectangle{
+		Min: image.Point{X: int(left), Y: int(top)},
+		Max: image.Point{X: int(right), Y: int(bottom)},
+	}
+}
+
 // CheckDirtyRecursive 递归检查是否有任何子组件需要重绘（保留向后兼容）
 func (b *BaseComponent) CheckDirtyRecursive() bool {
 	b.mu.RLock()
 	defer b.mu.RUnlock()
 	return b.dirty
+}
+
+// absoluteOffset 通过向上累加 Yoga 计算布局，得到绝对坐标
+func (b *BaseComponent) absoluteOffset() (float32, float32) {
+	var x, y float32
+	var cur Component = b
+	for cur != nil {
+		l := cur.ComputedLayout()
+		x += l.Left
+		y += l.Top
+		cur = cur.Parent()
+	}
+	return x, y
+}
+
+// PointInside 判断窗口坐标 (x,y) 是否在该组件边界内
+func (b *BaseComponent) PointInside(x, y float32) bool {
+	l := b.ComputedLayout()
+	ax, ay := b.absoluteOffset()
+	left, top := ax, ay
+	right, bottom := left+l.Width, top+l.Height
+	return x >= left && x <= right && y >= top && y <= bottom
 }

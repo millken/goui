@@ -1,5 +1,7 @@
 package event
 
+import "time"
+
 type Kind uint8
 
 const (
@@ -51,7 +53,12 @@ func (b Button) String() string {
 	}
 }
 
-type Event struct {
+type Event interface {
+	Type() Type
+	Timestamp() time.Time
+}
+
+type EventA struct {
 	Kind    Kind
 	Type    Type
 	Button  Button
@@ -61,4 +68,4 @@ type Event struct {
 	KeyName string
 }
 
-type Listener func(event Event) bool
+type Listener func(event EventA) bool
