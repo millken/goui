@@ -2,6 +2,7 @@ package goui
 
 import (
 	"fmt"
+	"runtime"
 	"sync"
 	"time"
 
@@ -110,7 +111,7 @@ func NewApp(window window.Window, root component.Component) (*App, error) {
 
 // Run 运行应用程序（集成事件系统）
 func (a *App) Run() {
-
+	runtime.LockOSThread()
 	// 画布会自动使用窗口尺寸
 
 	// // 启动系统

@@ -73,9 +73,16 @@ func (r *GLRenderer) BeginFrame(width, height int) (*thorvg.Canvas, error) {
 }
 
 func (r *GLRenderer) EndFrame() {
-	_ = r.canvas.Update()
-	_ = r.canvas.Draw(true)
-	_ = r.canvas.Sync()
+	var err error
+	if err = r.canvas.Update(); err != nil {
+		panic(err)
+	}
+	if err = r.canvas.Draw(true); err != nil {
+		panic(err)
+	}
+	if err = r.canvas.Sync(); err != nil {
+		panic(err)
+	}
 }
 
 func (r *GLRenderer) Present() {
