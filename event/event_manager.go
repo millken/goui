@@ -84,8 +84,10 @@ func (em *EventManager) handleEvent(event Event) {
 	// slog.Debug("Dispatching event", "type", event.Type(), "em.listeners", len(em.listeners), "listeners", len(batch))
 	em.mu.RUnlock()
 	for _, l := range batch {
-		// 监听器可根据需要自行决定是否消费该事件
-		_ = l.HandleEvent(event)
+		if l.HandleEvent(event) {
+			// 消费后可按需停止传播；这里选择停止，避免重复触发
+			break
+		}
 	}
 }
 

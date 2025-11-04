@@ -1,6 +1,8 @@
 package component
 
 import (
+	"image"
+
 	"github.com/millken/go/thorvg"
 	"github.com/millken/goui/color"
 )
@@ -25,6 +27,11 @@ func NewBox(x, y, w, h int) *Box {
 		bgColor:       color.TRANSPARENT,
 	}
 	return box
+}
+
+// Bounds 返回 Box 的实际边界（基于 x,y,w,h），用于命中测试
+func (b *Box) Bounds() image.Rectangle {
+	return image.Rect(b.x, b.y, b.x+b.w, b.y+b.h)
 }
 
 func (b *Box) SetBackgroundColor(c color.Color) {

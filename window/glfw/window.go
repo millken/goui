@@ -105,7 +105,10 @@ func (w *Window) PollEvents() {
 
 func (w *Window) WaitEvents(timeout time.Duration) event.Event {
 	glfw.WaitEventsTimeout(timeout.Seconds())
-	return w.lastEvent
+	ev := w.lastEvent
+	// 消费事件，避免同一事件在多个帧被重复处理
+	w.lastEvent = nil
+	return ev
 }
 
 // GetLastEvent 获取最后一个事件

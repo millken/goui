@@ -333,11 +333,25 @@ func (b *BaseComponent) RegisterEventListener(eventType event.Type, listener eve
 
 func (b *BaseComponent) OnClick(handler func(event event.MouseEvent)) {
 	b.RegisterEventListener(event.EventMouse, event.EventListenerFunc(func(e event.Event) bool {
-		if mouseEvent, ok := e.(*event.MouseEvent); ok && mouseEvent.Down {
-			handler(*mouseEvent)
-			return true
+		me, ok := e.(*event.MouseEvent)
+		if !ok || !me.Down {
+			return false
 		}
-		return false
+		// 通过 root/tree 找到当前组件实例，使用其 Bounds 做命中测试
+		root := b.Root()
+		if root == nil {
+			return false
+		}
+		self := GetComponentByID(root, b.ID())
+		if self == nil {
+			return false
+		}
+		r := self.Bounds()
+		if me.X < float32(r.Min.X) || me.X >= float32(r.Max.X) || me.Y < float32(r.Min.Y) || me.Y >= float32(r.Max.Y) {
+			return false
+		}
+		handler(*me)
+		return true
 	}))
 }
 
