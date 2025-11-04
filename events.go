@@ -21,8 +21,6 @@ const (
 type Event interface {
 	Type() EventType
 	Timestamp() time.Time
-	Target() Component
-	SetTarget(Component)
 }
 
 // MouseEvent 鼠标事件
@@ -51,14 +49,14 @@ type TouchEvent struct {
 	X        float32
 	Y        float32
 	Down     bool
-	Pressure  float32
+	Pressure float32
 	eventBase
 }
 
 // WindowEvent 窗口事件
 type WindowEvent struct {
-	Width  int
-	Height int
+	Width   int
+	Height  int
 	Resized bool
 	eventBase
 }
@@ -71,8 +69,8 @@ type FocusEvent struct {
 
 // ScrollEvent 滚动事件
 type ScrollEvent struct {
-	X     float32
-	Y     float32
+	X      float32
+	Y      float32
 	DeltaX float32
 	DeltaY float32
 	eventBase
@@ -221,7 +219,6 @@ const (
 // 事件基类
 type eventBase struct {
 	timestamp time.Time
-	target    Component
 }
 
 func (e *eventBase) Type() EventType {
@@ -232,16 +229,8 @@ func (e *eventBase) Timestamp() time.Time {
 	return e.timestamp
 }
 
-func (e *eventBase) Target() Component {
-	return e.target
-}
-
-func (e *eventBase) SetTarget(target Component) {
-	e.target = target
-}
-
 // MouseEvent 类型实现
-func (e *MouseEvent) Type() EventType { return EventTypeMouse }
+func (e *MouseEvent) Type() EventType  { return EventTypeMouse }
 func (e *KeyEvent) Type() EventType    { return EventTypeKey }
 func (e *TouchEvent) Type() EventType  { return EventTypeTouch }
 func (e *WindowEvent) Type() EventType { return EventTypeWindow }

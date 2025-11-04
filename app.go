@@ -14,9 +14,8 @@ import (
 
 // App 应用程序主结构
 type App struct {
-	root         component.Component
-	renderEngine *RenderEngine
-	config       *AppConfig
+	root   component.Component
+	config *AppConfig
 
 	// 事件系统
 	eventManager *EventManager
@@ -158,13 +157,13 @@ func (a *App) isRunning() bool {
 }
 
 // registerComponentsRecursive 递归注册组件到事件管理器
-func (a *App) registerComponentsRecursive(component Component) {
-	a.eventManager.RegisterComponent(component)
+// func (a *App) registerComponentsRecursive(component Component) {
+// 	a.eventManager.RegisterComponent(component)
 
-	for _, child := range component.Children() {
-		a.registerComponentsRecursive(child)
-	}
-}
+// 	for _, child := range component.Children() {
+// 		a.registerComponentsRecursive(child)
+// 	}
+// }
 
 // Close 关闭应用程序
 func (a *App) Close() {
@@ -180,11 +179,6 @@ func (a *App) Close() {
 		a.eventManager.Stop()
 	}
 
-	// 停止渲染引擎
-	if a.renderEngine != nil {
-		a.renderEngine.Stop()
-	}
-
 	// 卸载根组件
 	if a.root != nil {
 
@@ -196,19 +190,4 @@ func (a *App) Close() {
 	}
 
 	fmt.Println("应用程序已关闭")
-}
-
-// showStats 显示性能统计
-func (a *App) showStats() {
-	ticker := time.NewTicker(2 * time.Second)
-	defer ticker.Stop()
-
-	for a.renderEngine.IsRunning() {
-		select {
-		case <-ticker.C:
-			stats := a.renderEngine.GetDetailedStats()
-			fmt.Printf("渲染统计 - 帧数: %d, FPS: %.1f, 绘制调用: %d, 脏区域: %d\n",
-				stats.FrameCount, stats.FPS, stats.DrawCalls, stats.DirtyRects)
-		}
-	}
 }

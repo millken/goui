@@ -13,6 +13,7 @@ type BaseComponent struct {
 	mu       sync.RWMutex
 	yoga     *yoga.Node
 	children []Component
+	visible  bool // 可见性标记
 	dirty    bool // 脏标记
 }
 
@@ -41,6 +42,21 @@ func (b *BaseComponent) ID() string {
 	b.mu.RLock()
 	defer b.mu.RUnlock()
 	return b.id
+}
+
+func (b *BaseComponent) IsVisible() bool {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+	return b.visible
+}
+
+func (b *BaseComponent) SetVisible(visible bool) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	if b.visible != visible {
+		b.visible = visible
+		b.MarkDirty(false) // 可见性改变时标记为脏
+	}
 }
 
 func (b *BaseComponent) GetYogaNode() *yoga.Node {
@@ -73,6 +89,11 @@ func (b *BaseComponent) Paint(vg *thorvg.Canvas) bool {
 		if child.Paint(vg) {
 			childRendered = true
 		}
+	}
+
+	//如果不可见，跳过自己渲染
+	if !b.visible {
+		return childRendered
 	}
 
 	// 如果自己需要渲染，清理脏状态

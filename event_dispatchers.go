@@ -2,6 +2,8 @@ package goui
 
 import (
 	"image"
+
+	"github.com/millken/goui/component"
 )
 
 // MouseEventDispatcher 鼠标事件分发器
@@ -12,7 +14,7 @@ func (d *MouseEventDispatcher) CanDispatch(event Event) bool {
 	return ok
 }
 
-func (d *MouseEventDispatcher) Dispatch(event Event, target Component) bool {
+func (d *MouseEventDispatcher) Dispatch(event Event, target component.Component) bool {
 	mouseEvent, ok := event.(*MouseEvent)
 	if !ok {
 		return false
@@ -46,7 +48,7 @@ func (d *KeyEventDispatcher) CanDispatch(event Event) bool {
 	return ok
 }
 
-func (d *KeyEventDispatcher) Dispatch(event Event, target Component) bool {
+func (d *KeyEventDispatcher) Dispatch(event Event, target component.Component) bool {
 	keyEvent, ok := event.(*KeyEvent)
 	if !ok {
 		return false
@@ -69,7 +71,7 @@ func (d *KeyEventDispatcher) Dispatch(event Event, target Component) bool {
 	return false
 }
 
-func (d *KeyEventDispatcher) hasFocus(component Component) bool {
+func (d *KeyEventDispatcher) hasFocus(component component.Component) bool {
 	// TODO: 实现焦点检查
 	// 现在简单返回true，后续实现焦点管理
 	return true
@@ -83,7 +85,7 @@ func (d *WindowEventDispatcher) CanDispatch(event Event) bool {
 	return ok
 }
 
-func (d *WindowEventDispatcher) Dispatch(event Event, target Component) bool {
+func (d *WindowEventDispatcher) Dispatch(event Event, target component.Component) bool {
 	windowEvent, ok := event.(*WindowEvent)
 	if !ok {
 		return false
@@ -109,7 +111,7 @@ func (d *TouchEventDispatcher) CanDispatch(event Event) bool {
 	return ok
 }
 
-func (d *TouchEventDispatcher) Dispatch(event Event, target Component) bool {
+func (d *TouchEventDispatcher) Dispatch(event Event, target component.Component) bool {
 	touchEvent, ok := event.(*TouchEvent)
 	if !ok {
 		return false
@@ -142,7 +144,7 @@ func (d *FocusEventDispatcher) CanDispatch(event Event) bool {
 	return ok
 }
 
-func (d *FocusEventDispatcher) Dispatch(event Event, target Component) bool {
+func (d *FocusEventDispatcher) Dispatch(event Event, target component.Component) bool {
 	focusEvent, ok := event.(*FocusEvent)
 	if !ok {
 		return false
@@ -168,7 +170,7 @@ func (d *ScrollEventDispatcher) CanDispatch(event Event) bool {
 	return ok
 }
 
-func (d *ScrollEventDispatcher) Dispatch(event Event, target Component) bool {
+func (d *ScrollEventDispatcher) Dispatch(event Event, target component.Component) bool {
 	scrollEvent, ok := event.(*ScrollEvent)
 	if !ok {
 		return false

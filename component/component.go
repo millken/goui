@@ -19,6 +19,9 @@ type Component interface {
 	AddChild(Component)
 	// RemoveChild(Component)
 
+	IsVisible() bool
+	SetVisible(bool)
+
 	Children() []Component
 
 	Paint(*thorvg.Canvas) bool // 返回是否实际进行了渲染
