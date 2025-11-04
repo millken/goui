@@ -26,8 +26,8 @@ type EventManager struct {
 	config *EventManagerConfig
 	// 事件队列
 	eventQueue chan Event
-
-	filters []EventFilter
+	listeners  map[string]map[Type][]EventListener
+	filters    []EventFilter
 	// 状态管理
 	running int32
 	mu      sync.RWMutex
@@ -41,6 +41,7 @@ func NewEventManager() *EventManager {
 		EnableProfiling: false,
 	}
 	return &EventManager{
+		listeners:  make(map[string]map[Type][]EventListener),
 		filters:    make([]EventFilter, config.MaxFilters),
 		eventQueue: make(chan Event, config.QueueSize), // 设置合理的缓冲区大小
 	}
@@ -85,6 +86,17 @@ func (em *EventManager) PostEvent(event Event) error {
 	default:
 		return ErrEventQueueFull
 	}
+}
+
+// RegisterListener 注册事件监听器
+func (em *EventManager) RegisterListener(componentID string, eventType Type, listener EventListener) {
+	em.mu.Lock()
+	defer em.mu.Unlock()
+
+	if _, exists := em.listeners[componentID]; !exists {
+		em.listeners[componentID] = make(map[Type][]EventListener)
+	}
+	em.listeners[componentID][eventType] = append(em.listeners[componentID][eventType], listener)
 }
 
 // RegisterFilter 注册事件过滤器

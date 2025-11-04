@@ -6,6 +6,7 @@ import (
 	"sync/atomic"
 
 	"github.com/millken/go/thorvg"
+	"github.com/millken/goui/event"
 	"github.com/millken/yoga"
 )
 
@@ -15,7 +16,15 @@ func GenerateID() string {
 	return "component:" + strconv.FormatInt(atomic.AddInt64(&componentIDCounter, 1), 10)
 }
 
+type RootComponent interface {
+	SetRoot(Component) //由App设置根组件
+	Root() Component
+	SetEventManager(*event.EventManager)
+}
+
 type Component interface {
+	RootComponent
+
 	SetID(string)
 	ID() string
 
@@ -47,4 +56,16 @@ type ComponentEvents struct {
 	OnHover func(bool)
 	OnFocus func()
 	OnBlur  func()
+}
+
+func GetComponentByID(root Component, id string) Component {
+	if root.ID() == id {
+		return root
+	}
+	for _, child := range root.Children() {
+		if comp := GetComponentByID(child, id); comp != nil {
+			return comp
+		}
+	}
+	return nil
 }

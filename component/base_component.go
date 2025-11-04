@@ -6,14 +6,18 @@ import (
 	"sync"
 
 	"github.com/millken/go/thorvg"
+	"github.com/millken/goui/event"
 	"github.com/millken/yoga"
 )
 
 type BaseComponent struct {
+	root     Component
 	id       string
 	mu       sync.RWMutex
 	yoga     *yoga.Node
 	children []Component
+	//events
+	eventManager *event.EventManager
 
 	parent  Component
 	visible bool // 可见性标记
@@ -21,7 +25,7 @@ type BaseComponent struct {
 }
 
 func NewBaseComponent(id ...string) *BaseComponent {
-	return &BaseComponent{
+	base := &BaseComponent{
 		id: func() string {
 			if len(id) > 0 {
 				return id[0]
@@ -35,17 +39,32 @@ func NewBaseComponent(id ...string) *BaseComponent {
 		visible:  true, // 默认可见
 		dirty:    true, // 初始状态为需要渲染
 	}
+	return base
+}
+
+func (b *BaseComponent) SetRoot(c Component) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	b.root = c
+}
+
+func (b *BaseComponent) Root() Component {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+	return b.root
+}
+
+func (b *BaseComponent) SetEventManager(em *event.EventManager) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	b.eventManager = em
 }
 
 func (b *BaseComponent) SetID(id string) {
-	b.mu.Lock()
-	defer b.mu.Unlock()
 	b.id = id
 }
 
 func (b *BaseComponent) ID() string {
-	b.mu.RLock()
-	defer b.mu.RUnlock()
 	return b.id
 }
 
@@ -83,10 +102,8 @@ func (b *BaseComponent) ComputedLayout() yoga.Layout {
 }
 
 func (b *BaseComponent) AddChild(c Component) {
-	if b.children == nil {
-		b.children = []Component{}
-	}
 	b.children = append(b.children, c)
+	c.SetRoot(b.Root())
 	c.SetParent(b)
 	b.MarkDirty(false) // 添加子组件时标记为脏
 }
@@ -195,4 +212,16 @@ func (b *BaseComponent) PointInside(x, y float32) bool {
 	left, top := ax, ay
 	right, bottom := left+l.Width, top+l.Height
 	return x >= left && x <= right && y >= top && y <= bottom
+}
+
+func (b *BaseComponent) RegisterEventListener(eventType event.Type, listener event.EventListener) {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+	root := b.root
+	if rootComp, ok := root.(*BaseComponent); ok {
+		em := rootComp.eventManager
+		if em != nil {
+			em.RegisterListener(b.ID(), eventType, listener)
+		}
+	}
 }

@@ -1,36 +1,21 @@
 package goui
 
 import (
+	"errors"
+	"log/slog"
 	"sync"
-	"time"
+	"sync/atomic"
 
 	"github.com/millken/goui/component"
+	"github.com/millken/goui/event"
 )
 
-// EventManager 事件管理器
-type EventManager struct {
-	// 事件队列
-	eventQueue    chan Event
-	priorityQueue chan PriorityEvent
-
-	// 事件监听器
-	listeners map[EventType][]EventListener
-	filters   []EventFilter
-
-	// 事件分发
-	dispatchers map[EventType]EventDispatcher
-
-	// 组件事件处理
-	componentMap map[string]component.Component // ID -> Component
-	hitTester    HitTester
-
-	// 状态管理
-	running int32
-	mu      sync.RWMutex
-
-	// 配置
-	config *EventManagerConfig
-}
+// 错误定义
+var (
+	ErrEventManagerNotRunning = errors.New("event manager is not running")
+	ErrEventQueueFull         = errors.New("event queue is full")
+	ErrTooManyFilters         = errors.New("too many event filters")
+)
 
 // EventManagerConfig 事件管理器配置
 type EventManagerConfig struct {
@@ -40,23 +25,135 @@ type EventManagerConfig struct {
 	EnableProfiling bool
 }
 
-// PriorityEvent 带优先级的事件
-type PriorityEvent struct {
-	Event    Event
-	Priority int
-	Time     time.Time
+type EventManager struct {
+	config *EventManagerConfig
+	// 事件队列
+	eventQueue chan event.Event
+	listeners  map[component.Component]map[event.Type][]event.EventListener
+	filters    []event.EventFilter
+	// 状态管理
+	running int32
+	mu      sync.RWMutex
 }
 
-// EventDispatcher 事件分发器接口
-type EventDispatcher interface {
-	CanDispatch(event Event) bool
-	Dispatch(event Event, target component.Component) bool
+func NewEventManager() *EventManager {
+	config := &EventManagerConfig{
+		QueueSize:       1000,
+		PrioritySize:    100,
+		MaxFilters:      100,
+		EnableProfiling: false,
+	}
+	return &EventManager{
+		listeners:  make(map[component.Component]map[event.Type][]event.EventListener),
+		filters:    make([]event.EventFilter, config.MaxFilters),
+		eventQueue: make(chan event.Event, config.QueueSize), // 设置合理的缓冲区大小
+	}
 }
 
-// HitTester 命中测试接口
-type HitTester interface {
-	HitTest(x, y float32) component.Component
+func (em *EventManager) Start() error {
+	// 启动事件处理循环
+	if !atomic.CompareAndSwapInt32(&em.running, 0, 1) {
+		return nil // 已经运行
+	}
+	// 启动事件处理循环
+	go em.eventLoop()
+	return nil
 }
+
+func (em *EventManager) eventLoop() {
+	for event := range em.eventQueue {
+		slog.Debug("Processing event", "type", event.Type(), "event", event)
+		// 处理事件
+		em.handleEvent(event)
+	}
+}
+
+func (em *EventManager) handleEvent(event event.Event) {
+}
+
+func (em *EventManager) Stop() {
+	if !atomic.CompareAndSwapInt32(&em.running, 1, 0) {
+		return // 已经停止
+	}
+	close(em.eventQueue) // 关闭 channel 以退出 eventLoop
+}
+
+// PostEvent 发送普通事件
+func (em *EventManager) PostEvent(event event.Event) error {
+	if atomic.LoadInt32(&em.running) == 0 {
+		return ErrEventManagerNotRunning
+	}
+	select {
+	case em.eventQueue <- event:
+		return nil
+	default:
+		return ErrEventQueueFull
+	}
+}
+
+// RegisterFilter 注册事件过滤器
+func (em *EventManager) RegisterFilter(filter event.EventFilter) error {
+	em.mu.Lock()
+	defer em.mu.Unlock()
+
+	if len(em.filters) >= em.config.MaxFilters {
+		return ErrTooManyFilters
+	}
+
+	em.filters = append(em.filters, filter)
+	return nil
+}
+
+// // EventManager 事件管理器
+// type EventManager struct {
+// 	// 事件队列
+// 	eventQueue    chan Event
+// 	priorityQueue chan PriorityEvent
+
+// 	// 事件监听器
+// 	listeners map[EventType][]EventListener
+// 	filters   []EventFilter
+
+// 	// 事件分发
+// 	dispatchers map[EventType]EventDispatcher
+
+// 	// 组件事件处理
+// 	componentMap map[string]component.Component // ID -> Component
+// 	hitTester    HitTester
+
+// 	// 状态管理
+// 	running int32
+// 	mu      sync.RWMutex
+
+// 	// 配置
+// 	config *EventManagerConfig
+// }
+
+// // EventManagerConfig 事件管理器配置
+// type EventManagerConfig struct {
+// 	QueueSize       int
+// 	PrioritySize    int
+// 	MaxFilters      int
+// 	EnableProfiling bool
+// }
+
+// // PriorityEvent 带优先级的事件
+// type PriorityEvent struct {
+// 	Event    Event
+// 	Priority int
+// 	Time     time.Time
+// }
+
+// // EventDispatcher 事件分发器接口
+// type EventDispatcher interface {
+// 	CanDispatch(event Event) bool
+// 	Dispatch(event Event, target component.Component) bool
+// }
+
+// // HitTester 命中测试接口
+// type HitTester interface {
+// 	HitTest(x, y float32) component.Component
+// }
 
 // // NewEventManager 创建事件管理器
 // func NewEventManager(platform Platform) *EventManager {
