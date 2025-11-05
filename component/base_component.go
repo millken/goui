@@ -173,6 +173,49 @@ func (b *BaseComponent) GetYogaNode() *yoga.Node {
 	return b.yoga
 }
 
+// 以下为布局便捷方法，避免业务代码直接操作 yoga.Node
+func (b *BaseComponent) SetWidth(w float32) {
+	b.mu.Lock()
+	b.yoga.SetWidth(w)
+	b.dirty = true
+	b.mu.Unlock()
+}
+
+func (b *BaseComponent) SetHeight(h float32) {
+	b.mu.Lock()
+	b.yoga.SetHeight(h)
+	b.dirty = true
+	b.mu.Unlock()
+}
+
+func (b *BaseComponent) SetMinWidth(w float32) {
+	b.mu.Lock()
+	b.yoga.SetMinWidth(w)
+	b.dirty = true
+	b.mu.Unlock()
+}
+
+func (b *BaseComponent) SetMinHeight(h float32) {
+	b.mu.Lock()
+	b.yoga.SetMinHeight(h)
+	b.dirty = true
+	b.mu.Unlock()
+}
+
+func (b *BaseComponent) SetFlexGrow(g float32) {
+	b.mu.Lock()
+	b.yoga.SetFlexGrow(g)
+	b.dirty = true
+	b.mu.Unlock()
+}
+
+func (b *BaseComponent) SetAlignSelf(a Align) {
+	b.mu.Lock()
+	b.yoga.SetAlignSelf(a.toYoga())
+	b.dirty = true
+	b.mu.Unlock()
+}
+
 func (b *BaseComponent) Layout(width, height float32, direction yoga.Direction) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
@@ -212,6 +255,11 @@ func (b *BaseComponent) AddChild(c Component) {
 		c.SetRoot(r)
 	} else {
 		c.SetRoot(b)
+	}
+
+	// 若父组件已关联事件管理器，则将其同步给新子组件，刷新其待注册监听器
+	if em := b.GetEventManager(); em != nil {
+		c.SetEventManager(em)
 	}
 }
 
@@ -307,8 +355,21 @@ func (b *BaseComponent) Bounds() image.Rectangle {
 // CheckDirtyRecursive 递归检查是否有任何子组件需要重绘（保留向后兼容）
 func (b *BaseComponent) CheckDirtyRecursive() bool {
 	b.mu.RLock()
-	defer b.mu.RUnlock()
-	return b.dirty
+	if b.dirty {
+		b.mu.RUnlock()
+		return true
+	}
+	// 复制子节点切片，避免持锁递归
+	children := append([]Component(nil), b.children...)
+	b.mu.RUnlock()
+	for _, child := range children {
+		if rc, ok := child.(interface{ CheckDirtyRecursive() bool }); ok {
+			if rc.CheckDirtyRecursive() {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 // absoluteOffset 通过向上累加 Yoga 计算布局，得到绝对坐标

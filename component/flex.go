@@ -126,6 +126,15 @@ func (f *Flex) SetAlignSelf(alignSelf Align) {
 	}
 }
 
+// SetGap 设置主轴/交叉轴间距（行列间隔），单位为像素
+func (f *Flex) SetGap(gap float32) {
+	if f.gap != gap {
+		f.gap = gap
+		f.GetYogaNode().SetGap(yoga.GutterAll, gap)
+		f.MarkDirty(false)
+	}
+}
+
 // Row 创建水平布局
 func Row(id string) *Flex {
 	flex := NewFlex(id)

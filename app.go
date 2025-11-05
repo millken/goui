@@ -115,16 +115,20 @@ func (a *App) Run() {
 		windowResized := lastWindowSize != currentWindowSize
 		lastWindowSize = currentWindowSize
 
-		// 渲染帧（在Render内部进行脏检查）
+		// 如果窗口大小改变了，先重置渲染场景，避免旧 Canvas 被销毁后仍被使用
+		if windowResized && a.root != nil {
+			if rs, ok := a.renderer.(interface{ ResetScene() error }); ok {
+				_ = rs.ResetScene()
+			}
+			// 标记根组件为脏以触发一次完整重绘
+			a.root.MarkDirty(true)
+		}
+
+		// 渲染帧（在Render内部进行脏检查）。注意必须在 ResetScene 之后获取 Canvas
 		canvas, err := a.renderer.BeginFrame(w, h)
 		if err != nil {
 			fmt.Printf("渲染器 BeginFrame 错误: window{%d,%d} %v\n", w, h, err)
 			continue
-		}
-
-		// 如果窗口大小改变了，标记根组件为脏
-		if windowResized && a.root != nil {
-			a.root.MarkDirty(true)
 		}
 
 		// 在渲染前计算布局（以窗口尺寸为根容器尺寸）
@@ -132,27 +136,8 @@ func (a *App) Run() {
 			a.root.Layout(float32(w), float32(h), yoga.DirectionLTR)
 		}
 
-		// 判断是否需要绘制：窗口尺寸改变或组件脏
-		willRender := windowResized
-		if !willRender {
-			if dc, ok := a.root.(interface{ CheckDirtyRecursive() bool }); ok {
-				willRender = dc.CheckDirtyRecursive()
-			}
-		}
-
-		// 若需要绘制，先压入一层全屏实心背景，防止叠影
-		rendered := false
-		if willRender {
-			bg := thorvg.NewShape()
-			if bg != nil {
-				bg.AppendRect(0, 0, float32(w), float32(h), 0, 0, false)
-				bg.SetFillColor(229, 229, 229, 255) // 统一浅灰背景
-				canvas.Push(&bg.Paint)
-				bg.Release()
-			}
-			// 再绘制组件树
-			rendered = a.root.Paint(canvas) || true
-		}
+		// 直接让组件树决定是否需要渲染
+		rendered := a.root.Paint(canvas)
 
 		if rendered {
 			// 渲染一帧
@@ -165,7 +150,7 @@ func (a *App) Run() {
 		} else {
 			// 即使没有组件标记脏，窗口缩放等也可能需要刷新背景
 			if windowResized {
-				// 若到此 willRender=false，说明没有组件绘制，这里压入背景并绘制一次
+				// 没有组件绘制，但窗口大小变了：压入背景并绘制一次，避免残影
 				bg := thorvg.NewShape()
 				if bg != nil {
 					bg.AppendRect(0, 0, float32(w), float32(h), 0, 0, false)

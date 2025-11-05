@@ -93,3 +93,14 @@ func (r *GLRenderer) EndFrame() {
 func (r *GLRenderer) Present() {
 	// 将渲染结果呈现到屏幕
 }
+
+// ResetScene 清空 ThorVG 场景，常用于窗口尺寸变更或需要彻底重建场景时
+func (r *GLRenderer) ResetScene() error {
+	if r.canvas != nil {
+		r.canvas.Destroy()
+	}
+	r.canvas = thorvg.NewGlCanvas()
+	// 重新绑定当前 GL 上下文和目标尺寸
+	ctx := C.getCurrentGLContext()
+	return r.canvas.GlCanvasSetTarget(unsafe.Pointer(ctx), 0, r.width, r.height, thorvg.ColorspaceABGR8888S)
+}

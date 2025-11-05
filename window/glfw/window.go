@@ -15,6 +15,7 @@ var initOnce sync.Once
 type Window struct {
 	native    *glfw.Window
 	lastEvent event.Event
+	events    chan event.Event
 }
 
 func NewWindow(title string, width, height int) (*Window, error) {
@@ -35,6 +36,7 @@ func NewWindow(title string, width, height int) (*Window, error) {
 	native.MakeContextCurrent()
 	win := &Window{
 		native: native,
+		events: make(chan event.Event, 256),
 	}
 	// 设置事件回调
 	win.setupCallbacks()
@@ -105,10 +107,15 @@ func (w *Window) PollEvents() {
 
 func (w *Window) WaitEvents(timeout time.Duration) event.Event {
 	glfw.WaitEventsTimeout(timeout.Seconds())
-	ev := w.lastEvent
-	// 消费事件，避免同一事件在多个帧被重复处理
-	w.lastEvent = nil
-	return ev
+	select {
+	case ev := <-w.events:
+		return ev
+	default:
+		// 兼容旧路径：返回并清空 lastEvent（如果有）
+		ev := w.lastEvent
+		w.lastEvent = nil
+		return ev
+	}
 }
 
 // GetLastEvent 获取最后一个事件
@@ -180,7 +187,11 @@ func (w *Window) setupCallbacks() {
 			action == glfw.Press,
 			1, // TODO: 实现点击计数逻辑
 		)
-		w.lastEvent = mouseEvent
+		select { // 尝试写入事件队列，满了则回退到 lastEvent
+		case w.events <- mouseEvent:
+		default:
+			w.lastEvent = mouseEvent
+		}
 	})
 
 	// 鼠标移动回调
@@ -191,7 +202,11 @@ func (w *Window) setupCallbacks() {
 			false, // 鼠标移动时不表示按下状态
 			0,
 		)
-		w.lastEvent = mouseEvent
+		select {
+		case w.events <- mouseEvent:
+		default:
+			w.lastEvent = mouseEvent
+		}
 	})
 
 	// 键盘回调
@@ -203,13 +218,21 @@ func (w *Window) setupCallbacks() {
 			action == glfw.Repeat,
 			w.glfwModsToModifierKey(mods),
 		)
-		w.lastEvent = keyEvent
+		select {
+		case w.events <- keyEvent:
+		default:
+			w.lastEvent = keyEvent
+		}
 	})
 
 	// 窗口大小调整回调
 	w.native.SetFramebufferSizeCallback(func(win *glfw.Window, width, height int) {
 		windowEvent := event.NewWindowEvent(width, height, true)
-		w.lastEvent = windowEvent
+		select {
+		case w.events <- windowEvent:
+		default:
+			w.lastEvent = windowEvent
+		}
 	})
 
 	// 滚轮回调
@@ -221,13 +244,21 @@ func (w *Window) setupCallbacks() {
 			float32(xoff),
 			float32(yoff),
 		)
-		w.lastEvent = scrollEvent
+		select {
+		case w.events <- scrollEvent:
+		default:
+			w.lastEvent = scrollEvent
+		}
 	})
 
 	// 窗口焦点回调
 	w.native.SetFocusCallback(func(win *glfw.Window, focused bool) {
 		focusEvent := event.NewFocusEvent(focused)
-		w.lastEvent = focusEvent
+		select {
+		case w.events <- focusEvent:
+		default:
+			w.lastEvent = focusEvent
+		}
 	})
 }
 
