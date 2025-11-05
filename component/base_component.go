@@ -199,58 +199,46 @@ func (b *BaseComponent) GetYogaNode() *yoga.Node {
 	return b.yoga
 }
 
+// YogaUpdate 在受控的临界区内对 Yoga 节点进行样式更新，并集中标记渲染脏与布局脏。
+// 注意：传入的更新函数必须只对 node 做无阻塞操作，避免回调中再调用组件方法造成潜在死锁。
+func (b *BaseComponent) YogaUpdate(update func(node *yoga.Node)) {
+	b.mu.Lock()
+	if b.yoga != nil && update != nil {
+		update(b.yoga)
+		b.dirty = true
+		b.layoutDirty = true
+	}
+	b.mu.Unlock()
+}
+
 // SetWidth 设置组件的宽度（便捷方法，避免直接操作 yoga.Node）
 func (b *BaseComponent) SetWidth(w float32) {
-	b.mu.Lock()
-	b.yoga.SetWidth(w)
-	b.dirty = true
-	b.layoutDirty = true
-	b.mu.Unlock()
+	b.YogaUpdate(func(n *yoga.Node) { n.SetWidth(w) })
 }
 
 // SetHeight 设置组件的高度（便捷方法，避免直接操作 yoga.Node）
 func (b *BaseComponent) SetHeight(h float32) {
-	b.mu.Lock()
-	b.yoga.SetHeight(h)
-	b.dirty = true
-	b.layoutDirty = true
-	b.mu.Unlock()
+	b.YogaUpdate(func(n *yoga.Node) { n.SetHeight(h) })
 }
 
 // SetMinWidth 设置组件的最小宽度（便捷方法，避免直接操作 yoga.Node）
 func (b *BaseComponent) SetMinWidth(w float32) {
-	b.mu.Lock()
-	b.yoga.SetMinWidth(w)
-	b.dirty = true
-	b.layoutDirty = true
-	b.mu.Unlock()
+	b.YogaUpdate(func(n *yoga.Node) { n.SetMinWidth(w) })
 }
 
 // SetMinHeight 设置组件的最小高度（便捷方法，避免直接操作 yoga.Node）
 func (b *BaseComponent) SetMinHeight(h float32) {
-	b.mu.Lock()
-	b.yoga.SetMinHeight(h)
-	b.dirty = true
-	b.layoutDirty = true
-	b.mu.Unlock()
+	b.YogaUpdate(func(n *yoga.Node) { n.SetMinHeight(h) })
 }
 
 // SetFlexGrow 设置组件的伸展比例（便捷方法，避免直接操作 yoga.Node）
 func (b *BaseComponent) SetFlexGrow(g float32) {
-	b.mu.Lock()
-	b.yoga.SetFlexGrow(g)
-	b.dirty = true
-	b.layoutDirty = true
-	b.mu.Unlock()
+	b.YogaUpdate(func(n *yoga.Node) { n.SetFlexGrow(g) })
 }
 
 // SetAlignSelf 设置交叉轴上的自对齐（便捷方法，避免直接操作 yoga.Node）
 func (b *BaseComponent) SetAlignSelf(a Align) {
-	b.mu.Lock()
-	b.yoga.SetAlignSelf(a.toYoga())
-	b.dirty = true
-	b.layoutDirty = true
-	b.mu.Unlock()
+	b.YogaUpdate(func(n *yoga.Node) { n.SetAlignSelf(a.toYoga()) })
 }
 
 func (b *BaseComponent) Layout(width, height float32, direction yoga.Direction) {
