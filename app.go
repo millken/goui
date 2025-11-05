@@ -77,19 +77,11 @@ func NewApp(window window.Window, root component.Component) (*App, error) {
 // Run 运行应用程序（集成事件系统）
 func (a *App) Run() {
 	runtime.LockOSThread()
-	// 画布会自动使用窗口尺寸
-
-	// // 启动系统
-	// a.renderEngine.Start(a.canvas)
-
-	fmt.Println("渲染引擎和事件系统已启动，应用程序正在运行...")
 
 	// 如果启用统计，显示性能信息
 	// if a.config.EnableStats {
 	// 	go a.showStats()
 	// }
-
-	fmt.Println("按窗口关闭按钮或Ctrl+C退出应用程序")
 
 	// 渲染统计
 	frameCount := 0
@@ -224,31 +216,15 @@ func (a *App) isRunning() bool {
 	return a.running
 }
 
-// registerComponentsRecursive 递归注册组件到事件管理器
-// func (a *App) registerComponentsRecursive(component Component) {
-// 	a.eventManager.RegisterComponent(component)
-
-// 	for _, child := range component.Children() {
-// 		a.registerComponentsRecursive(child)
-// 	}
-// }
-
 // Close 关闭应用程序
 func (a *App) Close() {
-	fmt.Println("正在关闭应用程序...")
-
 	// 停止运行
 	a.mu.Lock()
 	a.running = false
 	a.mu.Unlock()
 
 	// 停止事件管理器
-	// if a.eventManager != nil {
-	// 	a.eventManager.Stop()
-	// }
-
-	// 卸载根组件
-	// 卸载逻辑留空，后续按需实现
-
-	fmt.Println("应用程序已关闭")
+	if a.eventM != nil {
+		a.eventM.Stop()
+	}
 }
