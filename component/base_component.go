@@ -9,6 +9,7 @@ import (
 
 	"github.com/millken/go/thorvg"
 	"github.com/millken/goui/event"
+	"github.com/millken/goui/window"
 	"github.com/millken/yoga"
 )
 
@@ -26,6 +27,7 @@ type BaseComponent struct {
 	visible bool // 可见性标记
 	dirty   bool // 脏标记
 	hovered bool // 悬停状态
+	win     window.Window
 }
 
 func NewBaseComponent(id ...string) *BaseComponent {
@@ -142,6 +144,28 @@ func (b *BaseComponent) GetEventManager() *event.EventManager {
 	b.mu.RLock()
 	defer b.mu.RUnlock()
 	return b.eventManager
+}
+
+// SetWindow 设置窗口引用，并向下传播
+func (b *BaseComponent) SetWindow(w window.Window) {
+	b.mu.Lock()
+	b.win = w
+	children := append([]Component(nil), b.children...)
+	b.mu.Unlock()
+	for _, c := range children {
+		if rc, ok := c.(RootComponent); ok {
+			rc.SetWindow(w)
+		} else if bc, ok := c.(*BaseComponent); ok {
+			bc.SetWindow(w)
+		}
+	}
+}
+
+// GetWindow 获取窗口引用
+func (b *BaseComponent) GetWindow() window.Window {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+	return b.win
 }
 
 func (b *BaseComponent) SetID(id string) {

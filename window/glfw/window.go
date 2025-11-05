@@ -8,6 +8,7 @@ import (
 
 	"github.com/go-gl/glfw/v3.3/glfw"
 	"github.com/millken/goui/event"
+	gouiwin "github.com/millken/goui/window"
 )
 
 var initOnce sync.Once
@@ -16,6 +17,8 @@ type Window struct {
 	native    *glfw.Window
 	lastEvent event.Event
 	events    chan event.Event
+	// cursor cache
+	cursors map[gouiwin.Cursor]*glfw.Cursor
 }
 
 func NewWindow(title string, width, height int) (*Window, error) {
@@ -35,8 +38,9 @@ func NewWindow(title string, width, height int) (*Window, error) {
 	}
 	native.MakeContextCurrent()
 	win := &Window{
-		native: native,
-		events: make(chan event.Event, 256),
+		native:  native,
+		events:  make(chan event.Event, 256),
+		cursors: make(map[gouiwin.Cursor]*glfw.Cursor),
 	}
 	// 设置事件回调
 	win.setupCallbacks()
@@ -94,6 +98,36 @@ func (w *Window) SetMouseVisible(visible bool) {
 		w.native.SetInputMode(glfw.CursorMode, glfw.CursorNormal)
 	} else {
 		w.native.SetInputMode(glfw.CursorMode, glfw.CursorHidden)
+	}
+}
+
+func (w *Window) SetCursor(c gouiwin.Cursor) {
+	// lazily create glfw cursors
+	get := func(shape gouiwin.Cursor) *glfw.Cursor {
+		if cur, ok := w.cursors[shape]; ok && cur != nil {
+			return cur
+		}
+		var std glfw.StandardCursor
+		switch shape {
+		case gouiwin.CursorPointer:
+			std = glfw.HandCursor
+		case gouiwin.CursorText:
+			std = glfw.IBeamCursor
+		case gouiwin.CursorCrosshair:
+			std = glfw.CrosshairCursor
+		case gouiwin.CursorEWResize:
+			std = glfw.HResizeCursor
+		case gouiwin.CursorNSResize:
+			std = glfw.VResizeCursor
+		default:
+			std = glfw.ArrowCursor
+		}
+		cur := glfw.CreateStandardCursor(std)
+		w.cursors[shape] = cur
+		return cur
+	}
+	if w.native != nil {
+		w.native.SetCursor(get(c))
 	}
 }
 

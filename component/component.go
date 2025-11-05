@@ -7,6 +7,7 @@ import (
 
 	"github.com/millken/go/thorvg"
 	"github.com/millken/goui/event"
+	"github.com/millken/goui/window"
 	"github.com/millken/yoga"
 )
 
@@ -19,6 +20,8 @@ func GenerateID() string {
 type RootComponent interface {
 	SetEventManager(*event.EventManager)
 	GetEventManager() *event.EventManager
+	SetWindow(window.Window)
+	GetWindow() window.Window
 }
 
 type Component interface {

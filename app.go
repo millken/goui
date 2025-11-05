@@ -63,6 +63,8 @@ func NewApp(window window.Window, root component.Component) (*App, error) {
 	if !ok {
 		return nil, fmt.Errorf("根组件必须是 RootComponent 类型")
 	}
+	// 注入窗口引用，供组件内部在交互时调节光标等
+	base.SetWindow(window)
 	// 先将 EM 挂到组件树并刷新监听器，再启动事件循环，避免事件先于监听器注册被处理
 	base.SetEventManager(app.eventM)
 

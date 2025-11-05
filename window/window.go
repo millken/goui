@@ -7,6 +7,18 @@ import (
 	"github.com/millken/goui/event"
 )
 
+// Cursor 定义系统光标形状
+type Cursor int
+
+const (
+	CursorDefault Cursor = iota
+	CursorPointer        // 手型
+	CursorText           // 文本 IBeam
+	CursorCrosshair
+	CursorEWResize
+	CursorNSResize
+)
+
 type Window interface {
 	Open() error
 	Close() error
@@ -17,6 +29,7 @@ type Window interface {
 	// SetDecorated(decorated bool)
 	Fullscreen()
 	SetMouseVisible(visible bool)
+	SetCursor(c Cursor)
 	IsOpen() bool
 
 	SwapBuffers()

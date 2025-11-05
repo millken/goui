@@ -5,6 +5,7 @@ import (
 	gouicolor "github.com/millken/goui/color"
 	"github.com/millken/goui/event"
 	gouifont "github.com/millken/goui/font"
+	gouiwindow "github.com/millken/goui/window"
 	"github.com/millken/yoga"
 )
 
@@ -63,9 +64,21 @@ func NewButton(id ...string) *Button {
 		}
 		if hover {
 			btn.SetBackgroundColor(btn.hoverBG)
+			// 切换鼠标为手型
+			if rc, ok := btn.Root().(RootComponent); ok && rc != nil {
+				if w := rc.GetWindow(); w != nil {
+					w.SetCursor(gouiwindow.CursorPointer)
+				}
+			}
 		} else {
 			// 恢复为进入 hover 前记录的默认背景色
 			btn.SetBackgroundColor(btn.defaultBG)
+			// 恢复默认光标
+			if rc, ok := btn.Root().(RootComponent); ok && rc != nil {
+				if w := rc.GetWindow(); w != nil {
+					w.SetCursor(gouiwindow.CursorDefault)
+				}
+			}
 		}
 	})
 

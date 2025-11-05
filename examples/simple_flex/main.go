@@ -12,7 +12,6 @@ import (
 	"github.com/millken/goui/component"
 	"github.com/millken/goui/event"
 	"github.com/millken/goui/window/glfw"
-	"github.com/millken/yoga"
 )
 
 // YogaBox 是一个使用 Yoga 计算几何并用 thorvg 绘制的简单矩形组件
@@ -67,9 +66,11 @@ func main() {
 
 	// 根容器：垂直方向的 Flex 布局
 	root := component.Column("root")
-	// 设置交叉轴拉伸，确保子项有非零宽度；并设置统一间距
+	// 使用新的便捷 API：内边距与行/列间距
 	root.SetAlign(component.AlignStretch)
-	root.GetYogaNode().SetGap(yoga.GutterAll, 8)
+	root.SetPadding(12)
+	root.SetRowGap(8)
+	root.SetColumnGap(8)
 	// 不固定根容器的宽高，交由 App 每帧以窗口尺寸驱动 Yoga.Layout
 
 	// 三个 YogaBox，设置 flexGrow 让它们沿主轴（竖向）分配空间
@@ -91,6 +92,21 @@ func main() {
 	root.AddChild(b1)
 	root.AddChild(b2)
 	root.AddChild(b3)
+
+	// 再加一些盒子来演示 Wrap 与 AlignContent
+	wrap := component.Row("wrap")
+	wrap.SetWrap(component.WrapWrap)
+	wrap.SetAlign(component.AlignStart)
+	wrap.SetAlignContent(component.AlignStart)
+	wrap.SetRowGap(8)
+	wrap.SetColumnGap(8)
+	for i := 0; i < 10; i++ {
+		box := NewYogaBox(color.NewColor(uint8(30*i), uint8(255-20*i), uint8(100+10*i), 255))
+		box.GetYogaNode().SetMinWidth(80)
+		box.GetYogaNode().SetMinHeight(40)
+		wrap.AddChild(box)
+	}
+	root.AddChild(wrap)
 
 	// 创建并运行应用
 	app, err := goui.NewApp(win, root)
