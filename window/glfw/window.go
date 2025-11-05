@@ -61,6 +61,10 @@ func (w *Window) Close() error {
 		delete(w.cursors, k)
 	}
 	if w.native != nil {
+		// 如果当前上下文是该窗口，先解绑，避免销毁后留下悬空上下文
+		if glfw.GetCurrentContext() == w.native {
+			glfw.DetachCurrentContext()
+		}
 		w.native.Destroy()
 		w.native = nil
 	}
@@ -112,6 +116,10 @@ func (w *Window) SetMouseVisible(visible bool) {
 }
 
 func (w *Window) SetVSync(enabled bool) {
+	// glfw.SwapInterval affects the current context; ensure this window's context is current
+	if w.native != nil {
+		w.native.MakeContextCurrent()
+	}
 	if enabled {
 		glfw.SwapInterval(1)
 	} else {

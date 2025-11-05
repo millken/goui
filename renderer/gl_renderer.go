@@ -96,6 +96,10 @@ func (r *GLRenderer) BeginFrame(width, height int) (*thorvg.Canvas, error) {
 			return nil, err
 		}
 	}
+	// 确保每帧都按当前目标尺寸设置 viewport（viewport 是上下文局部状态）
+	if r.width > 0 && r.height > 0 {
+		gl.Viewport(0, 0, int32(r.width), int32(r.height))
+	}
 	// 在绘制开始前清理默认帧缓冲，避免上一帧残留
 	gl.ClearColor(0.12, 0.12, 0.12, 1.0)
 	gl.Clear(gl.COLOR_BUFFER_BIT)

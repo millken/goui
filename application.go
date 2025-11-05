@@ -25,6 +25,8 @@ type Application struct {
 	windowFactory func(title string, width, height int) (window.Window, error)
 	// 在主线程（Run 所在线程）执行的任务队列
 	tasks chan func()
+	// 在关闭某个窗口后，标记需要为其它会话刷新场景（重绑并强制重绘）
+	ctxInvalidated bool
 }
 
 type Session struct {
@@ -36,6 +38,9 @@ type Session struct {
 
 	lastSize [2]int
 	closed   bool
+	// needReset 表示需要在下一帧对渲染器执行 ResetScene，
+	// 用于处理在同一循环中检测到上下文失效但已错过重置时的补偿。
+	needReset bool
 }
 
 type applicationOptions struct {
@@ -88,12 +93,12 @@ func (app *Application) SetRendererFactory(f func() (rend.Renderer, error)) {
 	}
 }
 
-// NewSession 创建一个窗口会话
+// NewSession 创建一个窗口会话（使用默认配置）；移动端可在外层限制数量
 func (app *Application) NewSession(win window.Window, root component.Component) (*Session, error) {
 	return app.NewSessionWithAppConfig(win, root, app.defaultCfg)
 }
 
-// NewSessionWithAppConfig 创建一个窗口会话；移动端可在外层限制数量
+// NewSessionWithAppConfig 使用指定配置创建会话
 func (app *Application) NewSessionWithAppConfig(win window.Window, root component.Component, cfg *AppConfig) (*Session, error) {
 	if root == nil || win == nil {
 		return nil, fmt.Errorf("window/root cannot be nil")
@@ -124,6 +129,8 @@ func (app *Application) NewSessionWithAppConfig(win window.Window, root componen
 		s.cfg = app.defaultCfg
 	}
 	win.SetVSync(s.cfg.EnableVSync)
+	// 显示窗口（如后端需要）
+	_ = win.Open()
 	if err := s.em.Start(); err != nil {
 		return nil, err
 	}
@@ -156,12 +163,15 @@ func (app *Application) Run() {
 		// 全局轮询以触发平台事件回调
 		// 各后端可在各自窗口包装内部处理；这里依赖每会话 FetchEvents
 
-		// 遍历会话：事件→布局→渲染
-		renderedAny := false
-		hadEvents := false
+		// 第一阶段：清理已关闭会话并生成 alive 列表
+		anyClosed := false
+		alive := make([]*Session, 0, len(app.sessions))
 		for _, s := range app.sessions {
+			// 先轮询一次事件，使后端状态（如 ShouldClose）及时更新
+			if s != nil && s.win != nil {
+				s.win.PollEvents()
+			}
 			if s == nil || !s.win.IsOpen() {
-				// 窗口请求关闭时，主动清理并销毁窗口，避免界面上悬挂不消失
 				if s != nil && !s.closed {
 					s.closed = true
 					if s.em != nil {
@@ -170,21 +180,34 @@ func (app *Application) Run() {
 					if s.renderer != nil {
 						s.renderer.Cleanup()
 					}
-					// 销毁平台窗口
 					_ = s.win.Close()
+					anyClosed = true
 				}
 				continue
 			}
+			alive = append(alive, s)
+		}
+		app.sessions = alive
+		if anyClosed {
+			app.ctxInvalidated = true
+		}
+
+		// 第二阶段：对存活会话进行事件、布局与渲染
+		renderedAny := false
+		hadEvents := false
+		for _, s := range app.sessions {
 			// 批量取事件
 			s.pullEvents(&hadEvents)
-			// 尺寸/布局
+
+			// 尺寸/布局/场景重置
 			w, h := s.win.GetSize()
 			resized := s.lastSize != [2]int{w, h}
-			if resized {
+			if resized || s.needReset || app.ctxInvalidated {
 				s.lastSize = [2]int{w, h}
 				s.win.MakeContextCurrent()
 				_ = s.renderer.ResetScene(w, h)
 				s.root.MarkDirty(true)
+				s.needReset = false
 			}
 			// 布局
 			layoutNeeded := resized
@@ -208,9 +231,12 @@ func (app *Application) Run() {
 			if s.root.Paint(canvas) {
 				renderedAny = true
 			}
-			// 无论是否有组件绘制，都提交本帧并交换缓冲，避免在上下文切换/窗口关闭后出现黑屏或残影
 			_ = s.renderer.EndFrame()
 			s.win.SwapBuffers()
+		}
+		// 已处理上下文重置，清除标记
+		if app.ctxInvalidated {
+			app.ctxInvalidated = false
 		}
 
 		// 空闲帧休眠
