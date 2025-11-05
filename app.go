@@ -101,10 +101,23 @@ func (a *App) Run() {
 	for a.window.IsOpen() {
 		frameStart := time.Now()
 
-		// 处理平台事件
-		event := a.window.WaitEvents(time.Millisecond * 16) // 大约60 FPS
-		if event != nil {
-			a.eventM.PostEvent(event)
+		// 处理平台事件：先快速排空队列，减少 hover 等连续事件的滞后
+		hadEvents := false
+		if fetcher, ok := a.window.(interface{ FetchEvents(int) []event.Event }); ok {
+			events := fetcher.FetchEvents(0) // 0 表示尽可能多地取出
+			for _, ev := range events {
+				if ev != nil {
+					_ = a.eventM.PostEvent(ev)
+					hadEvents = true
+				}
+			}
+		} else {
+			// 回退到非阻塞单个获取
+			ev := a.window.WaitEvents(0)
+			if ev != nil {
+				_ = a.eventM.PostEvent(ev)
+				hadEvents = true
+			}
 		}
 
 		// 获取当前窗口大小
@@ -169,8 +182,12 @@ func (a *App) Run() {
 
 		// 帧率控制
 		frameTime := time.Since(frameStart)
-		if frameTime < 16*time.Millisecond { // 约60 FPS
-			time.Sleep(16*time.Millisecond - frameTime)
+		// 有事件或刚渲染过一帧时不强制睡眠，提升交互跟手性
+		if !hadEvents && !rendered {
+			budget := 16 * time.Millisecond
+			if frameTime < budget {
+				time.Sleep(budget - frameTime)
+			}
 		}
 
 		// 定期输出统计信息

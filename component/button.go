@@ -14,6 +14,10 @@ type Button struct {
 	bg     gouicolor.Color
 	fg     gouicolor.Color
 	radius float32
+	// hover styles (optional)
+	hoverBG gouicolor.Color
+	// persistent default background to restore on hover leave
+	defaultBG gouicolor.Color
 }
 
 func NewButton(id ...string) *Button {
@@ -22,11 +26,23 @@ func NewButton(id ...string) *Button {
 		bg:            gouicolor.NewColor(230, 230, 230, 255),
 		fg:            gouicolor.NewColor(30, 30, 30, 255),
 		radius:        4,
+		hoverBG:       gouicolor.NewColor(210, 210, 210, 255),
+		defaultBG:     gouicolor.NewColor(230, 230, 230, 255),
 	}
 	// 默认最小高度，避免高度为 0
 	btn.GetYogaNode().SetMinHeight(36)
 	// 默认自适应宽度并居中（在列容器交叉轴上不被拉伸）
 	btn.GetYogaNode().SetAlignSelf(yoga.AlignCenter)
+
+	// 默认 hover 行为：鼠标移入变色，移出恢复
+	btn.OnHover(func(hover bool) {
+		if hover {
+			btn.SetBackgroundColor(btn.hoverBG)
+		} else {
+			// 恢复为进入 hover 前记录的默认背景色
+			btn.SetBackgroundColor(btn.defaultBG)
+		}
+	})
 	return btn
 }
 
@@ -39,6 +55,10 @@ func (b *Button) SetText(text string) {
 func (b *Button) SetBackgroundColor(c gouicolor.Color) {
 	if b.bg != c {
 		b.bg = c
+		// 非悬停状态下更新默认背景色，保证 hover 离开时恢复到“原始”颜色
+		if !b.hovered {
+			b.defaultBG = c
+		}
 		b.MarkDirty(false)
 	}
 }
@@ -48,6 +68,11 @@ func (b *Button) SetTextColor(c gouicolor.Color) {
 		b.fg = c
 		b.MarkDirty(false)
 	}
+}
+
+// OnHover 为按钮注册悬停回调，便于外部自定义悬停样式
+func (b *Button) OnHover(handler func(hover bool)) {
+	b.BaseComponent.OnHover(handler)
 }
 
 // 根据文本测量结果计算按钮的建议宽度（文本宽 + 水平内边距*2）

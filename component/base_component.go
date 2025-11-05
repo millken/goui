@@ -2,7 +2,6 @@
 package component
 
 import (
-	"fmt"
 	"image"
 	"log/slog"
 	"math"
@@ -26,6 +25,7 @@ type BaseComponent struct {
 	parent  Component
 	visible bool // 可见性标记
 	dirty   bool // 脏标记
+	hovered bool // 悬停状态
 }
 
 func NewBaseComponent(id ...string) *BaseComponent {
@@ -173,7 +173,7 @@ func (b *BaseComponent) GetYogaNode() *yoga.Node {
 	return b.yoga
 }
 
-// 以下为布局便捷方法，避免业务代码直接操作 yoga.Node
+// SetWidth 设置组件的宽度（便捷方法，避免直接操作 yoga.Node）
 func (b *BaseComponent) SetWidth(w float32) {
 	b.mu.Lock()
 	b.yoga.SetWidth(w)
@@ -181,6 +181,7 @@ func (b *BaseComponent) SetWidth(w float32) {
 	b.mu.Unlock()
 }
 
+// SetHeight 设置组件的高度（便捷方法，避免直接操作 yoga.Node）
 func (b *BaseComponent) SetHeight(h float32) {
 	b.mu.Lock()
 	b.yoga.SetHeight(h)
@@ -188,6 +189,7 @@ func (b *BaseComponent) SetHeight(h float32) {
 	b.mu.Unlock()
 }
 
+// SetMinWidth 设置组件的最小宽度（便捷方法，避免直接操作 yoga.Node）
 func (b *BaseComponent) SetMinWidth(w float32) {
 	b.mu.Lock()
 	b.yoga.SetMinWidth(w)
@@ -195,6 +197,7 @@ func (b *BaseComponent) SetMinWidth(w float32) {
 	b.mu.Unlock()
 }
 
+// SetMinHeight 设置组件的最小高度（便捷方法，避免直接操作 yoga.Node）
 func (b *BaseComponent) SetMinHeight(h float32) {
 	b.mu.Lock()
 	b.yoga.SetMinHeight(h)
@@ -202,6 +205,7 @@ func (b *BaseComponent) SetMinHeight(h float32) {
 	b.mu.Unlock()
 }
 
+// SetFlexGrow 设置组件的伸展比例（便捷方法，避免直接操作 yoga.Node）
 func (b *BaseComponent) SetFlexGrow(g float32) {
 	b.mu.Lock()
 	b.yoga.SetFlexGrow(g)
@@ -209,6 +213,7 @@ func (b *BaseComponent) SetFlexGrow(g float32) {
 	b.mu.Unlock()
 }
 
+// SetAlignSelf 设置交叉轴上的自对齐（便捷方法，避免直接操作 yoga.Node）
 func (b *BaseComponent) SetAlignSelf(a Align) {
 	b.mu.Lock()
 	b.yoga.SetAlignSelf(a.toYoga())
@@ -458,7 +463,33 @@ func (b *BaseComponent) OnClick(handler func(event event.MouseEvent)) {
 
 func (b *BaseComponent) OnHover(handler func(hover bool)) {
 	b.RegisterEventListener(event.EventMouse, event.EventListenerFunc(func(e event.Event) bool {
-		fmt.Println("ss")
-		return true
+		me, ok := e.(*event.MouseEvent)
+		if !ok {
+			return false
+		}
+		// 命中测试
+		root := b.Root()
+		if root == nil {
+			return false
+		}
+		self := GetComponentByID(root, b.ID())
+		if self == nil {
+			return false
+		}
+		r := self.Bounds()
+		inside := me.X >= float32(r.Min.X) && me.X < float32(r.Max.X) && me.Y >= float32(r.Min.Y) && me.Y < float32(r.Max.Y)
+
+		// 仅在状态变化时触发回调
+		b.mu.Lock()
+		changed := (inside != b.hovered)
+		if changed {
+			b.hovered = inside
+		}
+		b.mu.Unlock()
+		if changed {
+			handler(inside)
+			return true
+		}
+		return false
 	}))
 }

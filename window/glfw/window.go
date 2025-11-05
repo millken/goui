@@ -106,7 +106,12 @@ func (w *Window) PollEvents() {
 }
 
 func (w *Window) WaitEvents(timeout time.Duration) event.Event {
-	glfw.WaitEventsTimeout(timeout.Seconds())
+	// 当 timeout 为 0 时，不阻塞等待，直接轮询一次以触发回调并尽快返回
+	if timeout <= 0 {
+		glfw.PollEvents()
+	} else {
+		glfw.WaitEventsTimeout(timeout.Seconds())
+	}
 	select {
 	case ev := <-w.events:
 		return ev
@@ -116,6 +121,67 @@ func (w *Window) WaitEvents(timeout time.Duration) event.Event {
 		w.lastEvent = nil
 		return ev
 	}
+}
+
+// FetchEvents 尽可能在不阻塞的情况下批量获取事件，最多返回 max 个。
+// 当 max<=0 时，返回当前可用的所有事件。该方法还会对连续的鼠标移动事件进行简单合并，减少冗余处理。
+func (w *Window) FetchEvents(max int) []event.Event {
+	// 快速轮询以触发回调，将系统事件推送到队列
+	glfw.PollEvents()
+
+	// 从通道拉取事件
+	var out []event.Event
+	pull := func() (event.Event, bool) {
+		select {
+		case ev := <-w.events:
+			return ev, true
+		default:
+			if w.lastEvent != nil {
+				ev := w.lastEvent
+				w.lastEvent = nil
+				return ev, true
+			}
+			return nil, false
+		}
+	}
+
+	limit := max
+	if max <= 0 {
+		limit = 1<<31 - 1
+	}
+
+	// 简易合并：如果连续读取到 MouseEvent（移动）且仅位置变化，则只保留最后一个
+	var pendingMove *event.MouseEvent
+	for len(out) < limit {
+		ev, ok := pull()
+		if !ok {
+			break
+		}
+		if me, ok := ev.(*event.MouseEvent); ok {
+			if !me.Down && me.Count == 0 {
+				// 移动事件，合并
+				pendingMove = me
+				continue
+			}
+			// 非移动或按键相关事件，先冲刷 pendingMove
+			if pendingMove != nil {
+				out = append(out, pendingMove)
+				pendingMove = nil
+			}
+			out = append(out, ev)
+			continue
+		}
+		// 其他事件，冲刷 pendingMove 后追加
+		if pendingMove != nil {
+			out = append(out, pendingMove)
+			pendingMove = nil
+		}
+		out = append(out, ev)
+	}
+	if pendingMove != nil && len(out) < limit {
+		out = append(out, pendingMove)
+	}
+	return out
 }
 
 // GetLastEvent 获取最后一个事件
