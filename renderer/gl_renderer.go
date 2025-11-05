@@ -95,12 +95,15 @@ func (r *GLRenderer) Present() {
 }
 
 // ResetScene 清空 ThorVG 场景，常用于窗口尺寸变更或需要彻底重建场景时
-func (r *GLRenderer) ResetScene() error {
+func (r *GLRenderer) ResetScene(width, height int) error {
 	if r.canvas != nil {
 		r.canvas.Destroy()
 	}
 	r.canvas = thorvg.NewGlCanvas()
-	// 重新绑定当前 GL 上下文和目标尺寸
+	// 重新保存尺寸并绑定当前 GL 上下文和目标尺寸
+	if width > 0 && height > 0 {
+		r.width, r.height = uint32(width), uint32(height)
+	}
 	ctx := C.getCurrentGLContext()
 	return r.canvas.GlCanvasSetTarget(unsafe.Pointer(ctx), 0, r.width, r.height, thorvg.ColorspaceABGR8888S)
 }

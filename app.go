@@ -132,8 +132,8 @@ func (a *App) Run() {
 
 		// 如果窗口大小改变了，先重置渲染场景，避免旧 Canvas 被销毁后仍被使用
 		if windowResized && a.root != nil {
-			if rs, ok := a.renderer.(interface{ ResetScene() error }); ok {
-				_ = rs.ResetScene()
+			if rs, ok := a.renderer.(interface{ ResetScene(int, int) error }); ok {
+				_ = rs.ResetScene(w, h)
 			}
 			// 标记根组件为脏以触发一次完整重绘
 			a.root.MarkDirty(true)
@@ -148,7 +148,18 @@ func (a *App) Run() {
 
 		// 在渲染前计算布局（以窗口尺寸为根容器尺寸）
 		if a.root != nil {
-			a.root.Layout(float32(w), float32(h), yoga.DirectionLTR)
+			layoutNeeded := windowResized
+			if checker, ok := a.root.(interface{ CheckLayoutDirtyRecursive() bool }); ok {
+				if checker.CheckLayoutDirtyRecursive() {
+					layoutNeeded = true
+				}
+			}
+			if layoutNeeded {
+				a.root.Layout(float32(w), float32(h), yoga.DirectionLTR)
+				if clearer, ok := a.root.(interface{ ClearLayoutDirtyRecursive() }); ok {
+					clearer.ClearLayoutDirtyRecursive()
+				}
+			}
 		}
 
 		// 直接让组件树决定是否需要渲染

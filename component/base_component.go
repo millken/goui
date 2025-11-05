@@ -28,6 +28,8 @@ type BaseComponent struct {
 	dirty   bool // 脏标记
 	hovered bool // 悬停状态
 	win     window.Window
+	// layout 脏标记：仅当影响布局的属性变化时置为 true
+	layoutDirty bool
 }
 
 func NewBaseComponent(id ...string) *BaseComponent {
@@ -202,6 +204,7 @@ func (b *BaseComponent) SetWidth(w float32) {
 	b.mu.Lock()
 	b.yoga.SetWidth(w)
 	b.dirty = true
+	b.layoutDirty = true
 	b.mu.Unlock()
 }
 
@@ -210,6 +213,7 @@ func (b *BaseComponent) SetHeight(h float32) {
 	b.mu.Lock()
 	b.yoga.SetHeight(h)
 	b.dirty = true
+	b.layoutDirty = true
 	b.mu.Unlock()
 }
 
@@ -218,6 +222,7 @@ func (b *BaseComponent) SetMinWidth(w float32) {
 	b.mu.Lock()
 	b.yoga.SetMinWidth(w)
 	b.dirty = true
+	b.layoutDirty = true
 	b.mu.Unlock()
 }
 
@@ -226,6 +231,7 @@ func (b *BaseComponent) SetMinHeight(h float32) {
 	b.mu.Lock()
 	b.yoga.SetMinHeight(h)
 	b.dirty = true
+	b.layoutDirty = true
 	b.mu.Unlock()
 }
 
@@ -234,6 +240,7 @@ func (b *BaseComponent) SetFlexGrow(g float32) {
 	b.mu.Lock()
 	b.yoga.SetFlexGrow(g)
 	b.dirty = true
+	b.layoutDirty = true
 	b.mu.Unlock()
 }
 
@@ -242,6 +249,7 @@ func (b *BaseComponent) SetAlignSelf(a Align) {
 	b.mu.Lock()
 	b.yoga.SetAlignSelf(a.toYoga())
 	b.dirty = true
+	b.layoutDirty = true
 	b.mu.Unlock()
 }
 
@@ -274,6 +282,7 @@ func (b *BaseComponent) AddChild(c Component) {
 	}
 	// 标记自身为脏
 	b.dirty = true
+	b.layoutDirty = true
 	b.mu.Unlock()
 
 	// 在未持有父锁的情况下设置父子关系，避免潜在的锁顺序反转
@@ -299,28 +308,32 @@ func (b *BaseComponent) Children() []Component {
 }
 
 func (b *BaseComponent) Paint(vg *thorvg.Canvas) bool {
+	// 快照状态，避免持锁递归调用子组件
 	b.mu.Lock()
-	defer b.mu.Unlock()
+	children := append([]Component(nil), b.children...)
+	visible := b.visible
+	isDirty := b.dirty
+	if isDirty {
+		b.dirty = false
+	}
+	b.mu.Unlock()
 
-	// 递归渲染子组件
+	// 先绘制子组件
 	childRendered := false
-	for _, child := range b.children {
+	for _, child := range children {
 		if child.Paint(vg) {
 			childRendered = true
 		}
 	}
 
-	//如果不可见，跳过自己渲染
-	if !b.visible {
+	// 如果不可见，跳过自身渲染
+	if !visible {
 		return childRendered
 	}
-
-	// 如果自己需要渲染，清理脏状态
-	if b.dirty {
-		b.dirty = false
+	// 自身脏则视为已渲染（具体绘制由子类完成）
+	if isDirty {
 		return true
 	}
-
 	return childRendered
 }
 
@@ -401,6 +414,69 @@ func (b *BaseComponent) CheckDirtyRecursive() bool {
 	return false
 }
 
+// ----- 布局脏标记相关 -----
+
+// MarkLayoutDirty 标记布局为脏；可递归标记子树
+func (b *BaseComponent) MarkLayoutDirty(recursive bool) {
+	b.mu.Lock()
+	b.layoutDirty = true
+	children := append([]Component(nil), b.children...)
+	b.mu.Unlock()
+	if recursive {
+		for _, child := range children {
+			if bc, ok := child.(*BaseComponent); ok {
+				bc.MarkLayoutDirty(true)
+			}
+		}
+	}
+}
+
+// IsLayoutDirty 返回是否布局脏
+func (b *BaseComponent) IsLayoutDirty() bool {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+	return b.layoutDirty
+}
+
+// ClearLayoutDirty 清除自身布局脏标记
+func (b *BaseComponent) ClearLayoutDirty() {
+	b.mu.Lock()
+	b.layoutDirty = false
+	b.mu.Unlock()
+}
+
+// CheckLayoutDirtyRecursive 递归检查子树是否存在布局脏
+func (b *BaseComponent) CheckLayoutDirtyRecursive() bool {
+	b.mu.RLock()
+	if b.layoutDirty {
+		b.mu.RUnlock()
+		return true
+	}
+	children := append([]Component(nil), b.children...)
+	b.mu.RUnlock()
+	for _, child := range children {
+		if rc, ok := child.(interface{ CheckLayoutDirtyRecursive() bool }); ok {
+			if rc.CheckLayoutDirtyRecursive() {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// ClearLayoutDirtyRecursive 递归清除布局脏标记
+func (b *BaseComponent) ClearLayoutDirtyRecursive() {
+	b.ClearLayoutDirty()
+	b.mu.RLock()
+	children := append([]Component(nil), b.children...)
+	b.mu.RUnlock()
+	for _, child := range children {
+		if rc, ok := child.(interface{ ClearLayoutDirtyRecursive() }); ok {
+			rc.ClearLayoutDirtyRecursive()
+		}
+	}
+}
+
 // absoluteOffset 通过向上累加 Yoga 计算布局，得到绝对坐标
 func (b *BaseComponent) absoluteOffset() (float32, float32) {
 	var x, y float32
@@ -467,16 +543,8 @@ func (b *BaseComponent) OnClick(handler func(event event.MouseEvent)) {
 		if !ok || !me.Down {
 			return false
 		}
-		// 通过 root/tree 找到当前组件实例，使用其 Bounds 做命中测试
-		root := b.Root()
-		if root == nil {
-			return false
-		}
-		self := GetComponentByID(root, b.ID())
-		if self == nil {
-			return false
-		}
-		r := self.Bounds()
+		// 直接使用自身的 Bounds 做命中测试，避免遍历组件树
+		r := b.Bounds()
 		if me.X < float32(r.Min.X) || me.X >= float32(r.Max.X) || me.Y < float32(r.Min.Y) || me.Y >= float32(r.Max.Y) {
 			return false
 		}
@@ -495,16 +563,8 @@ func (b *BaseComponent) OnHover(handler func(hover bool)) {
 		if me.Count != 0 {
 			return false
 		}
-		// 命中测试
-		root := b.Root()
-		if root == nil {
-			return false
-		}
-		self := GetComponentByID(root, b.ID())
-		if self == nil {
-			return false
-		}
-		r := self.Bounds()
+		// 命中测试：直接使用自身 Bounds
+		r := b.Bounds()
 		inside := me.X >= float32(r.Min.X) && me.X < float32(r.Max.X) && me.Y >= float32(r.Min.Y) && me.Y < float32(r.Max.Y)
 
 		// 仅在状态变化时触发回调

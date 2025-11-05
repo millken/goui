@@ -6,7 +6,6 @@ import (
 	"github.com/millken/goui/event"
 	gouifont "github.com/millken/goui/font"
 	gouiwindow "github.com/millken/goui/window"
-	"github.com/millken/yoga"
 )
 
 type Button struct {
@@ -53,9 +52,9 @@ func NewButton(id ...string) *Button {
 		savedFG:       gouicolor.NewColor(30, 30, 30, 255),
 	}
 	// 默认最小高度，避免高度为 0
-	btn.GetYogaNode().SetMinHeight(36)
+	btn.SetMinHeight(36)
 	// 默认自适应宽度并居中（在列容器交叉轴上不被拉伸）
-	btn.GetYogaNode().SetAlignSelf(yoga.AlignCenter)
+	btn.SetAlignSelf(AlignCenter)
 
 	// 默认 hover 行为：鼠标移入变色，移出恢复
 	btn.OnHover(func(hover bool) {
@@ -281,7 +280,8 @@ func (b *Button) updateIntrinsicWidth() {
 	if width < 48 {
 		width = 48
 	}
-	b.GetYogaNode().SetWidth(width)
+	// 使用便捷方法以自动标记布局脏
+	b.SetWidth(width)
 }
 
 // 根据字体和内边距计算推荐高度（多行暂不自动扩展）
@@ -291,7 +291,8 @@ func (b *Button) updateIntrinsicHeight() {
 	if h < 36 {
 		h = 36
 	}
-	b.GetYogaNode().SetMinHeight(h)
+	// 使用便捷方法以自动标记布局脏
+	b.SetMinHeight(h)
 }
 
 // Paint 绘制按钮（背景 + 文本），仅在脏时绘制

@@ -125,6 +125,7 @@ func (f *Flex) SetDirection(direction Direction) {
 		f.direction = direction
 		f.GetYogaNode().SetFlexDirection(direction.toYoga())
 		f.MarkDirty(false)
+		f.MarkLayoutDirty(false)
 	}
 }
 
@@ -134,6 +135,7 @@ func (f *Flex) SetWrap(wrap Wrap) {
 		f.wrap = wrap
 		f.GetYogaNode().SetFlexWrap(wrap.toYoga())
 		f.MarkDirty(false)
+		f.MarkLayoutDirty(false)
 	}
 }
 
@@ -143,6 +145,7 @@ func (f *Flex) SetJustify(justify Justify) {
 		f.justify = justify
 		f.GetYogaNode().SetJustifyContent(justify.toYoga())
 		f.MarkDirty(false)
+		f.MarkLayoutDirty(false)
 	}
 }
 
@@ -152,6 +155,7 @@ func (f *Flex) SetAlign(align Align) {
 		f.align = align
 		f.GetYogaNode().SetAlignItems(align.toYoga())
 		f.MarkDirty(false)
+		f.MarkLayoutDirty(false)
 	}
 }
 
@@ -161,6 +165,7 @@ func (f *Flex) SetAlignSelf(alignSelf Align) {
 		f.alignSelf = alignSelf
 		f.GetYogaNode().SetAlignSelf(alignSelf.toYoga())
 		f.MarkDirty(false)
+		f.MarkLayoutDirty(false)
 	}
 }
 
@@ -171,6 +176,7 @@ func (f *Flex) SetGap(gap float32) {
 		f.rowGap, f.columnGap = 0, 0
 		f.GetYogaNode().SetGap(yoga.GutterAll, gap)
 		f.MarkDirty(false)
+		f.MarkLayoutDirty(false)
 	}
 }
 
@@ -181,6 +187,7 @@ func (f *Flex) SetRowGap(gap float32) {
 		f.gap = 0
 		f.GetYogaNode().SetGap(yoga.GutterRow, gap)
 		f.MarkDirty(false)
+		f.MarkLayoutDirty(false)
 	}
 }
 
@@ -191,6 +198,7 @@ func (f *Flex) SetColumnGap(gap float32) {
 		f.gap = 0
 		f.GetYogaNode().SetGap(yoga.GutterColumn, gap)
 		f.MarkDirty(false)
+		f.MarkLayoutDirty(false)
 	}
 }
 
@@ -216,6 +224,7 @@ func (f *Flex) SetPaddingEdges(left, top, right, bottom float32) {
 	node.SetPadding(yoga.EdgeRight, right)
 	node.SetPadding(yoga.EdgeBottom, bottom)
 	f.MarkDirty(false)
+	f.MarkLayoutDirty(false)
 }
 
 // SetAlignContent 设置多行内容在交叉轴上的对齐（当 Wrap 启用并产生多行时生效）
@@ -224,6 +233,7 @@ func (f *Flex) SetAlignContent(align Align) {
 		f.alignContent = align
 		f.GetYogaNode().SetAlignContent(align.toYoga())
 		f.MarkDirty(false)
+		f.MarkLayoutDirty(false)
 	}
 }
 
