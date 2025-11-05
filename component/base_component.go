@@ -467,6 +467,10 @@ func (b *BaseComponent) OnHover(handler func(hover bool)) {
 		if !ok {
 			return false
 		}
+		// 仅处理鼠标移动（Count==0），避免按下/释放时影响 Click 事件
+		if me.Count != 0 {
+			return false
+		}
 		// 命中测试
 		root := b.Root()
 		if root == nil {
@@ -488,8 +492,8 @@ func (b *BaseComponent) OnHover(handler func(hover bool)) {
 		b.mu.Unlock()
 		if changed {
 			handler(inside)
-			return true
 		}
+		// 悬停状态变化不应吞掉事件，允许后续 Click/Active 等处理
 		return false
 	}))
 }
