@@ -92,8 +92,14 @@ type Edges struct {
 	Bottom     *Dimension
 }
 
-// Dimension helpers
-func Px(v float32) *Dimension  { return &Dimension{Value: v, Unit: UnitPoint} }
-func Pc(v float32) *Dimension  { return &Dimension{Value: v, Unit: UnitPercent} }
-func AutoDim() *Dimension      { return &Dimension{Unit: UnitAuto} }
+// Px returns a Dimension in physical pixels/points.
+func Px(v float32) *Dimension { return &Dimension{Value: v, Unit: UnitPoint} }
+
+// Pc returns a Dimension in percentage (0..100).
+func Pc(v float32) *Dimension { return &Dimension{Value: v, Unit: UnitPercent} }
+
+// AutoDim returns a Dimension using the Yoga auto keyword.
+func AutoDim() *Dimension { return &Dimension{Unit: UnitAuto} }
+
+// UndefinedDim returns a Dimension representing an undefined value.
 func UndefinedDim() *Dimension { return &Dimension{Unit: UnitUndefined} }

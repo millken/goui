@@ -15,7 +15,7 @@ const (
 	EventScroll
 )
 
-// 修饰键
+// ModifierKey represents keyboard modifier keys bitmask, e.g., Shift, Control.
 type ModifierKey int
 
 const (

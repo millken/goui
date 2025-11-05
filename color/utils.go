@@ -1,3 +1,4 @@
+// Package color provides utilities to parse and convert color formats.
 package color
 
 import (
@@ -170,8 +171,7 @@ func parseAlpha(s string) (uint8, bool) {
 	return uint8(v), true
 }
 
-// NOTE: parseRGB currently returns same component for r,g,b. For correctness,
-// we provide separate integer parsing; keeping simple util, prefer #RRGGBB in practice.
+// ParseRGB parses integer strings for r, g, b and validates they are within 0..255.
 func ParseRGB(rStr, gStr, bStr string) (uint8, uint8, uint8, error) {
 	r, err := strconv.Atoi(rStr)
 	if err != nil {

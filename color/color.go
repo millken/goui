@@ -1,3 +1,4 @@
+// Package color provides simple color utilities and helpers for RGBA values.
 package color
 
 type Color interface {

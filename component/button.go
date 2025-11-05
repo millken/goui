@@ -11,10 +11,8 @@ import (
 type Button struct {
 	*BaseComponent
 	text string
-	// basic styles
-	bg     gouicolor.Color
-	fg     gouicolor.Color
-	radius float32
+	// basic styles are now sourced from BaseComponent.Style
+	// kept only for transitional logic fields below
 	// text & layout
 	fontFamily string
 	fontSize   float64
@@ -37,9 +35,6 @@ type Button struct {
 func NewButton(id ...string) *Button {
 	btn := &Button{
 		BaseComponent: NewBaseComponent(id...),
-		bg:            gouicolor.NewColor(230, 230, 230, 255),
-		fg:            gouicolor.NewColor(30, 30, 30, 255),
-		radius:        4,
 		fontFamily:    "OPPO Sans 4.0",
 		fontSize:      14.0,
 		paddingX:      12,
@@ -51,6 +46,14 @@ func NewButton(id ...string) *Button {
 		disabledFG:    gouicolor.NewColor(160, 160, 160, 255),
 		savedFG:       gouicolor.NewColor(30, 30, 30, 255),
 	}
+	// initialize default visual Style
+	btn.UpdateStyle(func(s *Style) {
+		bgHex := colorToHex(btn.defaultBG)
+		fgHex := colorToHex(btn.savedFG)
+		s.BackgroundColor = &bgHex
+		s.Color = &fgHex
+		s.BorderRadius = Px(4)
+	})
 	// 默认最小高度，避免高度为 0
 	btn.SetMinHeight(36)
 	// 默认自适应宽度并居中（在列容器交叉轴上不被拉伸）
@@ -145,20 +148,22 @@ func (b *Button) SetText(text string) {
 }
 
 func (b *Button) SetBackgroundColor(c gouicolor.Color) {
-	if b.bg != c {
-		b.bg = c
-		// 非悬停状态下更新默认背景色，保证 hover 离开时恢复到“原始”颜色
-		if !b.hovered {
-			b.defaultBG = c
-		}
-		b.MarkDirty(false)
+	// update Style.BackgroundColor and dirty
+	r, g, bl, a := c.RGBA()
+	hex := colorToHex(c)
+	b.UpdateStyle(func(s *Style) { s.BackgroundColor = &hex })
+	// update stored defaults for hover lifecycle
+	if !b.hovered {
+		b.defaultBG = gouicolor.NewColor(r, g, bl, a)
 	}
 }
 
 func (b *Button) SetTextColor(c gouicolor.Color) {
-	if b.fg != c {
-		b.fg = c
-		b.MarkDirty(false)
+	hex := colorToHex(c)
+	b.UpdateStyle(func(s *Style) { s.Color = &hex })
+	// keep savedFG in sync for disable/enable restore
+	if !b.disabled {
+		b.savedFG = c
 	}
 }
 
@@ -188,10 +193,7 @@ func (b *Button) SetPadding(padX, padY float32) {
 
 // SetCornerRadius 设置圆角半径
 func (b *Button) SetCornerRadius(r float32) {
-	if b.radius != r {
-		b.radius = r
-		b.MarkDirty(false)
-	}
+	b.UpdateStyle(func(s *Style) { s.BorderRadius = Px(r) })
 }
 
 // SetTextSize 设置文本字号（影响测量与绘制）
@@ -222,15 +224,21 @@ func (b *Button) SetDisabled(disabled bool) {
 	b.disabled = disabled
 	if disabled {
 		b.pressed = false
-		b.savedFG = b.fg
-		// 直接赋值以避免 defaultBG 被覆盖
-		b.bg = b.disabledBG
-		b.fg = b.disabledFG
-		b.MarkDirty(false)
+		// apply disabled colors via Style; keep savedFG as previously set normal color
+		bgHex := colorToHex(b.disabledBG)
+		fgHex := colorToHex(b.disabledFG)
+		b.UpdateStyle(func(st *Style) {
+			st.BackgroundColor = &bgHex
+			st.Color = &fgHex
+		})
 	} else {
-		b.bg = b.defaultBG
-		b.fg = b.savedFG
-		b.MarkDirty(false)
+		// restore defaults via Style
+		bgHex := colorToHex(b.defaultBG)
+		fgHex := colorToHex(b.savedFG)
+		b.UpdateStyle(func(st *Style) {
+			st.BackgroundColor = &bgHex
+			st.Color = &fgHex
+		})
 	}
 }
 
@@ -247,23 +255,29 @@ const (
 func (b *Button) SetVariant(v ButtonVariant) {
 	switch v {
 	case VariantPrimary:
-		b.fg = gouicolor.NewColor(255, 255, 255, 255)
+		b.savedFG = gouicolor.NewColor(255, 255, 255, 255)
 		b.defaultBG = gouicolor.NewColor(33, 150, 243, 255)
 		b.hoverBG = gouicolor.NewColor(30, 136, 229, 255)
 		b.activeBG = gouicolor.NewColor(25, 118, 210, 255)
 	case VariantDanger:
-		b.fg = gouicolor.NewColor(255, 255, 255, 255)
+		b.savedFG = gouicolor.NewColor(255, 255, 255, 255)
 		b.defaultBG = gouicolor.NewColor(244, 67, 54, 255)
 		b.hoverBG = gouicolor.NewColor(229, 57, 53, 255)
 		b.activeBG = gouicolor.NewColor(211, 47, 47, 255)
 	default: // Neutral
-		b.fg = gouicolor.NewColor(30, 30, 30, 255)
+		b.savedFG = gouicolor.NewColor(30, 30, 30, 255)
 		b.defaultBG = gouicolor.NewColor(230, 230, 230, 255)
 		b.hoverBG = gouicolor.NewColor(210, 210, 210, 255)
 		b.activeBG = gouicolor.NewColor(200, 200, 200, 255)
 	}
 	if !b.disabled {
-		b.bg = b.defaultBG
+		// push style immediately if not disabled
+		bgHex := colorToHex(b.defaultBG)
+		fgHex := colorToHex(b.savedFG)
+		b.UpdateStyle(func(s *Style) {
+			s.BackgroundColor = &bgHex
+			s.Color = &fgHex
+		})
 	}
 	b.updateIntrinsicWidth()
 	b.updateIntrinsicHeight()
@@ -307,15 +321,21 @@ func (b *Button) Paint(vg *thorvg.Canvas) bool {
 	r := b.Bounds()
 	x, y := float32(r.Min.X), float32(r.Min.Y)
 
-	// 背景
-	if b.bg != gouicolor.TRANSPARENT {
-		bg := thorvg.NewShape()
-		if bg != nil {
-			bg.AppendRect(x, y, l.Width, l.Height, b.radius, b.radius, false)
-			rr, gg, bb, aa := b.bg.RGBA()
-			bg.SetFillColor(rr, gg, bb, aa)
-			vg.Push(&bg.Paint)
-			bg.Release()
+	// 背景（从 Style 读取背景色和圆角）
+	s := b.Style()
+	if s.BackgroundColor != nil {
+		if rr, gg, bb, aa, ok := gouicolor.ParseColor(*s.BackgroundColor); ok {
+			bg := thorvg.NewShape()
+			if bg != nil {
+				var radius float32
+				if s.BorderRadius != nil && s.BorderRadius.Unit == UnitPoint {
+					radius = s.BorderRadius.Value
+				}
+				bg.AppendRect(x, y, l.Width, l.Height, radius, radius, false)
+				bg.SetFillColor(rr, gg, bb, aa)
+				vg.Push(&bg.Paint)
+				bg.Release()
+			}
 		}
 	}
 
@@ -329,10 +349,23 @@ func (b *Button) Paint(vg *thorvg.Canvas) bool {
 		text := thorvg.NewText()
 		if text != nil {
 			text.SetText(b.text)
-			text.SetSize(float32(b.fontSize))
-			cr, cg, cb, _ := b.fg.RGBA()
-			text.SetColor(cr, cg, cb)
-			text.SetFont(b.fontFamily)
+			// 使用 ComputedStyle 的字体与颜色
+			cs := b.ComputedStyle()
+			size := float32(b.fontSize)
+			if cs.FontSize != nil && *cs.FontSize > 0 {
+				size = float32(*cs.FontSize)
+			}
+			text.SetSize(size)
+			if cs.Color != nil {
+				if cr, cg, cb, _, ok := gouicolor.ParseColor(*cs.Color); ok {
+					text.SetColor(cr, cg, cb)
+				}
+			}
+			if cs.Font != nil && *cs.Font != "" {
+				text.SetFont(*cs.Font)
+			} else {
+				text.SetFont(b.fontFamily)
+			}
 			text.Translate(tx, ty)
 			vg.Push(&text.Paint)
 			text.Release()
@@ -344,4 +377,21 @@ func (b *Button) Paint(vg *thorvg.Canvas) bool {
 	// 再绘制子组件（如果有）
 	childRendered := b.BaseComponent.Paint(vg)
 	return true || childRendered
+}
+
+// colorToHex converts a color.Color to #RRGGBBAA string
+func colorToHex(c gouicolor.Color) string {
+	r, g, b, a := c.RGBA()
+	hexdigits := "0123456789ABCDEF"
+	out := make([]byte, 9)
+	out[0] = '#'
+	out[1] = hexdigits[r>>4]
+	out[2] = hexdigits[r&0x0F]
+	out[3] = hexdigits[g>>4]
+	out[4] = hexdigits[g&0x0F]
+	out[5] = hexdigits[b>>4]
+	out[6] = hexdigits[b&0x0F]
+	out[7] = hexdigits[a>>4]
+	out[8] = hexdigits[a&0x0F]
+	return string(out)
 }

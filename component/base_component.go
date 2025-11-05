@@ -30,6 +30,11 @@ type BaseComponent struct {
 	win     window.Window
 	// layout 脏标记：仅当影响布局的属性变化时置为 true
 	layoutDirty bool
+	// 样式（内联）
+	style Style
+	// 计算样式（含继承），惰性计算
+	computedStyle Style
+	styleDirty    bool
 }
 
 func NewBaseComponent(id ...string) *BaseComponent {
@@ -47,6 +52,7 @@ func NewBaseComponent(id ...string) *BaseComponent {
 		visible:          true, // 默认可见
 		dirty:            true, // 初始状态为需要渲染
 		pendingListeners: make(map[event.Type][]event.EventListener),
+		styleDirty:       true,
 	}
 	return base
 }
@@ -94,6 +100,11 @@ func (b *BaseComponent) SetRoot(c Component) {
 	for _, child := range children {
 		child.SetRoot(c)
 	}
+
+	// 根变化可能影响样式继承上下文
+	b.mu.Lock()
+	b.styleDirty = true
+	b.mu.Unlock()
 }
 
 func (b *BaseComponent) Root() Component {
@@ -211,6 +222,367 @@ func (b *BaseComponent) YogaUpdate(update func(node *yoga.Node)) {
 	b.mu.Unlock()
 }
 
+// -------- Style（内联样式）管理与应用 --------
+
+// SetStyle 覆盖设置组件样式并应用到 Yoga
+func (b *BaseComponent) SetStyle(s Style) {
+	b.mu.Lock()
+	b.style = s
+	b.styleDirty = true
+	b.mu.Unlock()
+	b.applyStyleToYoga()
+}
+
+// UpdateStyle 在闭包中修改样式并应用到 Yoga
+func (b *BaseComponent) UpdateStyle(mut func(s *Style)) {
+	if mut == nil {
+		return
+	}
+	b.mu.Lock()
+	mut(&b.style)
+	b.styleDirty = true
+	b.mu.Unlock()
+	b.applyStyleToYoga()
+}
+
+// Style 返回样式的副本（避免外部在无锁状态下修改）
+func (b *BaseComponent) Style() Style {
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+	return b.style
+}
+
+// ComputedStyle 返回计算后的样式（包含可继承属性）。
+// 当前继承的属性：Color, Font(字体族), FontSize, Cursor。
+func (b *BaseComponent) ComputedStyle() Style {
+	// 快速路径：未标记样式脏，返回快照
+	b.mu.RLock()
+	dirty := b.styleDirty
+	cached := b.computedStyle
+	inline := b.style
+	parent := b.parent
+	b.mu.RUnlock()
+	if !dirty {
+		return cached
+	}
+
+	// 取父的 computedStyle（避免持锁递归）
+	var parentCS Style
+	if parent != nil {
+		if p, ok := parent.(interface{ ComputedStyle() Style }); ok {
+			parentCS = p.ComputedStyle()
+		}
+	}
+
+	// 从自身内联开始，补足可继承属性
+	out := inline
+	if out.Color == nil {
+		out.Color = parentCS.Color
+	}
+	if out.Font == nil {
+		out.Font = parentCS.Font
+	}
+	if out.FontSize == nil {
+		out.FontSize = parentCS.FontSize
+	}
+	if out.Cursor == nil {
+		out.Cursor = parentCS.Cursor
+	}
+
+	b.mu.Lock()
+	b.computedStyle = out
+	b.styleDirty = false
+	b.mu.Unlock()
+	return out
+}
+
+// MarkStyleDirty 标记自身/子树需要重算计算样式（继承影响）。
+func (b *BaseComponent) MarkStyleDirty(recursive bool) {
+	b.mu.Lock()
+	b.styleDirty = true
+	children := append([]Component(nil), b.children...)
+	b.mu.Unlock()
+	if recursive {
+		for _, child := range children {
+			if bc, ok := child.(*BaseComponent); ok {
+				bc.MarkStyleDirty(true)
+			}
+		}
+	}
+}
+
+// 将样式字段映射到 Yoga 节点；当前仅处理 px/Auto 的常用属性，后续可扩展百分比等
+func (b *BaseComponent) applyStyleToYoga() {
+	s := b.Style()
+	b.YogaUpdate(func(n *yoga.Node) {
+		// 尺寸（支持 px/percent/auto）
+		if s.Width != nil {
+			switch s.Width.Unit {
+			case UnitPoint:
+				n.SetWidth(s.Width.Value)
+			case UnitPercent:
+				n.SetWidthPercent(s.Width.Value)
+			case UnitAuto:
+				n.SetWidthAuto()
+			}
+		}
+		if s.Height != nil {
+			switch s.Height.Unit {
+			case UnitPoint:
+				n.SetHeight(s.Height.Value)
+			case UnitPercent:
+				n.SetHeightPercent(s.Height.Value)
+			case UnitAuto:
+				n.SetHeightAuto()
+			}
+		}
+		if s.MinWidth != nil {
+			switch s.MinWidth.Unit {
+			case UnitPoint:
+				n.SetMinWidth(s.MinWidth.Value)
+			case UnitPercent:
+				n.SetMinWidthPercent(s.MinWidth.Value)
+			}
+		}
+		if s.MinHeight != nil {
+			switch s.MinHeight.Unit {
+			case UnitPoint:
+				n.SetMinHeight(s.MinHeight.Value)
+			case UnitPercent:
+				n.SetMinHeightPercent(s.MinHeight.Value)
+			}
+		}
+		if s.MaxWidth != nil {
+			switch s.MaxWidth.Unit {
+			case UnitPoint:
+				n.SetMaxWidth(s.MaxWidth.Value)
+			case UnitPercent:
+				n.SetMaxWidthPercent(s.MaxWidth.Value)
+			}
+		}
+		if s.MaxHeight != nil {
+			switch s.MaxHeight.Unit {
+			case UnitPoint:
+				n.SetMaxHeight(s.MaxHeight.Value)
+			case UnitPercent:
+				n.SetMaxHeightPercent(s.MaxHeight.Value)
+			}
+		}
+
+		// Flex 属性
+		if s.Flex != nil {
+			n.SetFlex(*s.Flex)
+		}
+		if s.FlexGrow != nil {
+			n.SetFlexGrow(*s.FlexGrow)
+		}
+		if s.FlexShrink != nil {
+			n.SetFlexShrink(*s.FlexShrink)
+		}
+		if s.FlexBasis != nil {
+			switch s.FlexBasis.Unit {
+			case UnitPoint:
+				n.SetFlexBasis(s.FlexBasis.Value)
+			case UnitPercent:
+				n.SetFlexBasisPercent(s.FlexBasis.Value)
+			case UnitAuto:
+				n.SetFlexBasisAuto()
+			}
+		}
+		if s.AlignSelf != nil {
+			n.SetAlignSelf(*s.AlignSelf)
+		}
+		if s.FlexDirection != nil {
+			n.SetFlexDirection(*s.FlexDirection)
+		}
+		if s.JustifyContent != nil {
+			n.SetJustifyContent(*s.JustifyContent)
+		}
+		if s.AlignItems != nil {
+			n.SetAlignItems(*s.AlignItems)
+		}
+		if s.AlignContent != nil {
+			n.SetAlignContent(*s.AlignContent)
+		}
+		if s.FlexWrap != nil {
+			n.SetFlexWrap(*s.FlexWrap)
+		}
+
+		// 内边距（支持 px/percent；padding 无 auto 概念）
+		if s.Padding != nil {
+			for _, edge := range []yoga.Edge{yoga.EdgeLeft, yoga.EdgeTop, yoga.EdgeRight, yoga.EdgeBottom} {
+				if d := edgeDim(s.Padding, edge); d != nil {
+					switch d.Unit {
+					case UnitPoint:
+						n.SetPadding(edge, d.Value)
+					case UnitPercent:
+						n.SetPaddingPercent(edge, d.Value)
+					}
+				}
+			}
+		}
+		// 边距（支持 px/percent/auto）
+		if s.Margin != nil {
+			for _, edge := range []yoga.Edge{yoga.EdgeLeft, yoga.EdgeTop, yoga.EdgeRight, yoga.EdgeBottom} {
+				if d := edgeDim(s.Margin, edge); d != nil {
+					switch d.Unit {
+					case UnitPoint:
+						n.SetMargin(edge, d.Value)
+					case UnitPercent:
+						n.SetMarginPercent(edge, d.Value)
+					case UnitAuto:
+						n.SetMarginAuto(edge)
+					}
+				}
+			}
+		}
+
+		// 位置与偏移
+		if s.Position != nil {
+			n.SetPositionType(*s.Position)
+		}
+		if s.Left != nil {
+			switch s.Left.Unit {
+			case UnitPoint:
+				n.SetPosition(yoga.EdgeLeft, s.Left.Value)
+			case UnitPercent:
+				n.SetPositionPercent(yoga.EdgeLeft, s.Left.Value)
+			}
+		}
+		if s.Top != nil {
+			switch s.Top.Unit {
+			case UnitPoint:
+				n.SetPosition(yoga.EdgeTop, s.Top.Value)
+			case UnitPercent:
+				n.SetPositionPercent(yoga.EdgeTop, s.Top.Value)
+			}
+		}
+		if s.Right != nil {
+			switch s.Right.Unit {
+			case UnitPoint:
+				n.SetPosition(yoga.EdgeRight, s.Right.Value)
+			case UnitPercent:
+				n.SetPositionPercent(yoga.EdgeRight, s.Right.Value)
+			}
+		}
+		if s.Bottom != nil {
+			switch s.Bottom.Unit {
+			case UnitPoint:
+				n.SetPosition(yoga.EdgeBottom, s.Bottom.Value)
+			case UnitPercent:
+				n.SetPositionPercent(yoga.EdgeBottom, s.Bottom.Value)
+			}
+		}
+
+		// Display / Overflow / Gap（仅 px 的统一 gap）
+		if s.Display != nil {
+			n.SetDisplay(*s.Display)
+		}
+		if s.Overflow != nil {
+			n.SetOverflow(*s.Overflow)
+		}
+		if v, ok := dimPx(s.Gap); ok {
+			n.SetGap(yoga.GutterAll, v)
+		}
+	})
+	// 即便没有 Yoga 属性变化，纯视觉样式（如背景色、圆角）也需要重绘
+	b.MarkDirty(false)
+}
+
+// 工具：解析 Dimension（仅 px 与 auto 支持；percent 留待后续）
+func dimPx(d *Dimension) (float32, bool) {
+	if d == nil {
+		return 0, false
+	}
+	switch d.Unit {
+	case UnitPoint:
+		return d.Value, true
+	case UnitAuto:
+		// 使用 Yoga 的 Auto（特定 API，如 SetWidthAuto），此处跳过，由上层专门处理
+		return 0, false
+	default:
+		return 0, false
+	}
+}
+
+// 工具：将 Edges 解析为具体的 LTRB（仅 px）
+func resolveEdgesPx(e *Edges) (l, t, r, btm float32) {
+	if e == nil {
+		return
+	}
+	var hv, vv float32
+	if v, ok := dimPx(e.All); ok {
+		l, t, r, btm = v, v, v, v
+	}
+	if v, ok := dimPx(e.Horizontal); ok {
+		hv = v
+		l, r = v, v
+	}
+	if v, ok := dimPx(e.Vertical); ok {
+		vv = v
+		t, btm = v, v
+	}
+	if v, ok := dimPx(e.Left); ok {
+		l = v
+	}
+	if v, ok := dimPx(e.Top); ok {
+		t = v
+	}
+	if v, ok := dimPx(e.Right); ok {
+		r = v
+	}
+	if v, ok := dimPx(e.Bottom); ok {
+		btm = v
+	}
+	// 若仅设置了水平/垂直而未单独覆盖，已在上方处理
+	_ = hv
+	_ = vv
+	return
+}
+
+// edgeDim 根据 CSS 优先级从 Edges 中解析某个具体边的 Dimension
+// 优先级：Specific(Left/Top/Right/Bottom) > Axis(Horizontal/Vertical) > All
+func edgeDim(e *Edges, edge yoga.Edge) *Dimension {
+	if e == nil {
+		return nil
+	}
+	var base *Dimension
+	// All 作为默认值
+	if e.All != nil {
+		base = e.All
+	}
+	switch edge {
+	case yoga.EdgeLeft, yoga.EdgeRight:
+		if e.Horizontal != nil {
+			base = e.Horizontal
+		}
+	case yoga.EdgeTop, yoga.EdgeBottom:
+		if e.Vertical != nil {
+			base = e.Vertical
+		}
+	}
+	// 最终由具体边覆盖
+	switch edge {
+	case yoga.EdgeLeft:
+		if e.Left != nil {
+			base = e.Left
+		}
+	case yoga.EdgeTop:
+		if e.Top != nil {
+			base = e.Top
+		}
+	case yoga.EdgeRight:
+		if e.Right != nil {
+			base = e.Right
+		}
+	case yoga.EdgeBottom:
+		if e.Bottom != nil {
+			base = e.Bottom
+		}
+	}
+	return base
+}
+
 // SetWidth 设置组件的宽度（便捷方法，避免直接操作 yoga.Node）
 func (b *BaseComponent) SetWidth(w float32) {
 	b.YogaUpdate(func(n *yoga.Node) { n.SetWidth(w) })
@@ -275,6 +647,9 @@ func (b *BaseComponent) AddChild(c Component) {
 
 	// 在未持有父锁的情况下设置父子关系，避免潜在的锁顺序反转
 	c.SetParent(b)
+	if bc, ok := c.(*BaseComponent); ok {
+		bc.MarkStyleDirty(true)
+	}
 
 	// Root 传递：若当前 Root 已设置则传递；否则先用自身作为临时 Root，后续 SetRoot 会向下传播
 	if r := b.Root(); r != nil {
@@ -356,6 +731,7 @@ func (b *BaseComponent) SetParent(c Component) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	b.parent = c
+	b.styleDirty = true
 }
 
 // Parent 获取父组件
