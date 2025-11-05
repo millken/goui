@@ -31,6 +31,7 @@ func (m *mockWindow) SwapBuffers()                           {}
 func (m *mockWindow) PollEvents()                            {}
 func (m *mockWindow) WaitEvents(_ time.Duration) event.Event { return nil }
 func (m *mockWindow) FetchEvents(max int) []event.Event      { return nil }
+func (m *mockWindow) MakeContextCurrent()                    {}
 
 func TestButton_HoverAndActive_DoNotSwallowClick(t *testing.T) {
 	r := assert.New(t)

@@ -32,6 +32,8 @@ type Window interface {
 	SetCursor(c Cursor)
 	// SetVSync 启用或关闭垂直同步（若后端支持）
 	SetVSync(enabled bool)
+	// MakeContextCurrent 将该窗口的 GL 上下文设为当前
+	MakeContextCurrent()
 	IsOpen() bool
 
 	SwapBuffers()

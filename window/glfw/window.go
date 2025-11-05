@@ -60,7 +60,10 @@ func (w *Window) Close() error {
 		}
 		delete(w.cursors, k)
 	}
-	w.native.Destroy()
+	if w.native != nil {
+		w.native.Destroy()
+		w.native = nil
+	}
 	return nil
 }
 
@@ -146,7 +149,16 @@ func (w *Window) SetCursor(c gouiwin.Cursor) {
 	}
 }
 
+func (w *Window) MakeContextCurrent() {
+	if w.native != nil {
+		w.native.MakeContextCurrent()
+	}
+}
+
 func (w *Window) IsOpen() bool {
+	if w.native == nil {
+		return false
+	}
 	return !w.native.ShouldClose()
 }
 
