@@ -9,7 +9,6 @@ import (
 )
 
 type App struct {
-	// 兼容旧 API 的封装：内部委托 Application/Session
 	appl   *Application
 	sess   *Session
 	window window.Window
@@ -34,7 +33,7 @@ type AppConfig struct {
 // NewApp 创建应用程序
 func NewApp(window window.Window, root component.Component) (*App, error) {
 	appl := NewApplication()
-	sess, err := appl.NewSession(window, root, &AppConfig{TargetFPS: 60, EnableVSync: true})
+	sess, err := appl.NewSession(window, root)
 	if err != nil {
 		return nil, err
 	}
@@ -62,14 +61,6 @@ func (a *App) Run() {
 	if a.appl != nil {
 		a.appl.Run()
 	}
-}
-
-// isRunning 检查应用程序是否运行中
-func (a *App) isRunning() bool {
-	a.mu.RLock()
-	defer a.mu.RUnlock()
-	// 旧 API 保留：运行状态由 Application 管理，这里简单返回 true 当 session/window 存在
-	return a.appl != nil && a.sess != nil
 }
 
 // Close 关闭应用程序

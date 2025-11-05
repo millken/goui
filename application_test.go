@@ -86,7 +86,7 @@ func TestSessionLoop_EventLayoutRender(t *testing.T) {
 
 	win := newMockWin(640, 480)
 	root := newPaintOnce()
-	sess, err := app.NewSession(win, root, &AppConfig{TargetFPS: 0})
+	sess, err := app.NewSessionWithAppConfig(win, root, &AppConfig{TargetFPS: 0})
 	if err != nil {
 		t.Fatalf("NewSession error: %v", err)
 	}

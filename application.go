@@ -38,15 +38,45 @@ type Session struct {
 	closed   bool
 }
 
-func NewApplication() *Application {
+type applicationOptions struct {
+	thorvgThreads   int
+	appConfig       *AppConfig
+	rendererFactory func() (rend.Renderer, error)
+	windowFactory   func(title string, width, height int) (window.Window, error)
+}
+
+type ApplicationOption func(*applicationOptions)
+
+func WithThorvgThreads(n int) ApplicationOption {
+	return func(opts *applicationOptions) {
+		if n > 0 {
+			opts.thorvgThreads = n
+		}
+	}
+}
+
+var defaultApplicationOptions = &applicationOptions{
+	thorvgThreads:   1,
+	appConfig:       &AppConfig{TargetFPS: 60, EnableVSync: true},
+	rendererFactory: func() (rend.Renderer, error) { return rend.NewGLRenderer() },
+	windowFactory:   func(title string, w, h int) (window.Window, error) { return glfwwin.NewWindow(title, w, h) },
+}
+
+// NewApplication 创建 Application 实例
+
+func NewApplication(opts ...ApplicationOption) *Application {
+	options := defaultApplicationOptions
+	for _, opt := range opts {
+		opt(options)
+	}
 	// 初始化 ThorVG 全局一次
-	if err := thorvg.Init(1); err != nil {
+	if err := thorvg.Init(uint(options.thorvgThreads)); err != nil {
 		panic(err)
 	}
 	return &Application{
-		defaultCfg:      &AppConfig{TargetFPS: 60, EnableVSync: true},
-		rendererFactory: func() (rend.Renderer, error) { return rend.NewGLRenderer() },
-		windowFactory:   func(title string, w, h int) (window.Window, error) { return glfwwin.NewWindow(title, w, h) },
+		defaultCfg:      options.appConfig,
+		rendererFactory: options.rendererFactory,
+		windowFactory:   options.windowFactory,
 		tasks:           make(chan func(), 64),
 	}
 }
@@ -58,8 +88,13 @@ func (app *Application) SetRendererFactory(f func() (rend.Renderer, error)) {
 	}
 }
 
-// NewSession 创建一个窗口会话；移动端可在外层限制数量
-func (app *Application) NewSession(win window.Window, root component.Component, cfg *AppConfig) (*Session, error) {
+// NewSession 创建一个窗口会话
+func (app *Application) NewSession(win window.Window, root component.Component) (*Session, error) {
+	return app.NewSessionWithAppConfig(win, root, app.defaultCfg)
+}
+
+// NewSessionWithAppConfig 创建一个窗口会话；移动端可在外层限制数量
+func (app *Application) NewSessionWithAppConfig(win window.Window, root component.Component, cfg *AppConfig) (*Session, error) {
 	if root == nil || win == nil {
 		return nil, fmt.Errorf("window/root cannot be nil")
 	}
@@ -236,7 +271,7 @@ func (app *Application) Post(f func()) {
 
 // SpawnWindow 在主线程创建新窗口并建立 Session；可从任意 goroutine 调用
 // buildRoot 用于基于新窗口构建根组件
-func (app *Application) SpawnWindow(title string, width, height int, buildRoot func(win window.Window) component.Component, cfg *AppConfig) (*Session, error) {
+func (app *Application) SpawnWindow(title string, width, height int, buildRoot func(win window.Window) component.Component) (*Session, error) {
 	if app == nil || app.windowFactory == nil || buildRoot == nil {
 		return nil, fmt.Errorf("invalid application/windowFactory/buildRoot")
 	}
@@ -253,7 +288,7 @@ func (app *Application) SpawnWindow(title string, width, height int, buildRoot f
 			return
 		}
 		root := buildRoot(win)
-		sess, err := app.NewSession(win, root, cfg)
+		sess, err := app.NewSession(win, root)
 		if err != nil {
 			retErr = err
 			return
