@@ -56,8 +56,6 @@ func NewButton(id ...string) *Button {
 	})
 	// 默认最小高度，避免高度为 0
 	btn.SetMinHeight(36)
-	// 默认自适应宽度并居中（在列容器交叉轴上不被拉伸）
-	btn.SetAlignSelf(AlignCenter)
 
 	// 默认 hover 行为：鼠标移入变色，移出恢复
 	btn.OnHover(func(hover bool) {

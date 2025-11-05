@@ -56,6 +56,16 @@ func NewApp(window window.Window, root component.Component) (*App, error) {
 		root:     root,
 		window:   window,
 		renderer: r,
+		// 默认配置：开启 VSync，目标帧率 60
+		config: &AppConfig{
+			TargetFPS:   60,
+			EnableVSync: true,
+		},
+	}
+
+	// 应用默认/传入配置：若后端支持 VSync，按配置设置
+	if app.config != nil {
+		window.SetVSync(app.config.EnableVSync)
 	}
 
 	// 注册事件管理器到根组件
@@ -72,6 +82,16 @@ func NewApp(window window.Window, root component.Component) (*App, error) {
 		return nil, err
 	}
 	return app, nil
+}
+
+// SetConfig 设置应用配置并立即应用与平台相关的选项（如 VSync）
+func (a *App) SetConfig(cfg *AppConfig) {
+	a.mu.Lock()
+	a.config = cfg
+	a.mu.Unlock()
+	if cfg != nil && a.window != nil {
+		a.window.SetVSync(cfg.EnableVSync)
+	}
 }
 
 // Run 运行应用程序（集成事件系统）
@@ -124,9 +144,7 @@ func (a *App) Run() {
 
 		// 如果窗口大小改变了，先重置渲染场景，避免旧 Canvas 被销毁后仍被使用
 		if windowResized && a.root != nil {
-			if rs, ok := a.renderer.(interface{ ResetScene(int, int) error }); ok {
-				_ = rs.ResetScene(w, h)
-			}
+			_ = a.renderer.ResetScene(w, h)
 			// 标记根组件为脏以触发一次完整重绘
 			a.root.MarkDirty(true)
 		}
@@ -159,8 +177,9 @@ func (a *App) Run() {
 
 		if rendered {
 			// 渲染一帧
-			a.renderer.EndFrame()
-			a.renderer.Present()
+			if err := a.renderer.EndFrame(); err != nil {
+				fmt.Printf("EndFrame 错误: %v\n", err)
+			}
 
 			// 交换缓冲区
 			a.window.SwapBuffers()
@@ -176,8 +195,9 @@ func (a *App) Run() {
 					canvas.Push(&bg.Paint)
 					bg.Release()
 				}
-				a.renderer.EndFrame()
-				a.renderer.Present()
+				if err := a.renderer.EndFrame(); err != nil {
+					fmt.Printf("EndFrame 错误: %v\n", err)
+				}
 				a.window.SwapBuffers()
 				frameCount++
 			} else {
@@ -187,9 +207,13 @@ func (a *App) Run() {
 
 		// 帧率控制
 		frameTime := time.Since(frameStart)
-		// 有事件或刚渲染过一帧时不强制睡眠，提升交互跟手性
-		if !hadEvents && !rendered {
-			budget := 16 * time.Millisecond
+		// 如果未设置 TargetFPS，默认 60fps；有事件或刚渲染过一帧不强制睡眠，提升跟手性
+		targetFPS := 60
+		if a.config != nil && a.config.TargetFPS > 0 {
+			targetFPS = a.config.TargetFPS
+		}
+		if targetFPS > 0 && !hadEvents && !rendered {
+			budget := time.Second / time.Duration(targetFPS)
 			if frameTime < budget {
 				time.Sleep(budget - frameTime)
 			}
@@ -198,11 +222,23 @@ func (a *App) Run() {
 		// 定期输出统计信息
 		select {
 		case <-statsTicker.C:
-			totalFrames := frameCount + skippedFrames
-			if totalFrames > 0 {
-				skipRate := float64(skippedFrames) / float64(totalFrames) * 100
-				fmt.Printf("渲染优化统计: 总帧数=%d, 渲染=%d, 跳过=%d (跳过率: %.1f%%)\n",
-					totalFrames, frameCount, skippedFrames, skipRate)
+			if a.config == nil || a.config.EnableStats {
+				totalFrames := frameCount + skippedFrames
+				if totalFrames > 0 {
+					skipRate := float64(skippedFrames) / float64(totalFrames) * 100
+					// 输出事件丢弃统计（如有）
+					var dropped uint64
+					if a.eventM != nil {
+						dropped = a.eventM.DroppedCount()
+					}
+					if dropped > 0 {
+						fmt.Printf("渲染优化统计: 总帧数=%d, 渲染=%d, 跳过=%d (跳过率: %.1f%%), 丢弃事件=%d\n",
+							totalFrames, frameCount, skippedFrames, skipRate, dropped)
+					} else {
+						fmt.Printf("渲染优化统计: 总帧数=%d, 渲染=%d, 跳过=%d (跳过率: %.1f%%)\n",
+							totalFrames, frameCount, skippedFrames, skipRate)
+					}
+				}
 			}
 		default:
 		}
@@ -227,4 +263,10 @@ func (a *App) Close() {
 	if a.eventM != nil {
 		a.eventM.Stop()
 	}
+	// 释放渲染器资源
+	if a.renderer != nil {
+		a.renderer.Cleanup()
+	}
+	// 释放 ThorVG 全局资源
+	thorvg.Term()
 }

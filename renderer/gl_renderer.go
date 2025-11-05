@@ -23,6 +23,7 @@ GLContext getCurrentGLContext() { return CGLGetCurrentContext(); }
 */
 import "C"
 import (
+	"fmt"
 	"unsafe"
 
 	"github.com/go-gl/gl/v4.6-core/gl"
@@ -40,6 +41,10 @@ func NewGLRenderer() (*GLRenderer, error) {
 	if glErr != nil {
 		return nil, glErr
 	}
+	// 确保当前线程已有有效的 GL 上下文
+	if C.getCurrentGLContext() == nil {
+		return nil, fmt.Errorf("no current OpenGL context; create window and make context current before NewGLRenderer")
+	}
 	canvas := thorvg.NewGlCanvas()
 
 	return &GLRenderer{
@@ -48,7 +53,11 @@ func NewGLRenderer() (*GLRenderer, error) {
 }
 
 func (r *GLRenderer) Cleanup() {
-	// 清理 OpenGL 资源
+	// 清理 ThorVG 画布等资源
+	if r.canvas != nil {
+		r.canvas.Destroy()
+		r.canvas = nil
+	}
 }
 
 func (r *GLRenderer) resize(w, h uint32) error {
@@ -77,21 +86,18 @@ func (r *GLRenderer) BeginFrame(width, height int) (*thorvg.Canvas, error) {
 	return r.canvas, nil
 }
 
-func (r *GLRenderer) EndFrame() {
+func (r *GLRenderer) EndFrame() error {
 	var err error
 	if err = r.canvas.Update(); err != nil {
-		panic(err)
+		return err
 	}
 	if err = r.canvas.Draw(true); err != nil {
-		panic(err)
+		return err
 	}
 	if err = r.canvas.Sync(); err != nil {
-		panic(err)
+		return err
 	}
-}
-
-func (r *GLRenderer) Present() {
-	// 将渲染结果呈现到屏幕
+	return nil
 }
 
 // ResetScene 清空 ThorVG 场景，常用于窗口尺寸变更或需要彻底重建场景时

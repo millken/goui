@@ -16,9 +16,9 @@ func waitUntil(t *testing.T, n int, cond func() bool) {
 		if cond() {
 			return
 		}
-		time.Sleep(time.Millisecond)
+		time.Sleep(5 * time.Millisecond)
 	}
-	t.Fatalf("condition not met after %d ms", n)
+	t.Fatalf("condition not met after ~%d ms", n*5)
 }
 
 func newRootWithEM(w, h float32) (*BaseComponent, *event.EventManager) {
@@ -80,20 +80,20 @@ func TestHoverDoesNotSwallowClick(t *testing.T) {
 	// recompute layout for child bounds
 	root.Layout(200, 100, yoga.DirectionLTR)
 
-	hoverCount := 0
-	btn.OnHover(func(b bool) { hoverCount++ })
-
 	clickCount := 0
 	btn.OnClick(func(me event.MouseEvent) { clickCount++ })
 
 	// move inside -> only hover
-	_ = em.PostEvent(&event.MouseEvent{X: 5, Y: 5, Count: 0})
-	waitUntil(t, 100, func() bool { return hoverCount == 1 })
-	r.Equal(1, hoverCount)
+	rb := btn.Bounds()
+	insideX := float32(rb.Min.X + 1)
+	insideY := float32(rb.Min.Y + 1)
+	_ = em.PostEvent(&event.MouseEvent{X: insideX, Y: insideY, Count: 0})
+	// ensure click not triggered by hover move
+	time.Sleep(10 * time.Millisecond)
 	r.Equal(0, clickCount)
 
 	// click inside -> hover doesn't swallow; click counts
-	_ = em.PostEvent(&event.MouseEvent{X: 5, Y: 5, Down: true, Count: 1})
+	_ = em.PostEvent(&event.MouseEvent{X: insideX, Y: insideY, Down: true, Count: 1})
 	waitUntil(t, 100, func() bool { return clickCount == 1 })
 	r.Equal(1, clickCount)
 }

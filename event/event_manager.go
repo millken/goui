@@ -31,6 +31,8 @@ type EventManager struct {
 	// 状态管理
 	running int32
 	mu      sync.RWMutex
+	// 诊断：统计丢弃事件数量（队列满时）
+	dropped uint64
 }
 
 func NewEventManager() *EventManager {
@@ -125,8 +127,15 @@ func (em *EventManager) PostEvent(event Event) error {
 	case em.eventQueue <- event:
 		return nil
 	default:
+		// 队列满：统计一次丢弃
+		atomic.AddUint64(&em.dropped, 1)
 		return ErrEventQueueFull
 	}
+}
+
+// DroppedCount 返回由于队列满而被丢弃的事件总数
+func (em *EventManager) DroppedCount() uint64 {
+	return atomic.LoadUint64(&em.dropped)
 }
 
 // RegisterListener 注册事件监听器

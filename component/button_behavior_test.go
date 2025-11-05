@@ -25,6 +25,7 @@ func (m *mockWindow) SetResizable(bool)                      {}
 func (m *mockWindow) Fullscreen()                            {}
 func (m *mockWindow) SetMouseVisible(bool)                   {}
 func (m *mockWindow) SetCursor(c gouiwindow.Cursor)          { m.lastCursor = c }
+func (m *mockWindow) SetVSync(enabled bool)                  {}
 func (m *mockWindow) IsOpen() bool                           { return true }
 func (m *mockWindow) SwapBuffers()                           {}
 func (m *mockWindow) PollEvents()                            {}

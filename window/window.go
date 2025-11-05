@@ -30,6 +30,8 @@ type Window interface {
 	Fullscreen()
 	SetMouseVisible(visible bool)
 	SetCursor(c Cursor)
+	// SetVSync 启用或关闭垂直同步（若后端支持）
+	SetVSync(enabled bool)
 	IsOpen() bool
 
 	SwapBuffers()

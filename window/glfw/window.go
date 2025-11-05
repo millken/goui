@@ -53,6 +53,13 @@ func (w *Window) Open() error {
 }
 
 func (w *Window) Close() error {
+	// 销毁缓存的光标
+	for k, c := range w.cursors {
+		if c != nil {
+			c.Destroy()
+		}
+		delete(w.cursors, k)
+	}
 	w.native.Destroy()
 	return nil
 }
@@ -98,6 +105,14 @@ func (w *Window) SetMouseVisible(visible bool) {
 		w.native.SetInputMode(glfw.CursorMode, glfw.CursorNormal)
 	} else {
 		w.native.SetInputMode(glfw.CursorMode, glfw.CursorHidden)
+	}
+}
+
+func (w *Window) SetVSync(enabled bool) {
+	if enabled {
+		glfw.SwapInterval(1)
+	} else {
+		glfw.SwapInterval(0)
 	}
 }
 
