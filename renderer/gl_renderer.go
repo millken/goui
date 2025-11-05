@@ -33,6 +33,7 @@ import (
 type GLRenderer struct {
 	canvas        *thorvg.Canvas
 	width, height uint32
+	lastCtx       unsafe.Pointer
 }
 
 func NewGLRenderer() (*GLRenderer, error) {
@@ -46,9 +47,11 @@ func NewGLRenderer() (*GLRenderer, error) {
 		return nil, fmt.Errorf("no current OpenGL context; create window and make context current before NewGLRenderer")
 	}
 	canvas := thorvg.NewGlCanvas()
+	ctx := C.getCurrentGLContext()
 
 	return &GLRenderer{
-		canvas: canvas,
+		canvas:  canvas,
+		lastCtx: unsafe.Pointer(ctx),
 	}, nil
 }
 
@@ -69,12 +72,25 @@ func (r *GLRenderer) resize(w, h uint32) error {
 	gl.Viewport(0, 0, int32(w), int32(h))
 	// 获取当前 GL 上下文句柄
 	ctx := C.getCurrentGLContext()
-	return r.canvas.GlCanvasSetTarget(unsafe.Pointer(ctx), 0, r.width, r.height, thorvg.ColorspaceABGR8888S)
+	r.lastCtx = unsafe.Pointer(ctx)
+	return r.canvas.GlCanvasSetTarget(r.lastCtx, 0, r.width, r.height, thorvg.ColorspaceABGR8888S)
 }
 
 // BeginFrame 准备一帧绘制并返回 ThorVG 画布
 
 func (r *GLRenderer) BeginFrame(width, height int) (*thorvg.Canvas, error) {
+	// 若 GL 上下文已切换（例如在多窗口会话之间），需要重新绑定目标
+	cur := unsafe.Pointer(C.getCurrentGLContext())
+	if cur != nil && cur != r.lastCtx {
+		// 若尺寸未知，使用当前保存的尺寸；否则按传入尺寸
+		if uint32(width) != 0 && uint32(height) != 0 {
+			r.width, r.height = uint32(width), uint32(height)
+		}
+		r.lastCtx = cur
+		if err := r.canvas.GlCanvasSetTarget(r.lastCtx, 0, r.width, r.height, thorvg.ColorspaceABGR8888S); err != nil {
+			return nil, err
+		}
+	}
 	if uint32(width) != r.width || uint32(height) != r.height {
 		if err := r.resize(uint32(width), uint32(height)); err != nil {
 			return nil, err
@@ -111,5 +127,6 @@ func (r *GLRenderer) ResetScene(width, height int) error {
 		r.width, r.height = uint32(width), uint32(height)
 	}
 	ctx := C.getCurrentGLContext()
-	return r.canvas.GlCanvasSetTarget(unsafe.Pointer(ctx), 0, r.width, r.height, thorvg.ColorspaceABGR8888S)
+	r.lastCtx = unsafe.Pointer(ctx)
+	return r.canvas.GlCanvasSetTarget(r.lastCtx, 0, r.width, r.height, thorvg.ColorspaceABGR8888S)
 }

@@ -206,10 +206,11 @@ func (app *Application) Run() {
 				continue
 			}
 			if s.root.Paint(canvas) {
-				_ = s.renderer.EndFrame()
-				s.win.SwapBuffers()
 				renderedAny = true
 			}
+			// 无论是否有组件绘制，都提交本帧并交换缓冲，避免在上下文切换/窗口关闭后出现黑屏或残影
+			_ = s.renderer.EndFrame()
+			s.win.SwapBuffers()
 		}
 
 		// 空闲帧休眠
