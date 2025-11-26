@@ -3,8 +3,8 @@ package component
 import (
 	"image"
 
-	"github.com/millken/go/thorvg"
 	"github.com/millken/goui/color"
+	"github.com/millken/thorvg"
 )
 
 type Box struct {

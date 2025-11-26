@@ -7,8 +7,8 @@ import (
 
 	"github.com/go-gl/gl/v4.6-core/gl"
 	"github.com/millken/go/rgfw"
-	"github.com/millken/go/thorvg"
 	"github.com/millken/goui/font"
+	"github.com/millken/thorvg"
 )
 
 var icon = [4 * 3 * 3]uint8{

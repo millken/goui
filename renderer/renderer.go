@@ -2,7 +2,7 @@
 // used by GOUI to draw components onto a canvas.
 package renderer
 
-import "github.com/millken/go/thorvg"
+import "github.com/millken/thorvg"
 
 type Renderer interface {
 	Cleanup() // 清理资源

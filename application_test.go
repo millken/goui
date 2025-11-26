@@ -5,11 +5,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/millken/go/thorvg"
 	"github.com/millken/goui/component"
 	"github.com/millken/goui/event"
 	"github.com/millken/goui/renderer"
 	gouiwindow "github.com/millken/goui/window"
+	"github.com/millken/thorvg"
 )
 
 // mockWin implements window.Window minimal surface for session loop tests.

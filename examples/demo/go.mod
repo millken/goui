@@ -6,12 +6,12 @@ replace github.com/millken/goui => ../../
 
 replace github.com/millken/go/rgfw => /workspace/Codes/github.com/millken/go/rgfw
 
-replace github.com/millken/go/thorvg => /workspace/Codes/github.com/millken/go/thorvg
+replace github.com/millken/thorvg => /workspace/Codes/github.com/millken/thorvg
 
 require (
 	github.com/go-gl/gl v0.0.0-20231021071112-07e5d0ea2e71
 	github.com/millken/go/rgfw v0.0.0-00010101000000-000000000000
-	github.com/millken/go/thorvg v0.0.0-00010101000000-000000000000
+	github.com/millken/thorvg v0.0.0-00010101000000-000000000000
 	github.com/millken/goui v0.0.0-00010101000000-000000000000
 )
 

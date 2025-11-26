@@ -27,7 +27,7 @@ import (
 	"unsafe"
 
 	"github.com/go-gl/gl/v4.6-core/gl"
-	"github.com/millken/go/thorvg"
+	"github.com/millken/thorvg"
 )
 
 type GLRenderer struct {

@@ -6,12 +6,12 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/millken/go/thorvg"
 	"github.com/millken/goui"
 	"github.com/millken/goui/component"
 	"github.com/millken/goui/event"
 	gouifont "github.com/millken/goui/font"
 	"github.com/millken/goui/window/glfw"
+	"github.com/millken/thorvg"
 )
 
 func main() {

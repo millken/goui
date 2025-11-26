@@ -1,11 +1,11 @@
 package component
 
 import (
-	"github.com/millken/go/thorvg"
 	gouicolor "github.com/millken/goui/color"
 	"github.com/millken/goui/event"
 	gouifont "github.com/millken/goui/font"
 	gouiwindow "github.com/millken/goui/window"
+	"github.com/millken/thorvg"
 )
 
 type Button struct {

@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"sync/atomic"
 
-	"github.com/millken/go/thorvg"
 	"github.com/millken/goui/event"
 	"github.com/millken/goui/window"
+	"github.com/millken/thorvg"
 	"github.com/millken/yoga"
 )
 

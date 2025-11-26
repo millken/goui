@@ -1,8 +1,8 @@
 package component
 
 import (
-	"github.com/millken/go/thorvg"
 	gouicolor "github.com/millken/goui/color"
+	"github.com/millken/thorvg"
 	"github.com/millken/yoga"
 )
 

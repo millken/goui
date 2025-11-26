@@ -6,12 +6,12 @@ import (
 	"log/slog"
 	"runtime"
 
-	"github.com/millken/go/thorvg"
 	"github.com/millken/goui"
 	"github.com/millken/goui/color"
 	"github.com/millken/goui/component"
 	"github.com/millken/goui/event"
 	"github.com/millken/goui/window/glfw"
+	"github.com/millken/thorvg"
 )
 
 // YogaBox 是一个使用 Yoga 计算几何并用 thorvg 绘制的简单矩形组件

@@ -5,12 +5,12 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/millken/go/thorvg"
 	"github.com/millken/goui/component"
 	"github.com/millken/goui/event"
 	rend "github.com/millken/goui/renderer"
 	"github.com/millken/goui/window"
 	glfwwin "github.com/millken/goui/window/glfw"
+	"github.com/millken/thorvg"
 	"github.com/millken/yoga"
 )
 
