@@ -362,6 +362,11 @@ func (w *Window) setupCallbacks() {
 
 	// 字符输入回调
 	w.native.SetCharCallback(func(win *glfw.Window, char rune) {
+		// 只过滤控制字符（< 32），保留所有可打印字符包括中文
+		if char < 32 {
+			return
+		}
+
 		charEvent := event.NewCharEvent(
 			char,
 			0, // 暂时忽略修饰键

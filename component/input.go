@@ -3,6 +3,7 @@ package component
 import (
 	"sync"
 	"time"
+	"unicode/utf8"
 
 	gouicolor "github.com/millken/goui/color"
 	"github.com/millken/goui/event"
@@ -58,7 +59,7 @@ type Input struct {
 	mu          sync.RWMutex
 
 	// Cursor
-	cursorPosition int
+	cursorPosition int // rune position, not byte position
 	cursorVisible  bool
 	lastBlinkTime  time.Time
 }
@@ -152,7 +153,7 @@ func NewInput(id ...string) *Input {
 				input.MarkDirty(false)
 			case event.KeyCodeEnd:
 				input.mu.Lock()
-				input.cursorPosition = len(input.text)
+				input.cursorPosition = utf8.RuneCountInString(input.text)
 				input.mu.Unlock()
 				input.MarkDirty(false)
 			case event.KeyCodeEscape:
@@ -182,13 +183,14 @@ func NewInput(id ...string) *Input {
 		input.mu.Lock()
 		defer input.mu.Unlock()
 
-		// Filter out control characters
+		// Filter out control characters only, allow all printable chars including Chinese
 		if ce.Rune < 32 {
 			return false
 		}
 
-		// Insert character at cursor position
-		input.text = input.text[:input.cursorPosition] + string(ce.Rune) + input.text[input.cursorPosition:]
+		// Insert character at cursor position using rune slice for UTF-8 support
+		runes := []rune(input.text)
+		input.text = string(runes[:input.cursorPosition]) + string(ce.Rune) + string(runes[input.cursorPosition:])
 		input.cursorPosition++
 
 		// Mark dirty to trigger redraw
@@ -251,7 +253,7 @@ func (inp *Input) Theme() InputTheme {
 func (inp *Input) SetText(text string) {
 	inp.mu.Lock()
 	inp.text = text
-	inp.cursorPosition = len(text)
+	inp.cursorPosition = utf8.RuneCountInString(text)
 	inp.mu.Unlock()
 	inp.MarkDirty(false)
 }
@@ -341,7 +343,8 @@ func (inp *Input) handleBackspace() {
 	defer inp.mu.Unlock()
 
 	if inp.cursorPosition > 0 {
-		inp.text = inp.text[:inp.cursorPosition-1] + inp.text[inp.cursorPosition:]
+		runes := []rune(inp.text)
+		inp.text = string(runes[:inp.cursorPosition-1]) + string(runes[inp.cursorPosition:])
 		inp.cursorPosition--
 		// Mark dirty to trigger redraw
 		inp.MarkDirty(false)
@@ -356,8 +359,8 @@ func (inp *Input) moveCursor(offset int) {
 	newPos := inp.cursorPosition + offset
 	if newPos < 0 {
 		newPos = 0
-	} else if newPos > len(inp.text) {
-		newPos = len(inp.text)
+	} else if newPos > utf8.RuneCountInString(inp.text) {
+		newPos = utf8.RuneCountInString(inp.text)
 	}
 	inp.cursorPosition = newPos
 	inp.MarkDirty(false)
@@ -376,6 +379,8 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 	placeholder := inp.placeholder
 	focused := inp.focused
 	disabled := inp.disabled
+	cursorPos := inp.cursorPosition
+	cursorVis := inp.cursorVisible
 	inp.mu.RUnlock()
 
 	// If focused, always redraw to show cursor blinking
@@ -384,9 +389,6 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 		return inp.BaseComponent.Paint(vg)
 	}
 
-	r := inp.Bounds()
-	x, y := float32(r.Min.X), float32(r.Min.Y)
-
 	// Update cursor blink state when focused
 	if focused {
 		now := time.Now()
@@ -394,14 +396,20 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 		if now.Sub(inp.lastBlinkTime) >= theme.CursorBlinkInterval {
 			inp.cursorVisible = !inp.cursorVisible
 			inp.lastBlinkTime = now
+			cursorVis = inp.cursorVisible
 		}
 		inp.mu.Unlock()
+		// Always request redraw when focused
+		inp.BaseComponent.MarkDirty(false)
 	}
 
 	// Clear dirty flag if not focused (focused state needs continuous redraw)
 	if !focused {
 		inp.ClearDirty()
 	}
+
+	r := inp.Bounds()
+	x, y := float32(r.Min.X), float32(r.Min.Y)
 
 	// Calculate content area
 	contentX := x + theme.PaddingX
@@ -485,19 +493,16 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 	}
 
 	// Draw cursor if focused and cursor is visible
-	if focused && inp.cursorVisible && !disabled {
-		inp.mu.RLock()
-		cursorPos := inp.cursorPosition
-		cursorText := inp.text[:cursorPos]
-		inp.mu.RUnlock()
-
+	if focused && cursorVis && !disabled {
 		cursor := thorvg.NewShape()
 		if cursor != nil {
 			cr, cg, cb, _ := theme.FocusColor.RGBA()
 
-			// Calculate cursor position
+			// Calculate cursor position using rune slice for UTF-8 support
 			cursorX := contentX
 			if cursorPos > 0 {
+				runes := []rune(inp.text)
+				cursorText := string(runes[:cursorPos])
 				tm := gouifont.MeasureText(cursorText, gouifont.WithFontSize(theme.FontSize))
 				cursorX += float32(tm.Width)
 			}
