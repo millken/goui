@@ -360,6 +360,19 @@ func (w *Window) setupCallbacks() {
 		}
 	})
 
+	// 字符输入回调
+	w.native.SetCharCallback(func(win *glfw.Window, char rune) {
+		charEvent := event.NewCharEvent(
+			char,
+			0, // 暂时忽略修饰键
+		)
+		select {
+		case w.events <- charEvent:
+		default:
+			w.lastEvent = charEvent
+		}
+	})
+
 	// 窗口大小调整回调
 	w.native.SetFramebufferSizeCallback(func(win *glfw.Window, width, height int) {
 		windowEvent := event.NewWindowEvent(width, height, true)
