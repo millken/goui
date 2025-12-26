@@ -302,6 +302,23 @@ func (w *Window) SetMousePosition(x, y float32) {
 	w.native.SetCursorPos(float64(x), float64(y))
 }
 
+// SetClipboardText 设置剪贴板文本
+func (w *Window) SetClipboardText(text string) error {
+	if w.native != nil {
+		w.native.SetClipboardString(text)
+		return nil
+	}
+	return nil
+}
+
+// GetClipboardText 获取剪贴板文本
+func (w *Window) GetClipboardText() (string, error) {
+	if w.native != nil {
+		return w.native.GetClipboardString(), nil
+	}
+	return "", nil
+}
+
 // eventKeyCodeToGlfwKey 将event.KeyCode转换为glfw.Key
 func (w *Window) eventKeyCodeToGlfwKey(key event.KeyCode) glfw.Key {
 	// 反向查找映射表

@@ -242,10 +242,31 @@ func NewInput(id ...string) *Input {
 				}
 			case event.KeyCodeEscape:
 				input.blur()
+			case event.KeyCodeC:
+				// Ctrl+C: Copy
+				if ctrlPressed {
+					input.copySelection()
+				} else {
+					return false // Let CharEvent handle
+				}
+			case event.KeyCodeV:
+				// Ctrl+V: Paste
+				if ctrlPressed {
+					input.pasteFromClipboard()
+				} else {
+					return false // Let CharEvent handle
+				}
 			case event.KeyCodeA:
 				// Ctrl+A: Select all
 				if ctrlPressed {
 					input.selectAll()
+				} else {
+					return false // Let CharEvent handle
+				}
+			case event.KeyCodeX:
+				// Ctrl+X: Cut
+				if ctrlPressed {
+					input.cutSelection()
 				} else {
 					return false // Let CharEvent handle
 				}
@@ -700,6 +721,132 @@ func (inp *Input) selectAll() {
 	inp.cursorPosition = length
 	inp.scrollCursorIntoViewNoLock()
 	inp.MarkDirty(false)
+}
+
+// copySelection copies selected text to clipboard
+func (inp *Input) copySelection() {
+	inp.mu.Lock()
+	defer inp.mu.Unlock()
+
+	// Check if there's a selection
+	if inp.selectionStart == -1 || inp.selectionEnd == -1 || inp.selectionStart == inp.selectionEnd {
+		return
+	}
+
+	// Normalize selection
+	start := inp.selectionStart
+	end := inp.selectionEnd
+	if start > end {
+		start, end = end, start
+	}
+
+	// Get selected text
+	runes := []rune(inp.text)
+	if start >= len(runes) {
+		return
+	}
+	if end > len(runes) {
+		end = len(runes)
+	}
+	selectedText := string(runes[start:end])
+
+	// Set clipboard
+	if rc, ok := inp.Root().(RootComponent); ok && rc != nil {
+		if w := rc.GetWindow(); w != nil {
+			_ = w.SetClipboardText(selectedText)
+		}
+	}
+}
+
+// cutSelection cuts selected text to clipboard
+func (inp *Input) cutSelection() {
+	inp.mu.Lock()
+	defer inp.mu.Unlock()
+
+	// Check if there's a selection
+	if inp.selectionStart == -1 || inp.selectionEnd == -1 || inp.selectionStart == inp.selectionEnd {
+		return
+	}
+
+	// Normalize selection
+	start := inp.selectionStart
+	end := inp.selectionEnd
+	if start > end {
+		start, end = end, start
+	}
+
+	// Get selected text
+	runes := []rune(inp.text)
+	if start >= len(runes) {
+		return
+	}
+	if end > len(runes) {
+		end = len(runes)
+	}
+	selectedText := string(runes[start:end])
+
+	// Delete selected text
+	inp.text = string(runes[:start]) + string(runes[end:])
+	inp.cursorPosition = start
+	inp.selectionStart = -1
+	inp.selectionEnd = -1
+	inp.selectionAnchor = start
+	inp.scrollCursorIntoViewNoLock()
+	inp.MarkDirty(false)
+
+	// Set clipboard
+	if rc, ok := inp.Root().(RootComponent); ok && rc != nil {
+		if w := rc.GetWindow(); w != nil {
+			_ = w.SetClipboardText(selectedText)
+		}
+	}
+}
+
+// pasteFromClipboard pastes text from clipboard
+func (inp *Input) pasteFromClipboard() {
+	// First clear any existing selection
+	inp.mu.Lock()
+	if inp.selectionStart != -1 && inp.selectionEnd != -1 && inp.selectionStart != inp.selectionEnd {
+		// Delete selected text
+		start := inp.selectionStart
+		end := inp.selectionEnd
+		if start > end {
+			start, end = end, start
+		}
+		runes := []rune(inp.text)
+		if start < len(runes) && end <= len(runes) {
+			inp.text = string(runes[:start]) + string(runes[end:])
+			inp.cursorPosition = start
+		}
+		inp.selectionStart = -1
+		inp.selectionEnd = -1
+		inp.selectionAnchor = inp.cursorPosition
+	}
+	inp.mu.Unlock()
+
+	// Get clipboard text
+	var clipboardText string
+	if rc, ok := inp.Root().(RootComponent); ok && rc != nil {
+		if w := rc.GetWindow(); w != nil {
+			text, err := w.GetClipboardText()
+			if err == nil {
+				clipboardText = text
+			}
+		}
+	}
+
+	// Insert clipboard text at cursor position
+	if clipboardText != "" {
+		inp.mu.Lock()
+		runes := []rune(inp.text)
+		clipboardRunes := []rune(clipboardText)
+		newText := string(runes[:inp.cursorPosition]) + clipboardText + string(runes[inp.cursorPosition:])
+		inp.text = newText
+		inp.cursorPosition += len(clipboardRunes)
+		inp.scrollCursorIntoViewNoLock()
+		inp.MarkDirty(false)
+		inp.mu.Unlock()
+	}
 }
 
 // Paint draws input field

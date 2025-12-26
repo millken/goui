@@ -40,6 +40,8 @@ func (m *mockWin) MakeContextCurrent()                    {}
 func (m *mockWin) IsOpen() bool                           { return m.open.Load() }
 func (m *mockWin) SwapBuffers()                           {}
 func (m *mockWin) PollEvents()                            {}
+func (m *mockWin) SetClipboardText(text string) error     { return nil }
+func (m *mockWin) GetClipboardText() (string, error)      { return "", nil }
 func (m *mockWin) WaitEvents(_ time.Duration) event.Event { return nil }
 func (m *mockWin) FetchEvents(max int) []event.Event {
 	var out []event.Event
