@@ -62,6 +62,7 @@ type Input struct {
 	cursorPosition int // rune position, not byte position
 	cursorVisible  bool
 	lastBlinkTime  time.Time
+	scrollOffset   float32 // horizontal scroll offset in pixels
 }
 
 // NewInput creates a new input field
@@ -76,6 +77,7 @@ func NewInput(id ...string) *Input {
 		cursorPosition: 0,
 		cursorVisible:  true,
 		lastBlinkTime:  time.Now(),
+		scrollOffset:   0,
 	}
 
 	// Set default size
@@ -415,6 +417,46 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 	contentX := x + theme.PaddingX
 	contentY := y + theme.PaddingY
 	contentHeight := float32(r.Max.Y-r.Min.Y) - theme.PaddingY*2
+	contentWidth := float32(r.Max.X-r.Min.X) - theme.PaddingX*2
+
+	// Calculate scroll offset to keep cursor visible
+	var scrollOffset float32
+	if focused {
+		inp.mu.Lock()
+		// Measure text before cursor
+		runes := []rune(inp.text)
+		cursorText := string(runes[:cursorPos])
+		tm := gouifont.MeasureText(cursorText, gouifont.WithFontSize(theme.FontSize))
+		cursorPixelPos := float32(tm.Width)
+
+		// Scroll if cursor is near right edge
+		if cursorPixelPos-inp.scrollOffset > contentWidth-20 {
+			inp.scrollOffset = cursorPixelPos - (contentWidth - 20)
+		}
+		// Scroll left if cursor is past left edge
+		if cursorPixelPos-inp.scrollOffset < 20 {
+			inp.scrollOffset = cursorPixelPos - 20
+		}
+		// Don't scroll past beginning
+		if inp.scrollOffset < 0 {
+			inp.scrollOffset = 0
+		}
+		scrollOffset = inp.scrollOffset
+
+		// Calculate total text width
+		totalTextWidth := gouifont.MeasureText(inp.text, gouifont.WithFontSize(theme.FontSize)).Width
+
+		// If total text fits, no scroll
+		if float32(totalTextWidth) <= contentWidth {
+			scrollOffset = 0
+			inp.scrollOffset = 0
+		}
+		inp.mu.Unlock()
+	} else {
+		inp.mu.RLock()
+		scrollOffset = inp.scrollOffset
+		inp.mu.RUnlock()
+	}
 
 	// Determine colors
 	var bgColor, borderColor, textColor gouicolor.Color
@@ -464,7 +506,7 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 		displayText = placeholder
 	}
 
-	// Draw text
+	// Draw text with scroll support
 	if displayText != "" {
 		txt := thorvg.NewText()
 		if txt != nil {
@@ -486,7 +528,8 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 			tm := gouifont.MeasureText(displayText, gouifont.WithFontSize(theme.FontSize))
 			textY := contentY + (contentHeight-float32(tm.Height))/2
 
-			txt.Translate(contentX, textY)
+			// Apply scroll offset
+			txt.Translate(contentX-scrollOffset, textY)
 			vg.Push(&txt.Paint)
 			txt.Release()
 		}
@@ -506,6 +549,7 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 				tm := gouifont.MeasureText(cursorText, gouifont.WithFontSize(theme.FontSize))
 				cursorX += float32(tm.Width)
 			}
+			cursorX -= scrollOffset
 
 			tm := gouifont.MeasureText("Hg", gouifont.WithFontSize(theme.FontSize))
 			cursorHeight := float32(tm.Height)
