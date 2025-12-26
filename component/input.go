@@ -124,16 +124,10 @@ func NewInput(id ...string) *Input {
 
 			input.mu.Lock()
 			input.cursorPosition = newPos
-
-			// Handle double click (select word)
-			if me.Count == 2 {
-				input.selectWordAt(newPos)
-			} else {
-				// Start selection - set anchor to current position
-				input.selectionAnchor = newPos
-				input.selectionStart = newPos
-				input.selectionEnd = newPos
-			}
+			// Start selection - set anchor to current position
+			input.selectionAnchor = newPos
+			input.selectionStart = newPos
+			input.selectionEnd = newPos
 			input.mu.Unlock()
 
 			// Scroll to make cursor visible
