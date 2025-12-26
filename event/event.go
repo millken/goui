@@ -9,6 +9,7 @@ const (
 	EventUnknown Type = iota
 	EventMouse
 	EventKey
+	EventChar
 	EventTouch
 	EventWindow
 	EventFocus
@@ -73,6 +74,15 @@ type KeyEvent struct {
 }
 
 func (e *KeyEvent) Type() Type { return EventKey }
+
+// CharEvent 字符输入事件（用于文本输入）
+type CharEvent struct {
+	Rune rune // 输入的字符
+	Mods ModifierKey
+	eventBase
+}
+
+func (e *CharEvent) Type() Type { return EventChar }
 
 // TouchEvent 触摸事件
 type TouchEvent struct {
@@ -189,6 +199,17 @@ func NewScrollEvent(x, y, deltaX, deltaY float32) *ScrollEvent {
 		Y:      y,
 		DeltaX: deltaX,
 		DeltaY: deltaY,
+		eventBase: eventBase{
+			timestamp: time.Now(),
+		},
+	}
+}
+
+// NewCharEvent 创建新的字符输入事件
+func NewCharEvent(r rune, mods ModifierKey) *CharEvent {
+	return &CharEvent{
+		Rune: r,
+		Mods: mods,
 		eventBase: eventBase{
 			timestamp: time.Now(),
 		},

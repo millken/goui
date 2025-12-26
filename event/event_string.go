@@ -11,19 +11,20 @@ func _() {
 	_ = x[EventUnknown-0]
 	_ = x[EventMouse-1]
 	_ = x[EventKey-2]
-	_ = x[EventTouch-3]
-	_ = x[EventWindow-4]
-	_ = x[EventFocus-5]
-	_ = x[EventScroll-6]
+	_ = x[EventChar-3]
+	_ = x[EventTouch-4]
+	_ = x[EventWindow-5]
+	_ = x[EventFocus-6]
+	_ = x[EventScroll-7]
 }
 
-const _Type_name = "EventUnknownEventMouseEventKeyEventTouchEventWindowEventFocusEventScroll"
+const _Type_name = "EventUnknownEventMouseEventKeyEventCharEventTouchEventWindowEventFocusEventScroll"
 
-var _Type_index = [...]uint8{0, 12, 22, 30, 40, 51, 61, 72}
+var _Type_index = [...]uint8{0, 12, 22, 30, 39, 49, 60, 70, 81}
 
 func (i Type) String() string {
 	idx := int(i) - 0
-	if idx < 0 || idx >= len(_Type_index)-1 {
+	if i < 0 || idx >= len(_Type_index)-1 {
 		return "Type(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
 	return _Type_name[_Type_index[idx]:_Type_index[idx+1]]
