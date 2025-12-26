@@ -84,7 +84,7 @@ func NewInput(id ...string) *Input {
 	input.SetWidth(200)
 	input.SetHeight(40)
 
-	// Register mouse event handler for focus
+	// Register mouse event handler for focus and click positioning
 	input.RegisterEventListener(event.EventMouse, event.EventListenerFunc(func(e event.Event) bool {
 		if input.disabled {
 			return false
@@ -99,15 +99,25 @@ func NewInput(id ...string) *Input {
 		inside := me.X >= float32(r.Min.X) && me.X < float32(r.Max.X) &&
 			me.Y >= float32(r.Min.Y) && me.Y < float32(r.Max.Y)
 
-		// On mouse down inside input, request focus
+		// On mouse down inside input
 		if me.Down && me.Count == 1 && inside {
+			// Calculate cursor position from click first (before locking)
+			newPos := input.positionFromX(me.X)
+
 			input.mu.Lock()
 			wasFocused := input.focused
 			input.focused = true
 			input.cursorVisible = true
 			input.lastBlinkTime = time.Now()
+			input.cursorPosition = newPos
 			input.mu.Unlock()
+
+			// Scroll to make cursor visible
+			input.scrollCursorIntoView()
+
 			if !wasFocused {
+				input.MarkDirty(false)
+			} else {
 				input.MarkDirty(false)
 			}
 			return true
@@ -151,11 +161,13 @@ func NewInput(id ...string) *Input {
 			case event.KeyCodeHome:
 				input.mu.Lock()
 				input.cursorPosition = 0
+				input.scrollOffset = 0
 				input.mu.Unlock()
 				input.MarkDirty(false)
 			case event.KeyCodeEnd:
 				input.mu.Lock()
 				input.cursorPosition = utf8.RuneCountInString(input.text)
+				input.scrollCursorIntoViewNoLock()
 				input.mu.Unlock()
 				input.MarkDirty(false)
 			case event.KeyCodeEscape:
@@ -256,6 +268,7 @@ func (inp *Input) SetText(text string) {
 	inp.mu.Lock()
 	inp.text = text
 	inp.cursorPosition = utf8.RuneCountInString(text)
+	inp.scrollOffset = 0
 	inp.mu.Unlock()
 	inp.MarkDirty(false)
 }
@@ -365,12 +378,95 @@ func (inp *Input) moveCursor(offset int) {
 		newPos = utf8.RuneCountInString(inp.text)
 	}
 	inp.cursorPosition = newPos
+	inp.scrollCursorIntoViewNoLock()
 	inp.MarkDirty(false)
+}
+
+// scrollCursorIntoViewNoLock scrolls to make cursor visible (must be called with lock held)
+func (inp *Input) scrollCursorIntoViewNoLock() {
+	r := inp.Bounds()
+	contentWidth := float32(r.Max.X-r.Min.X) - inp.theme.PaddingX*2
+
+	// Measure text before cursor
+	runes := []rune(inp.text)
+	cursorText := string(runes[:inp.cursorPosition])
+	tm := gouifont.MeasureText(cursorText, gouifont.WithFontSize(inp.theme.FontSize))
+	cursorPixelPos := float32(tm.Width)
+
+	// Calculate total text width
+	totalTextWidth := gouifont.MeasureText(inp.text, gouifont.WithFontSize(inp.theme.FontSize)).Width
+
+	// If text fits, no scroll needed
+	if float32(totalTextWidth) <= contentWidth {
+		inp.scrollOffset = 0
+		return
+	}
+
+	// Scroll if cursor is near right edge
+	if cursorPixelPos-inp.scrollOffset > contentWidth-20 {
+		inp.scrollOffset = cursorPixelPos - (contentWidth - 20)
+	}
+	// Scroll left if cursor is past left edge
+	if cursorPixelPos-inp.scrollOffset < 20 {
+		inp.scrollOffset = cursorPixelPos - 20
+	}
+	// Don't scroll past beginning
+	if inp.scrollOffset < 0 {
+		inp.scrollOffset = 0
+	}
+	// Don't scroll past end
+	if inp.scrollOffset > float32(totalTextWidth)-contentWidth+20 {
+		inp.scrollOffset = float32(totalTextWidth) - contentWidth + 20
+	}
 }
 
 // Clear clears input text
 func (inp *Input) Clear() {
 	inp.SetText("")
+}
+
+// positionFromX converts X coordinate to cursor position
+func (inp *Input) positionFromX(x float32) int {
+	inp.mu.RLock()
+	defer inp.mu.RUnlock()
+
+	r := inp.Bounds()
+	contentX := float32(r.Min.X) + inp.theme.PaddingX
+
+	// Adjust x to be relative to content area and scroll offset
+	adjustedX := x - contentX + inp.scrollOffset
+
+	if inp.text == "" || adjustedX <= 0 {
+		return 0
+	}
+
+	// Find the closest cursor position
+	runes := []rune(inp.text)
+	minDist := float32(999999)
+	bestPos := 0
+
+	for i := 0; i <= len(runes); i++ {
+		testText := string(runes[:i])
+		tm := gouifont.MeasureText(testText, gouifont.WithFontSize(inp.theme.FontSize))
+		textWidth := float32(tm.Width)
+		dist := adjustedX - textWidth
+		if dist < 0 {
+			dist = -dist
+		}
+		if dist < minDist {
+			minDist = dist
+			bestPos = i
+		}
+	}
+
+	return bestPos
+}
+
+// scrollCursorIntoView scrolls to make cursor visible
+func (inp *Input) scrollCursorIntoView() {
+	inp.mu.Lock()
+	inp.scrollCursorIntoViewNoLock()
+	inp.mu.Unlock()
 }
 
 // Paint draws input field
@@ -383,6 +479,7 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 	disabled := inp.disabled
 	cursorPos := inp.cursorPosition
 	cursorVis := inp.cursorVisible
+	scrollOffset := inp.scrollOffset
 	inp.mu.RUnlock()
 
 	// If focused, always redraw to show cursor blinking
@@ -417,46 +514,6 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 	contentX := x + theme.PaddingX
 	contentY := y + theme.PaddingY
 	contentHeight := float32(r.Max.Y-r.Min.Y) - theme.PaddingY*2
-	contentWidth := float32(r.Max.X-r.Min.X) - theme.PaddingX*2
-
-	// Calculate scroll offset to keep cursor visible
-	var scrollOffset float32
-	if focused {
-		inp.mu.Lock()
-		// Measure text before cursor
-		runes := []rune(inp.text)
-		cursorText := string(runes[:cursorPos])
-		tm := gouifont.MeasureText(cursorText, gouifont.WithFontSize(theme.FontSize))
-		cursorPixelPos := float32(tm.Width)
-
-		// Scroll if cursor is near right edge
-		if cursorPixelPos-inp.scrollOffset > contentWidth-20 {
-			inp.scrollOffset = cursorPixelPos - (contentWidth - 20)
-		}
-		// Scroll left if cursor is past left edge
-		if cursorPixelPos-inp.scrollOffset < 20 {
-			inp.scrollOffset = cursorPixelPos - 20
-		}
-		// Don't scroll past beginning
-		if inp.scrollOffset < 0 {
-			inp.scrollOffset = 0
-		}
-		scrollOffset = inp.scrollOffset
-
-		// Calculate total text width
-		totalTextWidth := gouifont.MeasureText(inp.text, gouifont.WithFontSize(theme.FontSize)).Width
-
-		// If total text fits, no scroll
-		if float32(totalTextWidth) <= contentWidth {
-			scrollOffset = 0
-			inp.scrollOffset = 0
-		}
-		inp.mu.Unlock()
-	} else {
-		inp.mu.RLock()
-		scrollOffset = inp.scrollOffset
-		inp.mu.RUnlock()
-	}
 
 	// Determine colors
 	var bgColor, borderColor, textColor gouicolor.Color
@@ -528,7 +585,7 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 			tm := gouifont.MeasureText(displayText, gouifont.WithFontSize(theme.FontSize))
 			textY := contentY + (contentHeight-float32(tm.Height))/2
 
-			// Apply scroll offset
+			// Apply scroll offset (subtract to move left)
 			txt.Translate(contentX-scrollOffset, textY)
 			vg.Push(&txt.Paint)
 			txt.Release()
@@ -544,11 +601,14 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 			// Calculate cursor position using rune slice for UTF-8 support
 			cursorX := contentX
 			if cursorPos > 0 {
+				inp.mu.RLock()
 				runes := []rune(inp.text)
 				cursorText := string(runes[:cursorPos])
 				tm := gouifont.MeasureText(cursorText, gouifont.WithFontSize(theme.FontSize))
 				cursorX += float32(tm.Width)
+				inp.mu.RUnlock()
 			}
+			// Apply scroll offset
 			cursorX -= scrollOffset
 
 			tm := gouifont.MeasureText("Hg", gouifont.WithFontSize(theme.FontSize))
