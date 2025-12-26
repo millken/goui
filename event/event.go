@@ -8,6 +8,7 @@ type Type uint8
 const (
 	EventUnknown Type = iota
 	EventMouse
+	EventMouseDrag
 	EventKey
 	EventChar
 	EventTouch
@@ -52,6 +53,17 @@ type MouseEvent struct {
 }
 
 func (e *MouseEvent) Type() Type { return EventMouse }
+
+// MouseDragEvent 鼠标拖动事件（鼠标按下并移动时触发）
+type MouseDragEvent struct {
+	X      float32
+	Y      float32
+	DeltaX float32 // X方向的移动增量
+	DeltaY float32 // Y方向的移动增量
+	eventBase
+}
+
+func (e *MouseDragEvent) Type() Type { return EventMouseDrag }
 
 // WindowEvent 窗口事件
 type WindowEvent struct {
@@ -150,6 +162,19 @@ func NewMouseEvent(x, y float32, down bool, count int) *MouseEvent {
 		Y:     y,
 		Down:  down,
 		Count: count,
+		eventBase: eventBase{
+			timestamp: time.Now(),
+		},
+	}
+}
+
+// NewMouseDragEvent 创建新的鼠标拖动事件
+func NewMouseDragEvent(x, y, deltaX, deltaY float32) *MouseDragEvent {
+	return &MouseDragEvent{
+		X:      x,
+		Y:      y,
+		DeltaX: deltaX,
+		DeltaY: deltaY,
 		eventBase: eventBase{
 			timestamp: time.Now(),
 		},

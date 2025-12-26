@@ -10,17 +10,18 @@ func _() {
 	var x [1]struct{}
 	_ = x[EventUnknown-0]
 	_ = x[EventMouse-1]
-	_ = x[EventKey-2]
-	_ = x[EventChar-3]
-	_ = x[EventTouch-4]
-	_ = x[EventWindow-5]
-	_ = x[EventFocus-6]
-	_ = x[EventScroll-7]
+	_ = x[EventMouseDrag-2]
+	_ = x[EventKey-3]
+	_ = x[EventChar-4]
+	_ = x[EventTouch-5]
+	_ = x[EventWindow-6]
+	_ = x[EventFocus-7]
+	_ = x[EventScroll-8]
 }
 
-const _Type_name = "EventUnknownEventMouseEventKeyEventCharEventTouchEventWindowEventFocusEventScroll"
+const _Type_name = "EventUnknownEventMouseEventMouseDragEventKeyEventCharEventTouchEventWindowEventFocusEventScroll"
 
-var _Type_index = [...]uint8{0, 12, 22, 30, 39, 49, 60, 70, 81}
+var _Type_index = [...]uint8{0, 12, 22, 36, 44, 53, 63, 74, 84, 95}
 
 func (i Type) String() string {
 	idx := int(i) - 0

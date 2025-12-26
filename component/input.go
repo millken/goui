@@ -68,6 +68,11 @@ type Input struct {
 	cursorVisible  bool
 	lastBlinkTime  time.Time
 	scrollOffset   float32 // horizontal scroll offset in pixels
+
+	// Selection
+	selectionStart  int // start of selection (rune position), -1 if no selection
+	selectionEnd    int // end of selection (rune position)
+	selectionAnchor int // anchor point for selection expansion
 }
 
 // NewInput creates a new input field
@@ -119,6 +124,10 @@ func NewInput(id ...string) *Input {
 
 			input.mu.Lock()
 			input.cursorPosition = newPos
+			// Start selection - set anchor to current position
+			input.selectionAnchor = newPos
+			input.selectionStart = newPos
+			input.selectionEnd = newPos
 			input.mu.Unlock()
 
 			// Scroll to make cursor visible
@@ -132,9 +141,45 @@ func NewInput(id ...string) *Input {
 			return true
 		}
 
-		// On mouse click outside, remove focus
-		if me.Down && me.Count == 1 && !inside && input.focused.Load() {
+		// On mouse click outside, remove focus and clear selection
+		if me.Down && me.Count == 1 && !inside {
 			input.blur()
+		}
+
+		return false
+	}))
+
+	// Register mouse drag handler for selection
+	input.RegisterEventListener(event.EventMouseDrag, event.EventListenerFunc(func(e event.Event) bool {
+		if input.disabled || !input.focused.Load() {
+			return false
+		}
+
+		me, ok := e.(*event.MouseDragEvent)
+		if !ok {
+			return false
+		}
+
+		r := input.Bounds()
+		inside := me.X >= float32(r.Min.X) && me.X < float32(r.Max.X) &&
+			me.Y >= float32(r.Min.Y) && me.Y < float32(r.Max.Y)
+
+		if inside {
+			newPos := input.positionFromX(me.X)
+			input.mu.Lock()
+			// Update cursor and selection based on anchor
+			input.cursorPosition = newPos
+			if newPos < input.selectionAnchor {
+				input.selectionStart = newPos
+				input.selectionEnd = input.selectionAnchor
+			} else {
+				input.selectionStart = input.selectionAnchor
+				input.selectionEnd = newPos
+			}
+			input.mu.Unlock()
+			input.scrollCursorIntoView()
+			input.MarkDirty(false)
+			return true
 		}
 
 		return false
@@ -153,6 +198,9 @@ func NewInput(id ...string) *Input {
 
 		// Handle special keys
 		if ke.Down {
+			// Check for Shift key for selection
+			shiftPressed := ke.Mods&event.ModShift != 0
+
 			switch ke.Key {
 			case event.KeyCodeDeleteBackspace:
 				input.handleBackspace()
@@ -160,21 +208,37 @@ func NewInput(id ...string) *Input {
 				// Handle enter (could trigger callback in future)
 				return true
 			case event.KeyCodeLeftArrow:
-				input.moveCursor(-1)
+				if shiftPressed {
+					input.expandSelection(-1)
+				} else {
+					input.moveCursor(-1)
+				}
 			case event.KeyCodeRightArrow:
-				input.moveCursor(1)
+				if shiftPressed {
+					input.expandSelection(1)
+				} else {
+					input.moveCursor(1)
+				}
 			case event.KeyCodeHome:
-				input.mu.Lock()
-				input.cursorPosition = 0
-				input.scrollOffset = 0
-				input.mu.Unlock()
-				input.MarkDirty(false)
+				if shiftPressed {
+					input.expandSelectionTo(0)
+				} else {
+					input.mu.Lock()
+					input.cursorPosition = 0
+					input.scrollOffset = 0
+					input.mu.Unlock()
+					input.MarkDirty(false)
+				}
 			case event.KeyCodeEnd:
-				input.mu.Lock()
-				input.cursorPosition = utf8.RuneCountInString(input.text)
-				input.scrollCursorIntoViewNoLock()
-				input.mu.Unlock()
-				input.MarkDirty(false)
+				if shiftPressed {
+					input.expandSelectionTo(utf8.RuneCountInString(input.text))
+				} else {
+					input.mu.Lock()
+					input.cursorPosition = utf8.RuneCountInString(input.text)
+					input.scrollCursorIntoViewNoLock()
+					input.mu.Unlock()
+					input.MarkDirty(false)
+				}
 			case event.KeyCodeEscape:
 				input.blur()
 			default:
@@ -506,6 +570,50 @@ func (inp *Input) scrollCursorIntoView() {
 	inp.mu.Unlock()
 }
 
+// expandSelection expands selection by moving the cursor
+func (inp *Input) expandSelection(offset int) {
+	inp.mu.Lock()
+	defer inp.mu.Unlock()
+
+	newPos := inp.cursorPosition + offset
+	if newPos < 0 {
+		newPos = 0
+	} else if newPos > utf8.RuneCountInString(inp.text) {
+		newPos = utf8.RuneCountInString(inp.text)
+	}
+
+	// If no selection exists, start from cursor
+	if inp.selectionStart == -1 {
+		inp.selectionStart = inp.cursorPosition
+	}
+	inp.selectionEnd = newPos
+	inp.cursorPosition = newPos
+	inp.scrollCursorIntoViewNoLock()
+	inp.MarkDirty(false)
+}
+
+// expandSelectionTo expands selection to specific position
+func (inp *Input) expandSelectionTo(pos int) {
+	inp.mu.Lock()
+	defer inp.mu.Unlock()
+
+	// Clamp position
+	if pos < 0 {
+		pos = 0
+	} else if pos > utf8.RuneCountInString(inp.text) {
+		pos = utf8.RuneCountInString(inp.text)
+	}
+
+	// If no selection exists, start from cursor
+	if inp.selectionStart == -1 {
+		inp.selectionStart = inp.cursorPosition
+	}
+	inp.selectionEnd = pos
+	inp.cursorPosition = pos
+	inp.scrollCursorIntoViewNoLock()
+	inp.MarkDirty(false)
+}
+
 // Paint draws input field
 func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 	inp.mu.RLock()
@@ -605,6 +713,45 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 	if clipShape != nil {
 		contentWidth := float32(r.Max.X-r.Min.X) - theme.PaddingX*2
 		clipShape.AppendRect(contentX, contentY, contentWidth, contentHeight, 0, 0, false)
+	}
+
+	// Draw selection highlight
+	if inp.selectionStart != -1 && inp.selectionEnd != -1 && inp.selectionStart != inp.selectionEnd {
+		inp.mu.Lock()
+		selStart := inp.selectionStart
+		selEnd := inp.selectionEnd
+		inp.mu.Unlock()
+
+		// Normalize selection
+		if selStart > selEnd {
+			selStart, selEnd = selEnd, selStart
+		}
+
+		// Calculate selection positions in pixels
+		runes := []rune(text)
+		if selStart < len(runes) {
+			startText := string(runes[:selStart])
+			tmStart := gouifont.MeasureText(startText, gouifont.WithFontSize(theme.FontSize))
+			selX := contentX + float32(tmStart.Width) - scrollOffset
+
+			endText := string(runes[:selEnd])
+			tmEnd := gouifont.MeasureText(endText, gouifont.WithFontSize(theme.FontSize))
+			selWidth := float32(tmEnd.Width) - float32(tmStart.Width)
+
+			// Draw selection background
+			selBg := thorvg.NewShape()
+			if selBg != nil {
+				// Set clip on selection
+				if clipShape != nil {
+					selBg.SetClip(&clipShape.Paint)
+				}
+
+				selBg.AppendRect(selX, contentY, selWidth, contentHeight, 0, 0, false)
+				selBg.SetFillColor(33, 150, 243, 100) // Light blue with alpha
+				vg.Push(&selBg.Paint)
+				selBg.Release()
+			}
+		}
 	}
 
 	// Draw text with scroll support and clip

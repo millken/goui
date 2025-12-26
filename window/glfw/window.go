@@ -19,6 +19,9 @@ type Window struct {
 	events    chan event.Event
 	// cursor cache
 	cursors map[gouiwin.Cursor]*glfw.Cursor
+	// drag tracking
+	lastMousePos struct{ x, y float32 }
+	mousePressed bool
 }
 
 func NewWindow(title string, width, height int) (*Window, error) {
@@ -38,9 +41,11 @@ func NewWindow(title string, width, height int) (*Window, error) {
 	}
 	native.MakeContextCurrent()
 	win := &Window{
-		native:  native,
-		events:  make(chan event.Event, 256),
-		cursors: make(map[gouiwin.Cursor]*glfw.Cursor),
+		native:       native,
+		events:       make(chan event.Event, 256),
+		cursors:      make(map[gouiwin.Cursor]*glfw.Cursor),
+		lastMousePos: struct{ x, y float32 }{},
+		mousePressed: false,
 	}
 	// 设置事件回调
 	win.setupCallbacks()
@@ -327,21 +332,50 @@ func (w *Window) setupCallbacks() {
 		default:
 			w.lastEvent = mouseEvent
 		}
+		// Update drag tracking state
+		if button == glfw.MouseButtonLeft {
+			w.mousePressed = (action == glfw.Press)
+		}
+		w.lastMousePos.x = float32(xpos)
+		w.lastMousePos.y = float32(ypos)
 	})
 
 	// 鼠标移动回调
 	w.native.SetCursorPosCallback(func(win *glfw.Window, xpos, ypos float64) {
-		mouseEvent := event.NewMouseEvent(
-			float32(xpos),
-			float32(ypos),
-			false, // 鼠标移动时不表示按下状态
-			0,
-		)
-		select {
-		case w.events <- mouseEvent:
-		default:
-			w.lastEvent = mouseEvent
+		currentX := float32(xpos)
+		currentY := float32(ypos)
+
+		// Send MouseDragEvent if mouse is pressed
+		if w.mousePressed {
+			dragEvent := event.NewMouseDragEvent(
+				currentX,
+				currentY,
+				currentX-w.lastMousePos.x,
+				currentY-w.lastMousePos.y,
+			)
+			select {
+			case w.events <- dragEvent:
+			default:
+				w.lastEvent = dragEvent
+			}
+		} else {
+			// Send regular MouseEvent for movement
+			mouseEvent := event.NewMouseEvent(
+				currentX,
+				currentY,
+				false, // 鼠标移动时不表示按下状态
+				0,
+			)
+			select {
+			case w.events <- mouseEvent:
+			default:
+				w.lastEvent = mouseEvent
+			}
 		}
+
+		// Update last position
+		w.lastMousePos.x = currentX
+		w.lastMousePos.y = currentY
 	})
 
 	// 键盘回调
