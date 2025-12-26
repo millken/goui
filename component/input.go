@@ -111,7 +111,7 @@ func NewInput(id ...string) *Input {
 			me.Y >= float32(r.Min.Y) && me.Y < float32(r.Max.Y)
 
 		// On mouse down inside input
-		if me.Down && me.Count == 1 && inside {
+		if me.Down && inside {
 			// Calculate cursor position from click first (before locking)
 			newPos := input.positionFromX(me.X)
 
@@ -124,10 +124,16 @@ func NewInput(id ...string) *Input {
 
 			input.mu.Lock()
 			input.cursorPosition = newPos
-			// Start selection - set anchor to current position
-			input.selectionAnchor = newPos
-			input.selectionStart = newPos
-			input.selectionEnd = newPos
+
+			// Handle double click (select word)
+			if me.Count == 2 {
+				input.selectWordAt(newPos)
+			} else {
+				// Start selection - set anchor to current position
+				input.selectionAnchor = newPos
+				input.selectionStart = newPos
+				input.selectionEnd = newPos
+			}
 			input.mu.Unlock()
 
 			// Scroll to make cursor visible
@@ -200,6 +206,7 @@ func NewInput(id ...string) *Input {
 		if ke.Down {
 			// Check for Shift key for selection
 			shiftPressed := ke.Mods&event.ModShift != 0
+			ctrlPressed := ke.Mods&event.ModControl != 0
 
 			switch ke.Key {
 			case event.KeyCodeDeleteBackspace:
@@ -241,6 +248,13 @@ func NewInput(id ...string) *Input {
 				}
 			case event.KeyCodeEscape:
 				input.blur()
+			case event.KeyCodeA:
+				// Ctrl+A: Select all
+				if ctrlPressed {
+					input.selectAll()
+				} else {
+					return false // Let CharEvent handle
+				}
 			default:
 				// Let CharEvent handle printable characters
 				return false
@@ -610,6 +624,86 @@ func (inp *Input) expandSelectionTo(pos int) {
 	}
 	inp.selectionEnd = pos
 	inp.cursorPosition = pos
+	inp.scrollCursorIntoViewNoLock()
+	inp.MarkDirty(false)
+}
+
+// selectWordAt selects the word at the given position
+func (inp *Input) selectWordAt(pos int) {
+	inp.mu.Lock()
+	defer inp.mu.Unlock()
+
+	runes := []rune(inp.text)
+	length := len(runes)
+
+	if length == 0 {
+		inp.selectionStart = 0
+		inp.selectionEnd = 0
+		return
+	}
+
+	// Clamp position
+	if pos < 0 {
+		pos = 0
+	} else if pos > length {
+		pos = length
+	}
+
+	// Find word boundaries
+	start := pos
+	end := pos
+
+	// Helper to check if a rune is part of a word
+	isWordChar := func(r rune) bool {
+		// Word characters: letters, digits, underscore, and CJK characters
+		if r >= 0x4E00 && r <= 0x9FFF { // CJK Unified Ideographs
+			return true
+		}
+		if (r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') {
+			return true
+		}
+		if r >= '0' && r <= '9' {
+			return true
+		}
+		return r == '_'
+	}
+
+	// Check if current position is a word character
+	if pos < length && isWordChar(runes[pos]) {
+		// Expand left
+		for start > 0 && isWordChar(runes[start-1]) {
+			start--
+		}
+		// Expand right
+		for end < length && isWordChar(runes[end]) {
+			end++
+		}
+	} else {
+		// Non-word character: select it
+		if pos < length {
+			start = pos
+			end = pos + 1
+		}
+	}
+
+	inp.selectionAnchor = start
+	inp.selectionStart = start
+	inp.selectionEnd = end
+	inp.cursorPosition = end
+	inp.scrollCursorIntoViewNoLock()
+	inp.MarkDirty(false)
+}
+
+// selectAll selects all text
+func (inp *Input) selectAll() {
+	inp.mu.Lock()
+	defer inp.mu.Unlock()
+
+	length := utf8.RuneCountInString(inp.text)
+	inp.selectionAnchor = 0
+	inp.selectionStart = 0
+	inp.selectionEnd = length
+	inp.cursorPosition = length
 	inp.scrollCursorIntoViewNoLock()
 	inp.MarkDirty(false)
 }
