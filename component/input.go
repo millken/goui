@@ -2,6 +2,7 @@ package component
 
 import (
 	"sync"
+	"sync/atomic"
 	"time"
 	"unicode/utf8"
 
@@ -48,13 +49,17 @@ var DefaultInputTheme = InputTheme{
 	CursorBlinkInterval: 500 * time.Millisecond,
 }
 
+// Global focus management - only one input can be focused at a time
+// Using atomic.Pointer for lock-free access
+var focusedInput atomic.Pointer[Input]
+
 // Input represents a text input field
 type Input struct {
 	*BaseComponent
 	theme       InputTheme
 	text        string
 	placeholder string
-	focused     bool
+	focused     atomic.Bool // Use atomic to ensure consistent focus state
 	disabled    bool
 	mu          sync.RWMutex
 
@@ -72,13 +77,14 @@ func NewInput(id ...string) *Input {
 		theme:          DefaultInputTheme,
 		text:           "",
 		placeholder:    "",
-		focused:        false,
 		disabled:       false,
 		cursorPosition: 0,
-		cursorVisible:  true,
+		cursorVisible:  false, // Only show cursor when focused
 		lastBlinkTime:  time.Now(),
 		scrollOffset:   0,
 	}
+	// Initialize atomic focused to false
+	input.focused.Store(false)
 
 	// Set default size
 	input.SetWidth(200)
@@ -105,10 +111,13 @@ func NewInput(id ...string) *Input {
 			newPos := input.positionFromX(me.X)
 
 			input.mu.Lock()
-			wasFocused := input.focused
-			input.focused = true
-			input.cursorVisible = true
-			input.lastBlinkTime = time.Now()
+			wasFocused := input.focused.Load()
+			input.mu.Unlock()
+
+			// Use global focus management
+			input.requestFocus()
+
+			input.mu.Lock()
 			input.cursorPosition = newPos
 			input.mu.Unlock()
 
@@ -124,12 +133,8 @@ func NewInput(id ...string) *Input {
 		}
 
 		// On mouse click outside, remove focus
-		if me.Down && me.Count == 1 && !inside && input.focused {
-			input.mu.Lock()
-			input.focused = false
-			input.cursorVisible = false
-			input.mu.Unlock()
-			input.MarkDirty(false)
+		if me.Down && me.Count == 1 && !inside && input.focused.Load() {
+			input.blur()
 		}
 
 		return false
@@ -137,7 +142,7 @@ func NewInput(id ...string) *Input {
 
 	// Register key event handler for text editing
 	input.RegisterEventListener(event.EventKey, event.EventListenerFunc(func(e event.Event) bool {
-		if !input.focused || input.disabled {
+		if !input.focused.Load() || input.disabled {
 			return false
 		}
 
@@ -184,7 +189,7 @@ func NewInput(id ...string) *Input {
 
 	// Register char event handler for text input
 	input.RegisterEventListener(event.EventChar, event.EventListenerFunc(func(e event.Event) bool {
-		if !input.focused || input.disabled {
+		if !input.focused.Load() || input.disabled {
 			return false
 		}
 
@@ -193,49 +198,40 @@ func NewInput(id ...string) *Input {
 			return false
 		}
 
-		// Handle character input directly here
-		input.mu.Lock()
-		defer input.mu.Unlock()
-
 		// Filter out control characters only, allow all printable chars including Chinese
 		if ce.Rune < 32 {
 			return false
 		}
 
 		// Insert character at cursor position using rune slice for UTF-8 support
+		input.mu.Lock()
 		runes := []rune(input.text)
 		input.text = string(runes[:input.cursorPosition]) + string(ce.Rune) + string(runes[input.cursorPosition:])
 		input.cursorPosition++
+		input.scrollCursorIntoViewNoLock()
+		input.mu.Unlock()
 
 		// Mark dirty to trigger redraw
 		input.MarkDirty(false)
 		return true
 	}))
 
-	// Register focus event handler
+	// Register focus event handler - only update cursor style, actual focus state is managed by requestFocus/blur
 	input.RegisterEventListener(event.EventFocus, event.EventListenerFunc(func(e event.Event) bool {
 		if input.disabled {
 			return false
 		}
 
-		fe, ok := e.(*event.FocusEvent)
+		_, ok := e.(*event.FocusEvent)
 		if !ok {
 			return false
 		}
 
-		input.mu.Lock()
-		input.focused = fe.Gained
-		if input.focused {
-			input.cursorVisible = true
-			input.lastBlinkTime = time.Now()
-		}
-		input.mu.Unlock()
-		input.MarkDirty(false)
-
-		// Change cursor based on focus state
+		// Only update cursor style, don't change focus state (managed by requestFocus/blur)
 		if rc, ok := input.Root().(RootComponent); ok && rc != nil {
 			if w := rc.GetWindow(); w != nil {
-				if input.focused {
+				// Check if we are the globally focused input
+				if focusedInput.Load() == input {
 					w.SetCursor(gouiwindow.CursorText)
 				} else {
 					w.SetCursor(gouiwindow.CursorDefault)
@@ -301,7 +297,7 @@ func (inp *Input) SetDisabled(disabled bool) {
 	if inp.disabled != disabled {
 		inp.disabled = disabled
 		if disabled {
-			inp.focused = false
+			inp.focused.Store(false)
 		}
 		inp.mu.Unlock()
 		inp.MarkDirty(false)
@@ -327,24 +323,49 @@ func (inp *Input) requestFocus() {
 	if inp.disabled {
 		return
 	}
-	// Directly set focus state for now
-	// In a more complete implementation, this would be managed by a focus manager
+
+	// If already focused, do nothing
+	if focusedInput.Load() == inp {
+		return
+	}
+
+	// Remove focus from previously focused input
+	if prev := focusedInput.Load(); prev != nil {
+		prev.mu.Lock()
+		wasFocused := prev.focused.Load()
+		prev.focused.Store(false)
+		prev.cursorVisible = false
+		prev.mu.Unlock()
+		if wasFocused {
+			prev.MarkDirty(false)
+		}
+	}
+
+	// Set focus to this input
 	inp.mu.Lock()
-	inp.focused = true
+	inp.focused.Store(true)
 	inp.cursorVisible = true
 	inp.lastBlinkTime = time.Now()
 	inp.mu.Unlock()
+
+	// Atomically swap to set new focus
+	focusedInput.Store(inp)
 	inp.MarkDirty(false)
 }
 
 // blur removes focus from input
 func (inp *Input) blur() {
-	// Directly remove focus for now
-	inp.mu.Lock()
-	inp.focused = false
-	inp.cursorVisible = false
-	inp.mu.Unlock()
-	inp.MarkDirty(false)
+	// Try to swap out focus - only succeeds if we are the focused input
+	if focusedInput.CompareAndSwap(inp, nil) {
+		inp.mu.Lock()
+		wasFocused := inp.focused.Load()
+		inp.focused.Store(false)
+		inp.cursorVisible = false
+		inp.mu.Unlock()
+		if wasFocused {
+			inp.MarkDirty(false)
+		}
+	}
 }
 
 // handleChar handles character input (deprecated - logic moved inline)
@@ -361,6 +382,8 @@ func (inp *Input) handleBackspace() {
 		runes := []rune(inp.text)
 		inp.text = string(runes[:inp.cursorPosition-1]) + string(runes[inp.cursorPosition:])
 		inp.cursorPosition--
+		// Scroll to make cursor visible (handles case when text becomes short)
+		inp.scrollCursorIntoViewNoLock()
 		// Mark dirty to trigger redraw
 		inp.MarkDirty(false)
 	}
@@ -389,7 +412,12 @@ func (inp *Input) scrollCursorIntoViewNoLock() {
 
 	// Measure text before cursor
 	runes := []rune(inp.text)
-	cursorText := string(runes[:inp.cursorPosition])
+	var cursorText string
+	if inp.cursorPosition > 0 && inp.cursorPosition <= len(runes) {
+		cursorText = string(runes[:inp.cursorPosition])
+	} else {
+		cursorText = ""
+	}
 	tm := gouifont.MeasureText(cursorText, gouifont.WithFontSize(inp.theme.FontSize))
 	cursorPixelPos := float32(tm.Width)
 
@@ -402,12 +430,21 @@ func (inp *Input) scrollCursorIntoViewNoLock() {
 		return
 	}
 
-	// Scroll if cursor is near right edge
-	if cursorPixelPos-inp.scrollOffset > contentWidth-20 {
+	// Calculate maximum scroll offset (text width - content width)
+	maxScrollOffset := float32(totalTextWidth) - contentWidth
+	if maxScrollOffset < 0 {
+		maxScrollOffset = 0
+	}
+
+	// Calculate cursor visible position
+	cursorVisiblePos := cursorPixelPos - inp.scrollOffset
+
+	// Scroll if cursor is near right edge (> contentWidth - 20)
+	if cursorVisiblePos > contentWidth-20 {
 		inp.scrollOffset = cursorPixelPos - (contentWidth - 20)
 	}
-	// Scroll left if cursor is past left edge
-	if cursorPixelPos-inp.scrollOffset < 20 {
+	// Scroll left if cursor is past left edge (< 20)
+	if cursorVisiblePos < 20 {
 		inp.scrollOffset = cursorPixelPos - 20
 	}
 	// Don't scroll past beginning
@@ -415,8 +452,8 @@ func (inp *Input) scrollCursorIntoViewNoLock() {
 		inp.scrollOffset = 0
 	}
 	// Don't scroll past end
-	if inp.scrollOffset > float32(totalTextWidth)-contentWidth+20 {
-		inp.scrollOffset = float32(totalTextWidth) - contentWidth + 20
+	if inp.scrollOffset > maxScrollOffset {
+		inp.scrollOffset = maxScrollOffset
 	}
 }
 
@@ -475,7 +512,7 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 	theme := inp.theme
 	text := inp.text
 	placeholder := inp.placeholder
-	focused := inp.focused
+	focused := inp.focused.Load()
 	disabled := inp.disabled
 	cursorPos := inp.cursorPosition
 	cursorVis := inp.cursorVisible
@@ -547,14 +584,14 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 	}
 
 	// Draw border
-	border := thorvg.NewShape()
-	if border != nil {
+	borderShape := thorvg.NewShape()
+	if borderShape != nil {
 		bdr, gd, bd, _ := borderColor.RGBA()
-		border.AppendRect(x, y, float32(r.Max.X-r.Min.X), float32(r.Max.Y-r.Min.Y), theme.CornerRadius, theme.CornerRadius, false)
-		border.SetStrokeColor(bdr, gd, bd, 255)
-		border.SetStrokeWidth(theme.BorderWidth)
-		vg.Push(&border.Paint)
-		border.Release()
+		borderShape.AppendRect(x, y, float32(r.Max.X-r.Min.X), float32(r.Max.Y-r.Min.Y), theme.CornerRadius, theme.CornerRadius, false)
+		borderShape.SetStrokeColor(bdr, gd, bd, 255)
+		borderShape.SetStrokeWidth(theme.BorderWidth)
+		vg.Push(&borderShape.Paint)
+		borderShape.Release()
 	}
 
 	// Determine text to display
@@ -563,10 +600,22 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 		displayText = placeholder
 	}
 
-	// Draw text with scroll support
+	// Create clip shape for content area
+	clipShape := thorvg.NewShape()
+	if clipShape != nil {
+		contentWidth := float32(r.Max.X-r.Min.X) - theme.PaddingX*2
+		clipShape.AppendRect(contentX, contentY, contentWidth, contentHeight, 0, 0, false)
+	}
+
+	// Draw text with scroll support and clip
 	if displayText != "" {
 		txt := thorvg.NewText()
 		if txt != nil {
+			// Set clip on text
+			if clipShape != nil {
+				txt.SetClip(&clipShape.Paint)
+			}
+
 			txt.SetText(displayText)
 			txt.SetSize(float32(theme.FontSize))
 
@@ -596,16 +645,24 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 	if focused && cursorVis && !disabled {
 		cursor := thorvg.NewShape()
 		if cursor != nil {
+			// Set clip on cursor
+			if clipShape != nil {
+				cursor.SetClip(&clipShape.Paint)
+			}
+
 			cr, cg, cb, _ := theme.FocusColor.RGBA()
 
 			// Calculate cursor position using rune slice for UTF-8 support
 			cursorX := contentX
-			if cursorPos > 0 {
+			if cursorPos > 0 && len(text) > 0 {
 				inp.mu.RLock()
 				runes := []rune(inp.text)
-				cursorText := string(runes[:cursorPos])
-				tm := gouifont.MeasureText(cursorText, gouifont.WithFontSize(theme.FontSize))
-				cursorX += float32(tm.Width)
+				// Ensure cursorPos is within bounds
+				if cursorPos <= len(runes) {
+					cursorText := string(runes[:cursorPos])
+					tm := gouifont.MeasureText(cursorText, gouifont.WithFontSize(inp.theme.FontSize))
+					cursorX += float32(tm.Width)
+				}
 				inp.mu.RUnlock()
 			}
 			// Apply scroll offset
@@ -620,6 +677,11 @@ func (inp *Input) Paint(vg *thorvg.Canvas) bool {
 			vg.Push(&cursor.Paint)
 			cursor.Release()
 		}
+	}
+
+	// Release clip shape
+	if clipShape != nil {
+		clipShape.Release()
 	}
 
 	childRendered := inp.BaseComponent.Paint(vg)
